@@ -6,7 +6,7 @@
  * Controller of the ngmReportHub
  */
 angular.module('ngmReportHub')
-	.controller('ClusterProjectDocumentCtrl', ['$scope', '$route', '$location', '$anchorScroll', '$timeout','$sce', 'ngmAuth', 'ngmData', 'ngmUser', 'ngmClusterHelper', function ($scope, $route, $location, $anchorScroll, $timeout,$sce, ngmAuth, ngmData, ngmUser, ngmClusterHelper) {
+	.controller('ClusterProjectDocumentCtrl', ['$scope', '$route', '$location', '$anchorScroll', '$timeout','$sce','$http', 'ngmAuth', 'ngmData', 'ngmUser', 'ngmClusterHelper', function ($scope, $route, $location, $anchorScroll, $timeout,$sce,$http, ngmAuth, ngmData, ngmUser, ngmClusterHelper) {
 		this.awesomeThings = [
 			'HTML5 Boilerplate',
 			'AngularJS',
@@ -211,7 +211,15 @@ angular.module('ngmReportHub')
 											myDropzone.removeAllFiles(true);
 										});
 
-										this.on("addedfile", function (file) {											
+										this.on("addedfile", function (file) {
+											var ext = file.name.split('.').pop();
+											console.log(ext);
+											if(ext=='pdf' && ext !=='png'){
+												$(file.previewElement).find(".dz-image img").attr("src", "images/pdfm.png");
+											}
+											// if(ext=='doc' && ext !=='png'){
+											// 	$(file.previewElement).find(".dz-image img").attr("src", "images/docm.png");
+											// }											
 											$("#upload_doc").removeAttr("disabled");
 											$("#delete_doc").attr("disabled", false);
 										});
@@ -303,12 +311,27 @@ angular.module('ngmReportHub')
 											}
 										},
 										removeFile:function(){
-											console.log($scope.fileId);
-											// $http({
-											// 	method: 'POST',
-											// 	url: 'http://www.mocky.io/v2/5c6cc9fa3700001e08fa2ff2',
-											// 	data: { id: $scope.fileId }
-											// }).success(function (result) { }).error(function (err) {})
+											// IF API READY TO USE
+											Materialize.toast("Deleting...", 2000, 'note'); 
+											$http({
+												method: 'DELETE',
+												url: ngmAuth.LOCATION + '/api/deleteGDriveFile?fileid='+$scope.fileId,
+												// data: { fileid: $scope.fileId }
+											})
+											.success(function (result){
+														$timeout(function () {															
+															msg="File Deleted!";
+															typ = 'success';
+															Materialize.toast(msg, 2000, typ); 
+														}, 2000);														
+											})
+											.error(function (err){
+												$timeout(function () {
+													msg = "Error, File Not Deleted!";
+													typ = 'error';
+													Materialize.toast(msg, 2000, typ);
+												}, 2000);
+											})
 										},
 										setRemoveId:function(id){
 											$scope.fileId = id;
@@ -317,15 +340,39 @@ angular.module('ngmReportHub')
 											// return $scope.linkPreview
 											return $sce.trustAsResourceUrl($scope.linkPreview);
 										},
+										setDonwloadLink:function(id){
+											var donwloadLink ="https://drive.google.com/uc?export=download&id="+id;
+											return donwloadLink;
+										},
+										setThumbnailfromGdrive:function(id,file_type){
+											// "https://drive.google.com/uc?export=view&id=0B5f9FCicz5ZIYV9OLVhVa2pMNEk"
+											file_type = file_type.toLowerCase().replace(/\./g, '')
+											if(file_type == 'pdf' || file_type == 'doc'){
+												pdf = "images/cluster/details-1.jpg"
+												return pdf
+											}else if(file_type== 'png'|| file_type=='jpg'){
+												img = "https://drive.google.com/uc?export=view&id"+id;
+												return img
+											} else{
+												return "images/cluster/details-1.jpg"
+											}
+										},
 										// textColor: 'white-text',
 										title: 'Upload',
 										hoverTitle: 'Update',
 										icon: 'edit',
 										rightIcon: 'watch_later',
 										templateUrl: 'scripts/widgets/ngm-list/template/list_upload.html',
-										request:{
-											method: 'POST',
-											url: 'http://www.mocky.io/v2/5c5387d43200005e00f7f286',
+										// request:{
+										// 	method: 'GET',
+										// 	url: 'http://www.mocky.io/v2/5c6e1fab2c0000b100c04e92',
+										// },
+										// IF API READY USE THIS ONE
+
+										request: {
+											method: 'GET',
+											url: ngmAuth.LOCATION + '/api/listProjectDocuments?project_id=' + $route.current.params.project
+											// data: { project_id: $route.current.params.project}
 										}
 										// data: $scope.uploads										
 									}
@@ -502,6 +549,92 @@ angular.module('ngmReportHub')
 				colorStyle: '#26a69a'
 			}
 
+		];
+		$scope.dummydata = [
+			{
+				"fileid_local": "19c39c12-5ad6-4029-9e5b-24d9d1ccaf03.pdf",
+				"fileid": "1ZpJUQkfQbZII1ZB7jUbb12uxUW8USahu",
+				"mime_type": "application/pdf",
+				"filename": "ReportHub_User_Guide (1).pdf",
+				"filename_extension": ".pdf",
+				"project_id": "5b66987dde11422c1de7ed88",
+				"fileowner": "user",
+				"admin0pcode": "AF",
+				"organization_tag": "immap",
+				"createdAt": "2019-02-20T15:36:34.718Z",
+				"updatedAt": "2019-02-20T15:36:34.718Z",
+				"id": "5c6d7402bb95d4021ab04a17"
+			},
+			{
+				"fileid_local": "46dc01ce-d907-4133-a06a-a2f61bbb1d91.pdf",
+				"fileid": "0B5f9FCicz5ZIRERDVWRkS2RoOVk",
+				"mime_type": "application/pdf",
+				"filename": "ReportHub_User_Guide (1).pdf",
+				"filename_extension": ".pdf",
+				"project_id": "0B5f9FCicz5ZIdWJES0c0Z2NQVjA",
+				"fileowner": "user",
+				"admin0pcode": "AF",
+				"organization_tag": "immap",
+				"createdAt": "2019-02-20T15:45:16.474Z",
+				"updatedAt": "2019-02-20T15:45:16.474Z",
+				"id": "5c6d760cbb95d4021ab04a1a"
+			},
+			{
+				"fileid_local": "2dfbb528-b448-4dd9-b518-e0e0c66ceff0.pdf",
+				"fileid": "1-MfdYEYkcwLb64CsT4Ia97QL7I9zWeqp",
+				"mime_type": "application/pdf",
+				"filename": "Fly America Act (FAA) Waiver checklist.pdf",
+				"filename_extension": ".pdf",
+				"project_id": "5b66987dde11422c1de7ed88",
+				"fileowner": "user",
+				"admin0pcode": "AF",
+				"organization_tag": "immap",
+				"createdAt": "2019-02-20T16:08:11.174Z",
+				"updatedAt": "2019-02-20T16:08:11.174Z",
+				"id": "5c6d7b6b31d49b151bdd84f1"
+			},
+			{
+				"fileid_local": "f3fb175d-970d-436a-84d6-e502e0fe6b7e.pdf",
+				"fileid": "11rugQ38U5ThITHwpDvp6QJf6OqdxWI2z",
+				"mime_type": "application/pdf",
+				"filename": "ReportHub_User_Guide (1).pdf",
+				"filename_extension": ".pdf",
+				"project_id": "5b66987dde11422c1de7ed88",
+				"fileowner": "user",
+				"admin0pcode": "AF",
+				"organization_tag": "immap",
+				"createdAt": "2019-02-20T16:08:14.399Z",
+				"updatedAt": "2019-02-20T16:08:14.399Z",
+				"id": "5c6d7b6e31d49b151bdd84f2"
+			},
+			{
+				"fileid_local": "8c4f951c-105e-4778-9d8d-e968cfd337ab.pdf",
+				"fileid": "1znaZqQvVeswG_RFQU1Qt3cRi4Di77Y6v", 
+				"mime_type": "application/pdf",
+				"filename": "Fly America Act (FAA) Waiver checklist.pdf",
+				"filename_extension": ".pdf",
+				"project_id": "5b66987dde11422c1de7ed88",
+				"fileowner": "user",
+				"admin0pcode": "AF",
+				"organization_tag": "immap",
+				"createdAt": "2019-02-20T16:08:30.927Z",
+				"updatedAt": "2019-02-20T16:08:30.927Z",
+				"id": "5c6d7b7e31d49b151bdd84f3"
+			},
+			{
+				"fileid_local": "d82580cb-2263-42be-aa0c-be205ac31bd8.pdf",
+				"fileid": "1ydCarfxZ29ISTdFhPVEJgxz_M-aisQAI",
+				"mime_type": "application/pdf",
+				"filename": "ReportHub_User_Guide (1).pdf",
+				"filename_extension": ".pdf",
+				"project_id": "5b66987dde11422c1de7ed88",
+				"fileowner": "user",
+				"admin0pcode": "AF",
+				"organization_tag": "immap",
+				"createdAt": "2019-02-20T16:08:34.094Z",
+				"updatedAt": "2019-02-20T16:08:34.094Z",
+				"id": "5c6d7b8231d49b151bdd84f4"
+			}
 		]
 
 		// return project
