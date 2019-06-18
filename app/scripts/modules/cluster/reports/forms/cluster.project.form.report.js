@@ -95,7 +95,16 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 			$scope.ngmCbBeneficiaries = ngmCbBeneficiaries;
 			$scope.ngmClusterDocument = ngmClusterDocument;
 			$scope.deactivedCopybutton = false;
-			
+      
+            // when adding new beneficiary with null createdAt 
+            $scope.sortByDate = function(b) {
+              if (b.createdAt) {
+                date = new Date(b.createdAt);
+              } else {
+                date = b.createdAt = new Date();
+              }
+              return date;
+            };
 			// page scrolled
 			$scope._top_scrolled = 0
 			// project

@@ -241,6 +241,8 @@ angular.module( 'ngmReportHub' )
 					angular.merge( inserted, b, defaults.inputs, context_defaults );
 				}
 
+				inserted._order = length;
+
 				// return new beneficiary
 				return inserted;
 			},
