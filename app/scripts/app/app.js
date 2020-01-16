@@ -78,7 +78,7 @@ angular
 		// extend localstorage to set an object
 		Storage.prototype.setObject = function( key, value ) {
 			this.setItem( key, JSON.stringify( value ) );
-		} 
+		}
 
 		// extend localstorage to get an object
 		Storage.prototype.getObject = function( key ) {
@@ -91,23 +91,23 @@ angular
 
 		// all routes prescribed within specific module app.js files
 		$routeProvider
-			
+
 			// LOGIN
 			.when( '/login', {
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'DashboardLoginCtrl',
 				resolve: {
-					access: [ 'ngmAuth', function(ngmAuth) { 
+					access: [ 'ngmAuth', function(ngmAuth) {
 						return ngmAuth.isAnonymous();
 					}],
 				}
-			})			
+			})
 			// FORBIDDEN
 			.when( '/forbidden', {
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'DashboardForbiddenCtrl',
 				resolve: {
-					access: [ 'ngmAuth', function(ngmAuth) { 
+					access: [ 'ngmAuth', function(ngmAuth) {
 						return !ngmAuth.isAuthenticated();
 					}],
 				}
@@ -120,7 +120,7 @@ angular
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'DashboardTeamCtrl',
 				resolve: {
-					access: [ 'ngmAuth', function(ngmAuth) { 
+					access: [ 'ngmAuth', function(ngmAuth) {
 						return ngmAuth.isAuthenticated();
 					}],
 				}
@@ -130,7 +130,7 @@ angular
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'DashboardProfileCtrl',
 				resolve: {
-					access: [ 'ngmAuth', function(ngmAuth) { 
+					access: [ 'ngmAuth', function(ngmAuth) {
 						return ngmAuth.isAuthenticated();
 					}],
 				}
@@ -139,7 +139,7 @@ angular
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'DashboardProfileCtrl',
 				resolve: {
-					access: [ 'ngmAuth', function(ngmAuth) { 
+					access: [ 'ngmAuth', function(ngmAuth) {
 						return ngmAuth.isAuthenticated();
 					}],
 				}
@@ -170,7 +170,7 @@ angular
 
 		// check session by last login
 		ngmAuth.setSessionTimeout( ngmUser.get() );
-		
+
 		// new guest page visit
 		if ( ngmUser.get() && ngmUser.get().guest ) {
 			ngmUser.unset();
@@ -214,13 +214,13 @@ angular
 		});
 
 	}])
-	.controller('ngmReportHubCrtl', ['$scope', '$route', '$location', '$http', '$timeout', 'ngmAuth', 'ngmUser','$window','$translate','$filter', function ($scope, $route, $location, $http, $timeout, ngmAuth, ngmUser,$window,$translate,$filter) {
+	.controller('ngmReportHubCrtl', ['$scope', '$route', '$location', '$http', '$timeout', 'ngmAuth', 'ngmUser','$window','$translate','$filter', '$rootScope', function ($scope, $route, $location, $http, $timeout, ngmAuth, ngmUser,$window,$translate,$filter,$rootScope) {
 
 		// ngm object
 		$scope.ngm = {
 
 			// app name
-			title: $filter('translate')('welcome'), 
+			title: $filter('translate')('welcome'),
 
 
            // var4wplusrh : 'REPORTHUB',
@@ -247,15 +247,26 @@ angular
 			footer: false,
 
 			// change language
-			changeFunction: function( $key ) {
-			 	$translate.use( $key );
-	     	$timeout(function() { $translate.refresh(); }, 1000 );
-			 },
+			changeFunction: function ($key) {
+				$translate.use($key);
+
+				if ($key !== 'en') {
+					$rootScope.rtl = false;
+					if ($key === 'prs' || $key === 'ar') {
+						$rootScope.rtl = true;
+					}
+				} else {
+					$rootScope.rtl = false;
+				}
+
+				$timeout(function () { $translate.refresh(); }, 10);
+
+			},
 
 			// paint application
 			setApplication: function( app ) {
 
-				// set app colors based on 
+				// set app colors based on
 				switch( app ){
 					case 'who':
 						// set style obj
@@ -336,7 +347,7 @@ angular
 						}
 
 						// if WHO Ethiopia user!
-						if ( ngmUser.get() && ngmUser.get().organization_tag === 'who' 
+						if ( ngmUser.get() && ngmUser.get().organization_tag === 'who'
 								&& ngmUser.get().admin0pcode === 'ET' ) {
 							$scope.ngm.style = {
 								logo: 'logo-health.png',
@@ -363,7 +374,7 @@ angular
 														+	'<div style="background: ' + $scope.ngm.style.defaultPrimaryColor + '; height:60px;">'
 															+	'<p class="ngm-menu-footer-body" style="font-weight:300;">Supported by <a class="grey-text" href="http://immap.org"><b>iMMAP</b></a></p>'
 															+ '<p id="ngm-contact" class="remove" style="display: block; float:right; padding-right:20px;"><a class="waves-effect waves-teal btn-flat" style="color:white;" onclick="contact()"><i class="material-icons left" style="color:white;">perm_contact_calendar</i>Contact</a></p>'
-															+ '<p id="ngm-report-extracted" style="display: none; color:white; font-weight:100; float:right; padding-right:20px;">' +moment().format('DD MMM, YYYY @ h:mm a') + '</p>'													
+															+ '<p id="ngm-report-extracted" style="display: none; color:white; font-weight:100; float:right; padding-right:20px;">' +moment().format('DD MMM, YYYY @ h:mm a') + '</p>'
 														+	'</div>'
 													+	'</div>';
 
@@ -396,7 +407,10 @@ angular
 									card: 'card-panel',
 									style: 'padding:0px; height: 90px; padding-top:10px;',
 									config: {
-										html: $scope.ngm.footer
+										// html: $scope.ngm.footer
+										templateUrl: '/scripts/widgets/ngm-html/template/footer.html',
+										lightPrimaryColor:  $scope.ngm.style.lightPrimaryColor,
+										defaultPrimaryColor: $scope.ngm.style.defaultPrimaryColor,
 									}
 								}]
 							}]
@@ -405,7 +419,7 @@ angular
 				}
 			},
 
-            
+
 			// user
 			getUser: function() {
 				// ngmUser
@@ -425,11 +439,30 @@ angular
 
 			// language
 			setLanguage:function(country){
+				// var set_language = {
+				// 	col:[{ language_id: 'en', language_name: 'English', flag:'en.png'},
+				// 			{ language_id: 'es', language_name: 'Español', flag: 'spain.png' }]
+				// 	}
+				// $scope.ngm.getLanguage = set_language[country] ? set_language[country]:[];
+
+				if (!country) {
+					country = 'default';
+				} else { country = country.toLowerCase() }
+
 				var set_language = {
-					col:[{ language_id: 'en', language_name: 'English', flag:'en.png'},
-							{ language_id: 'es', language_name: 'Español', flag: 'spain.png' }]					
+					default: [{ language_id: 'en', language_name: 'English', flag: 'en.png' },
+					// { language_id: 'afg', language_name: 'Dummy-Afghanistan', flag: 'spain.png' },
+					{ language_id: 'prs', language_name: 'Afghanistan', flag: 'afghanistan-flag-icon-64.png' },
+					{ language_id: 'es', language_name: 'Español', flag: 'spain.png' }],
+					col: [{ language_id: 'en', language_name: 'English', flag: 'en.png' },
+					{ language_id: 'es', language_name: 'Español', flag: 'spain.png' }],
+					af: [{ language_id: 'en', language_name: 'English', flag: 'en.png' },
+					{ language_id: 'prs', language_name: 'Afghanistan', flag: 'afghanistan-flag-icon-64.png' },
+						// { language_id: 'afg', language_name: 'Dummy-Afghanistan', flag: 'spain.png' }
+					]
 					}
-				$scope.ngm.getLanguage = set_language[country] ? set_language[country]:[];
+				$scope.ngm.getLanguage = set_language[country] ? set_language[country] : set_language['default'];
+
 				if ($scope.ngm.getLanguage.length>0){
 					$scope.ngm.translate_version = true;
 				}else{
@@ -482,7 +515,7 @@ angular
 			openMinimize:true,
 			minimizeToggle:function () {
 				$scope.ngm.openMinimize = ! $scope.ngm.openMinimize;
-				$('.minimize-menu').toggleClass('open');
+				// $('.minimize-menu').toggleClass('open');
 				// if ($scope.ngm.openMinimize){
 				// 	$('main').css('padding-left','280px');
 				// }else{
@@ -504,7 +537,7 @@ angular
 					// close menu dropdown
 					if($('.ngm-profile-icon').hasClass('rotate-icon')){
 						$('.ngm-profile-menu-content').slideToggle();
-						$('.ngm-profile-icon').toggleClass('rotate-icon'); 
+						$('.ngm-profile-icon').toggleClass('rotate-icon');
 					}
 				}
 			}

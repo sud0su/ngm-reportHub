@@ -168,7 +168,7 @@
        "for":"for",
        "4W":"PROJECTS DASHBOARD",
        "4WDASHBOARD":"PROJECTS DASHBOARD",
-       "activities_dashboard":"ACTIVITIES DASHBOARD", 
+       "activities_dashboard":"ACTIVITIES DASHBOARD",
               "5wdashboard":"5W DASHBOARD",
               "5W":"5W",
               "5WDASHBOARD_mayus":"5W DASHBOARD",
@@ -198,7 +198,7 @@
        "updated":"Updated",
        "overview_for":"overview for",
        "please_complete_project_details_and_enter_a_project_summary_description_including_objectives":"Please complete Project Details and enter a project summary description including objectives...",
-       "please_complete_a_project_plan_and_enter_a_summary_description_including_objetives":"Please complete a Project Plan and enter a summary description including objectives...",
+       "please_complete_a_project_plan_and_enter_a_summary_description_including_objetives":"Please complete a Project Plan and enter a summary description including objectives&#8206;...",
 
        "you_have":"You have",
        "active_sctaff":"Active Staff",
@@ -289,7 +289,7 @@
         "are_you_sure_you_want_to_return_to_projects":"Are you sure you want to return to Projects",
         "cancel_project_update":"Cancel Project Update",
         "project_updated":"Project Updated!",
-        "return_to_project_summary":"Return to Project Summary", 
+        "return_to_project_summary":"Return to Project Summary",
         "yes_cancel_update":"Yes, Cancel Update",
         "remove_people_in_need":"Remove People in Need",
         "remove_people_in_need_from_project":"Remove People in Need from Project",
@@ -913,6 +913,17 @@
          "action":"Action",
          "the_action_you_were_performing_at_the_time_ie_adding_a_new_beneficiary":"The action you were performing at the time. i.e. 'Adding a new Beneficiary'",
          "any_error_messages_that_the_reporthub_displayed":"Any error messages that the ReportHub displayed",
-         "any_additional_description_of_the_error_that_will_prove_useful_ie_I_removed_a_location_and_then_added_a_new_location":"Any additional description of the error that will prove useful. i.e. 'I removed a location and then added a new location'"
+         "any_additional_description_of_the_error_that_will_prove_useful_ie_I_removed_a_location_and_then_added_a_new_location":"Any additional description of the error that will prove useful. i.e. 'I removed a location and then added a new location'",
+
+         "outbreaks":"Outbreaks",
+         "individual_cases":"Individual Cases",
+         "deaths":"Deaths",
+         "disease":"Disease",
+         "outbreaks_trends": "Outbreaks - Trend",
+         "alerts":"Alerts",
+         "cases": "Cases",
+         "epr_reports": "EPR Reports ",
+         "incidents":"Incidents",
+         "casualties":"Casualties"
 
 }

@@ -15,7 +15,7 @@ angular.module('ngmReportHub')
 
 		// assign to ngm app scope
 		$scope.model = $scope.$parent.ngm.dashboard.model;
-		
+
 		// login object
 		$scope.dashboard = {
 
@@ -38,7 +38,7 @@ angular.module('ngmReportHub')
 										+'<div class="col s12 m12 l12">'
 											+'<div>'
 												+'<a class="btn-flat waves-effect waves-teal" href="'+url+'">'
-													+'<i class="material-icons left">keyboard_return</i>'+$filter('translate')('back_to_team')
+													+'<i class="material-icons mirror left">keyboard_return</i>'+$filter('translate')('back_to_team')
 												+'</a>'
 												+'<span class="right" style="padding-top:8px;">'+$filter('translate')('last_updated')+ ' ' + moment( $scope.dashboard.user.updatedAt ).format( 'DD MMMM, YYYY @ h:mm:ss a' ) +'</span>'
 											+'</div>'
@@ -50,9 +50,9 @@ angular.module('ngmReportHub')
 
 			// load dashboard
 			init: function( user ){
-				
+
 				// add padding to style?
-				$scope.dashboard.ngm.style.paddingHeight = 20;		
+				$scope.dashboard.ngm.style.paddingHeight = 20;
 
 				// dews dashboard model
 				var model = {
@@ -98,9 +98,9 @@ angular.module('ngmReportHub')
 						        var disabled = true;
 										if ( user.status === 'active' &&
 						        			( $scope.dashboard.username === $scope.dashboard.user.username ||
-											( ngmAuth.canDo( 'EDIT_USER', { adminRpcode: user.adminRpcode, 
-																			  admin0pcode: user.admin0pcode, 
-																			  cluster_id: user.cluster_id, 
+											( ngmAuth.canDo( 'EDIT_USER', { adminRpcode: user.adminRpcode,
+																			  admin0pcode: user.admin0pcode,
+																			  cluster_id: user.cluster_id,
 																			  organization_tag: user.organization_tag } ) ) ) ) {
 						          disabled = false;
 						        }
@@ -108,10 +108,10 @@ angular.module('ngmReportHub')
 						      })(),
 						      activateUpdateVisible: (function() {
 						        var visible = false;
-						        if ( $scope.dashboard.user.username !== $scope.dashboard.username && 
-											( ngmAuth.canDo( 'EDIT_USER', { adminRpcode: user.adminRpcode, 
-																			  admin0pcode: user.admin0pcode, 
-																			  cluster_id: user.cluster_id, 
+						        if ( $scope.dashboard.user.username !== $scope.dashboard.username &&
+											( ngmAuth.canDo( 'EDIT_USER', { adminRpcode: user.adminRpcode,
+																			  admin0pcode: user.admin0pcode,
+																			  cluster_id: user.cluster_id,
 																			  organization_tag: user.organization_tag } ) ) ) {
 						          visible = true;
 						        }
@@ -130,7 +130,7 @@ angular.module('ngmReportHub')
 										var clusterDisabled = true;
 										if ($scope.dashboard.user.username === $scope.dashboard.username ||
 											(ngmAuth.canDo('EDIT_USER_CLUSTER', {
-												
+
 											}))) {
 											clusterDisabled = false;
 										}
@@ -152,8 +152,8 @@ angular.module('ngmReportHub')
 
 		}
 
-		// if not current user 
-		if ( $scope.dashboard.username && 
+		// if not current user
+		if ( $scope.dashboard.username &&
 					( $scope.dashboard.username !== $scope.dashboard.user.username ) ) {
 
 			// get use
@@ -169,5 +169,5 @@ angular.module('ngmReportHub')
 			$scope.dashboard.init( $scope.dashboard.user );
 
 		}
-		
+
 	}]);

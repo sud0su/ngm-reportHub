@@ -50,11 +50,11 @@ angular.module('ngmReportHub')
 						card: 'white grey-text text-darken-2',
 						style: 'padding: 20px;',
 						config: {
-							html: '<a class="waves-effect waves-light btn" href="#/cluster/guides"><i class="material-icons left">keyboard_return</i>Back to Guides Menu</a>'
+							html: '<a class="waves-effect waves-light btn" href="#/cluster/guides"><i class="material-icons mirror left">keyboard_return</i>Back to Guides Menu</a>'
 						}
 					}]
 				}]
-			},{				
+			},{
 				columns: [{
 					styleClass: 's12 m12 l12',
 					widgets: [{
@@ -65,7 +65,7 @@ angular.module('ngmReportHub')
 						}
 					}]
 				}]
-			},{			
+			},{
 				columns: [{
 					styleClass: 's12 m12 l12',
 					widgets: [{
@@ -85,5 +85,5 @@ angular.module('ngmReportHub')
 
 		// assign to ngm app scope
 		$scope.dashboard.ngm.dashboard = $scope.model;
-		
+
 	}]);

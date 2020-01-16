@@ -36,7 +36,7 @@
 	}
 
 	label {
-		font-size: 1rem !important;	
+		font-size: 1rem !important;
 	}
 
 	.btn, .btn-small {
@@ -63,8 +63,9 @@
     color: #565656;
     font-weight: 400;
     text-align: left;
-		padding: 2px 0px 5px 10px;
+		padding: 5px 0px 5px 0px;
 		margin: 0px;
+		display: inline-block;
 	}
 
 	/* location title with icon */
@@ -98,7 +99,7 @@
 	/* title for indicator blocks */
 	.indicator-title {
 		padding-left: 10px;
-		font-size: 1.16rem !important;		
+		font-size: 1.16rem !important;
 	}
 
 	/* for displaying beneficiary numbers */
@@ -111,7 +112,7 @@
 	}
 
 
-	
+
 	/* darken inputs */
 	input, .input-field, .checkbox-label {
 		font-weight: 400;
@@ -122,7 +123,7 @@
 	  color: #26a69a;
 	  top: 0.8rem;
 	  font-weight: 400;
-	}	
+	}
 
 	.input-field label.active {
 	  color: #26a69a;
@@ -144,7 +145,7 @@
 	.input-field input.valid,
 		textarea.materialize-textarea.valid, md-chips .md-chips.md-focused {
 		border-bottom: 1px solid #26a69a;
-		box-shadow: 0 1px 0 0 #26a69a;		
+		box-shadow: 0 1px 0 0 #26a69a;
 	}
 	/* valid input on focus */
 	.input-field input:focus.valid,
@@ -178,7 +179,7 @@
 	/* manual class for label error */
 	.input-field.error-label label {
 		color: #e57373;
-		font-weight: 400;		
+		font-weight: 400;
 	}
 
 	/* LOADING*/

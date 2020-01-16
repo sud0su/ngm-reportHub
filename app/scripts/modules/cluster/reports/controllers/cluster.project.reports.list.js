@@ -18,10 +18,10 @@ angular.module('ngmReportHub')
 
 		// empty Project
 		$scope.report = {
-			
+
 			// parent
 			ngm: $scope.$parent.ngm,
-			
+
 			// current user
 			user: ngmUser.get(),
 
@@ -34,7 +34,7 @@ angular.module('ngmReportHub')
 										+'<div class="col s12 m12 l12">'
 											+'<div style="padding:20px;">'
 												+'<a class="btn-flat waves-effect waves-teal" href="#/cluster/projects/summary/' + $scope.report.project.id +'">'
-													+'<i class="material-icons left">keyboard_return</i>'+$filter('translate')('back_to_project_summary')
+													+'<i class="material-icons mirror left">keyboard_return</i>'+$filter('translate')('back_to_project_summary')
 												+'</a>'
 												+'<span class="right" style="padding-top:8px;">'+$filter('translate')('last_updated')+': ' + moment( $scope.report.project.updatedAt ).format( 'DD MMMM, YYYY @ h:mm:ss a' ) +'</span>'
 											+'</div>'
@@ -62,7 +62,7 @@ angular.module('ngmReportHub')
 				return obj;
 			},
 
-			// return url for report or summary page 
+			// return url for report or summary page
 			getReportUrl: function(){
 				// report
 				var report_url = '#/cluster/projects/report';
@@ -90,7 +90,7 @@ angular.module('ngmReportHub')
 				}
 				// title
 				$scope.report.title += $scope.report.project.project_title;
-				
+
 
 				// add project code to subtitle?
 				var text = $filter('translate')('actual_monthly_beneficiaries_report_for')+' ' + $scope.report.project.project_title
@@ -212,7 +212,7 @@ angular.module('ngmReportHub')
 									}
 								}
 							}]
-						}]						
+						}]
 					},{
 						columns: [{
 							styleClass: 's12 m12 l12',
@@ -241,9 +241,9 @@ angular.module('ngmReportHub')
 				// assign to ngm app scope
 				$scope.report.ngm.dashboard.model = $scope.model;
 
-			}			
+			}
 
-		}		
+		}
 
 		// Run page
 		// return project
@@ -257,5 +257,5 @@ angular.module('ngmReportHub')
 			// assign data
 			$scope.report.setProjectDetails(data);
 		});
-		
+
 	}]);

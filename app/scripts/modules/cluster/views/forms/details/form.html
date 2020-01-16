@@ -91,7 +91,7 @@
 
 			<!--  -->
 			<button class="waves-effect waves-light btn-flat" ng-click="project.modalConfirm('list-modal')">
-				<i class="material-icons left">keyboard_return</i>{{'back_to_projects' | translate}}
+				<i class="material-icons mirror left">keyboard_return</i>{{'back_to_projects' | translate}}
 			</button>
 
 		</div>
@@ -104,7 +104,7 @@
 
 			<!--  -->
 			<button class="waves-effect waves-light btn-flat" ng-click="project.modalConfirm('summary-modal')">
-				<i class="material-icons left">keyboard_return</i>{{'back_to_project_summary' | translate}}
+				<i class="material-icons mirror left">keyboard_return</i>{{'back_to_project_summary' | translate}}
 			</button>
 
 			<span class="right" style="padding-top:8px;">{{'last_updated' | translate}}: {{ project.updatedAt }}</span>
@@ -193,7 +193,7 @@
 			<div class="col s12 m12 l12">
 				<div class="widget card-panel white grey-text text-darken-2" style="padding-top: 0;padding-left: 0;padding-right: 0">
 					<div style="height: 80px; margin-bottom: 20px; font-size: 25px;font-weight: 300;padding-top: 20px" class="blue lighten-1">
-						<div class="white-text" style="padding: 10px 20px"> 
+						<div class="white-text" style="padding: 10px 20px">
 							<i class="material-icons left">
 								 bookmark_border
 							</i>Mark Project</div>
@@ -212,9 +212,9 @@
 						<button class=" waves-light btn grey" ng-click="project.setProjectStatus('not_implemented')" ng-disabled="project.definition.project_status === 'not_implemented'">
 							<i class="material-icons left">not_interested</i>{{ 'mark_project_as_not_implemented' | translate }}
 						</button>
-		
+
 					</div>
-		
+
 				</div>
 			</div>
 		</div>
@@ -236,7 +236,7 @@
 						<!-- cancel update -->
 						<button data-target="summary-modal" class="waves-effect waves-light btn modal-trigger grey"
 							ng-if="project.definition.project_status === 'active' ||
-										 project.definition.project_status === 'plan' || 
+										 project.definition.project_status === 'plan' ||
 										 project.definition.project_status === 'not_implemented'">{{'cancel_mayus' | translate}}
 						</button>
 

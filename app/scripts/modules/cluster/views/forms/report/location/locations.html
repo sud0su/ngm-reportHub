@@ -4,6 +4,9 @@
 	.edit-report-btn {
 		position:absolute; right:20px; top:20px;
 	}
+	*[dir="rtl"] .edit-report-btn {
+		left:20px;
+	}
 	.nav-list-search {
 		margin-top: 6px;
 		background-color: white;
@@ -12,7 +15,7 @@
 		-moz-transition: width 1s ease;
 		-o-transition: width 1s ease;
 		-ms-transition: width 1s ease;
-		transition: width 1s ease;		
+		transition: width 1s ease;
 	}
 	.nav-list-search.focused{
 		margin-top: 6px;
@@ -32,11 +35,11 @@
 		<div class="card">
 			<ul class="collection with-header">
 				<li class="collection-header indigo lighten-1" style="height:80px;">
-					<div class="col s12 m8">						
+					<div class="col s12 m8">
 						<h5 class="report-panel-title white-text">
 							<!-- December 2018 -->
 							<div ng-if="project.report.admin0pcode === 'SO' && project.report.report_year === 2018 && project.report.report_month === 11">
-								<i class="material-icons left">group</i>2018 {{'year_end_totals'|translate}} 
+								<i class="material-icons left">group</i>2018 {{'year_end_totals'|translate}}
 							</div>
 							<!-- 2019 onwards -->
 							<div ng-if="project.report.admin0pcode === 'SO' && project.report.report_year > 2018">
@@ -89,9 +92,9 @@
 	      			</button>
 							<button ng-hide="( project.report.admin0pcode === 'ET' && project.report.cluster_id === 'esnfi' ) ||
 																deactivedCopybutton ||
-																( !project.canEdit || project.definition.project_status === 'complete' || project.report.report_status === 'complete' )" 
+																( !project.canEdit || project.definition.project_status === 'complete' || project.report.report_status === 'complete' )"
 												class="btn waves-effect waves-light hide-on-small-only edit-report-btn"
-				      					title="Copy {{ project.previousMonth }}"	      					
+				      					title="Copy {{ project.previousMonth }}"
 												ng-click="project.copyPreviousMonth()"
 												ng-disabled="deactivedCopybutton">
 	      					<i class="material-icons left">content_copy</i>{{'copy_last_month' | translate}}
@@ -100,8 +103,8 @@
 						</div>
 
 						<!-- scroll -->
-						<div id = "{{ $locationIndex=$index; idl = 'ngm-' + $index }}" class="row" ng-repeat="location in project.report.locations | 
-															filter:{ location_group_id: project.location_group } | 
+						<div id = "{{ $locationIndex=$index; idl = 'ngm-' + $index }}" class="row" ng-repeat="location in project.report.locations |
+															filter:{ location_group_id: project.location_group } |
 															limitTo: project.location_limit track by $index">
 
 							<div class="row">
@@ -109,14 +112,14 @@
 								<div class="col s12 m9 left">
 
 							  	<!-- location title -->
-							  	<h4 class="report-location-title" 
+							  	<h4 class="report-location-title"
 							  				ng-if="project.definition.cluster_id !== 'eiewg'">
 												<i class="material-icons left" style="color: teal;">location_on</i>
 												{{ project.getReportTitle( location ) }}
 									</h4>
 
 									<!-- eiewg formal location -->
-							  	<h5 class="report-location-title" 
+							  	<h5 class="report-location-title"
 							  				ng-if="project.definition.cluster_id === 'eiewg' && location.site_implementation_id === 'formal'">
 												<i class="material-icons left" style="color: teal;">location_on</i>
 												{{ location.site_implementation_name | uppercase }} SCHOOL | {{ location.admin1name }}, {{ location.admin2name }}, {{ location.site_type_name }}, {{ location.site_name }}
@@ -169,7 +172,7 @@
 						</div>
 
 						<div class="row" style="padding-bottom:10px;"
-									ng-if="project.definition.admin0pcode === 'ET' && 
+									ng-if="project.definition.admin0pcode === 'ET' &&
 													project.definition.cluster_id === 'esnfi' &&
 													project.definition.project_status !== 'complete' &&
 													project.report.report_status !== 'complete'">

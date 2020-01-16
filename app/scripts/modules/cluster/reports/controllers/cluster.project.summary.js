@@ -46,7 +46,7 @@ angular.module('ngmReportHub')
 				if ($rootScope.projecListPreviouseUrl){
 					href = $rootScope.projecListPreviouseUrl
 				}
-				
+
 				return href;
 			},
 
@@ -71,8 +71,8 @@ angular.module('ngmReportHub')
 
 				// add project code to subtitle?
 				var text = $filter('translate')('actual_monthly_progress_report_for')+' ' + $scope.report.project.project_title
-				var subtitle = $scope.report.project.project_code ?  $scope.report.project.project_code + ' - ' + $scope.report.project.project_description : $scope.report.project.project_description;				
-				
+				var subtitle = $scope.report.project.project_code ?  $scope.report.project.project_code + ' - ' + $scope.report.project.project_description : $scope.report.project.project_description;
+
 				// report dashboard model
 				$scope.model = {
 					name: 'cluster_project_summary',
@@ -99,7 +99,7 @@ angular.module('ngmReportHub')
 								card: 'white grey-text text-darken-2',
 								style: 'padding: 20px;',
 								config: {
-									html: '<a class="btn-flat waves-effect waves-teal left" href="' + $scope.report.getProjectsHref() + '"><i class="material-icons left">keyboard_return</i>'+$filter('translate')('back_to_projects')+'</a><span class="right" style="padding-top:8px;">'+$filter('translate')('last_updated')+': ' + moment( $scope.report.project.updatedAt ).format( 'DD MMMM, YYYY @ h:mm:ss a' ) + '</span>'
+									html: '<a class="btn-flat waves-effect waves-teal left" href="' + $scope.report.getProjectsHref() + '"><i class="material-icons left mirror">keyboard_return</i>'+$filter('translate')('back_to_projects')+'</a><span class="right" style="padding-top:8px;">'+$filter('translate')('last_updated')+': ' + moment( $scope.report.project.updatedAt ).format( 'DD MMMM, YYYY @ h:mm:ss a' ) + '</span>'
 								}
 							}]
 						}]
@@ -126,7 +126,7 @@ angular.module('ngmReportHub')
 									  project.project_status = 'active';
 
 									  // timeout
-									  $timeout(function(){ Materialize.toast( $filter('translate')('processing')+'...', 6000, 'note'); }, 200 ); 
+									  $timeout(function(){ Materialize.toast( $filter('translate')('processing')+'...', 6000, 'note'); }, 200 );
 
 									  // Submit project for save
 									  ngmData.get({
@@ -208,7 +208,7 @@ angular.module('ngmReportHub')
 									deleteProject: function(project){
 
 									  // timeout
-									  $timeout(function(){ Materialize.toast( $filter('translate')('processing')+'...', 6000, 'note'); }, 200 ); 
+									  $timeout(function(){ Materialize.toast( $filter('translate')('processing')+'...', 6000, 'note'); }, 200 );
 
 									  // Submit project for save
 									  $http({
@@ -257,5 +257,5 @@ angular.module('ngmReportHub')
 			}
 
 		}
-		
+
 	}]);

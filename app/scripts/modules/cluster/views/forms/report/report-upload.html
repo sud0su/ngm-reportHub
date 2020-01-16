@@ -2,7 +2,7 @@
 	.dropzone {
 	border: 2px dashed #5c6bc0;
 	margin: 0 20px 0 20px;
-	
+
 }
 .modal{
 	max-height: unset;
@@ -69,7 +69,7 @@ li .collection-item .avatar .coll .list-upload{
 	}
 	.collection .collection-item.avatar .circle {
     width: 25px;
-    height: 25px;    
+    height: 25px;
     top: -11px;
     left: -4px;
 	}
@@ -163,8 +163,8 @@ font-size: 18px;
 	</div>
 	<div class="modal-content">
 
-	
-	<div class="row">						
+
+	<div class="row">
 									<div id="dropzone">
 										<form ng-dropzone dropzone="dropzone" dropzone-config="project.uploadDocument" enctype="multipart/form-data" class="dropzone needsclick dz-clickable">
 											<div class="fallback">
@@ -235,16 +235,16 @@ font-size: 18px;
 								<i class="material-icons left">cloud_upload</i>
 								{{'upload_document'|translate}}
 							</button>
-								
+
 							<div class="btn wave-effect space tooltipped-report-upload" data-position="bottom" data-tooltip="{{'grid_view'|translate}}" ng-click="grid=true"
 							 ng-class="{white: !grid,teal:grid}">
 								<i class="material-icons " style="color: #ffffff" ng-class="{color_teal: !grid,color_white:grid}">
 									view_module
 								</i>
-							</div>							
+							</div>
 							<div class="btn wave-effect space tooltipped-report-upload" data-position="bottom" data-tooltip="{{'list_view'|translate}}" ng-click="grid=false"
 							 ng-class="{white: grid,teal:!grid}">
-								<i class="material-icons  " ng-class="{color_teal: grid,color_white:!grid}">
+								<i class="material-icons mirror" ng-class="{color_teal: grid,color_white:!grid}">
 									format_list_bulleted
 								</i>
 							</div>
@@ -303,8 +303,8 @@ font-size: 18px;
 							</div>
 							<div class="col s3">
 								<div class="line-non-grid">
-					
-					
+
+
 									<button class="btn-floating  wave-effect blue tooltipped-upload" data-position="bottom" data-tooltip="{{'preview'|translate}}"
 									 ng-disabled="item.filename_extension === '.csv'" ng-click="ngmClusterDocument.openPreview('close-preview-file',item.fileid)">
 										<i class="small material-icons">compare</i>
@@ -347,7 +347,7 @@ font-size: 18px;
 													<i class="material-icons right" style="font-size: 18px; color: #e2e2e2;margin-top: 5px;margin-right: 5px;">close</i>
 												</div>
 												<div class="line">
-						
+
 													<!-- use gdrive id file -->
 													<button class="btn-floating  wave-effect blue tooltipped-report-upload" data-position="bottom" data-tooltip="{{'preview'|translate}}" ng-click="ngmClusterDocument.openPreview('close-preview-file',item.fileid)"
 													 ng-disabled="item.filename_extension === '.csv'">

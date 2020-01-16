@@ -1,4 +1,4 @@
-<style>	
+<style>
 	.collection .collection-item.avatar {
 		min-height: 0;
 	}
@@ -121,7 +121,7 @@
 				<i class="medium material-icons" style="color:#f44336">delete</i>
 				<h5 style="font-weight:300;"> {{'remove_this_file'|translate}}</h5>
 			</div>
-		
+
 		</div>
 		<div class="modal-footer">
 			<a class=" modal-action modal-close waves-effect waves-green btn-flat">{{'close_mayus1'|translate}}</a>
@@ -141,7 +141,7 @@
 				<div class="col s12 m2">
 					<div class="grid-list">
 						<div class="btn-floating wave-effect space tooltipped-project-upload" data-position="bottom" data-tooltip="{{'list_view'|translate}}" ng-click="grid=false" ng-class="{white: !grid,teal:grid}">
-							<i class="material-icons  " ng-class="{color_teal: !grid,color_white:grid}">
+							<i class="material-icons mirror" ng-class="{color_teal: !grid,color_white:grid}">
 								format_list_bulleted
 							</i>
 						</div>
@@ -155,8 +155,8 @@
 			</li>
 			<!-- LIST -->
 			<div ng-show="!grid">
-				
-				<li ng-if="list.data.length>0" class="collection-item avatar" 
+
+				<li ng-if="list.data.length>0" class="collection-item avatar"
 				 dir-paginate="item in list.data | orderBy: 'createdAt':true | filter: list.search.filter | itemsPerPage: list.itemsPerPage" pagination-id="list.id">
 					<i class="material-icons circle " style="background-color: {{list.extentionColor(item.filename_extension)}}">{{list.extentionIcon(item.filename_extension)}}</i>
 					<span class="title text-darken-2" style="font-weight: 400;">{{item.filename}}</span>
@@ -165,8 +165,8 @@
 					</p>
 					<div class="secondary-content">
 
-						
-						<button data-position="bottom" data-tooltip="{{'preview'|translate}}" class="btn-floating  wave-effect blue tooltipped-project-upload" 
+
+						<button data-position="bottom" data-tooltip="{{'preview'|translate}}" class="btn-floating  wave-effect blue tooltipped-project-upload"
 						ng-click="list.openModal('close-preview-file',item.fileid)" ng-disabled="item.filename_extension === '.csv'">
 							<i class="small material-icons">compare</i>
 						</button>
@@ -187,7 +187,7 @@
 			</div>
 
 			<!-- GRID -->
-			<div ng-show="grid">			
+			<div ng-show="grid">
 				<li ng-if="list.data.length>0" class="collection-item avatar" style="padding-left: 30px;padding-right: 30px">
 					<div class="row">
 						<div class="col s12 m2" dir-paginate="item in list.data | orderBy: 'createdAt':true | filter: list.search.filter | itemsPerPage: list.itemsPerPageGrid"
@@ -240,5 +240,5 @@
 <script>
 	setTimeout(function(){
 		$('.tooltipped-project-upload').tooltip();
-	}, 100 );	
+	}, 100 );
 </script>
