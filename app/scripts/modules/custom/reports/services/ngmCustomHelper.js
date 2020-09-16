@@ -202,23 +202,25 @@ angular.module('ngmReportHub')
                         delete u.site_lat;
 
                         date = ngmCustomConfig.getCustomProjectConfig(report_type_id)
+                        var default_config = ngmCustomConfig.setNewProjectDefault(report_type_id)
                         // create empty project
-                        var project = {
-                            project_status: 'new',
-                            project_title: '',//'Enter New ' + user.organization + ' Project Title...',
-                            project_description: 'Please, add the project description...',
-                            project_details: [],
-                            project_start_date: date.set_reporting_period_start ? moment.utc(date.set_reporting_period_start).format('YYYY-MM-DD') : moment.utc().startOf('M').format('YYYY-MM-DD'),
-                            project_end_date: date.set_reporting_period_end ? moment.utc(date.set_reporting_period_end).format('YYYY-MM-DD') : moment.utc().add(8, 'M').endOf('M').format('YYYY-MM-DD'),
-                            reporting_period_type: 'monthly',
-                            notes: '',
-                            version:''
-                        }
+                        // var project = {
+                        //     project_status: 'new',
+                        //     project_title: '',//'Enter New ' + user.organization + ' Project Title...',
+                        //     project_description: 'Please, add the project description...',
+                        //     project_details: [],
+                        //     project_start_date: date.set_reporting_period_start ? moment.utc(date.set_reporting_period_start).format('YYYY-MM-DD') : moment.utc().startOf('M').format('YYYY-MM-DD'),
+                        //     project_end_date: date.set_reporting_period_end ? moment.utc(date.set_reporting_period_end).format('YYYY-MM-DD') : moment.utc().add(8, 'M').endOf('M').format('YYYY-MM-DD'),
+                        //     reporting_period_type: 'monthly',
+                        //     notes: '',
+                        //     version:''
+                        // }
                         // set report_type_id and version of config
-                        var report_type = ngmCustomConfig.getReportTypesList().filter(x => x.report_type_id === report_type_id).map((x) => { return { report_type_id: x.report_type_id, report_type_name: x.report_type_name, version: x.version } })[0];
+                        // var report_type = ngmCustomConfig.getReportTypesList().filter(x => x.report_type_id === report_type_id).map((x) => { return { report_type_id: x.report_type_id, report_type_name: x.report_type_name, version: x.version } })[0];
 
                         // project = angular.merge({}, u, project,);
-                        project = angular.merge({}, u, project, report_type);
+                        // project = angular.merge({}, u, project, report_type);
+                        project = angular.merge({}, u, default_config);
 
                         // remove id of ngmUser to avoid conflict with new project
                         delete project.id;

@@ -45,6 +45,23 @@ angular.module('ngmReportHub')
                                                              { reporting_period_type: '2weekly', reporting_period_name: '2 Weekly'}
                                                             ],
                                     project_details: [{ project_detail_id: 'covid19', project_detail_name: 'Covid 19' }],
+                                    project_default: {
+                                        project_status: 'new',
+                                        project_title: '',//'Enter New ' + user.organization + ' Project Title...',
+                                        project_description: 'Please, add the project description...',
+                                        project_details: [],
+                                        project_start_date: '2020-09-01',
+                                        project_end_date: '2021-03-01',
+                                        reporting_period_type: 'monthly',
+                                        notes: '',
+                                        version:'',
+                                        cluster_id: "esnfi",
+                                        cluster: "ESNFI",
+                                        cluster_ids: ['esnfi'],
+                                        report_type_id: "winterization20",
+                                        report_type_name: "Winterization 2020",
+                                        version: 'v1',
+                                    },
                                     project_download: {
                                         fields: ['planned_families'],
                                         fieldNames: false,
@@ -147,6 +164,7 @@ angular.module('ngmReportHub')
                         return list;
                     },
                     getCustomProjectConfig: function(report_type_id){
+                        
                         var config = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id);
                         var config_project = config[0].project;
                         var version = config[0].version;
@@ -161,6 +179,16 @@ angular.module('ngmReportHub')
 
                         return config_project_version ? config_project_version:{};
 
+                    },
+                    setNewProjectDefault: function (report_type_id){
+                        var config = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id);
+                        var config_project = config[0].project;
+                        var version = config[0].version;
+
+                        var default_project = angular.merge({}, config[0].project.default, config_project[version].project_default);
+
+                        return default_project
+                    
                     },
                     getCustomProjectConfigWithVersion: function (report_type_id,version) {
                         var config = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id);
