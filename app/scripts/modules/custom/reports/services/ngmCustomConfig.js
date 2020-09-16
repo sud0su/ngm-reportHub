@@ -65,7 +65,9 @@ angular.module('ngmReportHub')
                                             remarks: '',
                                             progress: 0,
                                             beneficiary_type_id: 'b1',
-                                            beneficiary_type_name: 'B1'
+                                            beneficiary_type_name: 'B1',
+                                            cluster_id: "esnfi", 
+                                            cluster: "ESNFI"
                                         },
                                         validate: ['planned_families', 'beneficiary_type_id', 'assisted_returnee_families', 'assisted_idp_families'],
                                         // or
