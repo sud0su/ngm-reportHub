@@ -1472,6 +1472,139 @@ angular.module( 'ngmReportHub' )
 				return verified;
 			},
 
+			// Adhoc
+			validateBeneficiariesAdhoc: function (location, detail,prop) {
+				var elements = [];
+				var notDetailOpen = [];
+				beneficiaryRow = 0;
+				beneficiaryRowComplete = 0;
+				angular.forEach(location, function (l, i) {
+					angular.forEach(l.beneficiaries, function (b, j) {
+						beneficiaryRow++;
+						result = ngmClusterValidation.validateBeneficiaryAdhoc(b, i, j, detail,prop);
+						angular.merge(elements, result.divs);
+
+						if (!result.open && result.count === 0) {
+							notDetailOpen.push(result.index)
+						}
+						beneficiaryRowComplete += result.count;
+					});
+				})
+
+				if (beneficiaryRow !== beneficiaryRowComplete && notDetailOpen.length > 0) {
+					// openall
+					angular.forEach(notDetailOpen, function (indexbeneficiaries) {
+						l = indexbeneficiaries.locationIndex;
+						b = indexbeneficiaries.beneficiaryIndex;
+						detail[l][b] = true;
+					})
+
+					$timeout(function () {
+						angular.forEach(notDetailOpen, function (indexbeneficiaries) {
+							x = indexbeneficiaries.locationIndex;
+							y = indexbeneficiaries.beneficiaryIndex;
+							resultRelabel = ngmClusterValidation.validateBeneficiary(location[x].beneficiaries[y], x, y, detail, admin0pcode, hrp_project_status);
+						});
+
+						// Materialize.toast($filter('translate')('beneficiaries_contains_errors'), 4000, 'error');
+						M.toast({ html: $filter('translate')('beneficiaries_contains_errors'), displayLength: 4000, classes: 'error' });
+						$timeout(function () {
+							if (document.querySelector(elements[0]) === null || document.querySelector(elements[0]) === undefined) {
+								var id_missing = elements[0] ? elements[0] : '';
+								if (id_missing !== '') {
+									id_missing = id_missing.replace(/^"+|"+$/g, '').match(/'[^']*'/g)[0];
+								}
+								M.toast({ html: "Error: no such input: " + id_missing, displayLength: 4000, classes: 'error' });
+							} else {
+								$(elements[0]).animatescroll()
+							}
+						}, 100);
+					}, 200);
+					return false
+				}
+
+				if (beneficiaryRow !== beneficiaryRowComplete && notDetailOpen.length < 1) {
+					// Materialize.toast($filter('translate')('beneficiaries_contains_errors'), 4000, 'error');
+					M.toast({ html: $filter('translate')('beneficiaries_contains_errors'), displayLength: 4000, classes: 'error' });
+					if (document.querySelector(elements[0]) === null || document.querySelector(elements[0]) === undefined) {
+						var id_missing = elements[0] ? elements[0] : '';
+						if (id_missing !== '') {
+							id_missing = id_missing.replace(/^"+|"+$/g, '').match(/'[^']*'/g)[0];
+						}
+						M.toast({ html: "Error: no such input: " + id_missing, displayLength: 4000, classes: 'error' });
+					} else {
+						$(elements[0]).animatescroll();
+					}
+					return false;
+				} else {
+					return true;
+				}
+			},
+
+			validateBeneficiaryAdhoc: function (b, i, j, d, array_prop_to_validate_from_config){
+				
+				// valid
+				var property = array_prop_to_validate_from_config
+				var id;
+				var complete = false;//true;
+				var validation = { count: 0, divs: [] };
+				// var attribute = Object.keys(b);
+				// angular.forEach(attribute,(e,x)=>{
+				// 	if (e !=='remarks'){
+				// 		if (b[e] === null || b[e] === undefined || b[e] === NaN || b[e] < 0 || b[e] === '') {
+				// 			id = "label[for='" + 'ngm-' + e + '-' + i + '-' + j + "']";
+				// 			console.log(id)
+				// 			$(id).addClass('error');
+				// 			validation.divs.push(id);
+				// 			complete = false;
+				// 		}
+				// 	}
+				// })
+
+				// if (!b.beneficiary_type_id){
+				// 	id = "label[for='" + 'ngm-beneficiary_type_id'+ '-' + i + '-' + j + "']";
+				// 	$(id).addClass('error');
+				// 	validation.divs.push(id);
+				// 	complete = false;
+				// }
+
+				angular.forEach(property,(p,index)=>{
+					if (!b[p] && typeof b[p] !== 'number') {
+						id = "label[for='" + 'ngm-' + p + '-' + i + '-' + j + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
+
+					if (typeof b[p] !== 'number'){
+						if (b[p] === null || b[p] === undefined || b[p] === NaN || b[p] < 0 || b[p] === '') {
+							id = "label[for='" + 'ngm-' + p + '-' + i + '-' + j + "']";
+							$(id).addClass('error');
+							validation.divs.push(id);
+							complete = false;
+						}
+					}
+				})
+
+				if (d[i][j]) {
+					validation.open = true;
+					validation.index = {};
+					validation.index.locationIndex = i;
+					validation.index.beneficiaryIndex = j;
+				} else {
+					validation.open = false;
+					validation.index = {};
+					validation.index.locationIndex = i;
+					validation.index.beneficiaryIndex = j;
+				}
+				if (complete) {
+					validation.count = 1;
+				}
+				
+				return validation
+			},
+
+
 			// fieldNameBeneficiaryMonthlyReport:function(){
 			// 	var field ={
 			// 		"activity_type_id":"Activity",

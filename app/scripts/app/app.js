@@ -37,6 +37,8 @@ angular
 		'ngm.widget.organization.stock',
 		'ngm.widget.form.organization.list',
 		'ngm.widget.upload.beneficiaries.stock.report',
+		'ngm.widget.custom.project.detail',
+		'ngm.widget.custom.report',
 		// modules
 		'ngmBangladesh',
 		'ngmCluster',
@@ -48,6 +50,7 @@ angular
 		'ngmiMMAP',
 		'ngmNutrition',
 		'ngmDrought',
+		'ngmCustom',
 		// utils
 		'angularUtils.directives.dirPagination',
 		// widgets

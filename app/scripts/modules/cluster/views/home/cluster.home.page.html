@@ -95,4 +95,24 @@
 	   </a>
   </div>
 
+  <div class="col s12 m12 l4"
+    ng-if="panel.organization.admin0pcode !== 'COL' && panel.organization.admin0pcode !== 'PHL'">
+  
+    <a href="{{panel.getAdHocHref()}}">
+      <div class="card medium blue-grey darken-1 hoverable">
+        <div class="card-image">
+          <img src="images/cluster/stocks.jpg">
+        </div>
+        <div class="card-content white-text">
+          <p class="card-title">Custom</p>
+        </div>
+        <div class="card-action">
+          <a ng-if="!$root.rtl" href="{{panel.getAdHocHref()}}">{{ 'go_to' | translate}}
+           Custom </a>
+          <a ng-if="$root.rtl" href="{{panel.getAdHocHref()}}"> Custom</a>
+        </div>
+      </div>
+    </a>
+  </div>
+
 </div>

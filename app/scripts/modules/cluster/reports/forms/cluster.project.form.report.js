@@ -147,6 +147,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 				// init lists
 				init: function() {
+					console.log($scope.project.report)
 					// usd default currency
 					if( !$scope.project.definition.project_budget_currency ){
 						$scope.project.definition.project_budget_currency = 'usd';

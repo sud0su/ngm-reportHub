@@ -180,6 +180,49 @@ angular.module( 'ngmReportHub' )
         return project;
       },
 
+      setNewAdhocProject:function(user){
+
+        // copy user and remove conflicts
+        var u = angular.copy(user);
+        delete u.id;
+        delete u.createdAt;
+        delete u.updatedAt;
+        delete u.admin1pcode;
+        delete u.admin1name;
+        delete u.admin1lng;
+        delete u.admin1lat;
+        delete u.site_class;
+        delete u.site_type_id;
+        delete u.site_type_name;
+        delete u.site_status;
+        delete u.site_name;
+        delete u.site_lng;
+        delete u.site_lat;
+
+        // create empty project
+        var project = {
+          project_status: 'new',
+          project_title: '',//'Enter New ' + user.organization + ' Project Title...',
+          project_description: '',
+          project_details:[],
+
+          project_start_date: moment.utc().startOf('M').format('YYYY-MM-DD'),
+          project_end_date: moment.utc().add(8, 'M').endOf('M').format('YYYY-MM-DD'),
+          reporting_period_type: 'monthly',
+          report_type_id: "winterization",
+          report_type_name: "Winterization",
+          notes:''
+        }
+        project = angular.merge({}, u, project);
+
+        // remove id of ngmUser to avoid conflict with new project
+        delete project.id;
+
+        // return
+        return project;
+
+      },
+
       // get hrp code
       getProjectHrpCode: function( project ) {
 

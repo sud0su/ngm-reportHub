@@ -260,6 +260,7 @@ angular.module('ngmReportHub')
 				id: $route.current.params.project
 			}
 		}).then(function(data){
+			console.log(data)
 			// assign data
 			$scope.report.setProjectDetails(data);
 		});

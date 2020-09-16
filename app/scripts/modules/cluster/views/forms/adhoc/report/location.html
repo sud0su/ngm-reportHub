@@ -1,0 +1,198 @@
+<style>
+    .edit-report-btn {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+
+    .file-report-btn {
+        position: absolute;
+        right: 230px;
+        top: 20px;
+    }
+
+    *[dir="rtl"] .edit-report-btn {
+        left: 20px;
+    }
+
+    .nav-list-search {
+        margin-top: 6px;
+        background-color: white;
+        width: 72px;
+        -webkit-transition: width 1s ease;
+        -moz-transition: width 1s ease;
+        -o-transition: width 1s ease;
+        -ms-transition: width 1s ease;
+        transition: width 1s ease;
+    }
+
+    .nav-list-search.focused {
+        margin-top: 6px;
+        width: 100%;
+        -webkit-transition: width 1s ease;
+        -moz-transition: width 1s ease;
+        -o-transition: width 1s ease;
+        -ms-transition: width 1s ease;
+        transition: width 1s ease;
+    }
+
+    .percent-upload {
+        display: none;
+    }
+</style>
+<!-- bind html -->
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <ul class="collection with-header">
+                <li class="collection-header indigo lighten-1" style="height:80px;">
+                    <div class="col s12 m8">
+                        <h5 class="report-panel-title white-text">
+                            <div>
+                                <i class="material-icons left">search</i>Report
+                            </div>
+                           
+                        </h5>
+                    </div>
+                    <div class="col s12 m4 right" ng-if="project.limitToShowSearch>6">
+                        <nav class="nav-list-search right"
+                            ng-class="{'focused':beneficiary_search_input === true || project.beneficiary_search}">
+                            <div class="nav-wrapper" ng-click="searchToogle()">
+                                <form>
+                                    <div class="input-field">
+                                        <input id="search_" type="search" ng-model="project.beneficiary_search"
+                                            ng-focus="beneficiary_search_input=true"
+                                            ng-blur="beneficiary_search_input=false">
+                                        <!-- <label for="search_">
+											<i class="material-icons" style="color: teal; padding-left:5px;">search</i>
+										</label> -->
+                                        <label for="search_" style="top:-10px" class="search">
+                                            <i class="material-icons" style="color: teal; padding-left:25px;">search</i>
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+                        </nav>
+                    </div>
+                </li>
+                <li class="collection-item avatar">
+
+                    <!-- form -->
+
+                    <div class="row">
+
+                        <h3 class="report-selected-locations">{{ project.report.locations.length }}
+                            {{'selected_locations'|translate}}</h3>
+                        <!-- 
+								params
+									arg1: set report status from 'todo' to 'complete' & re-direct
+									arg2: save & re-direct 
+									arg3: alert admin via email of user edit of 'complete' report
+								project.save( arg1, arg2, arg3 )
+							 -->
+                        <button class="btn waves-effect waves-light hide-on-small-only edit-report-btn"
+                            title="Edit" ng-show="project.definition.project_status === 'active' &&
+	      										project.report.report_status === 'complete' &&
+	      										project.canEdit" ng-click="project.save( false, false, true )">
+                            <i class="material-icons left">create</i>{{'edit_report' | translate}}
+                        </button>
+                    </div>
+
+                    <!-- scroll -->
+                    <div id="{{ $locationIndex=$index; idl = 'ngm-' + $index }}" class="row" ng-repeat="location in project.report.locations | 
+															filter:{ location_group_id: project.location_group } | 
+															limitTo: project.location_limit track by $index">
+
+                        <div class="row">
+                            <!-- location title -->
+                            <div class="col s12 m9 left">
+
+                                <!-- location title -->
+                                <h4 class="report-location-title">
+                                    <i class="material-icons left" style="color: teal;">location_on</i>
+                                    {{ project.getReportTitle( location ) }}
+                                </h4>
+
+                                <!-- eiewg formal location -->
+                                <h5 class="report-location-title"
+                                    ng-if="project.definition.cluster_id === 'eiewg' && location.site_implementation_id === 'formal'">
+                                    <i class="material-icons left" style="color: teal;">location_on</i>
+                                    {{ location.site_implementation_name | uppercase }} SCHOOL |
+                                    {{ location.admin1name }}, {{ location.admin2name }}, {{ location.site_type_name }},
+                                    {{ location.site_name }}
+                                </h5>
+                                <!-- eiewg informal location -->
+                                <h5 class="report-location-title"
+                                    ng-if="project.definition.cluster_id === 'eiewg' && location.site_implementation_id === 'informal'">
+                                    <i class="material-icons left" style="color:teal;">location_on</i>
+                                    HUB SCHOOL | {{ location.site_hub_name }}
+                                    <br />
+                                    <br />
+                                    <span style="padding-left:40px;color:#616161;font-size:1.2rem;">
+                                        {{ location.site_implementation_name | uppercase }} SCHOOL |
+                                        {{ location.admin1name }}, {{ location.admin2name }},
+                                        {{ location.site_type_name }}, {{ location.site_name }}
+                                    </span>
+                                </h5>
+                            </div>
+
+                            <!-- location totals -->
+                            <div class="col s12 m3 hide-on-med-and-down">
+                                <div class="beneficiary-count right">
+                                    <span style="font-size:1.2rem;">
+                                        <i class="material-icons" style="padding-right:10px;">group</i></span>
+                                    <!-- filter in app/services/ngmHelper.js -->
+                                    {{ location | sumArrayByKeys:'beneficiaries':{ 'total_beneficiaries': 0 }:project.lists.skip | number }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- cvwg -->
+                        <div ng-if="location.admin0pcode !== 'NG'">
+                            <div ng-if="project.showCash( $locationIndex ) && !project.showPackage( $locationIndex )"
+                                style="padding-left: 50px;">
+                                <p>
+                                    <i class="material-icons left" style="color: #e57373">info</i>
+                                </p>
+                                <p style="color: #e57373">
+                                    <span style="font-weight:400">{{'amount' | translate}}:</span>
+                                    {{'please_enter_the_amount_per' | translate}} <span
+                                        style="font-weight:400">{{'household_hh'|translate}}</span> {{'per' |translate}}
+                                    <span style="font-weight:400">{{'transfer_mayus' | translate}}</span>
+                                </p>
+                                <p style="color: #e57373">
+                                    <span style="font-weight:400">{{'transfers'|translate}}:</span>
+                                    {{'please_enter_the' |translate}} <span style="font-weight:400">ACTUAL</span>
+                                    {{'number_of_transfers_made' | translate}} <span
+                                        style="font-weight:400">{{'this' | translate}}</span> {{'month' | translate}}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Project beneficiaries details -->
+
+                        <!-- activities -->
+                        <div ng-include="project.templatesUrl + project.beneficiariesUrl"></div>
+
+                    </div>
+
+                    <div class="row" style="padding-bottom:10px;" ng-if="project.canEdit && project.definition.project_status !== 'complete' &&
+																		project.report.report_status !== 'complete'">
+                        <button id="report_add_new_location" class="btn" style="background-color: #2196F3;"
+                            ng-click="ngmClusterLocations.openNewLocation( project, project.report.locations );"
+                            ng-disabled="addBeneficiaryDisable">
+                            <i class="material-icons left">location_on</i>{{'add_location'|translate}}
+
+                        </button>
+                        <div ng-if="ngmClusterLocations.openAddNewLocation"
+                            ng-include="project.templatesUrl + project.addLocationUrl">
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
