@@ -27,7 +27,11 @@ angular.module('ngmReportHub')
                             // disabled: false,
                             description: 'Dolor', // optional
                             project: {
-                                default: {},
+                                default: {
+                                    cluster_id: "esnfi",
+                                    cluster: "ESNFI",
+                                    cluster_ids: ['esnfi']
+                                },
                                 v1: {
                                     description: 'Dolor v1', // optional
 
@@ -120,9 +124,9 @@ angular.module('ngmReportHub')
                                             overwriteFields: false
                                         }
                                     },
-                                    admin: { fields: ['planned_families'], fieldNames: false, overwriteFields: false, defaultPeriod: 'month' },
+                                    admin: { fields: ['planned_families'], fieldNames: false, overwriteFields: false, defaultPeriod: 'month' ,filter_clusters: ['esnfi']},
                                     dashboard: {
-                                        min_date: '2020-09-01', indicator:[{ id: 'beneficiaries', name: 'Total Assisted Families', calculate_indicator: ["$total_assisted_families"] }], fields: ['planned_families'], fieldNames: false, overwriteFields: false  }
+                                        min_date: '2020-09-01', indicator: [{ id: 'beneficiaries', name: 'Total Assisted Families', calculate_indicator: ["$total_assisted_families"] }], fields: ['planned_families'], fieldNames: false, overwriteFields: false, filter_clusters: ['esnfi']  }
                                 }
                             }
                         }]
@@ -149,7 +153,7 @@ angular.module('ngmReportHub')
                         var report_type =  ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id).map((x) => { return { report_type_id: x.report_type_id, report_type_name: x.report_type_name } })[0];
                         var config_project_version = config_project[version];
 
-                        config_project_version = angular.merge({}, config_project_version,report_type);
+                        config_project_version = angular.merge({}, config_project.default, config_project_version,report_type);
 
                         if (config_project_version && config_project_version.beneficiaries){
                             delete config_project_version.beneficiaries; 
@@ -164,7 +168,7 @@ angular.module('ngmReportHub')
                         var report_type = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id).map((x) => { return { report_type_id: x.report_type_id, report_type_name: x.report_type_name } })[0];
                         var config_project_version = config_project[version];
 
-                        config_project_version = angular.merge({}, config_project_version, report_type);
+                        config_project_version = angular.merge({}, config_project.default, config_project_version, report_type);
 
                         if (config_project_version && config_project_version.beneficiaries) {
                             delete config_project_version.beneficiaries;

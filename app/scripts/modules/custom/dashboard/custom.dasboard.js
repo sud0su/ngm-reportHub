@@ -424,8 +424,17 @@ angular.module('ngmReportHub')
                         }
 
                         // clusters
-                        $scope.dashboard.lists.clusters.unshift({ cluster_id: 'all', cluster: 'ALL' });
-                        angular.forEach($scope.dashboard.lists.clusters, function (d, i) {
+                        var filter_config = [];
+                        $scope.dashboard.config.filter_clusters
+                        $scope.dashboard.lists.clusters
+                        angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
+                            if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id)>-1){
+                                filter_config.push(c)
+                            }
+                        })
+
+                        filter_config.unshift({ cluster_id: 'all', cluster: 'ALL' });
+                        angular.forEach(filter_config, function (d, i) {
                             var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
                             clusterRows.push({
                                 'title': d.cluster,
@@ -435,6 +444,17 @@ angular.module('ngmReportHub')
                                 'href': '/desk/#' + path
                             });
                         });
+                        // $scope.dashboard.lists.clusters.unshift({ cluster_id: 'all', cluster: 'ALL' });
+                        // angular.forEach($scope.dashboard.lists.clusters, function (d, i) {
+                        //     var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
+                        //     clusterRows.push({
+                        //         'title': d.cluster,
+                        //         'param': 'cluster_id',
+                        //         'active': d.cluster_id,
+                        //         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+                        //         'href': '/desk/#' + path
+                        //     });
+                        // });
 
                         // add to menu
                         $scope.model.menu.push({

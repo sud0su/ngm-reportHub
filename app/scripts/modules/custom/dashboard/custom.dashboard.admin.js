@@ -467,33 +467,59 @@ angular.module('ngmReportHub')
 
                     if (userMenuItems.includes('cluster_id')) {
 
-                        if ($scope.dashboard.lists.clusters[0].cluster_id !== 'all') {
-                            $scope.dashboard.lists.clusters.unshift({
-                                cluster_id: 'all',
-                                cluster: 'ALL',
-                            });
-                        }
-                        // add cluster
-                        angular.forEach($scope.dashboard.lists.clusters, function (d, i) {
+                        var filter_config = [];
+                        $scope.dashboard.config.filter_clusters
+                        $scope.dashboard.lists.clusters
+                        angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
+                            if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id) > -1) {
+                                filter_config.push(c)
+                            }
+                        })
 
+                        filter_config.unshift({ cluster_id: 'all', cluster: 'ALL' });
+                        angular.forEach(filter_config, function (d, i) {
                             // admin URL
-                            if($route.current.params.period){
+                            if ($route.current.params.period) {
                                 var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag, $route.current.params.period);
-                            }else{
+                            } else {
                                 var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
                             }
-                            
-
-                            // menu rows
                             clusterRows.push({
-                                'title': $scope.dashboard.lists.clusters[i].cluster,
+                                'title': d.cluster,
                                 'param': 'cluster_id',
                                 'active': d.cluster_id,
                                 'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
                                 'href': '/desk/#' + path
                             });
-
                         });
+
+                        // if ($scope.dashboard.lists.clusters[0].cluster_id !== 'all') {
+                        //     $scope.dashboard.lists.clusters.unshift({
+                        //         cluster_id: 'all',
+                        //         cluster: 'ALL',
+                        //     });
+                        // }
+                        // // add cluster
+                        // angular.forEach($scope.dashboard.lists.clusters, function (d, i) {
+
+                        //     // admin URL
+                        //     if($route.current.params.period){
+                        //         var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag, $route.current.params.period);
+                        //     }else{
+                        //         var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
+                        //     }
+                            
+
+                        //     // menu rows
+                        //     clusterRows.push({
+                        //         'title': $scope.dashboard.lists.clusters[i].cluster,
+                        //         'param': 'cluster_id',
+                        //         'active': d.cluster_id,
+                        //         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+                        //         'href': '/desk/#' + path
+                        //     });
+
+                        // });
 
                         $scope.model.menu.push({
                             'search': true,
