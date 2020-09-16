@@ -206,7 +206,7 @@ angular.module('ngmReportHub')
                         var project = {
                             project_status: 'new',
                             project_title: '',//'Enter New ' + user.organization + ' Project Title...',
-                            project_description: '',
+                            project_description: 'Please, add the project description...',
                             project_details: [],
                             project_start_date: date.set_reporting_period_start ? moment.utc(date.set_reporting_period_start).format('YYYY-MM-DD') : moment.utc().startOf('M').format('YYYY-MM-DD'),
                             project_end_date: date.set_reporting_period_end ? moment.utc(date.set_reporting_period_end).format('YYYY-MM-DD') : moment.utc().add(8, 'M').endOf('M').format('YYYY-MM-DD'),
