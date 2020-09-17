@@ -164,7 +164,7 @@ gulp.task('clean:dist', function (cb) {
   rimraf('./dist', cb);
 });
 
-gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'html:ethiopia', 'html:nutrition', 'html:bangladesh', 'html:immap','html:drought', 'styles' ], function () {
+gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'html:ethiopia', 'html:nutrition', 'html:bangladesh', 'html:immap','html:drought', 'html:custom', 'styles' ], function () {
   var jsFilter = $.filter('**/*.js', {restore: true});
   var cssFilter = $.filter('**/*.css', {restore: true});
   var gulpUtil = require('gulp-util');
@@ -182,7 +182,7 @@ gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'ht
     .pipe($.rev())
     .pipe($.revReplace())
     // .pipe(header(getLicense()))
-    // .pipe(header('/* ' + pkg.name + ' version ' + pkg.version + ' */ \n' ))    
+    // .pipe(header('/* ' + pkg.name + ' version ' + pkg.version + ' */ \n' ))
     .pipe(gulp.dest(yeoman.dist));
 });
 
