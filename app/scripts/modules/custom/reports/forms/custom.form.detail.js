@@ -119,7 +119,7 @@ angular.module('ngm.widget.custom.project.detail', ['ngm.provider'])
                     if (!$scope.project.newProject && $scope.project.definition.version ){
                         $scope.project.config_project = ngmCustomConfig.getCustomProjectConfigWithVersion($route.current.params.report_type_id, $scope.project.definition.version);
                     }
-                    if ($scope.project.config_project.select_clusters){
+                    if ($scope.project.config_project.list_cluster_ids){
                         if (!$scope.project.config_project.list_cluster_ids.length){
                             // if not define and just true set to all cluster 
                             $scope.project.config_project.list_cluster_ids = $scope.project.lists.clusters

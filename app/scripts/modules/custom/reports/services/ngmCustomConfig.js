@@ -69,7 +69,7 @@ angular.module('ngmReportHub')
                                         version: 'v1',
                                     },
                                     list_cluster_ids: ['esnfi'],
-                                    select_clusters: true,
+                                    // select_clusters: true,
                                     project_download: {
                                         fields: ['planned_families'],
                                         fieldNames: false,
