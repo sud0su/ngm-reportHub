@@ -30,8 +30,12 @@ angular.module('ngmReportHub')
                                 defaults: {
                                     cluster_id: "esnfi",
                                     cluster: "ESNFI",
-                                    cluster_ids: ['esnfi'],
-                                    select_clusters: true
+                                    // cluster_ids: ['esnfi'],
+                                    // select_clusters: true
+                                    // select_clusters: {
+                                    //     list_cluster_ids: ['esnfi'],
+                                    //     selected: true
+                                    // }
                                 },
                                 v1: {
                                     description: 'Dolor v1', // optional
@@ -58,11 +62,14 @@ angular.module('ngmReportHub')
                                         version:'',
                                         cluster_id: "esnfi",
                                         cluster: "ESNFI",
-                                        cluster_ids: ['esnfi'],
+                                        cluster_ids: [],
+                                        clusters:[],
                                         report_type_id: "winterization20",
                                         report_type_name: "Winterization 2020",
                                         version: 'v1',
                                     },
+                                    list_cluster_ids: ['esnfi'],
+                                    select_clusters: true,
                                     project_download: {
                                         fields: ['planned_families'],
                                         fieldNames: false,
@@ -186,7 +193,8 @@ angular.module('ngmReportHub')
                         var config_project = config[0].project;
                         var version = config[0].version;
 
-                        var default_project = angular.merge({}, config[0].project.defaults, config_project[version].project_defaults);
+                        // var default_project = angular.merge({}, config[0].project.defaults, config_project[version].project_defaults);
+                        var default_project = config_project[version].project_defaults;
 
                         return default_project
                     

@@ -119,6 +119,20 @@ angular.module('ngm.widget.custom.project.detail', ['ngm.provider'])
                     if (!$scope.project.newProject && $scope.project.definition.version ){
                         $scope.project.config_project = ngmCustomConfig.getCustomProjectConfigWithVersion($route.current.params.report_type_id, $scope.project.definition.version);
                     }
+                    if ($scope.project.config_project.select_clusters){
+                        if (!$scope.project.config_project.list_cluster_ids.length){
+                            // if not define and just true set to all cluster 
+                            $scope.project.config_project.list_cluster_ids = $scope.project.lists.clusters
+                        }else{
+                            var temp_ids = []
+                            angular.forEach($scope.project.config_project.list_cluster_ids,function(c){
+                                selected = $filter('filter')($scope.project.lists.clusters, { cluster_id: c }, true);
+                                temp_ids.push(selected[0])
+                            })
+                            $scope.project.config_project.list_cluster_ids = temp_ids;
+                        }
+                        
+                    }
                     // usd default currency
 
                 },
@@ -248,25 +262,27 @@ angular.module('ngm.widget.custom.project.detail', ['ngm.provider'])
                     }
                 },
                 updateMultiCluster: function (id) {
-                    var list_project = $scope.project.lists.clusters;
+                    var list_project = $scope.project.config_project.list_cluster_ids;
 
                     if (!$scope.project.definition.cluster_ids) {
                         $scope.project.definition.cluster_ids = [];
                     }
                     if (document.getElementById(id).checked) {
                         selected = $filter('filter')(list_project, { cluster_id: id }, true);
-                        // $scope.project.definition.cluster_ids.push(selected[0]);
+                        $scope.project.definition.clusters.push(selected[0]);
                         $scope.project.definition.cluster_ids.push(selected[0].cluster_id);
 
                     } else {
                         if ($scope.project.definition.cluster_ids.length > 0) {
-                            // index = $scope.project.definition.cluster_ids.findIndex(value => value.cluster_id === id);
-                            index = $scope.project.definition.cluster_ids.indexOf(id);
-                            if (index > -1) {
-                                $scope.project.definition.cluster_ids.splice(index, 1);
+                            index = $scope.project.definition.clusters.findIndex(value => value.cluster_id === id);
+                            index_ids = $scope.project.definition.cluster_ids.indexOf(id);
+                            if ((index > -1) && (index_ids > -1)) {
+                                $scope.project.definition.clusters.splice(index, 1);
+                                $scope.project.definition.cluster_ids.splice(index_ids, 1);
                             }
                         } else {
                             $scope.project.definition.cluster_ids = [];
+                            $scope.project.definition.clusters =[];
 
                         }
                     }
@@ -277,10 +293,11 @@ angular.module('ngm.widget.custom.project.detail', ['ngm.provider'])
                     } else {
                         // check if project_detail_id in details is exist on the list
                         if ($scope.project.definition.cluster_ids.length) {
-                            var temp_list = $scope.project.config_project.cluster_ids;
+                            var temp_list = $scope.project.config_project.list_cluster_ids;
                             var count_missing = 0;
-                            angular.forEach($scope.project.definition.cluster_ids, (e) => {
-                                missing_index = temp_list.indexOf(e);
+                            angular.forEach($scope.project.definition.clusters, (e) => {
+                                // missing_index = temp_list.indexOf(e);
+                                missing_index = temp_list.findIndex(value => value.cluster_id === e.cluster_id);
                                 // if project_detail_id is not in the temp list then push missing project_detail_id to temp list
                                 if (missing_index < 0) {
                                     temp_list.push(e);
@@ -290,7 +307,7 @@ angular.module('ngm.widget.custom.project.detail', ['ngm.provider'])
 
                             if (count_missing > 0) {
                                 // set project.config_project.cluster_ids same as temp list if some of project_detail_id is missing
-                                $scope.project.config_project.cluster_ids = temp_list;
+                                $scope.project.config_project.list_cluster_ids = temp_list;
                             }
                         };
                         index = $scope.project.definition.cluster_ids.indexOf(id);
