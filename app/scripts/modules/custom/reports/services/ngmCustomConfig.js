@@ -27,7 +27,7 @@ angular.module('ngmReportHub')
                             // disabled: false,
                             description: 'Dolor', // optional
                             project: {
-                                default: {
+                                defaults: {
                                     cluster_id: "esnfi",
                                     cluster: "ESNFI",
                                     cluster_ids: ['esnfi'],
@@ -46,7 +46,7 @@ angular.module('ngmReportHub')
                                                              { reporting_period_type: '2weekly', reporting_period_name: '2 Weekly'}
                                                             ],
                                     project_details: [{ project_detail_id: 'covid19', project_detail_name: 'Covid 19' }],
-                                    project_default: {
+                                    project_defaults: {
                                         project_status: 'new',
                                         project_title: '',//'Enter New ' + user.organization + ' Project Title...',
                                         project_description: 'Please, add the project description...',
@@ -172,7 +172,7 @@ angular.module('ngmReportHub')
                         var report_type =  ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id).map((x) => { return { report_type_id: x.report_type_id, report_type_name: x.report_type_name } })[0];
                         var config_project_version = config_project[version];
 
-                        config_project_version = angular.merge({}, config_project.default, config_project_version,report_type);
+                        config_project_version = angular.merge({}, config_project.defaults, config_project_version,report_type);
 
                         if (config_project_version && config_project_version.beneficiaries){
                             delete config_project_version.beneficiaries; 
@@ -186,7 +186,7 @@ angular.module('ngmReportHub')
                         var config_project = config[0].project;
                         var version = config[0].version;
 
-                        var default_project = angular.merge({}, config[0].project.default, config_project[version].project_default);
+                        var default_project = angular.merge({}, config[0].project.defaults, config_project[version].project_defaults);
 
                         return default_project
                     
@@ -197,7 +197,7 @@ angular.module('ngmReportHub')
                         var report_type = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id).map((x) => { return { report_type_id: x.report_type_id, report_type_name: x.report_type_name } })[0];
                         var config_project_version = config_project[version];
 
-                        config_project_version = angular.merge({}, config_project.default, config_project_version, report_type);
+                        config_project_version = angular.merge({}, config_project.defaults, config_project_version, report_type);
 
                         if (config_project_version && config_project_version.beneficiaries) {
                             delete config_project_version.beneficiaries;

@@ -201,7 +201,7 @@ angular.module('ngmReportHub')
                         delete u.site_lng;
                         delete u.site_lat;
 
-                        date = ngmCustomConfig.getCustomProjectConfig(report_type_id)
+                        // date = ngmCustomConfig.getCustomProjectConfig(report_type_id)
                         var default_config = ngmCustomConfig.setNewProjectDefault(report_type_id)
                         // create empty project
                         // var project = {
@@ -225,7 +225,6 @@ angular.module('ngmReportHub')
                         // remove id of ngmUser to avoid conflict with new project
                         delete project.id;
                         // return
-                        console.log(project)
                         return project;
 
                     },
