@@ -1,0 +1,62 @@
+<style>
+    .card-title.tag.active {
+        color: #6c6c6c;
+        font-weight: 500;
+    }
+
+    .card-title.tag.not_active {
+        font-weight: 500;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div style="padding:20px;">
+            <!-- org href -->
+            <span class="left show-on-small hide-on-med-and-up"
+                style="padding-top:8px;padding-left: 17px;padding-bottom: 15px;">{{'last_updated'|translate}}:
+                {{ report.updatedAt }}</span>
+            <a class="btn-flat waves-effect waves-teal" href="{{ list.orgHref}}">
+                <i class="material-icons mirror left">keyboard_return</i>{{'back_to_organization'|translate}}
+            </a>
+
+
+            <span class="right hide-on-small-only" style="padding-top:8px;">{{'last_updated'|translate}}:
+                {{ report.updatedAt }}</span>
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m4 l4" ng-repeat="item in list.report_types"
+             style="padding-top:20px;" >
+        <div class="card  darken-1 hoverable">
+            <div class="card-content " style="min-height: 100px;">
+                <p class="card-title activator tag active truncate">
+                    {{item.report_type_name}} <i class="material-icons right">more_vert</i></p>
+                <br>
+                <br>
+                <div ng-if="item.status === 'complete'" style="width: 40%;
+                    background-color: #029688;
+                    color: #fff;
+                    padding: 10px 0;
+                    font-weight: 700;
+                    border-radius: 5px;">
+                    <span style="padding-left: 20%;">COMPLETE</span> 
+                </div>
+            </div>
+            <div class="card-action">
+                <a
+                    href="#/custom/custom-main/{{list.adminRpcode}}/{{list.admin0pcode}}/{{list.organization_tag}}/{{item.report_type_id}}">Go
+                    To {{item.report_type_name}} Activities</a>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
+                <div class="center" style="margin-top: 16%;">
+                    Description
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+<style>
+    .count,
+    .label {
+        z-index: 1 !important;
+    }
+
+    .ng-table th.sortable .sort-indicator {
+        color: #2196F3;
+        font-weight: 400;
+    }
+
+    .pagination li.active {
+        background-color: #009688;
+    }
+</style>
+
+<!-- ngTable -->
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <ul class="collection with-header">
+
+                <li class="{{ table.headerClass }}">
+                    <h5 class="report-work-title {{ table.headerText }}"><i
+                            class="material-icons left">{{ table.headerIcon }}</i>{{ table.headerTitle }}</h5>
+                </li>
+                <li class="collection-item avatar" style="padding:10px;">
+
+                    <!-- if no data -->
+                    <div ng-if="data.length === 0">
+                        <div class="label" style="text-align:center; padding-top:20px;">
+                            <span>No {{ table.headerTitle }}!</span>
+                        </div>
+                    </div>
+
+                    <!-- if data -->
+                    <div ng-if="data.length">
+                        <table class="centered striped responsive-table" ng-table="table.tableParams">
+                            <tr ng-repeat="row in $data" style="cursor: pointer; cursor: hand;">
+                                <td data-title="'sector_mayus'|translate" sortable="'cluster'">
+                                    {{ row.cluster }}
+                                </td>
+
+                                <td data-title="'organization'|translate" sortable="'organization'">
+
+                                    <!-- SAME ORG -->
+                                    <div ng-if="table.user.organization_id === row.organization_id">
+
+                                        <!-- <a href="#/cluster/stocks" title="{{'goto_organization_stocks_list'|translate}}"
+                                            ng-if="!row.project_title" target="_blank">
+                                            {{ row.organization }}
+                                        </a> -->
+
+                                        <a href="#/custom/custom-project-lists/{{ row.adminRpcode | lowercase}}/{{ row.admin0pcode  | lowercase}}/{{ row.organization_tag }}/{{ row.report_type_id }}"
+                                            title="{{'goto_organization_projects_list'|translate}}"
+                                            ng-if="row.project_title" target="_blank">
+                                            {{ row.organization }}
+                                        </a>
+
+                                    </div>
+
+                                    <!-- DIFFERENT ORG -->
+                                    <div ng-if="table.user.organization_id !== row.organization_id">
+
+                                        <!-- <a href="#/cluster/stocks/organization/{{ row.organization_id }}"
+                                            title="{{'goto_organization_stocks_list'|translate}}"
+                                            ng-if="!row.project_title" target="_blank">
+                                            {{ row.organization }}
+                                        </a> -->
+
+                                        <a href="#/custom/custom-project-lists/{{ row.adminRpcode | lowercase }}/{{ row.admin0pcode | lowercase }}/{{ row.organization_tag }}/{{ row.report_type_id }}"
+                                            title="{{'goto_organization_projects_list'|translate}}"
+                                            ng-if="row.project_title" target="_blank">
+                                            {{ row.organization }}
+                                        </a>
+
+                                    </div>
+
+                                </td>
+                                <td data-title="'user_mayus1'|translate" sortable="'username'">
+                                    {{ row.username }}
+                                </td>
+                                <td data-title="'contact'|translate" sortable="'email'">
+                                    {{ row.email }}
+                                </td>
+
+                                <td data-title="'title'|translate" sortable="'project_title'" ng-if="table.showTitle">
+                                    <a href="#/custom/custom-projects-summary/{{ row.project_id }}"
+                                        title="{{'goto_project_summary'|translate}}" target="_blank">
+                                        {{ row.project_title }}
+                                    </a>
+                                </td>
+
+                                <td data-title="'month_mayus'|translate" sortable="'reporting_period'">
+                                    {{ table.formatUtcDate( row.reporting_period ) }}
+                                </td>
+                                <td data-title="'goto'|translate" sortable="'reporting_period'">
+
+                                    <!-- <a href="#/cluster/stocks/report/{{ row.organization_id }}/{{ row.id }}"
+                                        title="{{'goto'|translate}} {{ row.reporting_period | date: 'MMMM' }} Stock {{'report'|translate}}"
+                                        ng-if="!row.project_title" target="_blank">
+                                        <i class="material-icons mirror center" style="color:#616161; "
+                                            ng-style="($root.rtl) && { 'margin-right':'-80px' } || { 'margin-left':'-80px' }">ic_launch</i>
+                                    </a> -->
+
+                                    <!-- default -->
+                                    <a href="#/custom/custom-project-report/{{ row.project_id }}/{{ row.id }}"
+                                        title="{{'goto'|translate}} {{ table.formatUtcDate( row.reporting_period ) }} {{'activity_report'|translate}}"
+                                        ng-if="row.project_title && !row.location_groups" target="_blank">
+                                        <i class="material-icons mirror center" style="color:#616161; "
+                                            ng-style="($root.rtl) && { 'margin-right':'-80px' } || { 'margin-left':'-80px' }">ic_launch</i>
+                                    </a>
+
+                                    <!-- location_groups -->
+                                    <!-- <a href="#/cluster/projects/group/{{ row.project_id }}/{{ row.id }}"
+                                        title="{{'goto'|translate}} {{ table.formatUtcDate( row.reporting_period ) }} {{'activity_report'|translate}}"
+                                        ng-if="row.project_title && row.location_groups" target="_blank">
+                                        <i class="material-icons mirror center" style="color:#616161; "
+                                            ng-style="($root.rtl) && { 'margin-right':'-80px' } || { 'margin-left':'-80px' }">ic_launch</i>
+                                    </a> -->
+
+                                </td>
+                                <td data-title="'status_mayus'|translate" sortable="'status'">
+
+                                    <!-- <a href="#/cluster/stocks/report/{{ row.organization_id }}/{{ row.id }}"
+                                        title="{{'goto'|translate}} {{ row.reporting_period | date: 'MMMM' }} Stock {{'report'|translate}}"
+                                        ng-if="!row.project_title" target="_blank">
+                                        <i class="material-icons" style="color: {{ row.status }}">{{ row.icon }}</i>
+                                    </a> -->
+
+                                    <!-- default -->
+                                    <a href="#/custom/custom-project-report/{{ row.project_id }}/{{ row.id }}"
+                                        title="{{'goto'|translate}} {{ row.reporting_period | date: 'MMMM' }}  {{'activity_report'|translate}}"
+                                        ng-if="row.project_title && !row.location_groups" target="_blank">
+                                        <i class="material-icons" style="color: {{ row.status }}">{{ row.icon }}</i>
+                                    </a>
+
+                                    <!-- location_groups -->
+                                    <!-- <a href="#/cluster/projects/group/{{ row.project_id }}/{{ row.id }}"
+                                        title="{{'goto'|translate}} {{ row.reporting_period | date: 'MMMM' }}  {{'activity_report'|translate}}"
+                                        ng-if="row.project_title && row.location_groups" target="_blank">
+                                        <i class="material-icons" style="color: {{ row.status }}">{{ row.icon }}</i>
+                                    </a> -->
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

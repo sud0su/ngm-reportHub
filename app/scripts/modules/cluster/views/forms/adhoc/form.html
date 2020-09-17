@@ -1,0 +1,161 @@
+<!-- list modal -->
+<div id="list-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal blue"><i
+                class="material-icons left small">info_outline</i>{{'cancel_new_project' | translate}}</h4>
+        <p>{{'are_you_sure_you_want_to_return_to_projects' | translate}}?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="project.cancel()"
+            class=" modal-action modal-close waves-effect waves-green btn">{{'yes'|translate}}</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">{{'cancel_mayus' | translate}}</a>
+    </div>
+</div>
+<div id="save-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal teal lighten-1"><i
+                class="material-icons left small">done</i>{{'save_project' | translate}}</h4>
+        <p>{{'do_you_want_to_save_this_project' | translate}}?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="project.save( true, false )"
+            class=" modal-action modal-close waves-effect waves-green btn">{{'yes' | translate}}</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">{{'cancel_mayus' | translate}}</a>
+    </div>
+</div>
+<div class="row" ng-if="project.definition.project_status === 'new'">
+    <div class="col s12 m12 l12">
+        <div style="padding:20px;">
+
+            <!--  -->
+            <button class="waves-effect waves-light btn-flat" ng-click="project.modalConfirm('list-modal')">
+                <i class="material-icons mirror left">keyboard_return</i>{{'back_to_projects' | translate}}
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="project.definition.project_status !== 'new'">
+    <div class="col s12 m12 l12">
+        <div style="padding:20px;">
+
+            <!--  -->
+            <span class="left show-on-small hide-on-med-and-up"
+                style="padding-top:8px;padding-left: 17px;padding-bottom: 15px;">{{'last_updated' | translate}}:
+                {{ project.updatedAt }}</span>
+            <button class="waves-effect waves-light btn-flat" ng-click="project.modalConfirm('summary-modal')">
+                <i class="material-icons mirror left">keyboard_return</i>{{'back_to_project_summary' | translate}}
+            </button>
+
+            <span class="right hide-on-small-only" style="padding-top:8px;">{{'last_updated' | translate}}:
+                {{ project.updatedAt }}</span>
+
+
+        </div>
+    </div>
+</div>
+<!-- loading -->
+<div align="center" ng-show="loading">
+    <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+    <!-- <h4>loading...</h4> -->
+</div>
+
+<!-- Project form -->
+<div name="clusterProjectForm" class="col s12 m12 l12" style="padding:0px;" novalidate ng-hide="loading">
+
+    <!-- disabled -->
+    <div ng-disabled="!project.canEdit">
+
+        <!-- Project details -->
+        <div ng-include="project.templatesUrl + project.settingUrl"></div>
+        <!-- <div ng-include="project.templatesUrl + project.noteUrl"></div> -->
+        <div ng-include="project.templatesUrl + project.contactUrl"></div>
+        <!-- form submission -->
+        <div class="row remove" ng-if="project.definition.project_status !== 'complete'">
+            <div class="col s12 m12 l12">
+                <div class="widget card-panel white grey-text text-darken-2">
+
+                    <!-- submission -->
+                    <div align="center">
+                        <button data-target="save-modal" class="waves-effect waves-light btn"
+                            ng-click="project.validate(true)" ng-disabled="!project.submit" ng-cloak><i
+                                class="material-icons mirror right">send</i>{{'save_mayus' | translate}}</button>
+
+                        <!-- cancel new -->
+                        <button data-target="list-modal" class="waves-effect waves-light btn modal-trigger grey"
+                            ng-if="project.definition.project_status === 'new' ">{{'cancel_mayus' | translate}}
+                        </button>
+
+                        <!-- cancel update -->
+                        <button data-target="summary-modal" class="waves-effect waves-light btn modal-trigger grey"
+                            ng-if="project.definition.project_status === 'active' ||
+										 project.definition.project_status === 'plan' || 
+										 project.definition.project_status === 'not_implemented'">{{'cancel_mayus' | translate}}
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.modal').modal();
+    })
+
+</script>

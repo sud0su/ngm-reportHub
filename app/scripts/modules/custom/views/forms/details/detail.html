@@ -1,0 +1,154 @@
+<div class="row" window-size>
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <ul id="project_setting_form" class="collection with-header">
+
+                <li class="collection-header blue lighten-1">
+                    <h5 class="report-work-title white-text">
+                        <i class="material-icons left">border_color</i>Project
+                    </h5>
+                </li>
+
+                <li class="collection-item avatar">
+
+                    <!-- form -->
+
+                    <div class="row">
+
+                        <div class="card" style="padding:20px;">
+
+                            <!-- project details -->
+                            <div class="row">
+
+                                <div class="input-field col s12 m6 l6">
+                                    <input id="ngm-project-title" type="text" class="validate"
+                                        ng-model="project.definition.project_title"
+                                        ng-change="ngmCustomBeneficiaries.inputChange('ngm-project-title')"
+                                        ng-disabled="project.definition.project_status === 'complete'" required>
+                                    <label for="ngm-project-title">{{'project_title' | translate}} *</label>
+                                </div>
+                                <div class="input-field col s12 m6 l6">
+                                    <select materialize-select watch class="validate" id="ngm-project_period"
+                                        ng-model="project.definition.reporting_period_type"
+                                        ng-change="ngmCustomBeneficiaries.inputChange('ngm-project_period')"
+                                        ng-disabled="project.definition.project_status === 'complete'"
+                                        ng-options="type.reporting_period_type as type.reporting_period_name for type in project.config_project.reporting_period_types"
+                                        required>
+                                        <option value="" disabled selected>Select Report Periode</option>
+                                    </select>
+                                    <label for="ngm-project_period" class="down">Reporting Period *</label>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <!-- input-date directive -->
+                                <div class="input-field col s12 m6 l6">
+                                    <label id="ngm-start-date" for="ngm-start-date"
+                                        class="validate">{{'start_date' | translate}} *</label>
+                                    <input ngm-date type="text" name="created" id="ngm-start-date"
+                                        ng-model="project.definition.project_start_date"
+                                        ng-change="ngmCustomBeneficiaries.inputChange('ngm-start-date')"
+                                        format="dd mmm, yyyy" select-years="15"
+                                        min="{{project.config_project.min_reporting_period}}"
+                                        max="{{ project.config_project.max_reporting_period? project.config_project.max_reporting_period : project.definition.project_end_date }}"
+                                        on-close="project.datepicker.onClose()"
+                                        ng-disabled="project.definition.project_status === 'complete'" required />
+                                </div>
+
+                                <!-- input-date directive -->
+                                <div class="input-field col s12 m6 l6">
+                                    <label for="ngm-end-date">{{'end_date' | translate}} *</label>
+                                    <input ngm-date type="text" name="created" id="ngm-end-date"
+                                        ng-model="project.definition.project_end_date"
+                                        ng-change="ngmCustomBeneficiaries.inputChange('ngm-end-date')"
+                                        format="dd mmm, yyyy" select-years="15"
+                                        min="{{ project.config_project.min_reporting_period ? project.config_project.min_reporting_period : project.definition.project_start_date}}"
+                                        max ="{{project.config_project.max_reporting_period ? project.config_project.max_reporting_period : '2200-01-01'}}"
+                                        on-close="project.datepicker.onClose()"
+                                        ng-disabled="project.definition.project_status === 'complete'" />
+                                </div>
+                            </div>
+
+                            <!-- no other_activities_in_addition_to for CB && health -->
+                            <div class="row" ng-if="project.config_project.select_clusters">
+                                <div class="input-field col s12 m12 l12" style="padding-bottom:5px;">
+                                    <label class="active">MultiCluster ?</label>
+                                    <div style="padding-bottom:20px;"></div>
+                                    <p ng-repeat="c in project.lists.clusters | filter: { cluster_id: '!' + project.definition.cluster_id }">
+                                        <label class="checkbox-label" for="{{c.cluster_id}}">
+                                            <input type="checkbox" class="filled-in" id="{{c.cluster_id}}"
+                                                ng-checked="project.checkMultiCluster(c.cluster_id)"
+                                                ng-click="project.updateMultiCluster(c.cluster_id)"
+                                                ng-disabled="project.definition.project_status === 'complete' || !project.canEdit" />
+                                            <span style="left: .75rem;">{{ c.cluster}}</span>
+                                        </label>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Project Details -->
+                            <div class="row" ng-if="project.config_project.project_details.length">
+                                <div class="input-field col s12 m6 l6" ng-repeat="p in project.config_project.project_details">
+                                    <label class="active">{{p.project_detail_name}}?</label>
+                                    <br>
+                                    <p>
+                                        <label class="checkbox-label" for="{{p.project_detail_id}}">
+                                            <input type="checkbox" class="filled-in" id="{{p.project_detail_id}}"
+                                                ng-checked="project.checkProjectDetail(p.project_detail_id)"
+                                                ng-click="project.updateProjectDetails(p.project_detail_id)"
+                                                ng-disabled="project.definition.project_status === 'complete' || !project.canEdit" />
+                                            <span style="left: .75rem;">{{'yes' | translate}}</span>
+                                        </label>
+                                    </p>
+                                </div>
+
+
+                            </div>
+
+                            <div class="card" style="padding:20px;">
+
+                                <div class="row">
+
+                                    <div class="input-field col s12 m12 l12">
+                                        <textarea id="ngm-project_description" type="text"
+                                            class="validate materialize-textarea" name="project_description"
+                                            ng-model="project.definition.project_description"
+                                            ng-disabled="project.definition.project_status === 'complete'">
+                                                            			</textarea>
+                                        <label for="ngm-project_description">Project Description</label>
+                                    </div>
+
+                                </div>
+
+                                <!-- <div class="row">
+                            
+                                    <div class="input-field col s12 m12 l12">
+                                        <textarea id="ngm-project-notes" type="text" class="validate materialize-textarea" name="notes"
+                                            ng-model="project.definition.notes" ng-disabled="project.definition.project_status === 'complete'">
+                            			</textarea>
+                                        <label for="ngm-project-notes">Note</label>
+                                    </div>
+                            
+                                </div> -->
+
+                            </div>
+
+                        </div>
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- material select -->
+<script type="text/javascript">
+    // init
+    setTimeout(function () {
+        $('select').formSelect();
+        $('textarea').height($('textarea')[0].scrollHeight);
+        M.updateTextFields();
+    }, 600);
+</script>

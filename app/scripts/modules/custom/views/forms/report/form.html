@@ -1,0 +1,156 @@
+<div id="beneficiary-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal red lighten-2">
+            <i class="material-icons small left">delete</i>{{'remove_beneficiary'|translate}}</h4>
+        <p>Remove Beneficiary?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="project.removeBeneficiary()"
+            class="modal-action modal-close waves-effect waves-green btn">{{'yes_remove_beneficiary'|translate}}!</a>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+
+<div id="save-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal teal lighten-1;"><i class="material-icons left small">done</i>Save Progress</h4>
+        <p>{{'do_you_want_to_save'|translate}} ?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="project.save( false, true )"
+            class=" modal-action modal-close waves-effect waves-green btn">{{'yes'|translate}}</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+<div id="complete-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal teal lighten-1"><i class="material-icons small left">info_outline</i>Submit Report</h4>
+        <p>Submit Report?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="project.save( true, false )"
+            class=" modal-action modal-close waves-effect waves-green btn">{{'yes_submit_report'|translate}}!</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+<div id="list-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal blue"><i class="material-icons left small">info_outline</i>Cancel Progress Report</h4>
+        <p>Return Report List</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="project.cancel()"
+            class=" modal-action modal-close waves-effect waves-green btn">{{'yes'|translate}}</a>
+        <a class=" modal-action modal-close waves-effect waves-teal btn-flat">No</a>
+    </div>
+</div>
+<div id="remove-report-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal red lighten-2">
+            <i class="material-icons small left">delete</i>{{ 'remove_report_for'|translate }}
+            {{ project.monthlyTitleFormat }}</h4>
+        <p>{{ 'all_records_will_be_destroyed'|translate }} {{ 'remove_report_for'|translate }}
+            {{ project.monthlyTitleFormat }}?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="project.removeReport()"
+            class="modal-action modal-close waves-effect waves-green btn">{{ 'yes_remove_report'|translate }}!</a>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div style="padding:20px;">
+
+            <!--  -->
+            <span class="left show-on-small hide-on-med-and-up"
+                style="padding-top:8px;padding-left: 17px;padding-bottom: 15px;">{{'last_updated' | translate}}:
+                {{ project.updatedAt }}</span>
+            <button ng-if="!project.location_group" class="waves-effect waves-teal btn-flat"
+                ng-click="project.modalConfirm( 'list-modal' )">
+                <i class="material-icons mirror left">keyboard_return</i>{{'back_to_reports'|translate}}
+            </button>
+
+            <span class="right hide-on-small-only" style="padding-top:8px;">{{'last_updated'|translate}}:
+                {{ project.updatedAt }}</span>
+
+        </div>
+    </div>
+</div>
+<div name="clusterReportForm" class="col s12 m12 l12" style="padding:0px;" novalidate>
+
+    <!-- <fieldset ng-disabled="!project.canEdit"> -->
+    <div>
+
+        <!-- Project beneficiaries details -->
+        <div ng-include="project.templatesUrl + project.locationsUrl"></div>
+        <!-- form submission -->
+        <div class="row remove" ng-if="project.canEdit && project.definition.project_status !== 'complete' &&
+																		project.report.report_status !== 'complete'">
+            <div class="col s12 m12 l12">
+                <div class="widget card-panel white grey-text text-darken-2">
+
+                    <!-- submission !== NG -->
+                    <div align="center">
+
+                        <!-- validation -->
+                        <!--
+								params
+									arg1: set report status from 'todo' to 'complete' & re-direct
+									arg2: save & re-direct
+								project.validateBeneficiariesDetailsForm( arg1, arg2 )
+							 -->
+                        <button class="waves-effect waves-light btn"
+                            ng-click="project.validateBeneficiariesAdhocForm( false, true )"
+                            ng-disabled="project.isSaving" ng-cloak>
+                            <i class="material-icons mirror right">send</i>{{'save_mayus'|translate}}
+                        </button>
+
+                        <!-- cancel new  -->
+                        <button class="waves-effect waves-light btn grey modal-trigger" ng-disabled="project.isSaving"
+                            data-target="list-modal">{{'cancel_mayus' | translate}}
+                        </button>
+
+                        <br />
+                        <br />
+
+                        <!-- monthly report -->
+                        <!--
+								params
+									arg1: set report status from 'todo' to 'complete' & re-direct
+									arg2: save & re-direct
+								project.validateBeneficiariesDetailsForm( arg1, arg2 )
+							 -->
+                        <button ng-if="!project.location_group" class="waves-effect waves-light btn blue"
+                            ng-click="project.validateBeneficiariesAdhocForm( true, false )"
+                            ng-disabled="project.isSaving" ng-cloak>
+                            <i class="material-icons left">assignment_turned_in</i>Submit Report
+
+                        </button>
+
+                    </div>
+
+                    <!-- remove report -->
+                    <div align="center" ng-if="project.nonProjectDates ">
+                        <br />
+                        <button class="waves-effect waves-light btn red lighten-2"
+                            ng-click="project.removeReportModal()" ng-cloak>
+                            <i class="material-icons left">delete_forever</i>{{ 'remove_report'|translate }}
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    // modals
+    $(document).ready(function () {
+        $('.modal').modal();
+    })
+</script>

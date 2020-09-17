@@ -1,0 +1,187 @@
+<style>
+    .card-panel-expand {
+        margin-top: 1.9rem;
+    }
+
+    .add-padding {
+        padding-bottom: 30px;
+    }
+
+    md-checkbox-enabled[selected] .md-icon {
+        background-color: rgb(38, 166, 154);
+    }
+
+    md-select .md-select-value {
+        border-bottom-color: rgba(0, 0, 0, 0.35);
+    }
+
+    md-select-menu md-content md-option[selected]:focus,
+    md-select-menu md-content md-option[selected] {
+        color: rgb(38, 166, 154);
+    }
+
+    md-select:not([disabled]):focus .md-select-value {
+        border-bottom-color: rgb(38, 166, 154);
+        color: rgba(0, 0, 0, 0.87);
+    }
+
+    .tag {
+        background: #2196F3;
+        border-radius: 3px 0 0 3px;
+        color: #ffffff;
+        display: inline-block;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 20px 0 23px;
+        position: relative;
+        margin: 0 10px 10px 0;
+        text-decoration: none;
+        -webkit-transition: color 0.2s;
+        font-weight: 500;
+    }
+
+    .tag::before {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+        content: '';
+        height: 6px;
+        left: 10px;
+        position: absolute;
+        width: 6px;
+        top: 10px;
+    }
+
+    .tag::after {
+        background: #ffffff;
+        border-bottom: 13px solid transparent;
+        border-left: 10px solid #2196F3;
+        border-top: 13px solid transparent;
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .tag.planned {
+        background: #2196F3 !important;
+    }
+
+    .tag.planned::after {
+        border-left: 10px solid #2196F3;
+    }
+
+    .tag.ongoing {
+        background: #ffb300 !important;
+    }
+
+    .tag.ongoing::after {
+        border-left: 10px solid #ffb300;
+    }
+
+    .tag.complete {
+        background: #00897b !important;
+    }
+
+    .tag.complete::after {
+        border-left: 10px solid #00897b;
+    }
+</style>
+<!-- beneficiaries -->
+<div id="{{ $beneficiaryIndex=$index; id = 'ngm-' + $locationIndex + '-' + $index }}"
+    ng-repeat="beneficiary in project.report.locations[ $locationIndex ].beneficiaries | filterBeneficiary:project.beneficiary_search track by $index"
+    ng-class="{'add-padding': !detailBeneficiaries[$locationIndex][$beneficiaryIndex]}" window-size>
+    <div class="row">
+        <div class="col s12 m12 left-align" dir="ltr">
+            <h5 class="report-beneficiary-title truncate">
+                <i class="material-icons left">accessibility</i> {{ beneficiary.beneficiary_type_name? 'Beneficiaries : '+beneficiary.beneficiary_type_name :'Beneficiaries' }}
+            </h5>
+        </div>
+        <div style="font-size: 24px; font-weight: 400; color: #656565; padding-left: 20px;"
+            ng-style="($root.rtl) && { 'margin-left':'5%' } || { 'margin-right':'5%' }">
+            <i class="material-icons left">group</i>{{project.getTotalBeneficiary(beneficiary)}}
+        </div>
+
+        <!-- btns -->
+        <!--
+					params
+						arg1: set report status from 'todo' to 'complete' & re-direct
+						arg2: save & re-direct
+					project.validateBeneficiariesDetailsForm( arg1, arg2 )
+				 -->
+        <div class="col s12 m12 " ng-class="{'right-align': windowWidth > 600}"
+            ng-style="(windowWidth < 600) && { 'margin-top': '10px' } || { 'margin-top': '-68px' }">
+            <button class="btn-floating waves-effect waves-light" title="Save"
+                ng-if="!project.newProject && detailBeneficiaries[$locationIndex][$beneficiaryIndex] && project.canEdit && project.definition.project_status !== 'complete' &&	project.report.report_status !== 'complete'"
+                ng-click="project.validateBeneficiariesAdhocForm( false, false )"
+                ng-disabled="!project.canEdit || project.isSaving">
+                <i class="material-icons">save</i>
+            </button>
+            <button class="btn-floating red lighten-2 waves-effect waves-light" title="Remove"
+                ng-if="beneficiary.id && detailBeneficiaries[$locationIndex][$beneficiaryIndex] && project.canEdit && project.definition.project_status !== 'complete' &&	project.report.report_status !== 'complete'"
+                ng-click="project.removeBeneficiaryModal( $locationIndex, $beneficiaryIndex );"
+                ng-disabled="!project.canEdit || project.isSaving">
+                <i class="material-icons">delete</i>
+            </button>
+            <button class="btn-floating blue lighten-1 waves-effect waves-light"
+                ng-if="!beneficiary.id && detailBeneficiaries[$locationIndex][$beneficiaryIndex] && project.canEdit"
+                ng-click="project.cancelEdit( $locationIndex, $beneficiaryIndex );" title="Cancel Edit"
+                ng-disabled="!project.canEdit">
+                <i class="material-icons">clear</i>
+            </button>
+            <button id="toggle" class="btn-floating"
+                ng-class="{'rotate': detailBeneficiaries[$locationIndex][$beneficiaryIndex]}"
+                ng-click="project.openCloseDetailBeneficiaries($locationIndex,$beneficiaryIndex)" ng-disabled="false">
+                <i class="material-icons">keyboard_arrow_down</i>
+                <md-tooltip md-direction="right" ng-if="detailBeneficiaries[$locationIndex][$beneficiaryIndex]">
+                    {{ 'Minimize'|translate }}
+                </md-tooltip>
+                <md-tooltip md-direction="right" ng-if="!detailBeneficiaries[$locationIndex][$beneficiaryIndex]">
+                    {{ 'Click to Expand'|translate }}
+                </md-tooltip>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- CARD PANEL -->
+
+    <div ng-include="project.templatesUrl + project.formBeneficiaries()"></div>
+</div>
+
+<!-- buttons -->
+<div class="row">
+
+    <!-- NG WASH -->
+    <div ng-if="project.definition.admin0pcode === 'NG' && project.definition.cluster_id === 'wash'">
+        <button class="btn"
+            ng-if="( project.canEdit && project.definition.project_status !== 'complete' && project.report.report_status !== 'complete' )"
+            ng-click="project.addNgWashBeneficiary( $locationIndex );" style="margin:20px 10px;">
+            <i class="material-icons left">add</i>{{'add_activities'|translate}}
+        </button>
+    </div>
+
+    <!-- NG not WASH -->
+    <div ng-if="project.definition.admin0pcode === 'NG' && project.definition.cluster_id !== 'wash'">
+        <button class="btn"
+            ng-if="( project.canEdit && project.definition.project_status !== 'complete' && project.report.report_status !== 'complete' )"
+            ng-click="project.addBeneficiary( $locationIndex );" style="margin:20px 10px;">
+            <i class="material-icons left">add</i>{{'add_activities'|translate}}
+        </button>
+    </div>
+
+    <!-- else -->
+    <div ng-if="project.definition.admin0pcode !== 'NG'">
+        <button class="btn"
+            ng-if="( project.canEdit && project.definition.project_status !== 'complete' && project.report.report_status !== 'complete' )"
+            ng-click="project.addBeneficiary( $locationIndex );" style="margin:20px 10px;">
+            <i class="material-icons left">add</i>{{'add_activities'|translate}}
+        </button>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        M.updateTextFields();
+    }, 100)
+</script>

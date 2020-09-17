@@ -402,6 +402,78 @@ angular.module( 'ngmReportHub' )
 
 
 
+			addAddHocBeneficiary: function (project,location, beneficiaries) {
+
+				 l = angular.copy(location);
+				 p = angular.copy(project.definition);
+				 r = angular.copy(project.report);
+
+				 var _default = {
+					 location_id: l.id,
+					 report_id: r.id,
+					 report_active: r.report_active,
+					 report_status: r.report_status,
+					 report_week: r.report_week,
+					 report_month: r.report_month,
+					 report_year:r.report_year,
+					 report_submitted:r.report_submitted,
+					 reporting_period:r.reporting_period,
+					 reporting_period_end:r.reporting_period_end,
+					 reporting_due_date:r.reporting_due_date,
+					 project_status:p.project_status,
+					 project_title:p.project_title,
+					 project_description:p.project_description,
+					 project_start_date:p.project_start_date,
+					 project_end_date:p.project_end_date,
+					 project_details: p.project_details,
+					 reporting_period_type: p.reporting_period_type,
+					 report_type_id: p.report_type_id,
+					 report_type_name: p.report_type_name
+				 }
+
+				 
+				// inserted
+				var inserted = {
+					planned_families:0,
+					assisted_returnee_families:0,
+					assisted_idp_families:0,
+					assisted_other_families:0,
+					total_assisted_families:0,
+					package_returnee_families:0,
+					package_idp_families:0,
+					package_other_families:0,
+					total_package_families:0,
+					cash:0,
+					blanket:0,
+					heating_material:0,
+					winter_clothes:0,
+					remarks:'',
+					progress:0,
+					beneficiary_type_id:'',
+					beneficiary_type_name:''
+				}
+				var length = beneficiaries.length;
+				if (length) {
+					var b = angular.copy(beneficiaries[length - 1]);
+					delete b.id;
+					delete b.remarks;
+					delete b.createdAt;
+					delete b.updatedAt;
+					inserted = angular.merge({},b, inserted)
+				}else{
+
+					inserted =angular.merge(inserted,location,_default)
+					delete inserted.id
+					delete inserted.createdAt;
+					delete inserted.updatedAt;
+
+				}
+				// return new beneficiary
+				return inserted;
+			},
+
+
+
 			/* BENEFICIARIES FORM */
 
 			// display full form
@@ -728,12 +800,53 @@ angular.module( 'ngmReportHub' )
 				});
 			},
 
+			removeBeneficiaryAdhoc: function (project, id) {
+				// update
+				$http({
+					method: 'POST',
+					url: ngmAuth.LOCATION + '/api/custom/report/removeBeneficiary',
+					data: { id: id }
+				}).success(function (result) {
+					if (result.err) {
+						// Materialize.toast( 'Error! Please correct the ROW and try again', 4000, 'error' );
+						M.toast({ html: 'Error! Please correct the ROW and try again', displayLength: 4000, classes: 'error' });
+					}
+					if (!result.err) { project.save(false, false); }
+				}).error(function (err) {
+					// Materialize.toast( 'Error!', 4000, 'error' );
+					M.toast({ html: 'Error!', displayLength: 4000, classes: 'error' });
+				});
+			},
+
 			// remove report request
 			removeReport: function (project, report_id, cb) {
 				// update
 				$http({
 					method: 'POST',
 					url: ngmAuth.LOCATION + '/api/cluster/report/delete',
+					data: { id: report_id }
+				}).success(function (result) {
+					if (result.err) {
+						cb(true)
+						// Materialize.toast('Error! Something went wrong', 4000, 'error');
+						M.toast({ html: 'Error! Something went wrong', displayLength: 4000, classes: 'error' });
+					} else {
+						cb(null)
+						// Materialize.toast($filter('translate')('report_removed'), 4000, 'success');
+						M.toast({ html: $filter('translate')('report_removed'), displayLength: 4000, classes: 'success' });
+					}
+				}).error(function (err) {
+					cb(true)
+					// Materialize.toast('Error!', 4000, 'error');
+					M.toast({ html: 'Error!', displayLength: 4000, classes: 'error' });
+				});
+			},
+
+			removeReportAdhoc: function (project, report_id, cb) {
+				// update
+				$http({
+					method: 'POST',
+					url: ngmAuth.LOCATION + '/api/custom/report/delete',
 					data: { id: report_id }
 				}).success(function (result) {
 					if (result.err) {

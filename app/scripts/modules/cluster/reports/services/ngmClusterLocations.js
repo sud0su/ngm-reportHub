@@ -48,6 +48,58 @@ angular.module( 'ngmReportHub' )
         }, 600 );
       },
       
+      // add new_location
+      addAdhocNewLocation: function (project, new_location) {
+        // create new beneficiaries holder
+        new_location.beneficiaries = [];
+        new_location.project_id = project.definition.id;
+        new_location.project_title = project.definition.project_title
+        new_location.project_description = project.definition.project_description
+        new_location.project_start_date = project.definition.project_start_date
+        new_location.project_end_date = project.definition.project_end_date
+        new_location.organization_id= project.definition.organization_id
+        new_location.organization_tag = project.definition.organization_tag 
+        new_location.organization=  project.definition.organization
+        new_location.reporting_period_type = project.definition.reporting_period_type
+        new_location.report_type_id = project.definition.report_type_id
+        new_location.report_type_name = project.definition.report_type_name
+        new_location.reporting_period = project.report.reporting_period
+        new_location.reporting_period_end = project.report.reporting_period_end
+        new_location.reporting_due_date = project.report.reporting_due_date
+
+        if (!new_location.site_lng && !new_location.site_lat) {
+          // set admin4, admin3 or admin2
+          if (new_location.admin2lng && new_location.admin2lat) {
+            new_location.site_id = new_location.admin2pcode;
+            new_location.site_lng = new_location.admin2lng;
+            new_location.site_lat = new_location.admin2lat;
+          }
+          if (new_location.admin3lng && new_location.admin3lat) {
+            new_location.site_id = new_location.admin3pcode;
+            new_location.site_lng = new_location.admin3lng;
+            new_location.site_lat = new_location.admin3lat;
+          }
+          if (new_location.admin4lng && new_location.admin4lat) {
+            new_location.site_id = new_location.admin4pcode;
+            new_location.site_lng = new_location.admin4lng;
+            new_location.site_lat = new_location.admin4lat;
+          }
+          if (new_location.admin5lng && new_location.admin5lat) {
+            new_location.site_id = new_location.admin5pcode;
+            new_location.site_lng = new_location.admin5lng;
+            new_location.site_lat = new_location.admin5lat;
+          }
+        }
+        project.report.locations.push(new_location);
+        // reset new_location
+        ngmClusterLocations.new_location = {};
+        ngmClusterLocations.openAddNewLocation = false;
+        // send toast message
+        $timeout(function () {
+          // Materialize.toast( $filter('translate')('report_new_location') , 4000, 'success' ); 
+          M.toast({ html: $filter('translate')('report_new_location'), displayLength: 4000, classes: 'success' });
+        }, 600);
+      },
       // add location
       addLocation: function( project, locations ) {
         
@@ -85,7 +137,7 @@ angular.module( 'ngmReportHub' )
           }
           inserted = angular.merge( inserted, l );
 				}
-				if (project.implementing_partners.length > 0 && length < 1) {
+        if (project.implementing_partners && project.implementing_partners.length > 0 && length < 1) {
 					inserted.implementing_partners = angular.copy(project.implementing_partners)
 				}
 

@@ -151,6 +151,11 @@ gulp.task('html:drought', function () {
 		.pipe(gulp.dest(yeoman.dist + '/scripts/modules/country/afghanistan/drought/views'));
 });
 
+gulp.task('html:custom',function(){
+  return gulp.src(yeoman.app + '/scripts/modules/custom/views/**/*.html')
+    .pipe(gulp.dest(yeoman.dist + '/scripts/modules/custom/views'));
+});
+
 ///////////
 // Build //
 ///////////
@@ -250,6 +255,15 @@ gulp.task('copy:immap', function () {
         interlaced: true
     })))
     .pipe(gulp.dest(yeoman.dist + '/images/immap'));
+});
+gulp.task('copy:custom', function () {
+  return gulp.src(yeoman.app + '/images/custom/**/*.{gif,jpeg,jpg,png,svg}')
+    .pipe($.cache($.imagemin({
+      optimizationLevel: 5,
+      progressive: true,
+      interlaced: true
+    })))
+    .pipe(gulp.dest(yeoman.dist + '/images/custom'));
 });
 gulp.task('copy:reporthub', function () {
   return gulp.src(yeoman.app + '/images/snapshots/reporthub/**/*.{gif,jpeg,jpg,png,svg}')

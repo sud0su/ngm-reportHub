@@ -1,0 +1,61 @@
+<script>
+
+    // init textarea
+    setTimeout(function () {
+        $('textarea').height($('textarea')[0].scrollHeight);
+        M.updateTextFields();
+    });
+
+</script>
+
+<!-- bind html -->
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card">
+
+            <ul class="collection with-header">
+                <li class="collection-header blue lighten-1">
+                    <h5 class="report-panel-title white-text">
+                        <!-- 2019 onwards -->
+                        <div>
+                            <i class="material-icons left">location_on</i>{{'notes_for'|translate}}
+                        </div>
+                    </h5>
+                </li>
+
+                <li class="collection-item avatar">
+
+                    <!-- form -->
+
+                    <div class="row">
+
+                        <div class="card" style="padding:20px;">
+
+                            <div class="row">
+
+                                <div class="input-field col s12 m12 l12">
+                                    <textarea id="ngm-project-notes" type="text" class="validate materialize-textarea"
+                                        name="notes" ng-model="project.definition.notes"
+                                        ng-disabled="project.definition.project_status === 'complete'">
+									</textarea>
+                                    <label for="ngm-project-notes">Comment</label>
+                                </div>
+
+                                <!-- <button class="btn" style="margin:10px 10px;"
+                                    ng-if="project.definition.report_status !== 'complete' && project.canEdit"
+                                    ng-click="project.validateBeneficiariesDetailsForm( false, false )">
+                                    <i class="material-icons left">save</i>{{'save_notes' |translate}}
+                                </button> -->
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
