@@ -30,7 +30,8 @@ angular.module('ngmReportHub')
                                 default: {
                                     cluster_id: "esnfi",
                                     cluster: "ESNFI",
-                                    cluster_ids: ['esnfi']
+                                    cluster_ids: ['esnfi'],
+                                    select_clusters: true
                                 },
                                 v1: {
                                     description: 'Dolor v1', // optional
@@ -50,8 +51,8 @@ angular.module('ngmReportHub')
                                         project_title: '',//'Enter New ' + user.organization + ' Project Title...',
                                         project_description: 'Please, add the project description...',
                                         project_details: [],
-                                        project_start_date: '2020-09-01',
-                                        project_end_date: '2021-03-01',
+                                        project_start_date: moment.utc().startOf('M').format('YYYY-MM-DD'),
+                                        project_end_date: moment.utc().add(8, 'M').endOf('M').format('YYYY-MM-DD'),
                                         reporting_period_type: 'monthly',
                                         notes: '',
                                         version:'',

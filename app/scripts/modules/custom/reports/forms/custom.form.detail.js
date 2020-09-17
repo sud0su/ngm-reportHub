@@ -247,6 +247,60 @@ angular.module('ngm.widget.custom.project.detail', ['ngm.provider'])
                         }
                     }
                 },
+                updateMultiCluster: function (id) {
+                    var list_project = $scope.project.lists.clusters;
+
+                    if (!$scope.project.definition.cluster_ids) {
+                        $scope.project.definition.cluster_ids = [];
+                    }
+                    if (document.getElementById(id).checked) {
+                        selected = $filter('filter')(list_project, { cluster_id: id }, true);
+                        // $scope.project.definition.cluster_ids.push(selected[0]);
+                        $scope.project.definition.cluster_ids.push(selected[0].cluster_id);
+
+                    } else {
+                        if ($scope.project.definition.cluster_ids.length > 0) {
+                            // index = $scope.project.definition.cluster_ids.findIndex(value => value.cluster_id === id);
+                            index = $scope.project.definition.cluster_ids.indexOf(id);
+                            if (index > -1) {
+                                $scope.project.definition.cluster_ids.splice(index, 1);
+                            }
+                        } else {
+                            $scope.project.definition.cluster_ids = [];
+
+                        }
+                    }
+                },
+                checkMultiCluster:function(id){
+                    if (!$scope.project.definition.cluster_ids) {
+                        return false
+                    } else {
+                        // check if project_detail_id in details is exist on the list
+                        if ($scope.project.definition.cluster_ids.length) {
+                            var temp_list = $scope.project.config_project.cluster_ids;
+                            var count_missing = 0;
+                            angular.forEach($scope.project.definition.cluster_ids, (e) => {
+                                missing_index = temp_list.indexOf(e);
+                                // if project_detail_id is not in the temp list then push missing project_detail_id to temp list
+                                if (missing_index < 0) {
+                                    temp_list.push(e);
+                                    count_missing += 1;
+                                }
+                            });
+
+                            if (count_missing > 0) {
+                                // set project.config_project.cluster_ids same as temp list if some of project_detail_id is missing
+                                $scope.project.config_project.cluster_ids = temp_list;
+                            }
+                        };
+                        index = $scope.project.definition.cluster_ids.indexOf(id);
+                        if (index > -1) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    }
+                },
 
                 // set new project user
                 updateContactUser: function ($data) {
