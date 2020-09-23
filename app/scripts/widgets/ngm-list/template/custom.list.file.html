@@ -208,16 +208,16 @@
                             <div class="col s5 offset-s1">
                                 <div style="margin-top:5px;font-weight: 400; margin-left: 10px;">{{'filename'|translate}}</div>
                             </div>
-                            <div class="col s2 offset-s2">
+                            <div class="col s2 offset-s1">
                                 <div style="margin-top:5px;font-weight: 400">
                                     {{'created_at'|translate}}
                                 </div>
                             </div>
-                            <!-- <div class="col s3">
+                            <div class="col s3">
                                 <div style="margin-top:5px;font-weight: 400">
                                     {{'action'|translate}}
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="row" style="margin: 0 0; padding: 10px 0; border-bottom: 0.98px solid #dce0e2"
                             dir-paginate="item in list.data | orderBy: 'createdAt':true | itemsPerPage: list.itemsPerPage"
@@ -230,28 +230,28 @@
                                 </i>
                                 <div style="margin-top:5px;">{{item.filename}}</div>
                             </div> 
-                            <div class="col s2 offset-s2">
+                            <div class="col s2 offset-s1">
                                 <div style="margin-top:5px;">
-                                    {{item.createdAt|date}}
+                                    {{item.createdAt|date:'medium'}}
                                 </div>
                             </div>
-                            <!-- <div class="col s3">
+                            <div class="col s3">
                                 <div class="line-non-grid">
 
 
-                                    <button class="btn-floating  wave-effect blue tooltipped-upload"
+                                    <!-- <button class="btn-floating  wave-effect blue tooltipped-upload"
                                         data-position="bottom" data-tooltip="{{'preview'|translate}}"
                                         ng-disabled="item.filename_extension === '.csv'"
                                         ng-click="list.openModal('close-preview-file',item.fileid)">
                                         <i class="small material-icons">compare</i>
-                                    </button>
+                                    </button> -->
                                     <a class="btn-floating  wave-effect space tooltipped-upload" data-position="bottom"
                                         data-tooltip="{{'download'|translate}}"
-                                        ng-href="{{list.setDonwloadLink(item.fileid)}}">
+                                        ng-href="{{list.setDonwloadLink(item.filename)}}">
                                         <i class="small material-icons">cloud_download</i>
                                     </a>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </li>
                     <li class="collection-item avatar" ng-if="list.data.length > list.itemsPerPage"

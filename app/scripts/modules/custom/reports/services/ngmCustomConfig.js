@@ -169,6 +169,8 @@ angular.module('ngmReportHub')
                                 description: 'The Output Indicator Tracking', // optional
                                 project: {
                                     defaults: {
+                                        cluster: "Multi-Purpose Cash",
+                                        cluster_id: "cvwg"
                                         // cluster_id: "esnfi",
                                         // cluster: "ESNFI",
                                         // cluster_ids: ['esnfi'],
@@ -384,7 +386,7 @@ angular.module('ngmReportHub')
                                         },
                                         admin: { fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, defaultPeriod: 'quarter', filter_clusters: true },
                                         dashboard: {
-                                            min_date: '2020-01-01', indicator: [{ id: 'beneficiaries', name: 'Achieved Total', calculate_indicator: ["$achieved_total"] }], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, filter_clusters: true
+                                            min_date: '2020-01-01', indicator: [{ id: 'beneficiaries', name: 'Achieved Total', calculate_indicator: ["$achieved_total"], write:true}], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, filter_clusters: true
                                         }
                                     }
                                 }

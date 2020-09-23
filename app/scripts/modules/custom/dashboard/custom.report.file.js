@@ -765,6 +765,9 @@ angular.module('ngmReportHub')
                                                 })
 
                                             },
+                                            setDonwloadLink:function(filename){
+                                                return ngmAuth.LOCATION+'/report/'+filename
+                                            },
                                             title: 'File',
                                             hoverTitle: 'File',
                                             icon: 'edit',
