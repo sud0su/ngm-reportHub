@@ -514,12 +514,12 @@ angular.module('ngmReportHub')
                 //
                 setTitle: function () {
                     // title
-                    $scope.dashboard.title = 'File';
+                    $scope.dashboard.title = 'Reports';
 
 
                     // admin0
                     if ($scope.dashboard.admin0pcode === 'all') {
-                        $scope.dashboard.title = 'File | ' + $scope.dashboard.adminRpcode.toUpperCase()
+                        $scope.dashboard.title = 'Reports | ' + $scope.dashboard.adminRpcode.toUpperCase()
                     }
 
                     if ($scope.dashboard.admin0pcode !== 'all') {
@@ -768,8 +768,8 @@ angular.module('ngmReportHub')
                                             setDonwloadLink:function(filename){
                                                 return ngmAuth.LOCATION+'/report/'+filename
                                             },
-                                            title: 'File',
-                                            hoverTitle: 'File',
+                                            title: 'Reports List',
+                                            hoverTitle: 'Reports  List',
                                             icon: 'edit',
                                             rightIcon: 'watch_later',
                                             templateUrl: 'scripts/widgets/ngm-list/template/custom.list.file.html',
