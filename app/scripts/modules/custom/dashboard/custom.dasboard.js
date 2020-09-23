@@ -715,7 +715,7 @@ angular.module('ngmReportHub')
                                     style: 'float:left;',
                                     label: $filter('translate')('from'),
                                     format: 'd mmm, yyyy',
-                                    min: $scope.dashboard.config.min_date ? $scope.dashboard.config.min_date :'2017-01-01',
+                                    min: $scope.dashboard.config.min_date ? moment($scope.dashboard.config.min_date).subtract(1, "days").format('YYYY-MM-DD') :'2017-01-01',
                                     max: $scope.dashboard.endDate,
                                     currentTime: $scope.dashboard.startDate,
                                     onClose: function () {

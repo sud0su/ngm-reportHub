@@ -131,11 +131,12 @@
         font-size: 18px;
         line-height: 42px;
         color: #fff;
-        /* background-color: #999; */
+        background-color: rgba(33, 150, 243, 1);
         text-align: center;
         line-height: 30px;
         width: 30px;
         height: 30px;
+        margin-top: 10px;
     }
 </style>
 <!-- <div id="close-preview-modal" class="upload modal ">
@@ -187,96 +188,10 @@
                                 title="Generate File">
                                 <i class="material-icons mirror left">keyboard_return</i>Generate File</a>
                         </div>
-                        <!-- <div class="grid-list upload-view-switch hide-on-small-only">
-                            <div class="btn-floating wave-effect space tooltipped-upload" data-position="bottom"
-                                data-tooltip="{{'grid_view'|translate}}" ng-click="grid=true"
-                                ng-class="{white: grid,indigo:!grid}">
-                                <i class="material-icons " style="color: #ffffff"
-                                    ng-class="{color_indigo: grid,color_white:!grid}">
-                                    view_module
-                                </i>
-                            </div>
-                            <div class="btn-floating wave-effect space tooltipped-upload" data-position="bottom"
-                                data-tooltip="{{'list_view'|translate}}" ng-click="grid=false"
-                                ng-class="{white: !grid,indigo:grid}">
-                                <i class="material-icons mirror " ng-class="{color_indigo: !grid,color_white:grid}">
-                                    format_list_bulleted
-                                </i>
-                            </div>
-                        </div> -->
 
                     </div>
                 </li>
-                <div ng-show="grid">
-                    <li ng-if="list.data.length>0" class="collection-item avatar"
-                        style="padding-left: 30px;padding-right: 30px">
-                        <div class="row">
-                            <div class="col s12 m2"
-                                dir-paginate="item in list.data | orderBy: 'createdAt':true | itemsPerPage: list.itemsPerPageGrid"
-                                pagination-id="list.id">
-                                <div class="card border-radius">
-                                    <div class="card-image waves-effect waves-block waves-light">
-                                        <img class="activator" ng-src={{list.setThumbnailfromGdrive(item.fileid)}}>
-                                    </div>
-                                    <div class="card-content">
-                                        <i class="material-icons left no-margin"
-                                            style="color: {{list.extentionColor(item.filename_extension)}};margin-right: 5px;">
-                                            {{list.extentionIcon(item.filename_extension)}}
-                                        </i>
-                                        <span class="grey-text activator text-darken-4 "
-                                            style="font-size: 12px; font-weight: 400">{{item.filename| limitTo: 12}}&#x202a;{{item.filenamelength
-												< 12 ? '' : '...'}}&#x202c; <i class="material-icons right" style="cursor: pointer;"
-                                                ng-style="($root.rtl) && { 'margin-right': '5px' } || { 'margin-left': '5px' }">more_vert</i>
-                                        </span>
-                                    </div>
-                                    <div class="card-reveal">
-                                        <div class=" card-title grey-text text-darken-4">
-                                            <i class="material-icons right"
-                                                style="font-size: 18px; color: #e2e2e2;margin-top: 5px;"
-                                                ng-style="($root.rtl) && { 'margin-left':'5px' } || { 'margin-right':'5px' }">close</i>
-                                        </div>
-                                        <div class="line">
-
-                                            <!-- use gdrive id file -->
-                                            <button class="btn-floating  wave-effect blue tooltipped-upload"
-                                                data-position="bottom" data-tooltip="{{'preview'|translate}}"
-                                                ng-click="list.openModal('close-preview-file',item.fileid)"
-                                                ng-disabled="item.filename_extension === '.csv'">
-                                                <i class="small material-icons">compare</i>
-                                            </button>
-                                            <a class="btn-floating  wave-effect space tooltipped-upload"
-                                                data-position="bottom" data-tooltip="{{'download'|translate}}"
-                                                ng-href="{{list.setDonwloadLink(item.fileid)}}">
-                                                <i class="small material-icons">cloud_download</i>
-                                            </a>
-                                            <button ng-if="false"
-                                                class="btn-floating  wave-effect tooltipped-upload red space tooltipped-upload"
-                                                data-position="bottom" data-tooltip="{{'delete_mayus1'|translate}}"
-                                                ng-click="list.openModal('remove-modal','');list.setRemoveId(item.fileid)">
-                                                <i class="small material-icons">delete</i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="collection-item avatar" ng-if="!list.data.length">
-                        <div class="label" style="text-align:center; padding-top:20px;padding-bottom:20px;">
-                            <div>
-                                <i class="material-icons" style="color: #5c6bc0">
-                                    error
-                                </i>
-                            </div>
-                            <span>{{'you_dont_have_documents_yet'|translate}} !</span>
-                        </div>
-                    </li>
-                    <li class="collection-item avatar" ng-if="list.data.length > list.itemsPerPageGrid"
-                        style="padding:15px 10px 15px 10px;min-height: 65px;">
-                        <dir-pagination-controls pagination-id="list.id"></dir-pagination-controls>
-                    </li>
-                </div>
-                <div ng-show="!grid">
+                <div>
                     <li class="collection-item avatar" ng-if="!list.data.length">
                         <div class="label" style="text-align:center; padding-top:20px;padding-bottom:20px;">
                             <div>
@@ -290,47 +205,37 @@
                     <li ng-if="list.data.length>0" class="collection-item avatar list-upload card"
                         style="padding-left: 0px;padding-right: 0px;padding-bottom: 0px;">
                         <div class="row" style="margin: 0 0; padding: 10px 0; border-bottom: 0.98px solid #dce0e2">
-                            <div class="col s5">
-                                <div style="margin-top:5px;font-weight: 400">{{'filename'|translate}}</div>
+                            <div class="col s5 offset-s1">
+                                <div style="margin-top:5px;font-weight: 400; margin-left: 10px;">{{'filename'|translate}}</div>
                             </div>
-                            <div class="col s2">
-                                <div style="margin-top:5px;font-weight: 400">
-                                    {{'owner'|translate}}
-                                </div>
-                            </div>
-                            <div class="col s2">
+                            <div class="col s2 offset-s2">
                                 <div style="margin-top:5px;font-weight: 400">
                                     {{'created_at'|translate}}
                                 </div>
                             </div>
-                            <div class="col s3">
+                            <!-- <div class="col s3">
                                 <div style="margin-top:5px;font-weight: 400">
                                     {{'action'|translate}}
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row" style="margin: 0 0; padding: 10px 0; border-bottom: 0.98px solid #dce0e2"
                             dir-paginate="item in list.data | orderBy: 'createdAt':true | itemsPerPage: list.itemsPerPage"
                             pagination-id="list.id">
-                            <div class="col s5">
+                            <div class="col s5 offset-s1">
                                 <i class="material-icons left imitate-circle"
                                     style="background-color:{{list.extentionColor(item.filename_extension)}};"
                                     ng-style="($root.rtl) && { 'margin-left':'5px' } || { 'margin-right':'5px' }">
-                                    {{list.extentionIcon(item.filename_extension)}}
+                                    attachment
                                 </i>
                                 <div style="margin-top:5px;">{{item.filename}}</div>
-                            </div>
-                            <div class="col s2">
-                                <div style="margin-top:5px;">
-                                    {{item.fileowner}}
-                                </div>
-                            </div>
-                            <div class="col s2">
+                            </div> 
+                            <div class="col s2 offset-s2">
                                 <div style="margin-top:5px;">
                                     {{item.createdAt|date}}
                                 </div>
                             </div>
-                            <div class="col s3">
+                            <!-- <div class="col s3">
                                 <div class="line-non-grid">
 
 
@@ -345,17 +250,11 @@
                                         ng-href="{{list.setDonwloadLink(item.fileid)}}">
                                         <i class="small material-icons">cloud_download</i>
                                     </a>
-                                    <button ng-if="false"
-                                        class="btn-floating  wave-effect tooltipped-upload red space tooltipped-upload"
-                                        data-position="bottom" data-tooltip="{{'delete_mayus1'|translate}}"
-                                        ng-click="list.openModal('remove-modal','');list.setRemoveId(item.fileid)">
-                                        <i class="small material-icons">delete</i>
-                                    </button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </li>
-                    <li class="collection-item avatar" ng-if="list.data.length > list.itemsPerPage && !grid"
+                    <li class="collection-item avatar" ng-if="list.data.length > list.itemsPerPage"
                         style="padding:15px 10px 15px 10px;min-height: 65px;">
                         <dir-pagination-controls pagination-id="list.id"></dir-pagination-controls>
                     </li>

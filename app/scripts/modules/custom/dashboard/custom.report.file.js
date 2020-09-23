@@ -168,10 +168,20 @@ angular.module('ngmReportHub')
                 getQueryParams:function(){
 
                     var x = {
+                        // cluster_id: $scope.dashboard.cluster_id,
+                        // organization_tag: $scope.dashboard.organization_tag,
+                        // adminRpcode: $scope.dashboard.adminRpcode,
+                        // admin0pcode: $scope.dashboard.admin0pcode,
+                        // report_type_id: $scope.dashboard.report_type_id,
+                        // start_date: $scope.dashboard.startDate,
+                        // end_date: $scope.dashboard.endDate
                         cluster_id: $scope.dashboard.cluster_id,
                         organization_tag: $scope.dashboard.organization_tag,
                         adminRpcode: $scope.dashboard.adminRpcode,
                         admin0pcode: $scope.dashboard.admin0pcode,
+                        admin1pcode: 'all',
+                        admin2pcode: 'all',
+                        report_type: $scope.dashboard.report_type,
                         report_type_id: $scope.dashboard.report_type_id,
                         start_date: $scope.dashboard.startDate,
                         end_date: $scope.dashboard.endDate
@@ -728,14 +738,32 @@ angular.module('ngmReportHub')
                                         card: 'white grey-text text-darken-2',
                                         config: {
                                             country: $route.current.params.admin0pcode,
-                                            refreshEvent: 'refresh:doclist',
+                                            refreshEvent: 'refresh:file',
                                             titleIcon: 'alarm_on',
                                             color: 'blue lighten-4',
-                                            itemsPerPage: 12,
+                                            itemsPerPage: 5,
                                             itemsPerPageGrid: 18,
                                             typeDocument: 'monthly',
                                             generateFile:function(){
-                                                
+
+                                                 var x= $scope.dashboard.getRequest({
+                                                    csv: true, fields: $scope.dashboard.config.fields,
+                                                    fieldNames: $scope.dashboard.config.fieldNames,
+                                                    overwriteFields: $scope.dashboard.config.overwriteFields,
+                                                    indicator: $scope.dashboard.config.indicator[0].id,
+                                                    write: true,
+                                                    calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
+                                                    report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm')
+                                                })
+                                                ngmData.get(x).then(function(r){
+
+                                                    if(!r.err){
+                                                        $rootScope.$broadcast('refresh:file');
+
+                                                    }
+
+                                                })
+
                                             },
                                             title: 'File',
                                             hoverTitle: 'File',
