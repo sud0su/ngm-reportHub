@@ -465,11 +465,11 @@ angular.module('ngmReportHub')
                         }
                     }
 
-                    if (userMenuItems.includes('cluster_id')) {
+                    if (userMenuItems.includes('cluster_id') && $scope.dashboard.config.filter_clusters && $scope.dashboard.config.filter_clusters.length) {
 
                         var filter_config = [];
-                        $scope.dashboard.config.filter_clusters
-                        $scope.dashboard.lists.clusters
+                        // $scope.dashboard.config.filter_clusters
+                        // $scope.dashboard.lists.clusters
                         angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
                             if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id) > -1) {
                                 filter_config.push(c)
@@ -1500,7 +1500,6 @@ angular.module('ngmReportHub')
             setTimeout(() => {
                 $('.fixed-action-btn').floatingActionButton({ direction: 'left' });
             }, 0);
-
 
         }
 

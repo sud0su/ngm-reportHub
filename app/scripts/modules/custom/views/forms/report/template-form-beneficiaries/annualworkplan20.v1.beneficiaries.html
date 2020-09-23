@@ -1,0 +1,310 @@
+<!-- CARD PANEL -->
+<div dir="ltr" class="card-panel" ng-if="detailBeneficiaries[$locationIndex][$beneficiaryIndex]"
+    ng-class="{'card-panel-expand':detailBeneficiaries[$locationIndex][$beneficiaryIndex]}"
+    ng-disabled="!project.canEdit">
+
+    <!-- DEFAULT -->
+    <div class="row">
+
+        <!-- Planned families -->
+        <!-- <div class="input-field col s12 m12 l12">
+            <input id="ngm-planned_families-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-planned_families-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number" class="validate"
+                min="0" ng-model="beneficiary.planned_families"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-planned_families-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'"
+                required />
+            <label for="ngm-planned_families-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active">Planned
+                *</label>
+        </div> -->
+        <!-- <div class="input-field col s12 m6 l6">
+            <select materialize-select id="ngm-beneficiary_type_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="beneficiary_type_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="validate"
+                ng-model="beneficiary.beneficiary_type_id" ng-change="ngmCustomBeneficiaries.updateName( project.beneficiaries_lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
+						ngmCustomBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in project.beneficiaries_lists.beneficiary_types"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'">
+                <option value="">{{ 'select' | translate }}</option>
+            </select>
+            <label for="ngm-beneficiary_type_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active"
+                style="transform:translateY(-10%)">{{ 'beneficiary' | translate }}</label>
+        </div> -->
+
+        <div class="input-field col s12 m4 l4">
+            <select materialize-select id="ngm-cluster_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="cluster_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="validate"
+                ng-model="beneficiary.cluster_id" ng-change="ngmCustomBeneficiaries.updateName( project.beneficiaries_lists.clusters, 'cluster_id', 'cluster_name', beneficiary );
+        						ngmCustomBeneficiaries.inputChange( 'ngm-cluster_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-options="b.cluster_id as b.cluster_name for b in project.beneficiaries_lists.clusters"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'">
+                <option value="">{{ 'select' | translate }}</option>
+            </select>
+            <label for="ngm-cluster_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active"
+                style="transform:translateY(-10%)">Cluster/Unit *</label>
+        </div>
+
+        <div class="input-field col s12 m4 l4">
+            <select materialize-select id="ngm-cluster_project_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="cluster_project_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" 
+                class="validate"
+                ng-model="beneficiary.cluster_project_id" 
+                ng-change="ngmCustomBeneficiaries.updateName( project.beneficiaries_lists.projects, 'cluster_project_id', 'cluster_project_name', beneficiary );
+                						ngmCustomBeneficiaries.inputChange( 'ngm-cluster_project_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-options="b.cluster_project_id as b.cluster_project_name for b in project.beneficiaries_lists.projects | filter: {
+																					cluster_id: beneficiary.cluster_id}:true"
+                ng-disabled="!beneficiary.cluster_id||project.definition.project_status === 'complete' || project.report.report_status === 'complete'">
+                <option value="">-</option>
+            </select>
+            <label for="ngm-cluster_project_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active"
+                style="transform:translateY(-10%)">Project </label>
+        </div>
+        <div class="input-field col s12 m4 l4">
+            <select materialize-select watch id="ngm-donor_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="donor_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="validate"
+                ng-model="beneficiary.donor_id"
+                ng-change="ngmCustomBeneficiaries.updateName( project.beneficiaries_lists.donor, 'donor_id', 'donor_name', beneficiary );
+                        						ngmCustomBeneficiaries.inputChange( 'ngm-donor_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-options="b.donor_id as b.donor_name for b in project.beneficiaries_lists.donor"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'">
+                <option value="">-</option>
+            </select>
+            <label for="ngm-donor_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active"
+                style="transform:translateY(-10%)">Donor</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s12 m12 l12">
+            <select materialize-select id="ngm-indicator_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="indicator_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="validate"
+                ng-model="beneficiary.indicator_id" ng-change="ngmCustomBeneficiaries.updateNameAndOther( project.beneficiaries_lists.indicators, 'indicator_id', 'indicator_name', beneficiary );
+                						ngmCustomBeneficiaries.inputChange( 'ngm-indicator_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-options="b.indicator_id as b.indicator_name for b in project.beneficiaries_lists.indicators | filter: {
+																					cluster_id: beneficiary.cluster_id}:true"
+                ng-disabled="!beneficiary.cluster_id || project.definition.project_status === 'complete' || project.report.report_status === 'complete'">
+                <option value="">{{ 'select' | translate }}</option>
+            </select>
+            <label for="ngm-indicator_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active" style="transform:translateY(-10%)">Indicator *</label>
+        </div>
+    </div>
+
+    <div class="row">
+    
+        <div class="input-field col s12 m12 l12">
+            <input id="ngm-target-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-target-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number" class="validate"
+                min="0" ng-model="beneficiary.target"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-target-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'"
+                required />
+            <label for="ngm-target-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active">Target
+                </label>
+        </div>
+    </div>
+
+    <div>
+        <p style="font-size: 20px;padding-bottom: 20px;">Target Group</p>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px; margin-left:0px;margin-right:0px;
+                                                    										border: 1px dotted rgb(158, 158, 158);">
+        <div class="input-field col s12 m4 l4">
+            <p ng-if="true" style="padding-left:12px;cursor:pointer;">
+                <label class="checkbox-label" for="ngm-yes-no-pwd">
+                    <input type="checkbox" class="filled-in" id="ngm-yes-no-pwd"
+                        ng-checked="project.checkedYesOrNo(beneficiary,'pwd')"
+                        ng-click="project.setYesOrNo(beneficiary,'pwd','ngm-yes-no-pwd')" />
+                    <span style="color:#757575 font-size: 1.2rem;">PWD</span>
+                </label>
+            </p>
+        </div>
+        <div class="input-field col s12 m4 l4">
+            <p ng-if="true" style="padding-left:12px;cursor:pointer;">
+                <label class="checkbox-label" for="ngm-yes-no-children">
+                    <input type="checkbox" class="filled-in" id="ngm-yes-no-children"
+                        ng-checked="project.checkedYesOrNo(beneficiary,'children')"
+                        ng-click="project.setYesOrNo(beneficiary,'children','ngm-yes-no-children')" />
+                    <span style="color:#757575 font-size: 1.2rem;">Children</span>
+                </label>
+            </p>
+        </div>
+        <div class="input-field col s12 m4 l4">
+            <p ng-if="true" style="padding-left:12px;cursor:pointer;">
+                <label class="checkbox-label" for="ngm-yes-no-returnee">
+                    <input type="checkbox" class="filled-in" id="ngm-yes-no-returnee"
+                        ng-checked="project.checkedYesOrNo(beneficiary,'returnee')"
+                        ng-click="project.setYesOrNo(beneficiary,'returnee','ngm-yes-no-returnee')" />
+                    <span style="color:#757575 font-size: 1.2rem;">Returnee</span>
+                </label>
+            </p>
+        </div>
+    </div>
+
+    <div>
+        <p style="font-size: 20px;padding-bottom: 20px;">Planned</p>
+    </div>
+    <div class="row">
+
+
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-planned_neutral-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-planned_neutral-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number"
+                class="validate" min="0" ng-model="beneficiary.planned_neutral"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-planned_neutral-{{ $locationIndex }}-{{ $beneficiaryIndex }}' ); project.countTotalBeneficiary(beneficiary)"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-planned_neutral-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">Neutral </label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-planned_m_b-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-planned_m_b-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number"
+                class="validate" min="0" ng-model="beneficiary.planned_m_b"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-planned_m_b-{{ $locationIndex }}-{{ $beneficiaryIndex }}' ); project.countTotalBeneficiary(beneficiary)"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-planned_m_b-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">M/B</label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-planned_w_g-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-planned_w_g-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number"
+                class="validate" min="0" ng-model="beneficiary.planned_w_g"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-planned_w_g-{{ $locationIndex }}-{{ $beneficiaryIndex }}' ); project.countTotalBeneficiary(beneficiary)"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-planned_w_g-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">W/G</label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-planned_total-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-planned_total-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number"
+                class="validate" min="0" ng-model="beneficiary.planned_total"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-planned_total-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="true" />
+            <label for="ngm-planned_total-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active">Total</label>
+        </div>
+    </div>
+
+    <div>
+        <p style="font-size: 20px;padding-bottom: 20px;">Acheived </p>
+    </div>
+    <div class="row">
+
+        <!-- Received Package -->
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-achieved_neutral-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-achieved_neutral-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number"
+                class="validate" min="0" ng-model="beneficiary.achieved_neutral"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-achieved_neutral-{{ $locationIndex }}-{{ $beneficiaryIndex }}' ); project.countTotalBeneficiary(beneficiary)"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-achieved_neutral-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">Returnee
+            </label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-achieved_m_b-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-achieved_m_b-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number"
+                class="validate" min="0" ng-model="beneficiary.achieved_m_b"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-achieved_m_b-{{ $locationIndex }}-{{ $beneficiaryIndex }}' ); project.countTotalBeneficiary(beneficiary)"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-achieved_m_b-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">M/B</label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-achieved_w_g-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-achieved_w_g-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number"
+                class="validate" min="0" ng-model="beneficiary.achieved_w_g"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-achieved_w_g-{{ $locationIndex }}-{{ $beneficiaryIndex }}' ); project.countTotalBeneficiary(beneficiary)"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-achieved_w_g-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">W/G</label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-achieved_total-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-achieved_total-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number"
+                class="validate" min="0" ng-model="beneficiary.achieved_total"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-achieved_total-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="true" />
+            <label for="ngm-achieved_total-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active">Total</label>
+        </div>
+    </div>
+    <!-- <div>
+        <p style="font-size: 20px;">Detail Package</p>
+    </div> -->
+    <!-- <div class="row">
+
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-cash-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-cash-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number" class="validate" min="0"
+                ng-model="beneficiary.cash"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-cash-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-cash-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active">Cash($)
+            </label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-blanket-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-blanket-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number" class="validate" min="0"
+                ng-model="beneficiary.blanket"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-blanket-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-blanket-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active">Blanket(Piece)</label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-heating_material-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-heating_material-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number" class="validate"
+                min="0" ng-model="beneficiary.heating_material"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-heating_material-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-heating_material-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active">In Kind
+                Heating Material</label>
+        </div>
+        <div class="input-field col s12 m3 l3">
+            <input id="ngm-winter_clothes-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                name="ngm-winter_clothes-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number" class="validate"
+                min="0" ng-model="beneficiary.winter_clothes"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-winter_clothes-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
+            <label for="ngm-winter_clothes-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">WinterClothes</label>
+        </div>
+    </div> -->
+
+    <!-- REMARKS -->
+    <div class="row">
+
+        <!-- remarks -->
+        <div class="input-field col s12">
+            <input id="ngm-remarks-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="text" class="validate"
+                placeholder="{{ 'remarks_go_here' | translate }}" ng-model="beneficiary.remarks"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-remarks-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'"
+                required>
+            <label for="ngm-remarks-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">{{'remarks' | translate}}</label>
+        </div>
+        
+        <!-- <div class="input-field col s12">
+            <input id="ngm-justification-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="text" class="validate"
+                placeholder=":Justification go here..." ng-model="beneficiary.justification"
+                ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-justification-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
+                ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'"
+                required>
+            <label for="ngm-justification-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
+                class="active">Justification</label>
+        </div> -->
+    </div>
+
+    <div class="card" style="padding:20px;">
+    
+        <div class="row">
+    
+            <div class="input-field col s12 m12 l12">
+                <textarea id="ngm-justification-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="text" class="validate materialize-textarea" name="justification"
+                    ng-model="beneficiary.justification" 
+                    ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'">
+    									</textarea>
+                <label style="transform:translateY(-70%)" for="ngm-justification-{{ $locationIndex }}-{{ $beneficiaryIndex }}" > Justification</label>
+            </div>
+    
+        </div>
+
+</div>

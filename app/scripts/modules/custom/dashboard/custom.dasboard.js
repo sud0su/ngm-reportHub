@@ -226,6 +226,7 @@ angular.module('ngmReportHub')
                                                                    fieldNames: $scope.dashboard.config.fieldNames, 
                                                                    overwriteFields: $scope.dashboard.config.overwriteFields, 
                                                                    indicator: $scope.dashboard.config.indicator[0].id,
+                                                                   write:$scope.dashboard.config.indicator[0].write?true:false,
                                                                    calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
                                                                    report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm') }),
                         metrics: $scope.dashboard.getMetrics('beneficiary_data', 'csv')
@@ -425,47 +426,48 @@ angular.module('ngmReportHub')
 
                         // clusters
                         var filter_config = [];
-                        $scope.dashboard.config.filter_clusters
-                        $scope.dashboard.lists.clusters
-                        angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
-                            if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id)>-1){
-                                filter_config.push(c)
-                            }
-                        })
+                        // $scope.dashboard.config.filter_clusters
+                        // $scope.dashboard.lists.clusters
+                        if ($scope.dashboard.config.filter_clusters && $scope.dashboard.config.filter_clusters.length){
+                            angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
+                                if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id)>-1){
+                                    filter_config.push(c)
+                                }
+                            })
 
-                        filter_config.unshift({ cluster_id: 'all', cluster: 'ALL' });
-                        angular.forEach(filter_config, function (d, i) {
-                            var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
-                            clusterRows.push({
-                                'title': d.cluster,
-                                'param': 'cluster_id',
-                                'active': d.cluster_id,
-                                'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                'href': '/desk/#' + path
+                            filter_config.unshift({ cluster_id: 'all', cluster: 'ALL' });
+                            angular.forEach(filter_config, function (d, i) {
+                                var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
+                                clusterRows.push({
+                                    'title': d.cluster,
+                                    'param': 'cluster_id',
+                                    'active': d.cluster_id,
+                                    'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+                                    'href': '/desk/#' + path
+                                });
                             });
-                        });
-                        // $scope.dashboard.lists.clusters.unshift({ cluster_id: 'all', cluster: 'ALL' });
-                        // angular.forEach($scope.dashboard.lists.clusters, function (d, i) {
-                        //     var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
-                        //     clusterRows.push({
-                        //         'title': d.cluster,
-                        //         'param': 'cluster_id',
-                        //         'active': d.cluster_id,
-                        //         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                        //         'href': '/desk/#' + path
-                        //     });
-                        // });
+                            // $scope.dashboard.lists.clusters.unshift({ cluster_id: 'all', cluster: 'ALL' });
+                            // angular.forEach($scope.dashboard.lists.clusters, function (d, i) {
+                            //     var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
+                            //     clusterRows.push({
+                            //         'title': d.cluster,
+                            //         'param': 'cluster_id',
+                            //         'active': d.cluster_id,
+                            //         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+                            //         'href': '/desk/#' + path
+                            //     });
+                            // });
 
-                        // add to menu
-                        $scope.model.menu.push({
-                            'search': true,
-                            'id': 'search-cluster-cluster',
-                            'icon': 'camera',
-                            'title': $filter('translate')('cluster'),
-                            'class': 'teal lighten-1 white-text',
-                            'rows': clusterRows
-                        });
-
+                            // add to menu
+                            $scope.model.menu.push({
+                                'search': true,
+                                'id': 'search-cluster-cluster',
+                                'icon': 'camera',
+                                'title': $filter('translate')('cluster'),
+                                'class': 'teal lighten-1 white-text',
+                                'rows': clusterRows
+                            });
+                        }
                         // organizations
                         organizations.forEach(function (d, i) {
                             if (d) {

@@ -309,6 +309,34 @@ angular.module('ngmReportHub')
                     }, 10);
                 },
 
+                updateNameAndOther: function (list, key, name,  beneficiary) {
+
+                    // this approach does NOT break gulp!
+                    $timeout(function () {
+                        var obj = {}
+                        obj[key] = beneficiary[key];
+                        var select = $filter('filter')(list, obj, true);
+
+                        // set name
+                        if (select.length) {
+                            // name
+                            beneficiary[name] = select[0][name];
+                        }
+                        // clear name
+                        if (beneficiary[key] === null) {
+                            beneficiary[name] = null;
+                        }
+
+                        // for other 
+                        if (select[0].set_attributes && select[0].set_attributes.length){
+                            var att_name = select[0].set_attributes;
+                            angular.forEach(att_name, function(att){
+                                beneficiary[att]= select[0][att]
+                            })
+                        }
+                    }, 10);
+                },
+
                 // set total amount transfered
                 updateTotalTransferedAmount: function (beneficiary) {
                     $timeout(function () {
