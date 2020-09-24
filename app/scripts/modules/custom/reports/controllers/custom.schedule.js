@@ -1,12 +1,12 @@
 /**
  * @ngdoc function
- * @name ngmReportHubApp.controller:CustomDashboardProjectCtrl
+ * @name ngmReportHubApp.controller:CustomScheduleCtrl
  * @description
  * # LoginCtrl
  * Controller of the ngmReportHub
  */
 angular.module('ngmReportHub')
-    .controller('CustomFileListCtrl', [
+    .controller('CustomScheduleCtrl', [
         '$scope',
         '$q',
         '$http',
@@ -165,7 +165,7 @@ angular.module('ngmReportHub')
                     return request;
                 },
 
-                getQueryParams:function(){
+                getQueryParams: function () {
 
                     var x = {
                         // cluster_id: $scope.dashboard.cluster_id,
@@ -514,41 +514,26 @@ angular.module('ngmReportHub')
                 //
                 setTitle: function () {
                     // title
-                    $scope.dashboard.title = 'Reports';
+                    $scope.dashboard.title = 'Scheduling';
 
 
                     // admin0
                     if ($scope.dashboard.admin0pcode === 'all') {
-                        $scope.dashboard.title = 'Reports | ' + $scope.dashboard.adminRpcode.toUpperCase()
+                        $scope.dashboard.title = 'Scheduling | ' + $scope.dashboard.adminRpcode.toUpperCase()
                     }
 
                     if ($scope.dashboard.admin0pcode !== 'all') {
                         $scope.dashboard.title += ' | ' + $scope.dashboard.admin0pcode.toUpperCase();
                     }
-                    // cluster
-                    // if ($scope.dashboard.cluster_id !== 'all') {
-                    //     $scope.dashboard.title += ' | ' + $scope.dashboard.cluster.cluster.toUpperCase();
-                    // }
                     if ($scope.dashboard.cluster_id !== 'all') {
                         $scope.dashboard.title += ' | ' + $scope.dashboard.cluster.cluster;
                     }
-                    // activity
-                    // if ($scope.dashboard.activity_type_id !== 'all') {
-                    //     $scope.dashboard.title += ' | ' + $scope.dashboard.activity_type_id.toUpperCase();
-                    // }
+
                     // org
                     if ($scope.dashboard.organization_tag !== 'all') {
                         var org = $scope.dashboard.organization ? ' | ' + $scope.dashboard.organization : '';
                         $scope.dashboard.title += org;
                     }
-                    // admin1
-                    // if ($scope.dashboard.admin1pcode !== 'all') {
-                    //     $scope.dashboard.title += ' | ' + $scope.dashboard.data.admin1.admin1name;
-                    // }
-                    // // admin2
-                    // if ($scope.dashboard.admin2pcode !== 'all') {
-                    //     $scope.dashboard.title += ' | ' + $scope.dashboard.data.admin2.admin2name;
-                    // }
                     // report_type
                     $scope.dashboard.title += ' | ' + ($scope.dashboard.report_type_name.replace(/\b\w/g, l => l.toUpperCase()))
                     // update of rendered title
@@ -562,7 +547,7 @@ angular.module('ngmReportHub')
 
 
                     // subtitle
-                    $scope.dashboard.subtitle = 'File ' + $filter('translate')('for') + ' ';
+                    $scope.dashboard.subtitle = 'Scheduling For ' + $filter('translate')('for') + ' ';
                     // admin0
                     if ($scope.dashboard.admin0pcode === 'all') {
                         $scope.dashboard.subtitle = $filter('translate')('5wdashboard') + ' ' + $filter('translate')('for') + ' ' + $scope.dashboard.adminRpcode.toUpperCase();
@@ -721,9 +706,11 @@ angular.module('ngmReportHub')
                                     config: {
                                         id: 'dashboard-btn',
                                         toMainMenu: function () {
-                                            var path = '/custom/custom-main/' + $scope.dashboard.user.adminRpcode.toLowerCase() + '/' + $scope.dashboard.user.admin0pcode.toLowerCase() + '/' + $scope.dashboard.user.organization_tag + '/' + $scope.dashboard.report_type_id;
-                                            // update new date
-                                            $location.path(path);
+                                            var path = '/custom/file/' + $scope.dashboard.adminRpcode.toLowerCase() + '/' + $scope.dashboard.user.admin0pcode.toLowerCase() + '/' + $scope.dashboard.cluster_id + '/' + $scope.dashboard.organization_tag + '/' + $scope.dashboard.report_type + '/' + $scope.dashboard.report_type_id + '/' + moment($route.current.params.start).format('YYYY-MM-DD') + '/' + moment($route.current.params.end).format('YYYY-MM-DD');
+                                            $location.path(path)
+                                            // var path = '/custom/custom-main/' + $scope.dashboard.user.adminRpcode.toLowerCase() + '/' + $scope.dashboard.user.admin0pcode.toLowerCase() + '/' + $scope.dashboard.user.organization_tag + '/' + $scope.dashboard.report_type_id;
+                                            // // update new date
+                                            // $location.path(path);
                                         },
                                         request: $scope.dashboard.getRequest({ indicator: 'latest_update' }),
                                         templateUrl: '/scripts/widgets/ngm-html/template/custom.dashboard.html'
@@ -731,68 +718,15 @@ angular.module('ngmReportHub')
                                 }]
                             }]
                         }, {
-                                columns: [{
+                             columns: [{
                                     styleClass: 's12 m12 l12',
                                     widgets: [{
-                                        type: 'list',
-                                        card: 'white grey-text text-darken-2',
+                                        type: 'custom.schedule',
                                         config: {
-                                            country: $route.current.params.admin0pcode,
-                                            refreshEvent: 'refresh:file',
-                                            titleIcon: 'alarm_on',
-                                            color: 'blue lighten-4',
-                                            itemsPerPage: 5,
-                                            itemsPerPageGrid: 18,
-                                            typeDocument: 'monthly',
-                                            generateFile:function(){
-
-                                                 var x= $scope.dashboard.getRequest({
-                                                    csv: true, fields: $scope.dashboard.config.fields,
-                                                    fieldNames: $scope.dashboard.config.fieldNames,
-                                                    overwriteFields: $scope.dashboard.config.overwriteFields,
-                                                    indicator: $scope.dashboard.config.indicator[0].id,
-                                                    write: true,
-                                                    calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
-                                                    report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm')
-                                                })
-                                                ngmData.get(x).then(function(r){
-
-                                                    if(!r.err){
-                                                        $rootScope.$broadcast('refresh:file');
-
-                                                    }
-
-                                                })
-
-                                            },
-                                            goToSchedule: function(){
-                                                $scope.dashboard.adminRpcode = $route.current.params.adminRpcode;
-                                                $scope.dashboard.admin0pcode = $route.current.params.admin0pcode;
-                                                $scope.dashboard.cluster_id = $route.current.params.cluster_id;
-                                                $scope.dashboard.organization_tag = $route.current.params.organization_tag;
-                                                $scope.dashboard.report_type = $route.current.params.report_type;
-                                                $scope.dashboard.report_type_id = $route.current.params.report_type_id;
-                                    
-                                                var path = '/custom/schedule/' + $scope.dashboard.adminRpcode.toLowerCase() + '/' + $scope.dashboard.user.admin0pcode.toLowerCase() + '/' + $scope.dashboard.cluster_id + '/' + $scope.dashboard.organization_tag + '/' + $scope.dashboard.report_type + '/' + $scope.dashboard.report_type_id + '/'+ moment($route.current.params.start).format('YYYY-MM-DD')+'/'+ moment($route.current.params.end).format('YYYY-MM-DD');
-                                                $location.path(path)
-                                            },
-                                            setDonwloadLink:function(filename){
-                                                return ngmAuth.LOCATION+'/report/'+filename
-                                            },
-                                            title: 'Reports List',
-                                            hoverTitle: 'Reports  List',
-                                            icon: 'edit',
-                                            rightIcon: 'watch_later',
-                                            templateUrl: 'scripts/widgets/ngm-list/template/custom.list.file.html',
-                                            request: {
-                                                method: 'GET',
-                                                url: ngmAuth.LOCATION + '/api/custom/listCustomFiles?' +$scope.dashboard.getQueryParams()
-                                            }
                                         }
                                     }]
                                 }]
-
-                            }, {
+                            },{
                             columns: [{
                                 styleClass: 's12 m12 l12',
                                 widgets: [{
@@ -811,8 +745,8 @@ angular.module('ngmReportHub')
 
                     // set
                     // $scope.dashboard.setUrl();
-                    $scope.dashboard.setMenu();
-                    $scope.dashboard.setCluster();
+                    // $scope.dashboard.setMenu();
+                    // $scope.dashboard.setCluster();
                     $scope.dashboard.setTitle();
                     $scope.dashboard.setSubtitle();
 

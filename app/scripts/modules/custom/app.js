@@ -238,6 +238,15 @@ angular
                     }],
                 }
             })
+            .when('/custom/schedule/:adminRpcode/:admin0pcode/:cluster_id/:organization_tag/:report_type/:report_type_id/:start/:end', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomScheduleCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
             // FORBIDDEN
             .when('/cluster/forbidden', {
                 templateUrl: '/views/app/dashboard.html',

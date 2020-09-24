@@ -40,6 +40,7 @@ angular
 		'ngm.widget.upload.beneficiaries.stock.report',
 		'ngm.widget.custom.project.detail',
 		'ngm.widget.custom.report',
+		'ngm.widget.custom.schedule',
 		// modules
 		'ngmBangladesh',
 		'ngmCluster',
