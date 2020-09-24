@@ -1,12 +1,12 @@
 /**
  * @ngdoc function
- * @name ngmReportHubApp.controller:CustomDashboardProjectCtrl
+ * @name ngmReportHubApp.controller:CustomScheduleCtrl
  * @description
  * # LoginCtrl
  * Controller of the ngmReportHub
  */
 angular.module('ngmReportHub')
-    .controller('CustomDashboardProjectCtrl', [
+    .controller('CustomScheduleCtrl', [
         '$scope',
         '$q',
         '$http',
@@ -88,43 +88,43 @@ angular.module('ngmReportHub')
                             'param': 'adminRpcode',
                             'active': 'all',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/custom-dashboard/3w/all/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                            'href': '/desk/#/custom/file/all/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                         }, {
                             'title': 'AFRO',
                             'param': 'adminRpcode',
                             'active': 'afro',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/custom-dashboard/3w/afro/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                            'href': '/desk/#/custom/file/afro/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                         }, {
                             'title': 'AMER',
                             'param': 'adminRpcode',
                             'active': 'amer',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/custom-dashboard/3w/amer/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                            'href': '/desk/#/custom/file/amer/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                         }, {
                             'title': 'EMRO',
                             'param': 'adminRpcode',
                             'active': 'emro',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/custom-dashboard/3w/emro/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                            'href': '/desk/#/custom/file/emro/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                         }, {
                             'title': 'SEARO',
                             'param': 'adminRpcode',
                             'active': 'searo',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/custom-dashboard/3w/searo/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                            'href': '/desk/#/custom/file/searo/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                         }, {
                             'title': 'EURO',
                             'param': 'adminRpcode',
                             'active': 'euro',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/custom-dashboard/3w/euro/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                            'href': '/desk/#/custom/file/euro/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                         }, {
                             'title': 'WPRO',
                             'param': 'adminRpcode',
                             'active': 'wpro',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/custom-dashboard/3w/wpro/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                            'href': '/desk/#/custom/file/wpro/all/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                         }
                         ]
                     }
@@ -132,7 +132,7 @@ angular.module('ngmReportHub')
 
                 // admin
                 getPath: function (cluster_id, report_type_id, report_type, organization_tag) {
-                    var path = '/custom/custom-dashboard/3w/' + $scope.dashboard.adminRpcode.toLowerCase() +
+                    var path = '/custom/file/' + $scope.dashboard.adminRpcode.toLowerCase() +
                         '/' + $scope.dashboard.admin0pcode.toLowerCase() +
                         '/' + cluster_id +
                         '/' + organization_tag +
@@ -143,21 +143,6 @@ angular.module('ngmReportHub')
 
                     return path;
                 },
-
-                // // set URL based on user rights
-                // setUrl: function () {
-
-                //     // get url
-                //     var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.activity_type_id, $scope.dashboard.activity_description_id, $scope.dashboard.organization_tag, $scope.dashboard.admin1pcode, $scope.dashboard.admin2pcode);
-
-                //     // if current location is not equal to path
-                //     if (path !== $location.$$path) {
-                //         $location.path(path);
-                //     }
-
-                // },
-
-                //
                 getRequest: function (obj) {
                     var request = {
                         method: 'POST',
@@ -168,7 +153,7 @@ angular.module('ngmReportHub')
                             adminRpcode: $scope.dashboard.adminRpcode,
                             admin0pcode: $scope.dashboard.admin0pcode,
                             admin1pcode: 'all',
-                            admin2pcode:'all',
+                            admin2pcode: 'all',
                             report_type: $scope.dashboard.report_type,
                             report_type_id: $scope.dashboard.report_type_id,
                             start_date: $scope.dashboard.startDate,
@@ -178,6 +163,33 @@ angular.module('ngmReportHub')
 
                     request.data = angular.merge(request.data, obj);
                     return request;
+                },
+
+                getQueryParams: function () {
+
+                    var x = {
+                        // cluster_id: $scope.dashboard.cluster_id,
+                        // organization_tag: $scope.dashboard.organization_tag,
+                        // adminRpcode: $scope.dashboard.adminRpcode,
+                        // admin0pcode: $scope.dashboard.admin0pcode,
+                        // report_type_id: $scope.dashboard.report_type_id,
+                        // start_date: $scope.dashboard.startDate,
+                        // end_date: $scope.dashboard.endDate
+                        cluster_id: $scope.dashboard.cluster_id,
+                        organization_tag: $scope.dashboard.organization_tag,
+                        adminRpcode: $scope.dashboard.adminRpcode,
+                        admin0pcode: $scope.dashboard.admin0pcode,
+                        admin1pcode: 'all',
+                        admin2pcode: 'all',
+                        report_type: $scope.dashboard.report_type,
+                        report_type_id: $scope.dashboard.report_type_id,
+                        start_date: $scope.dashboard.startDate,
+                        end_date: $scope.dashboard.endDate
+                    }
+
+                    var queryString = Object.keys(x).map(key => key + '=' + x[key]).join('&');
+                    return queryString
+
                 },
 
                 // // metrics
@@ -222,13 +234,15 @@ angular.module('ngmReportHub')
                         color: 'blue lighten-2',
                         icon: 'group',
                         hover: $filter('translate')('download_beneficiary_data_as_csv'),
-                            request: $scope.dashboard.getRequest({ csv: true, fields: $scope.dashboard.config.fields, 
-                                                                   fieldNames: $scope.dashboard.config.fieldNames, 
-                                                                   overwriteFields: $scope.dashboard.config.overwriteFields, 
-                                                                   indicator: $scope.dashboard.config.indicator[0].id,
-                                                                   write:$scope.dashboard.config.indicator[0].write?true:false,
-                                                                   calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
-                                                                   report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm') }),
+                        request: $scope.dashboard.getRequest({
+                            csv: true, fields: $scope.dashboard.config.fields,
+                            fieldNames: $scope.dashboard.config.fieldNames,
+                            overwriteFields: $scope.dashboard.config.overwriteFields,
+                            indicator: $scope.dashboard.config.indicator[0].id,
+                            write: $scope.dashboard.config.indicator[0].write ? true : false,
+                            calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
+                            report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm')
+                        }),
                         metrics: $scope.dashboard.getMetrics('beneficiary_data', 'csv')
                     }];
 
@@ -270,7 +284,7 @@ angular.module('ngmReportHub')
                     // rows
                     var orgRows = [],
                         clusterRows = [],
-                    request = $scope.dashboard.getRequest({ list: true, indicator: 'organizations' });
+                        request = $scope.dashboard.getRequest({ list: true, indicator: 'organizations' });
 
                     if ($scope.dashboard.menu_items.includes('adminRpcode')) {
                         $scope.model.menu = $scope.dashboard.menu;
@@ -290,25 +304,25 @@ angular.module('ngmReportHub')
                                         'param': 'admin0pcode',
                                         'active': 'cd',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/afro/cd/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/afro/cd/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }, {
                                         'title': 'Ethiopia',
                                         'param': 'admin0pcode',
                                         'active': 'et',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/afro/et/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/afro/et/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }, {
                                         'title': 'Nigeria',
                                         'param': 'admin0pcode',
                                         'active': 'ng',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/afro/ng/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/afro/ng/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }, {
                                         'title': 'South Sudan',
                                         'param': 'admin0pcode',
                                         'active': 'ss',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/afro/ss/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/afro/ss/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }]
                                 },
                                 'emro': {
@@ -321,25 +335,25 @@ angular.module('ngmReportHub')
                                         'param': 'admin0pcode',
                                         'active': 'af',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/emro/af/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/emro/af/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }, {
                                         'title': 'Somalia',
                                         'param': 'admin0pcode',
                                         'active': 'so',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/emro/so/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/emro/so/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }, {
                                         'title': 'Syria',
                                         'param': 'admin0pcode',
                                         'active': 'sy',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/emro/sy/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/emro/sy/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }, {
                                         'title': 'Yemen',
                                         'param': 'admin0pcode',
                                         'active': 'ye',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/emro/ye/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/emro/ye/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }]
                                 },
                                 'searo': {
@@ -352,13 +366,13 @@ angular.module('ngmReportHub')
                                         'param': 'admin0pcode',
                                         'active': 'bd',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/searo/bd/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/searo/bd/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }, {
                                         'title': 'Cox Bazar',
                                         'param': 'admin0pcode',
                                         'active': 'cb',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/searo/cb/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/searo/cb/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }]
                                 },
                                 'euro': {
@@ -371,7 +385,7 @@ angular.module('ngmReportHub')
                                         'param': 'admin0pcode',
                                         'active': 'ua',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/euro/ua/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/euro/ua/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     },]
                                 },
                                 'amer': {
@@ -384,7 +398,7 @@ angular.module('ngmReportHub')
                                         'param': 'admin0pcode',
                                         'active': 'col',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/amer/col/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/amer/col/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     },]
                                 },
                                 'wpro': {
@@ -397,13 +411,13 @@ angular.module('ngmReportHub')
                                         'param': 'admin0pcode',
                                         'active': 'pg',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/wpro/pg/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/wpro/pg/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }, {
                                         'title': 'Philippines',
                                         'param': 'admin0pcode',
                                         'active': 'phl',
                                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                                        'href': '/desk/#/custom/custom-dashboard/3w/wpro/phl/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
+                                        'href': '/desk/#/custom/file/wpro/phl/' + $route.current.params.cluster_id + '/' + $route.current.params.organization_tag + '/' + $route.current.params.report_type + '/' + $route.current.params.report_type_id + '/' + $route.current.params.start + '/' + $route.current.params.end
                                     }]
                                 }
                             }
@@ -428,9 +442,9 @@ angular.module('ngmReportHub')
                         var filter_config = [];
                         // $scope.dashboard.config.filter_clusters
                         // $scope.dashboard.lists.clusters
-                        if ($scope.dashboard.config.filter_clusters && $scope.dashboard.config.filter_clusters.length){
+                        if ($scope.dashboard.config.filter_clusters && $scope.dashboard.config.filter_clusters.length) {
                             angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
-                                if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id)>-1){
+                                if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id) > -1) {
                                     filter_config.push(c)
                                 }
                             })
@@ -446,17 +460,6 @@ angular.module('ngmReportHub')
                                     'href': '/desk/#' + path
                                 });
                             });
-                            // $scope.dashboard.lists.clusters.unshift({ cluster_id: 'all', cluster: 'ALL' });
-                            // angular.forEach($scope.dashboard.lists.clusters, function (d, i) {
-                            //     var path = $scope.dashboard.getPath(d.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
-                            //     clusterRows.push({
-                            //         'title': d.cluster,
-                            //         'param': 'cluster_id',
-                            //         'active': d.cluster_id,
-                            //         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            //         'href': '/desk/#' + path
-                            //     });
-                            // });
 
                             // add to menu
                             $scope.model.menu.push({
@@ -508,63 +511,29 @@ angular.module('ngmReportHub')
                             { cluster_id: $scope.dashboard.cluster_id }, true)[0];
                     }
                 },
-
-                // // filter
-                // setAdmin1: function () {
-                //     $scope.dashboard.data.admin1 = $filter('filter')($scope.dashboard.lists.admin1,
-                //         {
-                //             admin0pcode: $scope.dashboard.admin0pcode.toUpperCase(),
-                //             admin1pcode: $scope.dashboard.admin1pcode
-                //         }, true)[0];
-                // },
-
-                // setAdmin2: function () {
-                //     $scope.dashboard.data.admin2 = $filter('filter')($scope.dashboard.lists.admin2,
-                //         {
-                //             admin0pcode: $scope.dashboard.admin0pcode.toUpperCase(),
-                //             admin1pcode: $scope.dashboard.admin1pcode,
-                //             admin2pcode: $scope.dashboard.admin2pcode
-                //         }, true)[0];
-                // },
-
                 //
                 setTitle: function () {
                     // title
-                    $scope.dashboard.title = '3W';
+                    $scope.dashboard.title = 'Scheduling';
 
 
                     // admin0
                     if ($scope.dashboard.admin0pcode === 'all') {
-                        $scope.dashboard.title = '3W | ' + $scope.dashboard.adminRpcode.toUpperCase()
+                        $scope.dashboard.title = 'Scheduling | ' + $scope.dashboard.adminRpcode.toUpperCase()
                     }
 
                     if ($scope.dashboard.admin0pcode !== 'all') {
                         $scope.dashboard.title += ' | ' + $scope.dashboard.admin0pcode.toUpperCase();
                     }
-                    // cluster
-                    // if ($scope.dashboard.cluster_id !== 'all') {
-                    //     $scope.dashboard.title += ' | ' + $scope.dashboard.cluster.cluster.toUpperCase();
-                    // }
                     if ($scope.dashboard.cluster_id !== 'all') {
                         $scope.dashboard.title += ' | ' + $scope.dashboard.cluster.cluster;
                     }
-                    // activity
-                    // if ($scope.dashboard.activity_type_id !== 'all') {
-                    //     $scope.dashboard.title += ' | ' + $scope.dashboard.activity_type_id.toUpperCase();
-                    // }
+
                     // org
                     if ($scope.dashboard.organization_tag !== 'all') {
                         var org = $scope.dashboard.organization ? ' | ' + $scope.dashboard.organization : '';
                         $scope.dashboard.title += org;
                     }
-                    // admin1
-                    // if ($scope.dashboard.admin1pcode !== 'all') {
-                    //     $scope.dashboard.title += ' | ' + $scope.dashboard.data.admin1.admin1name;
-                    // }
-                    // // admin2
-                    // if ($scope.dashboard.admin2pcode !== 'all') {
-                    //     $scope.dashboard.title += ' | ' + $scope.dashboard.data.admin2.admin2name;
-                    // }
                     // report_type
                     $scope.dashboard.title += ' | ' + ($scope.dashboard.report_type_name.replace(/\b\w/g, l => l.toUpperCase()))
                     // update of rendered title
@@ -578,7 +547,7 @@ angular.module('ngmReportHub')
 
 
                     // subtitle
-                    $scope.dashboard.subtitle = '3W ' + $filter('translate')('for') + ' ';
+                    $scope.dashboard.subtitle = 'Scheduling For ' + $filter('translate')('for') + ' ';
                     // admin0
                     if ($scope.dashboard.admin0pcode === 'all') {
                         $scope.dashboard.subtitle = $filter('translate')('5wdashboard') + ' ' + $filter('translate')('for') + ' ' + $scope.dashboard.adminRpcode.toUpperCase();
@@ -593,10 +562,6 @@ angular.module('ngmReportHub')
                     } else {
                         $scope.dashboard.subtitle += ', ' + $scope.dashboard.cluster.cluster.toUpperCase() + ' cluster';
                     }
-                    // // activity
-                    // if ($scope.dashboard.activity_type_id !== 'all') {
-                    //     $scope.dashboard.subtitle += ', ' + $scope.dashboard.activity_type_id.toUpperCase();
-                    // }
                     // org
                     if ($scope.dashboard.organization_tag === 'all') {
                         $scope.dashboard.subtitle += ', ' + $filter('translate')('all_organizations');
@@ -604,16 +569,6 @@ angular.module('ngmReportHub')
                         var org = $scope.dashboard.organization ? ', ' + $scope.dashboard.organization + ' ' + $filter('translate')('organization') : '';
                         $scope.dashboard.subtitle += org;
                     }
-                    // admin1
-                    // if ($scope.dashboard.admin1pcode === 'all') {
-                    //     $scope.dashboard.subtitle += ', ' + $filter('translate')('all_provinces');
-                    // } else {
-                    //     $scope.dashboard.subtitle += ', ' + $scope.dashboard.data.admin1.admin1name.toUpperCase() + ' ' + $filter('translate')('province');
-                    // }
-                    // // admin2
-                    // if ($scope.dashboard.admin2pcode !== 'all') {
-                    //     $scope.dashboard.subtitle += ', ' + $scope.dashboard.data.admin2.admin2name.toUpperCase() + ' ' + $filter('translate')('district');
-                    // }
                     $scope.dashboard.subtitle += ', ' + ($scope.dashboard.report_type_name.replace(/\b\w/g, l => l.toUpperCase()))
                     // update of rendered title
                     if ($scope.model.header && $scope.model.header.subtitle) {
@@ -621,30 +576,30 @@ angular.module('ngmReportHub')
                     }
                 },
 
-                setBeneficiariesStats:function(indicator_array){
-                    var benef_row =[];
-                    var grid_style ='';
-                    if(indicator_array.length>2){
+                setBeneficiariesStats: function (indicator_array) {
+                    var benef_row = [];
+                    var grid_style = '';
+                    if (indicator_array.length > 2) {
                         grid_style = 'm4 l4'
-                    }else if(indicator_array.length>1){
+                    } else if (indicator_array.length > 1) {
                         grid_style = 'm6 l6'
-                    }else{
+                    } else {
                         grid_style = 'm12 l12'
                     }
 
-                    angular.forEach(indicator_array,function(e){
+                    angular.forEach(indicator_array, function (e) {
 
                         benef_row.push({
-                            styleClass: 's12'+ grid_style,
-                                widgets: [{
-                                    type: 'stats',
-                                    style: 'text-align: center;',
-                                    card: 'card-panel stats-card white grey-text text-darken-2',
-                                    config: {
-                                        title: e.name,
-                                        request: $scope.dashboard.getRequest({ indicator: e.id, calculate_indicator: e.calculate_indicator })
-                                    }
-                                }]
+                            styleClass: 's12' + grid_style,
+                            widgets: [{
+                                type: 'stats',
+                                style: 'text-align: center;',
+                                card: 'card-panel stats-card white grey-text text-darken-2',
+                                config: {
+                                    title: e.name,
+                                    request: $scope.dashboard.getRequest({ indicator: e.id, calculate_indicator: e.calculate_indicator })
+                                }
+                            }]
                         })
                     })
 
@@ -653,17 +608,6 @@ angular.module('ngmReportHub')
 
                 // set dashboard
                 init: function () {
-
-                    // variables
-                    // $scope.dashboard.adminRpcode = $route.current.params.adminRpcode;
-                    // $scope.dashboard.admin0pcode = $route.current.params.admin0pcode;
-                    // $scope.dashboard.admin1pcode = $route.current.params.admin1pcode;
-                    // $scope.dashboard.admin2pcode = $route.current.params.admin2pcode;
-                    // $scope.dashboard.cluster_id = $route.current.params.cluster_id;
-                    // $scope.dashboard.organization_tag = $route.current.params.organization_tag;
-                    // $scope.dashboard.beneficiaries = $route.current.params.beneficiaries.split('+');
-                    // $scope.dashboard.activity_type_id = $route.current.params.activity_type_id;
-                    // $scope.dashboard.activity_description_id = $route.current.params.activity_description_id;
 
                     $scope.dashboard.adminRpcode = $route.current.params.adminRpcode;
                     $scope.dashboard.admin0pcode = $route.current.params.admin0pcode;
@@ -709,47 +653,47 @@ angular.module('ngmReportHub')
                                 'class': 'col hide-on-small-only report-subtitle truncate m7 l9',
                                 'title': $scope.dashboard.subtitle,
                             },
-                            datePicker: {
-                                'class': 'col s12 m5 l3',
-                                dates: [{
-                                    style: 'float:left;',
-                                    label: $filter('translate')('from'),
-                                    format: 'd mmm, yyyy',
-                                    min: $scope.dashboard.config.min_date ? moment($scope.dashboard.config.min_date).subtract(1, "days").format('YYYY-MM-DD') :'2017-01-01',
-                                    max: $scope.dashboard.endDate,
-                                    currentTime: $scope.dashboard.startDate,
-                                    onClose: function () {
-                                        // set date
-                                        var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
-                                        if (date !== $scope.dashboard.startDate) {
-                                            // set new date
-                                            $scope.dashboard.startDate = date;
-                                            var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
-                                            $location.path(path);
-                                        }
-                                    }
-                                }, {
-                                    style: 'float:right',
-                                    label: $filter('translate')('to'),
-                                    format: 'd mmm, yyyy',
-                                    min: $scope.dashboard.startDate,
-                                    currentTime: $scope.dashboard.endDate,
-                                    onClose: function () {
-                                        // set date
-                                        var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
-                                        if (date !== $scope.dashboard.endDate) {
-                                            // set new date
-                                            $scope.dashboard.endDate = date;
-                                            var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
-                                            $location.path(path);
-                                        }
-                                    }
-                                }]
-                            },
-                            download: {
-                                'class': 'col s12 m4 l4 hide-on-small-only',
-                                downloads: $scope.dashboard.getDownloads()
-                            }
+                            // datePicker: {
+                            //     'class': 'col s12 m5 l3',
+                            //     dates: [{
+                            //         style: 'float:left;',
+                            //         label: $filter('translate')('from'),
+                            //         format: 'd mmm, yyyy',
+                            //         min: $scope.dashboard.config.min_date ? $scope.dashboard.config.min_date : '2017-01-01',
+                            //         max: $scope.dashboard.endDate,
+                            //         currentTime: $scope.dashboard.startDate,
+                            //         onClose: function () {
+                            //             // set date
+                            //             var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
+                            //             if (date !== $scope.dashboard.startDate) {
+                            //                 // set new date
+                            //                 $scope.dashboard.startDate = date;
+                            //                 var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
+                            //                 $location.path(path);
+                            //             }
+                            //         }
+                            //     }, {
+                            //         style: 'float:right',
+                            //         label: $filter('translate')('to'),
+                            //         format: 'd mmm, yyyy',
+                            //         min: $scope.dashboard.startDate,
+                            //         currentTime: $scope.dashboard.endDate,
+                            //         onClose: function () {
+                            //             // set date
+                            //             var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
+                            //             if (date !== $scope.dashboard.endDate) {
+                            //                 // set new date
+                            //                 $scope.dashboard.endDate = date;
+                            //                 var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
+                            //                 $location.path(path);
+                            //             }
+                            //         }
+                            //     }]
+                            // },
+                            // download: {
+                            //     'class': 'col s12 m4 l4 hide-on-small-only',
+                            //     downloads: $scope.dashboard.getDownloads()
+                            // }
                         },
                         menu: [],
                         rows: [{
@@ -762,9 +706,11 @@ angular.module('ngmReportHub')
                                     config: {
                                         id: 'dashboard-btn',
                                         toMainMenu: function () {
-                                            var path = '/custom/custom-main/' + $scope.dashboard.user.adminRpcode.toLowerCase() + '/' + $scope.dashboard.user.admin0pcode.toLowerCase() + '/' + $scope.dashboard.user.organization_tag + '/' + $scope.dashboard.report_type_id;
-                                            // update new date
-                                            $location.path(path);
+                                            var path = '/custom/file/' + $scope.dashboard.adminRpcode.toLowerCase() + '/' + $scope.dashboard.user.admin0pcode.toLowerCase() + '/' + $scope.dashboard.cluster_id + '/' + $scope.dashboard.organization_tag + '/' + $scope.dashboard.report_type + '/' + $scope.dashboard.report_type_id + '/' + moment($route.current.params.start).format('YYYY-MM-DD') + '/' + moment($route.current.params.end).format('YYYY-MM-DD');
+                                            $location.path(path)
+                                            // var path = '/custom/custom-main/' + $scope.dashboard.user.adminRpcode.toLowerCase() + '/' + $scope.dashboard.user.admin0pcode.toLowerCase() + '/' + $scope.dashboard.user.organization_tag + '/' + $scope.dashboard.report_type_id;
+                                            // // update new date
+                                            // $location.path(path);
                                         },
                                         request: $scope.dashboard.getRequest({ indicator: 'latest_update' }),
                                         templateUrl: '/scripts/widgets/ngm-html/template/custom.dashboard.html'
@@ -772,88 +718,15 @@ angular.module('ngmReportHub')
                                 }]
                             }]
                         }, {
-                            columns: [{
-                                styleClass: 's12 m12',
-                                widgets: [{
-                                    type: 'stats',
-                                    style: 'text-align: center;',
-                                    card: 'card-panel stats-card white grey-text text-darken-2',
-                                    config: {
-                                        title: 'Organizations',
-                                        request: $scope.dashboard.getRequest({ indicator: 'organizations' })
-                                    }
+                             columns: [{
+                                    styleClass: 's12 m12 l12',
+                                    widgets: [{
+                                        type: 'custom.schedule',
+                                        config: {
+                                        }
+                                    }]
                                 }]
-                            }]
-                        }, {
-                            columns: $scope.dashboard.beneficiaries_row
-                        },{
-                            columns: [{
-                                styleClass: 's12 m12 l12',
-                                widgets: [{
-                                    type: 'html',
-                                    card: 'card-panel',
-                                    style: 'padding:0px;',
-                                    config: {
-                                        html: '<h2 class="col s12 report-title" style="margin-top: 20px; padding-bottom: 5px; font-size: 2.2rem; color: #2196F3; border-bottom: 3px #2196F3 solid;">' + 'LOCATIONS' + '</h2>'
-                                    }
-                                }]
-                            }]
-                        }, {
-                            columns: [{
-                                styleClass: 's12 m12 l12',
-                                widgets: [{
-                                    type: 'stats',
-                                    style: 'text-align: center;',
-                                    card: 'card-panel stats-card white grey-text text-darken-2',
-                                    config: {
-                                        title: 'Locations',
-                                        request: $scope.dashboard.getRequest({ indicator: 'locations' })
-                                    }
-                                }]
-                            }]
-                        }, {
-                            columns: [{
-                                styleClass: 's12 m12 l12',
-                                widgets: [{
-                                    type: 'leaflet',
-                                    card: 'card-panel',
-                                    style: 'padding:0px;',
-                                    config: {
-                                        height: '490px',
-                                        display: {
-                                            type: 'marker',
-                                            zoomToBounds: true,
-                                        },
-                                        defaults: {
-                                            zoomToBounds: true
-                                        },
-                                        layers: {
-                                            baselayers: {
-                                                osm: {
-                                                    name: 'Mapbox',
-                                                    type: 'xyz',
-                                                    url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
-                                                    layerOptions: {
-                                                        continuousWorld: true
-                                                    }
-                                                }
-                                            },
-                                            overlays: {
-                                                projects: {
-                                                    name: 'Projects',
-                                                    type: 'markercluster',
-                                                    visible: true,
-                                                    layerOptions: {
-                                                        maxClusterRadius: 90
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        request: $scope.dashboard.getRequest({ indicator: 'markers' })
-                                    }
-                                }]
-                            }]
-                        }, {
+                            },{
                             columns: [{
                                 styleClass: 's12 m12 l12',
                                 widgets: [{
@@ -861,7 +734,6 @@ angular.module('ngmReportHub')
                                     card: 'card-panel',
                                     style: 'padding:0px; height: 90px; padding-top:10px;',
                                     config: {
-                                        // html: $scope.dashboard.ngm.footer
                                         templateUrl: '/scripts/widgets/ngm-html/template/footer.html',
                                         lightPrimaryColor: $scope.ngm.style.lightPrimaryColor,
                                         defaultPrimaryColor: $scope.ngm.style.defaultPrimaryColor,
@@ -871,38 +743,12 @@ angular.module('ngmReportHub')
                         }]
                     }
 
-                    // // remove training participants for AF
-                    // if ($scope.dashboard.admin0pcode.toUpperCase() === 'AF') {
-                    //     $scope.model.header.download.downloads = $scope.model.header.download.downloads.filter(function (obj) {
-                    //         return obj.id !== 'training_participants';
-                    //     });
-                    // }
-
-                    // // disallow public download
-                    // if ($scope.dashboard.user.username === 'welcome') {
-                    //     $scope.model.header.download.downloads = $scope.model.header.download.downloads.filter(function (obj) {
-                    //         return obj.id === 'cluster_dashboard_pdf';
-                    //     });
-                    // }
-
                     // set
                     // $scope.dashboard.setUrl();
-                    $scope.dashboard.setMenu();
-                    $scope.dashboard.setCluster();
-                    // $scope.dashboard.setAdmin1();
-                    // $scope.dashboard.setAdmin2();
+                    // $scope.dashboard.setMenu();
+                    // $scope.dashboard.setCluster();
                     $scope.dashboard.setTitle();
                     $scope.dashboard.setSubtitle();
-
-                    // dashboard metrics
-                    // var visit = angular.merge($scope.dashboard.getMetrics($scope.dashboard.cluster_id + '_cluster_dashboard', 'view'), { async: true });
-                    // $http(visit).success(function (data) {
-                    //     ;
-                    //     // success
-                    // }).error(function (data) {
-                    //     ;
-                    //     console.log('error!');
-                    // });
 
                     setTimeout(() => {
                         $('.fixed-action-btn').floatingActionButton({ direction: 'left' });
@@ -911,55 +757,11 @@ angular.module('ngmReportHub')
 
             };
 
-            // if lists
-            // if ($scope.dashboard.lists.admin1.length) {
-
-            //     // set dashboard
-            //     $scope.dashboard.init();
-
-            //     // assign to ngm app scope ( for menu )
-            //     $scope.dashboard.ngm.dashboard.model = $scope.model;
-
-            // }
-
-            // if none
-            // if (!$scope.dashboard.lists.admin1.length) {
-
-            //     // lists
-            //     var requests = {
-            //         getAdmin1List: ngmAuth.LOCATION + '/api/list/getAdmin1List',
-            //         getAdmin2List: ngmAuth.LOCATION + '/api/list/getAdmin2List'
-            //     }
-
-            //     // send request
-            //     $q.all([
-            //         $http.get(requests.getAdmin1List),
-            //         $http.get(requests.getAdmin2List)]).then(function (results) {
-
-            //             // set dashboard lists
-            //             $scope.dashboard.lists.admin1 = results[0].data;
-            //             $scope.dashboard.lists.admin2 = results[1].data;
-
-            //             // set in localstorage
-            //             localStorage.setObject('lists', { admin1List: results[0].data, admin2List: results[1].data });
-            //             ngmLists.setObject('lists', { admin1List: results[0].data, admin2List: results[1].data });
-
-            //             // set dashboard
-            //             $scope.dashboard.init();
-
-            //             // assign to ngm app scope ( for menu )
-            //             $scope.dashboard.ngm.dashboard.model = $scope.model;
-
-            //         });
-
-            // }
-
             // set dashboard
             $scope.dashboard.init();
 
             // assign to ngm app scope ( for menu )
             $scope.dashboard.ngm.dashboard.model = $scope.model;
-
         }
 
     ]);

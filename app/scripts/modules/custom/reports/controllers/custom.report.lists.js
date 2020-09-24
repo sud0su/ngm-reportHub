@@ -78,8 +78,10 @@ angular.module('ngmReportHub')
 
 
                 // add project code to subtitle?
-                var text = $filter('translate')('actual_monthly_beneficiaries_report_for') + ' ' + $scope.report.project.project_title
+                var text = 'Report List for ' + $scope.report.project.project_title
                 var subtitle = $scope.report.project.project_code ? $scope.report.project.project_code + ' - ' + text : text;
+
+                console.log(subtitle)
 
                 var data_bodyParams = {
                     report: $filter('limitTo')($scope.report.project.project_title, 180) + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'),

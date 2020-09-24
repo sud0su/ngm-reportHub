@@ -1,0 +1,120 @@
+<style>
+    .card-panel-expand {
+        /* margin-top: 1.9rem; */
+        margin-top: 0.2rem;
+    }
+
+    .add-padding {
+        padding-bottom: 30px;
+    }
+
+    .add-margin-bottom {
+        margin-bottom: 20px;
+    }
+</style>
+<div class="row" window-size>
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <ul class="collection with-header">
+
+                <li class="collection-header blue darken-1 ">
+                    <h5 class="report-work-title white-text">
+                        <i class="material-icons left">attach_money</i>Schedule
+                    </h5>
+                </li>
+
+                <li class="collection-item avatar">
+
+                    <div id="Schedule-id-{{$index}}"
+                        ng-repeat="s in schedule.list_schedules track by $index">
+                        <!-- new button and title -->
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col s12 m12 left-align" dir="ltr">
+                                <h5 class="report-beneficiary-title" ng-if="!s.project_donor_id">
+                                    <i class="material-icons left">event_available</i>Schedule 1
+                                </h5>
+                            </div>
+
+                            <!-- btns -->
+                            <div class="col s12 m12" ng-style="(windowWidth > 600) && { 'margin-top': '-40px' }"
+                                ng-class="{'right-align':windowWidth > 600 }">
+                               
+                                <button class="btn-floating waves-effect waves-light" title="Save"
+                                    ng-if="detailSchedule[$index] && schedule.definition.project_status !== 'complete'"
+                                    ng-click="schedule.validate()"
+                                    ng-disabled="schedule.isSaving">
+                                    <i class="material-icons">save</i>
+                                </button>
+                                <button class="btn-floating red lighten-2 waves-effect waves-light" title="Remove"
+                                    ng-if="s.id && detailSchedule[$index] && schedule.definition.project_status !== 'complete'"
+                                    ng-click="schedule.removeSchedule( $index )"
+                                    ng-disabled=" schedule.isSaving">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                                <button class="btn-floating blue lighten-1 waves-effect waves-light"
+                                    ng-if="!s.id && detailSchedule[$index] "
+                                    ng-click="schedule.cancelEdit($index)"
+                                    ng-disabled=" schedule.isSaving">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                                <button id="toggle" class="btn-floating" ng-class="{'rotate': detailSchedule[$index]}"
+                                    ng-click="schedule.openCloseDetailSchedule($index)" ng-disabled="false">
+                                    <i class="material-icons">keyboard_arrow_down</i>
+                                    <md-tooltip md-direction="right">
+                                        {{ 'Minimize'|translate }}
+                                    </md-tooltip>
+                                    <md-tooltip md-direction="right">
+                                        {{ 'Click to Expand'|translate }}
+                                    </md-tooltip>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- detail form-->
+                        <div class="card-panel" ng-if="detailSchedule[$index]"
+                            ng-class="{'card-panel-expand':detailSchedule[$index]}">
+
+                            <div class="row">
+
+                                <div class="input-field col s12 m6 l6">
+                                    <select materialize-select id="ngm-indicator_id-{{$index}}"
+                                        name="ngm-indicator_id-{{$index}}" class="validate"
+                                        ng-options="d.indicator_id as d.indicator_name for d in schedule.report_types"
+                                        ng-model="s.indicator_id" ng-change="schedule.updateName( schedule.report_types, 'indicator_id', 'indicator_name',s);
+																 ngmCustomBeneficiaries.inputChange( 'ngm-indicator_id-{{$index}}' );"
+                                        ng-disabled="" required>
+                                        <option value="">{{ 'select' | translate }}</option>
+                                    </select>
+                                    <label for="ngm-indicator_id-{{$index}}" class="active"
+                                        style="transform:translateY(50%)">Report Types*</label>
+                                </div>
+
+
+                                <div class="input-field col s12 m6 l6">
+                                    <label id="ngm-date-{{$index}}"
+                                        for="ngm-date-{{$index}}"
+                                        class="active">Date*</label>
+                                    <input ngm-date type="text" style="color:rgba(0, 0, 0, 0.87);margin-bottom:0px;"
+                                        ng-model="s.date" format="dd mmm, yyyy"
+                                        select-years="15" ng-disabled="schedule.definition.project_status === 'complete'"
+                                        on-close="schedule.datepicker.onClose( s )" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn" ng-show="schedule.definition.project_status !== 'complete'"
+                        ng-click="schedule.addSchedule()" style="margin:20px 0px;">
+                        <i class="material-icons left">add</i> Add Schedule
+                    </button>
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    setTimeout(function () {
+        M.updateTextFields();
+    }, 100)
+</script>

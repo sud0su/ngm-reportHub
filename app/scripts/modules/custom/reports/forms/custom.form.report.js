@@ -371,6 +371,25 @@ angular.module('ngm.widget.custom.report', ['ngm.provider'])
                     return count;
                 },
 
+                checkedYesOrNo: function(beneficiary,att){
+                    if(beneficiary[att] === 'yes'){
+                        return true
+                    }
+                    return false
+                },
+                setYesOrNo: function (beneficiary, att, id) {
+
+                    if (document.getElementById(id).checked) {
+                        beneficiary[att] = 'yes'
+
+                    }else{
+                        beneficiary[att] ='no'
+                    }
+
+                    console.log(beneficiary[att])
+
+                },
+
                 // remove beneficiary
                 removeBeneficiary: function () {
                     var id = $scope.project.report.locations[$scope.project.locationIndex].beneficiaries[$scope.project.beneficiaryIndex].id;

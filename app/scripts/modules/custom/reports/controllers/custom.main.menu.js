@@ -35,6 +35,8 @@ angular.module('ngmReportHub')
                 var text_title = $route.current.params.report_type_id ? $scope.report.report_type_name.replace(/\b\w/g, l => l.toUpperCase()) : '';
                 $scope.report.title = text_title === '' ? 'Main Menu' : text_title + ' Menu';
 
+                var dashboard_config = ngmCustomConfig.getCustomDashboardConfig($route.current.params.report_type_id);
+
                 // add project code to subtitle?
                 var subtitle = text_title === '' ? 'Main Menu' : 'Main Menu for ' + text_title;
 
@@ -83,6 +85,8 @@ angular.module('ngmReportHub')
                                     adminRpcode: $route.current.params.adminRpcode,
                                     organization_tag: $route.current.params.organization_tag,
                                     cluster_id: $scope.report.user.cluster_id,
+                                    dashboard_start_date: moment(dashboard_config.min_date).format('YYYY-MM-DD'),
+                                    dashboard_end_date: moment().format('YYYY-MM-DD'),
                                     star_date: moment.utc().date() <= 20 ? moment.utc().startOf('M').subtract(1, 'M').format('YYYY-MM-DD') : moment.utc().startOf('M').format('YYYY-MM-DD'),
                                     end_date: moment.utc().date() <= 20 ? moment.utc().endOf('M').subtract(1, 'M').format('YYYY-MM-DD') : moment.utc().endOf('M').format('YYYY-MM-DD'),
                                     title: text_title
