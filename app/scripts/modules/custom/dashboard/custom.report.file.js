@@ -772,12 +772,13 @@ angular.module('ngmReportHub')
                                                     write: true,
                                                     report: $scope.dashboard.filename + '_'+indicator+'_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm')
                                                 });
-                                                
+                                                $('#generate-file-modal').modal('close');
                                                 ngmData.get(req).then(function(r){
 
                                                     if(!r.err){
-                                                        $rootScope.$broadcast('refresh:file');
-
+                                                        $timeout(function(){
+                                                            $rootScope.$broadcast('refresh:file');
+                                                        },100)
                                                     }
 
                                                 })
