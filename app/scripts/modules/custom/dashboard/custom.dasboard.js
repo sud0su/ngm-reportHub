@@ -226,11 +226,52 @@ angular.module('ngmReportHub')
                                                                    fieldNames: $scope.dashboard.config.fieldNames, 
                                                                    overwriteFields: $scope.dashboard.config.overwriteFields, 
                                                                    indicator: $scope.dashboard.config.indicator[0].id,
-                                                                   write:$scope.dashboard.config.indicator[0].write?true:false,
                                                                    calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
                                                                    report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm') }),
                         metrics: $scope.dashboard.getMetrics('beneficiary_data', 'csv')
                     }];
+
+                    if ($scope.dashboard.config.downloads) {
+                        downloads = [{
+                            id: 'cluster_dashboard_pdf',
+                            type: 'pdf',
+                            color: 'blue',
+                            icon: 'picture_as_pdf',
+                            hover: $filter('translate')('download_dashboard_as_pdf'),
+                            request: {
+                                method: 'POST',
+                                url: ngmAuth.LOCATION + '/api/print',
+                                data: {
+                                    report: $scope.dashboard.cluster_id + '_cluster_dashboard-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'),
+                                    printUrl: $location.absUrl(),
+                                    downloadUrl: ngmAuth.LOCATION + '/report/',
+                                    user: $scope.dashboard.user,
+                                }
+                            },
+                            metrics: $scope.dashboard.getMetrics('cluster_dashboard_pdf', 'pdf')
+                        }];
+                        angular.forEach($scope.dashboard.config.downloads, (d) => {
+                            downloads.push({
+                                type: d.type,
+                                color: 'blue lighten-2',
+                                icon: 'assignment',
+                                hover: $filter('translate')('download') + ' ' + d.indicator_name.replace(/\b\w/g, l => l.toUpperCase()),
+                                // request: {
+                                //     method: 'POST',
+                                //     url: ngmAuth.LOCATION + '/api/custom/admin/indicator',
+                                //     data: angular.merge($scope.dashboard.getRequest(d.indicator_id, true), { fields: $scope.dashboard.config.fields, fieldNames: $scope.dashboard.config.fieldNames, overwriteFields: $scope.dashboard.config.overwriteFields, report: $scope.dashboard.cluster_id_filename + '_' + $scope.dashboard.report_type_id + "_" + d.indicator_id + "_" + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'), csv: true })
+                                // },
+                                request:$scope.dashboard.getRequest({ csv: true, fields: $scope.dashboard.config.fields, 
+                                                                   fieldNames: $scope.dashboard.config.fieldNames, 
+                                                                   overwriteFields: $scope.dashboard.config.overwriteFields, 
+                                                                   indicator: d.indicator_id,
+                                                                   calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
+                                                                   report: $scope.dashboard.filename + '_'+d.indicator_id+'_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm') }),
+                                metrics: $scope.dashboard.getMetrics(d.indicator_id, d.type)
+                            })
+                        })
+
+                    }
 
                     // NG, wash and Admin
                     if ($scope.dashboard.admin0pcode === 'ng' &&
@@ -428,12 +469,16 @@ angular.module('ngmReportHub')
                         var filter_config = [];
                         // $scope.dashboard.config.filter_clusters
                         // $scope.dashboard.lists.clusters
-                        if ($scope.dashboard.config.filter_clusters && $scope.dashboard.config.filter_clusters.length){
-                            angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
-                                if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id)>-1){
-                                    filter_config.push(c)
-                                }
-                            })
+                        if ($scope.dashboard.config.filter_clusters ){
+                            if ($scope.dashboard.config.filter_clusters.length){
+                                angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
+                                    if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id)>-1){
+                                        filter_config.push(c)
+                                    }
+                                })
+                            }else{
+                                filter_config = $scope.dashboard.lists.clusters;
+                            }
 
                             filter_config.unshift({ cluster_id: 'all', cluster: 'ALL' });
                             angular.forEach(filter_config, function (d, i) {
@@ -715,7 +760,7 @@ angular.module('ngmReportHub')
                                     style: 'float:left;',
                                     label: $filter('translate')('from'),
                                     format: 'd mmm, yyyy',
-                                    min: $scope.dashboard.config.min_date ? moment($scope.dashboard.config.min_date).subtract(1, "days").format('YYYY-MM-DD') :'2017-01-01',
+                                    min: $scope.dashboard.config.start_date ? moment($scope.dashboard.config.start_date).subtract(1, "days").format('YYYY-MM-DD') :'2017-01-01',
                                     max: $scope.dashboard.endDate,
                                     currentTime: $scope.dashboard.startDate,
                                     onClose: function () {

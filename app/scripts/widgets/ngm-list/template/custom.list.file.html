@@ -138,7 +138,43 @@
         height: 30px;
         margin-top: 10px;
     }
+    .generate.modal{
+        width: 25%;
+    }
+    .generate.modal-footer{
+        text-align: center;
+    }
 </style>
+<div id="generate-file-modal" class=" generate modal">
+    <div class="modal-content" style=" padding-top: 0px; padding-left: 0px; padding-right: 0px">
+        <ul class="collection with-header" style="margin-top:0">
+            <li class="collection-header blue lighten-1" style="border-bottom: 0">
+                <h5 style="color: #ffffff;font-weight:300;text-align: left;">
+                    <i class="material-icons left" style="font-size: 25px">refresh</i>
+                    Generate File
+                </h5>
+            </li>
+        </ul>
+
+        <div class="row" style="margin: 20px 50px 10px 50px;">
+            <div class="input-field col s12 m12">
+                <select materialize-select id="ngm-report-type" name="ngm-org-type" class="validate"
+                    ng-options="report.indicator_id as report.indicator_name for report in list.report_types"
+                    ng-model="list.indicator_id" ng-disabled="" required>
+                    <option value="">Select...</option>
+                </select>
+                <label for="ngm-report-type" class="active" style="transform:translateY(-10%)"> Report Type</label>
+            </div>
+        </div>
+    </div>
+    <div class="generate modal-footer" style="margin-bottom: 10px;">
+        <div class="modal-action wave-effects wave-green btn"
+            ng-disabled="!list.indicator_id"
+            ng-click="list.generateFile(list.indicator_id)">Generate 
+        </div>
+        <div class="modal-action modal-close red darken-1 btn">Close</div>
+    </div>
+</div>
 <!-- <div id="close-preview-modal" class="upload modal ">
     <div class="modal-content">
         <img ng-src={{list.setLink()}} id="imagepreview">
@@ -184,10 +220,10 @@
                     </div>
                     <div class="col s12 m4 l4">
                         <div class="right hide-on-small-only " style="margin-top: 10px">
-                            <a class="waves-effect waves-light btn blue darken-2" ng-click="list.generateFile()"
+                            <a class="waves-effect waves-light btn blue darken-2" ng-click="list.openModal('generate-file-modal')"
                                 title="Generate File">
                                 <i class="material-icons mirror left">refresh</i>Generate File</a>
-                            <a class="waves-effect waves-light btn blue darken-2" ng-click="list. goToSchedule()" title="Generate File">
+                            <a class="waves-effect waves-light btn blue darken-2" ng-click="list.goToSchedule()" title="Generate File">
                                 <i class="material-icons mirror left">event_available</i>Schedule</a>
                         </div>
 

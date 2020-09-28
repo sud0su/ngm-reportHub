@@ -212,39 +212,58 @@ angular.module('ngmReportHub')
                 // downloads
                 getDownloads: function () {
 
-                    var downloads = [{
-                        id: 'cluster_dashboard_pdf',
-                        type: 'pdf',
-                        color: 'blue',
-                        icon: 'picture_as_pdf',
-                        hover: $filter('translate')('download_dashboard_as_pdf'),
-                        request: {
-                            method: 'POST',
-                            url: ngmAuth.LOCATION + '/api/print',
-                            data: {
-                                report: $scope.dashboard.cluster_id + '_cluster_dashboard-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'),
-                                printUrl: $location.absUrl(),
-                                downloadUrl: ngmAuth.LOCATION + '/report/',
-                                user: $scope.dashboard.user,
-                            }
-                        },
-                        metrics: $scope.dashboard.getMetrics('cluster_dashboard_pdf', 'pdf')
-                    }, {
-                        type: 'csv',
-                        color: 'blue lighten-2',
-                        icon: 'group',
-                        hover: $filter('translate')('download_beneficiary_data_as_csv'),
-                        request: $scope.dashboard.getRequest({
-                            csv: true, fields: $scope.dashboard.config.fields,
-                            fieldNames: $scope.dashboard.config.fieldNames,
-                            overwriteFields: $scope.dashboard.config.overwriteFields,
-                            indicator: $scope.dashboard.config.indicator[0].id,
-                            write: $scope.dashboard.config.indicator[0].write ? true : false,
-                            calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
-                            report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm')
-                        }),
-                        metrics: $scope.dashboard.getMetrics('beneficiary_data', 'csv')
-                    }];
+                    // var downloads = [{
+                    //     id: 'cluster_dashboard_pdf',
+                    //     type: 'pdf',
+                    //     color: 'blue',
+                    //     icon: 'picture_as_pdf',
+                    //     hover: $filter('translate')('download_dashboard_as_pdf'),
+                    //     request: {
+                    //         method: 'POST',
+                    //         url: ngmAuth.LOCATION + '/api/print',
+                    //         data: {
+                    //             report: $scope.dashboard.cluster_id + '_cluster_dashboard-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'),
+                    //             printUrl: $location.absUrl(),
+                    //             downloadUrl: ngmAuth.LOCATION + '/report/',
+                    //             user: $scope.dashboard.user,
+                    //         }
+                    //     },
+                    //     metrics: $scope.dashboard.getMetrics('cluster_dashboard_pdf', 'pdf')
+                    // }, {
+                    //     type: 'csv',
+                    //     color: 'blue lighten-2',
+                    //     icon: 'group',
+                    //     hover: $filter('translate')('download_beneficiary_data_as_csv'),
+                    //     request: $scope.dashboard.getRequest({
+                    //         csv: true, fields: $scope.dashboard.config.fields,
+                    //         fieldNames: $scope.dashboard.config.fieldNames,
+                    //         overwriteFields: $scope.dashboard.config.overwriteFields,
+                    //         indicator: $scope.dashboard.config.indicator[0].id,
+                    //         write: $scope.dashboard.config.indicator[0].write ? true : false,
+                    //         calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
+                    //         report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm')
+                    //     }),
+                    //     metrics: $scope.dashboard.getMetrics('beneficiary_data', 'csv')
+                    // }];
+                    downloads = [];
+                    if ($scope.dashboard.config.downloads) {
+                        
+                        angular.forEach($scope.dashboard.config.downloads, (d) => {
+                            downloads.push({
+                                type: d.type,
+                                color: 'blue lighten-2',
+                                icon: 'assignment',
+                                hover: $filter('translate')('download') + ' ' + d.indicator_name.replace(/\b\w/g, l => l.toUpperCase()),
+                                request: {
+                                    method: 'POST',
+                                    url: ngmAuth.LOCATION + '/api/custom/admin/indicator',
+                                    data: angular.merge($scope.dashboard.getRequest(d.indicator_id, true), { fields: $scope.dashboard.config.fields, fieldNames: $scope.dashboard.config.fieldNames, overwriteFields: $scope.dashboard.config.overwriteFields, report: $scope.dashboard.cluster_id_filename + '_' + $scope.dashboard.report_type_id + "_" + d.indicator_id + "_" + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'), csv: true })
+                                },
+                                metrics: $scope.dashboard.getMetrics(d.indicator_id, d.type)
+                            })
+                        })
+
+                    }
 
                     // NG, wash and Admin
                     if ($scope.dashboard.admin0pcode === 'ng' &&
@@ -635,7 +654,7 @@ angular.module('ngmReportHub')
                     $scope.dashboard.report_type_name = report_types.filter(x => $route.current.params.report_type_id === x.report_type_id)[0].report_type_name;
 
                     $scope.dashboard.config = ngmCustomConfig.getCustomDashboardConfig($scope.dashboard.report_type_id);
-
+                    $scope.dashboard.config = ngmCustomConfig.getCustomReportsFileConfig($scope.dashboard.report_type_id);
                     // plus dashboard_visits
                     $scope.dashboard.user.dashboard_visits++;
                     localStorage.setObject('auth_token', $scope.dashboard.user);
@@ -649,7 +668,7 @@ angular.module('ngmReportHub')
                     $scope.dashboard.cluster_id_filename = $scope.dashboard.cluster_id !== 'cvwg' ? $scope.dashboard.cluster_id : 'mpc'
 
                     $scope.dashboard.filename = $route.current.params.report_type_id + '_';
-                    $scope.dashboard.beneficiaries_row = $scope.dashboard.setBeneficiariesStats($scope.dashboard.config.indicator)
+                    // $scope.dashboard.beneficiaries_row = $scope.dashboard.setBeneficiariesStats($scope.dashboard.config.indicator)
 
                     // model
                     $scope.model = {
@@ -668,47 +687,47 @@ angular.module('ngmReportHub')
                                 'class': 'col hide-on-small-only report-subtitle truncate m7 l9',
                                 'title': $scope.dashboard.subtitle,
                             },
-                            // datePicker: {
-                            //     'class': 'col s12 m5 l3',
-                            //     dates: [{
-                            //         style: 'float:left;',
-                            //         label: $filter('translate')('from'),
-                            //         format: 'd mmm, yyyy',
-                            //         min: $scope.dashboard.config.min_date ? $scope.dashboard.config.min_date : '2017-01-01',
-                            //         max: $scope.dashboard.endDate,
-                            //         currentTime: $scope.dashboard.startDate,
-                            //         onClose: function () {
-                            //             // set date
-                            //             var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
-                            //             if (date !== $scope.dashboard.startDate) {
-                            //                 // set new date
-                            //                 $scope.dashboard.startDate = date;
-                            //                 var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
-                            //                 $location.path(path);
-                            //             }
-                            //         }
-                            //     }, {
-                            //         style: 'float:right',
-                            //         label: $filter('translate')('to'),
-                            //         format: 'd mmm, yyyy',
-                            //         min: $scope.dashboard.startDate,
-                            //         currentTime: $scope.dashboard.endDate,
-                            //         onClose: function () {
-                            //             // set date
-                            //             var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
-                            //             if (date !== $scope.dashboard.endDate) {
-                            //                 // set new date
-                            //                 $scope.dashboard.endDate = date;
-                            //                 var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
-                            //                 $location.path(path);
-                            //             }
-                            //         }
-                            //     }]
-                            // },
-                            // download: {
-                            //     'class': 'col s12 m4 l4 hide-on-small-only',
-                            //     downloads: $scope.dashboard.getDownloads()
-                            // }
+                            datePicker: {
+                                'class': 'col s12 m5 l3',
+                                dates: [{
+                                    style: 'float:left;',
+                                    label: $filter('translate')('from'),
+                                    format: 'd mmm, yyyy',
+                                    min: $scope.dashboard.config.min_date ? $scope.dashboard.config.min_date : '2017-01-01',
+                                    max: $scope.dashboard.endDate,
+                                    currentTime: $scope.dashboard.startDate,
+                                    onClose: function () {
+                                        // set date
+                                        var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
+                                        if (date !== $scope.dashboard.startDate) {
+                                            // set new date
+                                            $scope.dashboard.startDate = date;
+                                            var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
+                                            $location.path(path);
+                                        }
+                                    }
+                                }, {
+                                    style: 'float:right',
+                                    label: $filter('translate')('to'),
+                                    format: 'd mmm, yyyy',
+                                    min: $scope.dashboard.startDate,
+                                    currentTime: $scope.dashboard.endDate,
+                                    onClose: function () {
+                                        // set date
+                                        var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
+                                        if (date !== $scope.dashboard.endDate) {
+                                            // set new date
+                                            $scope.dashboard.endDate = date;
+                                            var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.report_type_id, $scope.dashboard.report_type, $scope.dashboard.organization_tag);
+                                            $location.path(path);
+                                        }
+                                    }
+                                }]
+                            },
+                            download: {
+                                'class': 'col s12 m4 l4 hide-on-small-only',
+                                downloads: $scope.dashboard.getDownloads()
+                            }
                         },
                         menu: [],
                         rows: [{
@@ -744,18 +763,17 @@ angular.module('ngmReportHub')
                                             itemsPerPage: 5,
                                             itemsPerPageGrid: 18,
                                             typeDocument: 'monthly',
-                                            generateFile:function(){
-
-                                                 var x= $scope.dashboard.getRequest({
+                                            generateFile:function(indicator){
+                                                 var req= $scope.dashboard.getRequest({
                                                     csv: true, fields: $scope.dashboard.config.fields,
                                                     fieldNames: $scope.dashboard.config.fieldNames,
                                                     overwriteFields: $scope.dashboard.config.overwriteFields,
-                                                    indicator: $scope.dashboard.config.indicator[0].id,
+                                                    indicator: indicator,
                                                     write: true,
-                                                    calculate_indicator: $scope.dashboard.config.indicator[0].calculate_indicator,
-                                                    report: $scope.dashboard.filename + '_beneficiary_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm')
-                                                })
-                                                ngmData.get(x).then(function(r){
+                                                    report: $scope.dashboard.filename + '_'+indicator+'_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm')
+                                                });
+                                                
+                                                ngmData.get(req).then(function(r){
 
                                                     if(!r.err){
                                                         $rootScope.$broadcast('refresh:file');
@@ -779,6 +797,12 @@ angular.module('ngmReportHub')
                                             setDonwloadLink:function(filename){
                                                 return ngmAuth.LOCATION+'/report/'+filename
                                             },
+                                            openModal: function(modal){
+                                                $('#' + modal).modal({ dismissible: false });
+                                                $('#' + modal).modal('open');
+                                            },
+                                            indicator_id:'',
+                                            report_types: $scope.dashboard.config.report_types,
                                             title: 'Reports List',
                                             hoverTitle: 'Reports  List',
                                             icon: 'edit',

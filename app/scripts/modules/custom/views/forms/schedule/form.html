@@ -11,6 +11,8 @@
     .add-margin-bottom {
         margin-bottom: 20px;
     }
+    .capitalize{
+    }
 </style>
 <div class="row" window-size>
     <div class="col s12 m12 l12">
@@ -75,21 +77,180 @@
 
                             <div class="row">
 
-                                <div class="input-field col s12 m6 l6">
-                                    <select materialize-select id="ngm-indicator_id-{{$index}}"
-                                        name="ngm-indicator_id-{{$index}}" class="validate"
-                                        ng-options="d.indicator_id as d.indicator_name for d in schedule.report_types"
-                                        ng-model="s.indicator_id" ng-change="schedule.updateName( schedule.report_types, 'indicator_id', 'indicator_name',s);
-																 ngmCustomBeneficiaries.inputChange( 'ngm-indicator_id-{{$index}}' );"
+                                <div class="input-field col s12 m6 l6" ng-class="{'m6 l6': s.schedule_type !== 'once',  'm4 l4': s.schedule_type === 'once'}">
+                                    <select materialize-select id="ngm-schedule_type-{{$index}}"
+                                        name="ngm-schedule_type-{{$index}}" class="validate"
+                                        ng-options="t as (t| capitalize) for t in schedule.lists.types"
+                                        ng-model="s.schedule_type" ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-schedule_type-{{$index}}' ); schedule.initTimePicker()"
                                         ng-disabled="" required>
                                         <option value="">{{ 'select' | translate }}</option>
                                     </select>
-                                    <label for="ngm-indicator_id-{{$index}}" class="active"
-                                        style="transform:translateY(50%)">Report Types*</label>
+                                    <label for="ngm-type_id-{{$index}}" class="active"
+                                        style="transform:translateY(50%)">Schedule Type*</label>
                                 </div>
 
+                                <div ng-if="s.schedule_type === 'once'" class="input-field col s12 m4 l4">
+                                    <label id="ngm-end_date-{{$index}}" for="ngm-end_date-{{$index}}" class="active"> Date*</label>
+                                    <input ngm-date type="text" style="color:rgba(0, 0, 0, 0.87);margin-bottom:0px;" ng-model="s.end_date"
+                                        format="dd mmm, yyyy" select-years="15" ng-disabled="schedule.definition.project_status === 'complete'"
+                                        on-close="schedule.datepicker.onClose( s ,'end_date')" />
+                                
+                                </div>
 
-                                <div class="input-field col s12 m6 l6">
+                                <div ng-if="s.schedule_type !== 'once'" class="input-field col s12 m6 l6">
+                                    <select materialize-select id="ngm-schedule_period-{{$index}}" name="ngm-schedule_period-{{$index}}" class="validate "
+                                        ng-options="r as (r | capitalize) for r in schedule.lists.schedule_periodes | filter:'!custom'"
+                                        ng-model="s.schedule_period" ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-schedule_period-{{$index}}' );" ng-disabled="" required>
+                                        <option value="">{{ 'select' | translate }}</option>
+                                    </select>
+                                    <label for="ngm-schedule_period-{{$index}}" class="active" style="transform:translateY(50%)">Schedule Period</label>
+                                </div>
+
+                                <div ng-if="s.schedule_type !== 'once'" class="input-field col s12 m4 l4">
+                                    <input id="ngm-shift_period-{{$index }}" name="ngm-shift_period-{{$index }}" type="number" class="validate" min="0"
+                                        ng-model="s.shift_period" required />
+                                    <label for="ngm-shift_period-{{$index }}" class="active">Shift Period (Step)</label>
+                                </div>
+                                
+                                <div ng-if="s.schedule_type !== 'once'" class="input-field col s12 m4 l4">
+                                    <input id="ngm-shift_days-{{$index }}" name="ngm-shift_days-{{$index }}" type="number" class="validate" min="0"
+                                        ng-model="s.shift_days" required />
+                                    <label for="ngm-shift_days-{{$index }}" class="active">Shift Days</label>
+                                </div>
+
+                                <div class="input-field col s12 m4 l4">
+                                    <label id="ngm-time-{{$index}}" for="ngm-time-{{$index}}" class="active">Time*</label>
+                                    <input id="timepicker" type="text" class="timepicker" ng-model="s.time">
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12 m12 l12">
+                                    <select materialize-select id="ngm-scheduled_report_type-{{$index}}" name="ngm-scheduled_report_type-{{$index}}" class="validate"
+                                        ng-options="d.scheduled_report_type as d.scheduled_report_name for d in  schedule.lists.report_types" ng-model="s.scheduled_report_type"
+                                        ng-change="schedule.updateName( schedule.report_types, 'scheduled_report_type', 'scheduled_report_name',s);
+                                																 ngmCustomBeneficiaries.inputChange( 'ngm-scheduled_report_type-{{$index}}' );" ng-disabled="" required>
+                                        <option value="">{{ 'select' | translate }}</option>
+                                    </select>
+                                    <label for="ngm-scheduled_report_type-{{$index}}" class="active" style="transform:translateY(50%)">Schedule Report Types*</label>
+                                </div>
+                            </div>
+                            <div ng-if="s.schedule_type !== 'once'"class="row">
+                                <div class="input-field col s12 " ng-class="{'m6 l6': s.report_start_date === 'custom','m4 l4': s.report_start_date !== 'custom'}">
+                                    <select materialize-select id="ngm-report_start_date-{{$index}}" name="ngm-report_start_date-{{$index}}" class="validate"
+                                        ng-options="r as (r | capitalize) for r in schedule.lists.schedule_periodes "
+                                        ng-model="s.report_start_date" ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-period_id-{{$index}}' );"
+                                        ng-disabled="" required>
+                                        <option value="">{{ 'select' | translate }}</option>
+                                    </select>
+                                    <label for="ngm-period_id-{{$index}}" class="active" style="transform:translateY(50%)">Report Start Date</label>
+                                </div>
+                                <div ng-if="s.report_start_date !== 'custom'" class="input-field col s12 m4 l4">
+                                    <input id="ngm-report_start_date_shift_period-{{$index }}" name="ngm-report_start_date_shift_period-{{$index }}" type="number" class="validate" 
+                                        ng-model="s.report_start_date_shift_period" />
+                                    <label for="ngm-report_start_date_shift_period-{{$index }}" class="active">Report Start Date Shift Period (steps)</label>
+                                </div>
+                                
+                                <div ng-if="s.report_start_date !== 'custom'" class="input-field col s12 m4 l4 ">
+                                    <input id="ngm-report_start_date_shift_days-{{$index }}" name="ngm-report_start_date_shift_days-{{$index }}" type="number" class="validate"
+                                        ng-model="s.report_start_date_shift_days" />
+                                    <label for="ngm-report_start_date_shift_days-{{$index }}" class="active">Report Start Date Shift Days</label>
+                                </div>
+                                <div ng-if="s.report_start_date === 'custom'" class="input-field col s12 m6 l6">
+                                    <label id="ngm-start_date-{{$index}}"
+                                        for="ngm-start_date-{{$index}}"
+                                        class="active">Start Date*</label>
+                                    <input ngm-date type="text" style="color:rgba(0, 0, 0, 0.87);margin-bottom:0px;"
+                                        ng-model="s.start_date" format="dd mmm, yyyy"
+                                        select-years="15" ng-disabled="schedule.definition.project_status === 'complete'"
+                                        on-close="schedule.datepicker.onClose( s,'start_date' )" />
+
+                                </div>
+                            </div>
+                            <div ng-if="s.schedule_type !== 'once'"class="row">
+                                <div class="input-field col s12 " ng-class="{'m6 l6': s.report_end_date === 'custom','m4 l4': s.report_end_date !== 'custom'}">
+                                    <select materialize-select id="ngm-report_end_date-{{$index}}" name="ngm-report_end_date-{{$index}}" class="validate"
+                                        ng-options="r as (r | capitalize) for r in schedule.lists.schedule_periodes"
+                                        ng-model="s.report_end_date"
+                                        ng-change="ngmCustomBeneficiaries.inputChange( 'ngm-report_end_date-{{$index}}' );"
+                                        ng-disabled="" >
+                                        <option value="">{{ 'select' | translate }}</option>
+                                    </select>
+                                    <label for="ngm-report_end_date-{{$index}}" class="active" style="transform:translateY(50%)">Report End Date</label>
+                                </div>
+                                <div ng-if="s.report_end_date !== 'custom'" class="input-field col s12 m4 l4" >
+                                    <input id="ngm-step-{{$index }}" name="ngm-step-{{$index }}" type="number" class="validate" min="0"
+                                        ng-model="s.report_end_date_shift_period" />
+                                    <label for="ngm-step-{{$index }}" class="active">Report End Date Shift Period (steps)</label>
+                                </div>
+                                
+                                <div ng-if="s.report_end_date !== 'custom'" class="input-field col s12 m4 l4" >
+                                    <input id="ngm-shift-{{$index }}" name="ngm-shift-{{$index }}" type="number" class="validate" min="0"
+                                        ng-model="s.report_end_date_shift_days"  />
+                                    <label for="ngm-shift-{{$index }}" class="active">Report End Date Shift Days</label>
+                                </div>
+                                 <div ng-if="s.report_end_date === 'custom'" class="input-field col s12 m6 l6">
+                                    <label id="ngm-end_date-{{$index}}"
+                                        for="ngm-end_date-{{$index}}"
+                                        class="active"> End Date*</label>
+                                    <input ngm-date type="text" style="color:rgba(0, 0, 0, 0.87);margin-bottom:0px;"
+                                        ng-model="s.end_date" format="dd mmm, yyyy"
+                                        select-years="15" ng-disabled="schedule.definition.project_status === 'complete'"
+                                        on-close="schedule.datepicker.onClose( s ,'end_date')" />
+
+                                </div>
+                            </div>
+
+                            <!-- Every -->
+                            <!-- <div class="row" ng-if="s.type_id === 'every'">
+
+                                <div class="input-field col s12 m3 l3">
+                                    <select materialize-select id="ngm-period_id-{{$index}}"
+                                        name="ngm-period_id-{{$index}}" class="validate"
+                                        ng-options="r.period_id_id as r.period_name for r in schedule.periodes | filter:{period_id : '!custom'}"
+                                        ng-model="s.period_id" ng-change="schedule.updateName( schedule.types, 'period_id', 'period_name',s);
+																 ngmCustomBeneficiaries.inputChange( 'ngm-period_id-{{$index}}' );"
+                                        ng-disabled="" required>
+                                        <option value="">{{ 'select' | translate }}</option>
+                                    </select>
+                                    <label for="ngm-period_id-{{$index}}" class="active"
+                                        style="transform:translateY(50%)">Types*</label>
+                                </div>
+
+                                <div class="input-field col s12 m4 l3">
+									<input id="ngm-step-{{$index }}"
+											name="ngm-step-{{$index }}"
+											type="number"
+											class="validate"
+											min="0"
+											ng-model="s.step"																						
+											required />
+									<label for="ngm-step-{{$index }}" class="active">Step</label>
+                                </div>
+                                
+                                <div class="input-field col s12 m3 l3">
+									<input id="ngm-shift-{{$index }}"
+											name="ngm-shift-{{$index }}"
+											type="number"
+											class="validate"
+											min="0"
+											ng-model="s.shift"																						
+											required />
+									<label for="ngm-shift-{{$index }}" class="active">Shift</label>
+                                </div>
+                                <div class="input-field col s12 m3 l3">
+                                    <label id="ngm-time-{{$index}}"
+                                        for="ngm-time-{{$index}}"
+                                        class="active">Time*</label>
+                                        <input id="timepicker" type="text" class="timepicker"  ng-model="s.time"
+                                        >
+                                </div>
+                            </div>
+
+                            <div class="row" ng-if="s.type_id === 'once'">
+
+                                 <div class="input-field col s12 m3 l6">
                                     <label id="ngm-date-{{$index}}"
                                         for="ngm-date-{{$index}}"
                                         class="active">Date*</label>
@@ -99,9 +260,47 @@
                                         on-close="schedule.datepicker.onClose( s )" />
 
                                 </div>
-                            </div>
+                            
+                                <div class="input-field col s12 m3 l6">
+                                    <select materialize-select id="ngm-period_id-{{$index}}" name="ngm-period_id-{{$index}}" class="validate"
+                                        ng-options="r.period_id_id as r.period_name for r in schedule.periodes" ng-model="s.period_id" ng-change="schedule.updateName( schedule.types, 'period_id', 'period_name',s);
+                            																 ngmCustomBeneficiaries.inputChange( 'ngm-period_id-{{$index}}' );" ng-disabled="" required>
+                                        <option value="">{{ 'select' | translate }}</option>
+                                    </select>
+                                    <label for="ngm-period_id-{{$index}}" class="active" style="transform:translateY(50%)">Start of*</label>
+                                </div>
+                            
+                                <div class="input-field col s12 m4 l3">
+                                    <input id="ngm-step-{{$index }}" name="ngm-step-{{$index }}" type="number" class="validate" min="0"
+                                        ng-model="s.step" required />
+                                    <label for="ngm-step-{{$index }}" class="active">Step</label>
+                                </div>
+                            
+                                <div class="input-field col s12 m3 l3">
+                                    <input id="ngm-shift-{{$index }}" name="ngm-shift-{{$index }}" type="number" class="validate" min="0"
+                                        ng-model="s.shift" required />
+                                    <label for="ngm-shift-{{$index }}" class="active">Shift</label>
+                                </div>
+                                <div class="input-field col s12 m3 l3">
+                                    <label id="ngm-time-{{$index}}" for="ngm-time-{{$index}}" class="active">Time*</label>
+                                    <input id="timepicker" type="text" class="timepicker" ng-model="s.time">
+                                </div>
+                                <div class="input-field col s12 m3 l3">
+                                    <label id="ngm-date-{{$index}}" for="ngm-date-{{$index}}" class="active">Date2*</label>
+                                    <input ngm-date type="text" style="color:rgba(0, 0, 0, 0.87);margin-bottom:0px;" ng-model="s.date"
+                                        format="dd mmm, yyyy" select-years="15" ng-disabled="schedule.definition.project_status === 'complete'"
+                                        on-close="schedule.datepicker.onClose( s )" />
+                                
+                                </div>
+                            </div> -->
                         </div>
                     </div>
+                    <!-- <div ng-show="detailSchedule[0]">
+                        <div>
+
+                            <input id="myInput" type="text" class="timepicker">
+                        </div>
+                    </div> -->
                     <button class="btn" ng-show="schedule.definition.project_status !== 'complete'"
                         ng-click="schedule.addSchedule()" style="margin:20px 0px;">
                         <i class="material-icons left">add</i> Add Schedule
