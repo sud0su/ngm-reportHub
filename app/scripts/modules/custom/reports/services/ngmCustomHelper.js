@@ -200,6 +200,8 @@ angular.module('ngmReportHub')
                         delete u.site_name;
                         delete u.site_lng;
                         delete u.site_lat;
+                        delete u.cluster
+                        delete u.cluster_id
 
                         // date = ngmCustomConfig.getCustomProjectConfig(report_type_id)
                         var default_config = ngmCustomConfig.setNewProjectDefault(report_type_id)

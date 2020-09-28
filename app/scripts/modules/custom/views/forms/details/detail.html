@@ -71,11 +71,26 @@
                             </div>
 
                             <!-- no other_activities_in_addition_to for CB && health -->
-                            <div class="row" ng-if="project.config_project.list_cluster_ids">
+                            <!-- <div class="row" ng-if="project.config_project.list_cluster_ids">
                                 <div class="input-field col s12 m12 l12" style="padding-bottom:5px;">
                                     <label class="active">Clusters</label>
                                     <div style="padding-bottom:20px;"></div>
                                     <p ng-repeat="c in project.config_project.list_cluster_ids ">
+                                        <label class="checkbox-label" for="{{c.cluster_id}}">
+                                            <input type="checkbox" class="filled-in" id="{{c.cluster_id}}"
+                                                ng-checked="project.checkMultiCluster(c.cluster_id)"
+                                                ng-click="project.updateMultiCluster(c.cluster_id)"
+                                                ng-disabled="project.definition.project_status === 'complete' || !project.canEdit" />
+                                            <span style="left: .75rem;">{{ c.cluster}}</span>
+                                        </label>
+                                    </p>
+                                </div>
+                            </div> -->
+                            <div class="row" ng-if="project.config_project.list_clusters">
+                                <div class="input-field col s12 m12 l12" style="padding-bottom:5px;">
+                                    <label class="active">Clusters</label>
+                                    <div style="padding-bottom:20px;"></div>
+                                    <p ng-repeat="c in project.config_project.list_clusters ">
                                         <label class="checkbox-label" for="{{c.cluster_id}}">
                                             <input type="checkbox" class="filled-in" id="{{c.cluster_id}}"
                                                 ng-checked="project.checkMultiCluster(c.cluster_id)"

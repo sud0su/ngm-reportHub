@@ -262,7 +262,8 @@ angular.module('ngm.widget.custom.project.detail', ['ngm.provider'])
                     }
                 },
                 updateMultiCluster: function (id) {
-                    var list_project = $scope.project.config_project.list_cluster_ids;
+                    // var list_project = $scope.project.config_project.list_cluster_ids;
+                    var list_project = $scope.project.config_project.list_clusters;
 
                     if (!$scope.project.definition.cluster_ids) {
                         $scope.project.definition.cluster_ids = [];
@@ -293,7 +294,8 @@ angular.module('ngm.widget.custom.project.detail', ['ngm.provider'])
                     } else {
                         // check if project_detail_id in details is exist on the list
                         if ($scope.project.definition.cluster_ids.length) {
-                            var temp_list = $scope.project.config_project.list_cluster_ids;
+                            // var temp_list = $scope.project.config_project.list_cluster_ids;
+                            var temp_list = $scope.project.config_project.list_clusters;
                             var count_missing = 0;
                             angular.forEach($scope.project.definition.clusters, (e) => {
                                 // missing_index = temp_list.indexOf(e);

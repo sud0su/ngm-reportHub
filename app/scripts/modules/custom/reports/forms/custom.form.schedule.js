@@ -83,10 +83,26 @@ angular.module('ngm.widget.custom.schedule', ['ngm.provider'])
                 // init lists
                 init: function () {
 
-                    $scope.schedule.report_types =[{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }]
+                    $scope.schedule.report_types =[{ scheduled_report_type: 'beneficiaries', scheduled_report_name: 'Beneficiaries', type: 'csv' }, { scheduled_report_type: 'indicators_summary', scheduled_report_name: 'Indicators Summary', type: 'excel' }]
+                    $scope.schedule.types = [{ type_id: 'every', type_name: 'Every' },
+                                             { type_id: 'once', type_name: 'Once' }];
+                    $scope.schedule.types = ['every','once']
+                    $scope.schedule.periodes = [{ period_id: 'year', period_name: 'Year' },
+                                                { period_id: 'quarter', period_name: 'Quarter' },
+                                                { period_id: 'month', period_name: 'Month' },
+                                                { period_id: 'week', period_name: 'Week' },
+                                                { period_id: 'day', period_name: 'Day' },
+                                                { period_id: 'custom', period_name: 'Custom' }]
+                    $scope.schedule.schedule_periodes= ['year',
+                        'quarter',
+                        'month',
+                        'week',
+                        'day',
+                        'custom'];
 
                     $scope.detailSchedule = [];
                     $scope.detailSchedule = $scope.schedule.list_schedules.length ? new Array($scope.schedule.list_schedules.length).fill(false):new Array(0).fill(false);
+                    $scope.schedule.lists = ngmCustomConfig.getCustomScheduleConfigLists($route.current.params.report_type_id)
 
                     
                 },
@@ -94,10 +110,16 @@ angular.module('ngm.widget.custom.schedule', ['ngm.provider'])
                 addSchedule: function () {
 
                     // inserted
-                    $scope.inserted = {
-                       indicator_id:'',
-                        date: moment().format('YYYY-MM-DD')
-                    };
+                    // $scope.inserted = {
+                    //    indicator_id:'',
+                    //    type_id:'',
+                    //    step:0,
+                    //    shift:0,
+                    //    time:'',
+                    //    date: moment().format('YYYY-MM-DD')
+                    // };
+
+                    $scope.inserted = ngmCustomConfig.getCustomScheduleConfigAttribute($route.current.params.report_type_id)
 
 
                     // clone
@@ -111,6 +133,17 @@ angular.module('ngm.widget.custom.schedule', ['ngm.provider'])
                     // push
                     $scope.schedule.list_schedules.push($scope.inserted);
                     $scope.detailSchedule[$scope.schedule.list_schedules.length - 1] = true;
+                    $scope.schedule.initTimePicker()
+                   
+                },
+
+                initTimePicker:function(){
+                    $timeout(function(){
+                        const myInput = document.getElementById('timepicker');
+                        const timeInstance = M.Timepicker.init(myInput);
+                    },100)
+                   
+
                 },
 
                 updateName: function (list, key, name, schedule){
@@ -133,19 +166,19 @@ angular.module('ngm.widget.custom.schedule', ['ngm.provider'])
                     divs=[]
                     complete = true
                     angular.forEach($scope.schedule.list_schedules,function(s,i){
-                        if (!s.indicator_id) {
-                            id = "label[for='" + 'ngm-indicator_id-' + i + "']";
-                            $(id).addClass('error');
-                            divs.push(id);
-                            complete = false;
-                        }
-                        if (!s.date) {
-                            id = "label[for='" + 'ngm-date-' + i + "']";
-                            $(id).addClass('error');
-                            divs.push(id);
-                            complete = false;
+                        // if (!s.indicator_id) {
+                        //     id = "label[for='" + 'ngm-indicator_id-' + i + "']";
+                        //     $(id).addClass('error');
+                        //     divs.push(id);
+                        //     complete = false;
+                        // }
+                        // if (!s.date) {
+                        //     id = "label[for='" + 'ngm-date-' + i + "']";
+                        //     $(id).addClass('error');
+                        //     divs.push(id);
+                        //     complete = false;
 
-                        }
+                        // }
                     })
                     
                     if(!complete){
@@ -160,10 +193,10 @@ angular.module('ngm.widget.custom.schedule', ['ngm.provider'])
                 // datepicker
                 datepicker: {
                     maxDate: moment().format('YYYY-MM-DD'),
-                    onClose: function ($schedule) {
+                    onClose: function ($schedule,prop) {
                         // format date on selection
-                        $schedule.date =
-                            moment(new Date($schedule.date)).format('YYYY-MM-DD');
+                        $schedule[prop] =
+                            moment(new Date($schedule[prop])).format('YYYY-MM-DD');
                     }
                 },
 
@@ -187,6 +220,7 @@ angular.module('ngm.widget.custom.schedule', ['ngm.provider'])
 
                 openCloseDetailSchedule:function($index){
                     $scope.detailSchedule[$index] = !$scope.detailSchedule[$index];
+                    $scope.schedules.initTimePicker()
                 },
 
                 save: function(){

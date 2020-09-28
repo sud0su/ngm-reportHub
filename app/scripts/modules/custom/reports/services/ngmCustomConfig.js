@@ -71,8 +71,9 @@ angular.module('ngmReportHub')
                                         report_type_name: "Winterization 2020",
                                         version: 'v1',
                                     },
-                                    list_cluster_ids: ['esnfi'],
+                                    // list_cluster_ids: ['esnfi'],
                                     // select_clusters: true,
+                                    list_clusters: [{ cluster_id: 'esnfi', cluster: 'ESNFI' }],
                                     project_download: {
                                         fields: ['planned_families'],
                                         fieldNames: false,
@@ -153,11 +154,297 @@ angular.module('ngmReportHub')
                                         }
                                     },
                                     admin: { fields: ['planned_families'], fieldNames: false, overwriteFields: false, defaultPeriod: 'month' ,filter_clusters: ['esnfi']},
+                                    admin_page: {
+                                        downloads: [{ indicator_id: 'reports_due', indicator_name: 'Report Todo', type: 'csv' }, { indicator_id: 'reports_submitted', indicator_name: 'Report Completer', type: 'csv' }], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, defaultPeriod: 'quarter', filter_clusters: true
+                                    },
+                                    // dashboard_page: {
+                                    //     min_date: '2020-01-01', start_date: '2020-01-01', downloads: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }], indicator: [{ id: 'beneficiaries', name: 'Achieved Total', calculate_indicator: ["$achieved_total"], write: true }], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, filter_clusters: ['esnfi']
+                                    // },
                                     dashboard: {
-                                        min_date: '2020-09-01', indicator: [{ id: 'beneficiaries', name: 'Total Assisted Families', calculate_indicator: ["$total_assisted_families"] }], fields: ['planned_families'], fieldNames: false, overwriteFields: false, filter_clusters: ['esnfi']  }
+                                        min_date: '2020-09-01', indicator: [{ id: 'beneficiaries', name: 'Total Assisted Families', calculate_indicator: ["$total_assisted_families"] }], fields: ['planned_families'], fieldNames: false, overwriteFields: false, filter_clusters: ['esnfi']  },
+                                    // projects_page: {
+                                    //     downloads: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }],
+                                    //     fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'],
+                                    //     fieldNames: false, overwriteFields: false, filter_clusters: ['health']
+                                    // },
+                                    reports_page: {
+                                        start_date: '2020-01-01',
+                                        report_types: [{  indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' },
+                                            { indicator_id: 'winterization_summary', indicator_name: 'Winterization Summary', type: 'excel' }
+                                        ],
+                                        downloads: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }],
+                                        fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'],
+                                        fieldNames: false, overwriteFields: false,
+                                        filter_clusters: ['esnfi'],
+                                    }
+                                },
+                                schedule: {
+                                    defaults: {
+                                        schedule_type: 'every',
+                                        schedule_period: 'quarter',
+                                        shift_period: 0,
+                                        shift_days: 0,
+                                        time: "00:00",
+                                        scheduled_report_type: 'beneficiaries',
+                                        report_start_date: 'year',
+                                        report_start_date_shift_period: 0,
+                                        report_start_date_shift_days: 0,
+                                        report_end_date: 'month',
+                                        report_end_date_shift_period: 1,
+                                        report_end_date_shift_days: 0,
+                                        start_date: '2020-01-01',
+                                        end_date: '2020-01-01'
+                                    },
+                                    lists: {
+                                        schedule_periodes: ['year',
+                                            'quarter',
+                                            'month',
+                                            'week',
+                                            'day',
+                                            'custom'],
+                                        report_types: [{ scheduled_report_type: 'beneficiaries', scheduled_report_name: 'Beneficiaries', type: 'csv' },
+                                        { scheduled_report_type: 'winterization_summary', scheduled_report_name: 'Winterization Summary', type: 'excel' }
+                                        ],
+                                        types: ['every', 'once']
+                                    }
                                 }
                             }
-                        }, {
+                        }, 
+                        // {
+                        //         admin0pcode: "AF",
+                        //         // cluster_id: "heatlh",
+                        //         report_type_id: "annualworkplan20",
+                        //         report_type_name: "Annual Work Plan 2020",
+                        //         version: 'v1',
+                        //         status: 'active',
+                        //         // status: 'completed',
+                        //         // disabled: false,
+                        //         description: 'The Output Indicator Tracking', // optional
+                        //         project: {
+                        //             defaults: {
+                        //                 cluster: "Multi-Purpose Cash",
+                        //                 cluster_id: "cvwg"
+                        //                 // cluster_id: "esnfi",
+                        //                 // cluster: "ESNFI",
+                        //                 // cluster_ids: ['esnfi'],
+                        //                 // select_clusters: true
+                        //                 // select_clusters: {
+                        //                 //     list_cluster_ids: ['esnfi'],
+                        //                 //     selected: true
+                        //                 // }
+                        //             },
+                        //             v1: {
+                        //                 description: 'The Output Indicator Tracking', // optional
+
+                        //                 set_reporting_period_start: '2020-01-01', // optional to restrict/set project start end dates
+                        //                 set_reporting_period_end: '2020-12-31', // optional to restrict/set project start end dates
+                        //                 min_reporting_period: '2020-01-01', // optional to restrict/set project start end dates
+                        //                 max_reporting_period: '2021-12-31', // optional to restrict/set project start end dates
+
+                        //                 reporting_period_types: [{ reporting_period_type: 'quarterly', reporting_period_name: 'Quarterly' }
+                        //                 ],
+                        //                 // project_details: [{ project_detail_id: 'covid19', project_detail_name: 'Covid 19' }],
+                        //                 project_defaults: {
+                        //                     project_status: 'new',
+                        //                     project_title: '',//'Enter New ' + user.organization + ' Project Title...',
+                        //                     project_description: 'Please, add the project description...',
+                        //                     project_details: [],
+                        //                     // project_start_date: moment.utc().startOf('M').format('YYYY-MM-DD'),
+                        //                     // project_end_date: moment.utc().add(12, 'M').endOf('M').format('YYYY-MM-DD'),
+                        //                     project_start_date: '2020-01-01',
+                        //                     project_end_date: '2020-12-31',
+                        //                     reporting_period_type: 'quarterly',
+                        //                     notes: '',
+                        //                     // cluster_id: "esnfi",
+                        //                     // cluster: "ESNFI",
+                        //                     // cluster_ids: ['esnfi'],
+                        //                     // clusters:[],
+                        //                     report_type_id: "annualworkplan20",
+                        //                     report_type_name: "Annual Work Plan 2020",
+                        //                     version: 'v1',
+                        //                 },
+                        //                 // list_cluster_ids: ['esnfi'],
+                        //                 // select_clusters: true,
+                        //                 project_download: {
+                        //                     fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'],
+                        //                     fieldNames: false,
+                        //                     overwriteFields: false
+                        //                 },
+                        //                 beneficiaries: {
+                        //                     template: 'annualworkplan20.v1.beneficiaries.html',
+                        //                     defaults: {
+                        //                         cluster_id:'',
+                        //                         cluster_project_id: '',
+                        //                         donor_id:'',
+                        //                         target: 0,
+                        //                         planned_neutral: 0,
+                        //                         planned_m_b: 0,
+                        //                         planned_w_g: 0,
+                        //                         planned_total: 0,
+                        //                         achieved_neutral: 0,
+                        //                         achieved_m_b: 0,
+                        //                         achieved_w_g: 0,
+                        //                         achieved_total: 0,
+
+                        //                         remarks: '',
+                        //                         justification: '',
+
+                        //                         pwd: '',
+                        //                         children: '',
+                        //                         returnee: '',
+                        //                         beneficiary_type_id: 'b1',
+                        //                         beneficiary_type_name: 'B1',
+                        //                         // beneficiary_type_id: 'b1',
+                        //                         // beneficiary_type_name: 'B1',
+                        //                         // cluster_id: "esnfi",
+                        //                         // cluster: "ESNFI"
+                        //                     },
+                        //                     validate: ['cluster_id', 'indicator_id', 'target', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'achieved_neutral', 'achieved_m_b', 'achieved_w_g'],
+                        //                     // or
+                        //                     // validate: {
+                        //                     //     planned_families: true,
+                        //                     //     assisted_returnee_families: { 'gte': 0, 'lte': 100 }
+                        //                     // },
+                        //                     // if custom activities
+                        //                     // activities: [
+                        //                     //     {
+                        //                     //         activity_type_id: 'test1',
+                        //                     //         activity_type_name: 'Test 1',
+                        //                     //         activity_description_id: 'subtest1',
+                        //                     //         activity_description_name: 'Sub Test 1',
+                        //                     //         defaults: {
+                        //                     //             'families': 0
+                        //                     //         },
+                        //                     //         validate: {
+                        //                     //                 families: { 'gte': 0, 'lte': 100 }
+                        //                     //         },
+                        //                     //         template: 'tes1.beneficiaries.html'
+                        //                     //     }
+                        //                     // ],
+                        //                     lists: {
+                        //                         clusters: [
+                        //                             {
+                        //                                 cluster_id: 'health',
+                        //                                 cluster_name: 'Health',
+                        //                             },
+                        //                             {
+                        //                                 cluster_id: 'Rural Development',
+                        //                                 cluster_name: 'Rural Development',
+                        //                             }, {
+                        //                                 cluster_id: 'Disability',
+                        //                                 cluster_name: 'Disability',
+                        //                             }
+                        //                         ],
+
+                        //                         projects: [
+                        //                             {
+                        //                                 cluster_project_id: 'CHNE',
+                        //                                 cluster_project_name: 'CHNE',
+                        //                                 cluster_id: 'health',
+                        //                                 cluster_name: 'Health',
+                        //                             },
+                        //                             {
+                        //                                 cluster_project_id: 'Clinic construction',
+                        //                                 cluster_project_name: 'Clinic construction',
+                        //                                 cluster_id: 'Rural Development',
+                        //                                 cluster_name: 'Rural Development',
+                        //                             },
+                        //                             {
+                        //                                 cluster_project_id: 'Orthopedic Workshop',
+                        //                                 cluster_project_name: 'Orthopedic Workshop',
+                        //                                 cluster_id: 'Disability',
+                        //                                 cluster_name: 'Disability',
+                        //                             }
+                        //                         ],
+
+                        //                         donor: [
+                        //                             {
+                        //                                 donor_id: 'General Fundraising',
+                        //                                 donor_name: 'General Fundraising'
+                        //                             },
+                        //                             {
+                        //                                 donor_id: 'European Union',
+                        //                                 donor_name: 'European Union'
+                        //                             },
+                        //                             {
+                        //                                 donor_id: 'SIDA',
+                        //                                 donor_name: 'SIDA'
+                        //                             }
+                        //                         ],
+
+                        //                         indicators: [
+                        //                             {
+                        //                                 indicator_id: 'Number of community nurses graduated from SCA supported Community Health Nursing Education (CHNE) schools.',
+                        //                                 indicator_name: 'Number of community nurses graduated from SCA supported Community Health Nursing Education (CHNE) schools.',
+                        //                                 cluster_id: 'health',
+                        //                                 cluster_name: 'Health',
+                        //                                 output_id: 'Output 1.1.1: Qualified and competent health and rehabilitation staff (men and women) are available at SCA coverage area.',
+                        //                                 output_name: 'Output 1.1.1: Qualified and competent health and rehabilitation staff (men and women) are available at SCA coverage area.',
+                        //                                 outcome_id: 'Outcome 1.1: Improved access to quality health care and utilization of health services.',
+                        //                                 outcome_name: 'Outcome 1.1: Improved access to quality health care and utilization of health services.',
+                        //                                 so_id: 'Strategic Objective 1: The health and nutrition conditions of SCA target groups are improved.',
+                        //                                 so_name: 'Strategic Objective 1: The health and nutrition conditions of SCA target groups are improved.',
+                        //                                 set_attributes: ['so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name']
+                        //                             },
+                        //                             {
+                        //                                 indicator_id: 'Number of health facilities repaired/ rehabilitated.',
+                        //                                 indicator_name: 'Number of health facilities repaired/ rehabilitated.',
+                        //                                 cluster_id: 'Rural Development',
+                        //                                 cluster_name: 'Rural Development',
+                        //                                 output_id: 'Output 1.1.3: Health facilities are constructed and rehabilitated to make health services available to SCA\'s target groups.',
+                        //                                 output_name: 'Output 1.1.3: Health facilities are constructed and rehabilitated to make health services available to SCA\'s target groups.',
+                        //                                 outcome_id: 'Outcome 1.1: Improved access to quality health care and utilization of health services.',
+                        //                                 outcome_name: 'Outcome 1.1: Improved access to quality health care and utilization of health services.',
+                        //                                 so_id: 'Strategic Objective 1: The health and nutrition conditions of SCA target groups are improved.',
+                        //                                 so_name: 'Strategic Objective 1: The health and nutrition conditions of SCA target groups are improved.',
+                        //                                 set_attributes: ['so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name']
+                        //                             },
+                        //                             {
+                        //                                 indicator_id: 'Number of needy persons with disability attending  orthoaedic workshop provided with transport support.',
+                        //                                 indicator_name: 'Number of needy persons with disability attending  orthoaedic workshop provided with transport support.',
+                        //                                 cluster_id: 'Disability',
+                        //                                 cluster_name: 'Disability',
+                        //                                 output_id: 'Output 1.1.5: Effective referral and transport system is in place to ensure that clients receive appropriate and timely health services.',
+                        //                                 output_name: 'Output 1.1.5: Effective referral and transport system is in place to ensure that clients receive appropriate and timely health services.',
+                        //                                 outcome_id: 'Outcome 1.1: Improved access to quality health care and utilization of health services.',
+                        //                                 outcome_name: 'Outcome 1.1: Improved access to quality health care and utilization of health services.',
+                        //                                 so_id: 'Strategic Objective 1: The health and nutrition conditions of SCA target groups are improved.',
+                        //                                 so_name: 'Strategic Objective 1: The health and nutrition conditions of SCA target groups are improved.',
+                        //                                 set_attributes: ['so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name']
+                        //                             }
+                        //                         ],
+
+                        //                         // to count atrribute that needed to coun
+                        //                         count: [
+                        //                             {
+                        //                                 total: 'planned_total',
+                        //                                 property_count: ['planned_neutral', 'planned_m_b', 'planned_w_g']
+                        //                             },
+                        //                             {
+                        //                                 total: 'achieved_total',
+                        //                                 property_count: ['achieved_neutral', 'achieved_m_b', 'achieved_w_g']
+                        //                             }
+                        //                         ]
+
+
+                        //                     },
+                        //                     location: {
+                        //                         total: 'achieved_total'
+                        //                     },
+                        //                     download: {
+                        //                         fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'],
+                        //                         fieldNames: false,
+                        //                         overwriteFields: false
+                        //                     }
+                        //                 },
+                        //                 admin: { fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, defaultPeriod: 'quarter', filter_clusters: true },
+                        //                 dashboard: {
+                        //                     min_date: '2020-01-01', indicator: [{ id: 'beneficiaries', name: 'Achieved Total', calculate_indicator: ["$achieved_total"], write:true}], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, filter_clusters: true
+                        //                 }
+                        //             }
+                        //         }
+                        //     },
+                            {
                                 admin0pcode: "AF",
                                 // cluster_id: "heatlh",
                                 report_type_id: "annualworkplan20",
@@ -169,8 +456,8 @@ angular.module('ngmReportHub')
                                 description: 'The Output Indicator Tracking', // optional
                                 project: {
                                     defaults: {
-                                        cluster: "Multi-Purpose Cash",
-                                        cluster_id: "cvwg"
+                                        // cluster: "Multi-Purpose Cash",
+                                        // cluster_id: "cvwg"
                                         // cluster_id: "esnfi",
                                         // cluster: "ESNFI",
                                         // cluster_ids: ['esnfi'],
@@ -190,7 +477,7 @@ angular.module('ngmReportHub')
 
                                         reporting_period_types: [{ reporting_period_type: 'quarterly', reporting_period_name: 'Quarterly' }
                                         ],
-                                        // project_details: [{ project_detail_id: 'covid19', project_detail_name: 'Covid 19' }],
+                                        project_details: [{ project_detail_id: 'covid19', project_detail_name: 'Covid 19' }],
                                         project_defaults: {
                                             project_status: 'new',
                                             project_title: '',//'Enter New ' + user.organization + ' Project Title...',
@@ -205,13 +492,15 @@ angular.module('ngmReportHub')
                                             // cluster_id: "esnfi",
                                             // cluster: "ESNFI",
                                             // cluster_ids: ['esnfi'],
-                                            // clusters:[],
+                                            clusters:[],
+                                            cluster_ids: [],
                                             report_type_id: "annualworkplan20",
                                             report_type_name: "Annual Work Plan 2020",
                                             version: 'v1',
                                         },
-                                        // list_cluster_ids: ['esnfi'],
+                                        // list_cluster_ids: ['health', 'disability', 'rural_development'],
                                         // select_clusters: true,
+                                        list_clusters: [{ cluster_id: 'health', cluster: 'Health' }, { cluster_id: 'disability', cluster: 'Disability' }, { cluster_id: 'rural_development', cluster: 'Rural Development' }],
                                         project_download: {
                                             fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'],
                                             fieldNames: false,
@@ -220,9 +509,9 @@ angular.module('ngmReportHub')
                                         beneficiaries: {
                                             template: 'annualworkplan20.v1.beneficiaries.html',
                                             defaults: {
-                                                cluster_id:'',
+                                                cluster_id: '',
                                                 cluster_project_id: '',
-                                                donor_id:'',
+                                                donor_id: '',
                                                 target: 0,
                                                 planned_neutral: 0,
                                                 planned_m_b: 0,
@@ -384,13 +673,92 @@ angular.module('ngmReportHub')
                                                 overwriteFields: false
                                             }
                                         },
-                                        admin: { fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, defaultPeriod: 'quarter', filter_clusters: true },
-                                        dashboard: {
-                                            min_date: '2020-01-01', indicator: [{ id: 'beneficiaries', name: 'Achieved Total', calculate_indicator: ["$achieved_total"], write:true}], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, filter_clusters: true
+                                        default_page: {
+                                            pages: ['admin_page', 'dashboard_page', 'projects_page', 'reports_page'], pages: { admin_page: true, dashboard_page: true, 'projects_page': true, 'reports_page': true }, downloads: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, filter_clusters: true
+                                        },
+                                        admin_page: {
+                                            downloads: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, defaultPeriod: 'quarter', filter_clusters: true
+                                        },
+                                        dashboard_page: {
+                                            min_date: '2020-01-01', start_date: '2020-01-01', downloads: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }], indicator: [{ id: 'beneficiaries', name: 'Achieved Total', calculate_indicator: ["$achieved_total"], write: true }], fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], fieldNames: false, overwriteFields: false, filter_clusters: ['esnfi']
+                                        },
+                                        projects_page: {
+                                            downloads: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }], 
+                                            fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], 
+                                            fieldNames: false, overwriteFields: false, filter_clusters: ['health']
+                                        },
+                                        reports_page: {
+                                            start_date: '2020-01-01', 
+                                            report_types: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }], 
+                                            downloads: [{ indicator_id: 'beneficiaries', indicator_name: 'Beneficiaries', type: 'csv' }, { indicator_id: 'indicators_summary', indicator_name: 'Indicators Summary', type: 'excel' }], 
+                                            fields: ['indicator_id', 'indicator_name', 'so_id', 'so_name', 'outcome_id', 'outcome_name', 'output_id', 'output_name', 'cluster_project_id', 'cluster_project_name', 'donor_id', 'donor_name', 'planned_neutral', 'planned_m_b', 'planned_w_g', 'planned_total', 'achieved_neutral', 'achieved_m_b', 'achieved_total'], 
+                                            fieldNames: false, overwriteFields: false, 
+                                            filter_clusters: ['esnfi'],                                            
+                                        },
+                                        // schedule:{
+                                        //     defaults: {
+                                        //         schedule_type: 'every',
+                                        //         schedule_period: 'quarter',
+                                        //         shift_period: 0,
+                                        //         shift_days: 0,
+                                        //         time: "00:00",
+                                        //         scheduled_report_type: 'beneficiaries',
+                                        //         report_start_date: 'year',
+                                        //         report_start_date_shift_period: 0,
+                                        //         report_start_date_shift_days: 0,
+                                        //         report_end_date: 'month',
+                                        //         report_end_date_shift_period: 1,
+                                        //         report_end_date_shift_days: 0,
+                                        //         start_date: '2020-01-01',
+                                        //         end_date: '2020-01-01'
+                                        //     },
+                                        //     lists:{
+                                        //         schedule_periodes:[ 'year',
+                                        //                  'quarter',
+                                        //                  'month',
+                                        //                  'week',
+                                        //                  'day',
+                                        //                  'custom'],
+                                        //         report_types:[{ scheduled_report_type: 'beneficiaries', scheduled_report_name: 'Beneficiaries', type: 'csv' },
+                                        //                       { scheduled_report_type: 'indicators_summary', scheduled_report_name: 'Indicators Summary', type: 'excel' }
+                                        //                     ]
+                                        //     }
+                                        // }
+
+                                    },
+                                    schedule: {
+                                        defaults: {
+                                            schedule_type: 'every',
+                                            schedule_period: 'quarter',
+                                            shift_period: 0,
+                                            shift_days: 0,
+                                            time: "00:00",
+                                            scheduled_report_type: 'beneficiaries',
+                                            report_start_date: 'year',
+                                            report_start_date_shift_period: 0,
+                                            report_start_date_shift_days: 0,
+                                            report_end_date: 'month',
+                                            report_end_date_shift_period: 1,
+                                            report_end_date_shift_days: 0,
+                                            start_date: '2020-01-01',
+                                            end_date: '2020-01-01'
+                                        },
+                                        lists: {
+                                            schedule_periodes: ['year',
+                                                'quarter',
+                                                'month',
+                                                'week',
+                                                'day',
+                                                'custom'],
+                                            report_types: [{ scheduled_report_type: 'beneficiaries', scheduled_report_name: 'Beneficiaries', type: 'csv' },
+                                            { scheduled_report_type: 'indicators_summary', scheduled_report_name: 'Indicators Summary', type: 'excel' }
+                                            ],
+                                            types: ['every', 'once']
                                         }
                                     }
                                 }
-                            }]
+                            }
+                        ]
                         return lists_config
                     },
 
@@ -507,8 +875,14 @@ angular.module('ngmReportHub')
                         var config = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id);
                         var config_project = config[0].project;
                         var version = config[0].version;
-                        var config_dashboard_version = config_project[version].dashboard;
-
+                        if (config_project[version].dashboard_page) {
+                            if (!config_project[version].dashboard_page.downloads) {
+                                config_project[version].dashboard_page.downloads = config_project[version].default_page.downloads
+                            }
+                            var config_dashboard_version = config_project[version].dashboard_page;
+                        }else{
+                            var config_dashboard_version = config_project[version].dashboard;
+                        }
                         return config_dashboard_version
 
                     },
@@ -518,11 +892,63 @@ angular.module('ngmReportHub')
                         var config = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id);
                         var config_project = config[0].project;
                         var version = config[0].version;
-                        var config_admin_version = config_project[version].admin;
+                        if (config_project[version].admin_page){
+                            if(!config_project[version].admin_page.downloads){
+                                config_project[version].admin_page.downloads = config_project[version].default_page.downloads
+                            }
+                            var config_admin_version = config_project[version].admin_page;
+                        }else{
+                             var config_admin_version = config_project[version].admin;
+                        }
+                       
 
                         return config_admin_version
 
-                    }
+                    },
+
+
+                    getCustomProjectListDashboardConfig: function (report_type_id) {
+
+                        var config = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id);
+                        var config_project = config[0].project;
+                        var version = config[0].version;
+                        var config_admin_version = config_project[version].projects_page;
+                
+
+                        return config_admin_version
+
+                    },
+
+                    getCustomReportsFileConfig: function (report_type_id){
+                        var config = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id);
+                        var config_project = config[0].project;
+                        var version = config[0].version;
+                        console.log(config_project)
+                        var config_admin_version = config_project[version].reports_page;
+
+
+                        return config_admin_version
+                    },
+                    getCustomScheduleConfig: function (report_type_id) {
+                        var config = ngmCustomConfig.listCustomConfig().filter(x => x.report_type_id === report_type_id);
+                        var config_project = config[0].project;
+                        // var version = config[0].version;
+                        var config_beneficiaries_version = config_project.schedule;
+
+                        return config_beneficiaries_version
+
+                    },
+                    getCustomScheduleConfigLists: function (report_type_id) {
+                        return ngmCustomConfig.getCustomScheduleConfig(report_type_id).lists;
+                    },
+
+                    getCustomScheduleConfigAttribute: function (report_type_id) {
+
+                        return ngmCustomConfig.getCustomScheduleConfig(report_type_id).defaults;
+
+                    },
+
+                   
 
                 };
 

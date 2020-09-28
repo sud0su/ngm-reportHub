@@ -411,6 +411,25 @@ angular.module('ngmReportHub')
                     //     request: $scope.dashboard.getCsvRequest({ csv: true, indicator: 'water', report: $scope.dashboard.cluster_id_filename + '_water_data-extracted-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm') }),
                     //     metrics: $scope.dashboard.getMetrics('water_data', 'csv')
                     // }];
+                    if ($scope.dashboard.config.downloads){
+                        downloads =[];
+                        angular.forEach($scope.dashboard.config.downloads,(d)=>{
+                            downloads.push({
+                                type: d.type,
+                                color: 'blue lighten-2',
+                                icon: 'assignment',
+                                hover: $filter('translate')('download') + ' ' + d.indicator_name.replace(/\b\w/g, l => l.toUpperCase()),
+                                request: {
+                                    method: 'POST',
+                                    url: ngmAuth.LOCATION + '/api/custom/admin/indicator',
+                                    data: angular.merge($scope.dashboard.getRequest(d.indicator_id, true), { fields: $scope.dashboard.config.fields, fieldNames: $scope.dashboard.config.fieldNames, overwriteFields: $scope.dashboard.config.overwriteFields, report: $scope.dashboard.cluster_id_filename + '_' + $scope.dashboard.report_type_id +"_"+ d.indicator_id+"_" + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'), csv: true })
+                                },
+                                metrics: $scope.dashboard.getMetrics(d.indicator_id, d.type)
+                            })
+                        })
+                       
+                    }
+                    
 
                     // NG, wash and Admin
                     if ($scope.dashboard.admin0pcode === 'NG' &&
@@ -465,16 +484,20 @@ angular.module('ngmReportHub')
                         }
                     }
 
-                    if (userMenuItems.includes('cluster_id') && $scope.dashboard.config.filter_clusters && $scope.dashboard.config.filter_clusters.length) {
+                    if (userMenuItems.includes('cluster_id') && $scope.dashboard.config.filter_clusters) {
 
                         var filter_config = [];
                         // $scope.dashboard.config.filter_clusters
                         // $scope.dashboard.lists.clusters
-                        angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
-                            if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id) > -1) {
-                                filter_config.push(c)
-                            }
-                        })
+                        if($scope.dashboard.config.filter_clusters.length){
+                            angular.forEach($scope.dashboard.lists.clusters, function (c, i) {
+                                if ($scope.dashboard.config.filter_clusters.indexOf(c.cluster_id) > -1) {
+                                    filter_config.push(c)
+                                }
+                            })
+                        }else{
+                            filter_config = $scope.dashboard.lists.clusters;
+                        }
 
                         filter_config.unshift({ cluster_id: 'all', cluster: 'ALL' });
                         angular.forEach(filter_config, function (d, i) {
