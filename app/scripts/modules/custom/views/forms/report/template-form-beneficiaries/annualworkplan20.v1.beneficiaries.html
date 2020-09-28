@@ -3,6 +3,8 @@
     ng-class="{'card-panel-expand':detailBeneficiaries[$locationIndex][$beneficiaryIndex]}"
     ng-disabled="!project.canEdit">
 
+		<form-beneficiaries config='{ "rows": [{"columns": [{"input_type" : "select", "class": "s12 m4 l4", "id": "cluster_id", "model": "cluster_id", "name": "cluster_name", "label":"Cluster/Unit *", "options":"b.cluster_id as b.cluster_name for b in project.beneficiaries_lists.clusters  track by b.cluster_id", "list": "clusters"},{"input_type" : "select", "watch": "true", "class": "s12 m4 l4", "id": "cluster_project_id", "name": "cluster_project_name", "model": "cluster_project_id", "label":"Project", "options":"b.cluster_project_id as b.cluster_project_name for b in project.beneficiaries_lists.projects | filter: { cluster_id: beneficiary.cluster_id }:true track by b.cluster_project_id" , "list": "projects", "noselection": "true"}, {"input_type" : "select", "class": "s12 m4 l4", "id": "donor_id", "name": "donor_name", "model": "donor_id", "label":"Donor", "options":"b.donor_id as b.donor_name for b in project.beneficiaries_lists.donor", "list": "donor", "noselection": "true"}]} ]}'></form-beneficiaries>
+
     <!-- DEFAULT -->
     <div class="row">
 
@@ -45,9 +47,9 @@
 
         <div class="input-field col s12 m4 l4">
             <select materialize-select id="ngm-cluster_project_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
-                name="cluster_project_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}" 
+                name="cluster_project_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
                 class="validate"
-                ng-model="beneficiary.cluster_project_id" 
+                ng-model="beneficiary.cluster_project_id"
                 ng-change="ngmCustomBeneficiaries.updateName( project.beneficiaries_lists.projects, 'cluster_project_id', 'cluster_project_name', beneficiary );
                 						ngmCustomBeneficiaries.inputChange( 'ngm-cluster_project_id-{{ $locationIndex }}-{{ $beneficiaryIndex }}' );"
                 ng-options="b.cluster_project_id as b.cluster_project_name for b in project.beneficiaries_lists.projects | filter: {
@@ -89,7 +91,7 @@
     </div>
 
     <div class="row">
-    
+
         <div class="input-field col s12 m12 l12">
             <input id="ngm-target-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
                 name="ngm-target-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="number" class="validate"
@@ -281,7 +283,7 @@
             <label for="ngm-remarks-{{ $locationIndex }}-{{ $beneficiaryIndex }}"
                 class="active">{{'remarks' | translate}}</label>
         </div>
-        
+
         <!-- <div class="input-field col s12">
             <input id="ngm-justification-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="text" class="validate"
                 placeholder=":Justification go here..." ng-model="beneficiary.justification"
@@ -294,17 +296,17 @@
     </div>
 
     <div class="card" style="padding:20px;">
-    
+
         <div class="row">
-    
+
             <div class="input-field col s12 m12 l12">
                 <textarea id="ngm-justification-{{ $locationIndex }}-{{ $beneficiaryIndex }}" type="text" class="validate materialize-textarea" name="justification"
-                    ng-model="beneficiary.justification" 
+                    ng-model="beneficiary.justification"
                     ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'">
     									</textarea>
                 <label style="transform:translateY(-70%)" for="ngm-justification-{{ $locationIndex }}-{{ $beneficiaryIndex }}" > Justification</label>
             </div>
-    
+
         </div>
 
 </div>
