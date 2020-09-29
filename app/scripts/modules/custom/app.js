@@ -247,6 +247,65 @@ angular
                     }],
                 }
             })
+
+            // CONFIG CustomListGlobalConfigCtrl
+            .when('/custom/config-menu/', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomConfigMainCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+            .when('/custom/config/global/',{
+                redirectTo: '/custom/config/global/all'
+            })
+            .when('/custom/config/global/:admin0pcode', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListGlobalCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+            .when('/custom/config/global-detail/:admin0pcode/:id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListGlobalDetailCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+            .when('/custom/config/activities/', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListActivitieslCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+            .when('/custom/config/activities-detail/:id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListActivitiesDetailCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+            .when('/custom/config/config-lists/', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListConfigCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
             // FORBIDDEN
             .when('/cluster/forbidden', {
                 templateUrl: '/views/app/dashboard.html',
