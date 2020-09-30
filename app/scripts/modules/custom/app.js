@@ -280,6 +280,9 @@ angular
                 }
             })
             .when('/custom/config/activities/', {
+                redirectTo: '/custom/config/activities/all'
+            })
+            .when('/custom/config/activities/:admin0pcode', {
                 templateUrl: '/views/app/dashboard.html',
                 controller: 'CustomListActivitieslCtrl',
                 resolve: {
@@ -288,7 +291,7 @@ angular
                     }],
                 }
             })
-            .when('/custom/config/activities-detail/:id', {
+            .when('/custom/config/activities-detail/:admin0pcode/:id', {
                 templateUrl: '/views/app/dashboard.html',
                 controller: 'CustomListActivitiesDetailCtrl',
                 resolve: {

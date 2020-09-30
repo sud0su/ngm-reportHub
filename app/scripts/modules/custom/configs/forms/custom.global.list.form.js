@@ -29,9 +29,9 @@ angular.module('ngm.widget.form.global.list', ['ngm.provider'])
             $scope.master = {
                 // current user
                 user: ngmUser.get(),
-                config: config.list,
+                definition: config.definition,
                 validate:function(){
-                    json = JSON.parse($scope.master.config)
+                    json = JSON.parse($scope.master.definition)
                     missing='';
     
                     if(!json.admin0pcode){
@@ -56,7 +56,7 @@ angular.module('ngm.widget.form.global.list', ['ngm.provider'])
                     M.toast({ html: 'Please Put The missing atribute below </br>'+ missing, displayLength: 4000, classes: 'error' });
                 },
                 save:function(){
-                    $scope.master.config
+                    $scope.master.definition
                    
                     // console.log($scope.master.config, json)
                 },

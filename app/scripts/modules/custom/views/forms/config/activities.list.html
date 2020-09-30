@@ -17,7 +17,7 @@
                 <li class="collection-header indigo lighten-1">
                     <h5 class="report-panel-title white-text">
                         <div>
-                            <i class="material-icons left">location_on</i>Definition of List
+                            <i class="material-icons left">location_on</i>Reporting Type Configuration
                         </div>
                     </h5>
                 </li>
@@ -34,8 +34,8 @@
 
                                 <div class="input-field col s12 m12 l12">
                                     <textarea id="ngm-project-notes" type="text" class="validate materialize-textarea"
-                                        name="notes" ng-model="project.report.notes"
-                                        ng-disabled="project.report.report_status === 'complete'">
+                                        name="notes" ng-model="master.definition"
+                                        >
 									</textarea>
                                     <label for="ngm-project-notes">Put Text Here</label>
                                 </div>
@@ -57,7 +57,7 @@
 
             <!-- submission -->
             <div align="center">
-                <button data-target="save-modal" class="waves-effect waves-light btn" ng-click="project.validate(true)"
+                <button data-target="save-modal" class="waves-effect waves-light btn" ng-click="master.validate()"
                     ng-cloak><i class="material-icons mirror right">send</i>{{'save_mayus' | translate}}</button>
 
                 <!-- cancel new -->

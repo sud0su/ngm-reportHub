@@ -103,7 +103,8 @@ angular.module('ngmReportHub')
                                 style: 'padding:0px; height: 90px; padding-top:10px;',
                                 config: {
                                     style: $scope.config.ngm.style,
-                                    list: data
+                                    // list: data
+                                    definition: data
                                 }
                             }]
                         }]

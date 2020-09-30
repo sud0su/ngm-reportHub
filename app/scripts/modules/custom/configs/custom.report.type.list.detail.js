@@ -26,7 +26,7 @@ angular.module('ngmReportHub')
             user: ngmUser.get(),
 
             // init
-            init: function () {
+            init: function (data) {
 
                 // report dashboard model
                 $scope.model = {
@@ -39,11 +39,11 @@ angular.module('ngmReportHub')
                         title: {
                             'class': 'col s12 m9 l9 report-title truncate',
                             style: 'font-size: 3.4rem; color: ' + $scope.config.ngm.style.defaultPrimaryColor,
-                            title: $route.current.params.id === 'new' ? 'New Activity List' : "List Detail"
+                            title: $route.current.params.id === 'new' ? 'New Reporting Type Configuration' : "Reporting Type Configuration Detail"
                         },
                         subtitle: {
                             'class': 'col s12 m12 l12 report-subtitle hide-on-small-only',
-                            title: $route.current.params.id === 'new' ? 'New List for Activity List' : 'Detail'
+                            title: $route.current.params.id === 'new' ? 'New Reporting Type Configuration' : 'Reporting Type Configuration Detail'
                         },
                         // download: {
                         //     'class': 'col s12 m3 l3 hide-on-small-only',
@@ -99,10 +99,11 @@ angular.module('ngmReportHub')
                         columns: [{
                             styleClass: 's12 m12 l12',
                             widgets: [{
-                                type: 'form.activities.list',
+                                type: 'form.report.type.list',
                                 style: 'padding:0px; height: 90px; padding-top:10px;',
                                 config: {
-                                    style: $scope.config.ngm.style
+                                    style: $scope.config.ngm.style,
+                                    definition: data
                                 }
                             }]
                         }]
@@ -130,7 +131,29 @@ angular.module('ngmReportHub')
 
         }
         // run page
+        if ($route.current.params.id === 'new') {
+            var x = JSON.stringify({
+                admin0pcode: $route.current.params.admin0pcode.toUpperCase()
+            })
+            $scope.config.init(x);
+        } else {
+            var req = {
+                method: 'GET',
+                url: ngmAuth.LOCATION + 'api/getCustomActivityDefinition?reporting_type_id=' + $route.current.params.id
+            }
+            var x = JSON.stringify({
+                admin0pcode: 'AF'
+            })
+            $scope.config.init(x);
+            // if API exist
+            // ngmData.get(req).then(function (data) {
 
-        $scope.config.init();
+            //     $scope.config.init(data);
+            // });
+
+
+        }
+
+        // $scope.config.init();
 
     }]);

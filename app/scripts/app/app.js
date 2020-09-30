@@ -43,7 +43,7 @@ angular
 		'ngm.widget.custom.schedule',
 		'ngm.widget.form.global.list',
 		'ngm.widget.form.config.list',
-		'ngm.widget.form.activities.list',
+		'ngm.widget.form.report.type.list',
 		// modules
 		'ngmBangladesh',
 		'ngmCluster',

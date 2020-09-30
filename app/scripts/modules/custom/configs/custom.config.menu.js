@@ -29,8 +29,8 @@ angular.module('ngmReportHub')
 
             // set summary
             init: function () {
-                $scope.menu.title = 'Activities | Global Lists';
-                var subtitle = 'Global List ...';
+                $scope.menu.title = 'Reporting Configuration';
+                var subtitle = 'Setting configuration';
 
                 // report dashboard model
                 $scope.model = {
