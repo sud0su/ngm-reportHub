@@ -90,7 +90,7 @@ angular.module('ngmReportHub')
                                 card: 'white grey-text text-darken-2',
                                 style: 'padding: 20px;',
                                 config: {
-                                    html: '<a class="btn-flat waves-effect waves-teal left hide-on-small-only" href="#/custom/config/beneficiaries-forms//"><i class="material-icons left">keyboard_return</i> Back </a>'
+                                    html: '<a class="btn-flat waves-effect waves-teal left hide-on-small-only" href="#/custom/config/beneficiaries-forms/"><i class="material-icons left">keyboard_return</i> Back </a>'
                                 }
                             }]
                         }]
