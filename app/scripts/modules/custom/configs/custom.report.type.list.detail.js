@@ -1,12 +1,12 @@
 /**
  * @ngdoc function
- * @name ngmReportHubApp.controller:CustomListActivitiesDetailCtrl
+ * @name ngmReportHubApp.controller:CustomListReportTypeDetailCtrl
  * @description
- * # CustomListActivitiesDetailCtrl
+ * # CustomListReportTypeDetailCtrl
  * Controller of the ngmReportHub
  */
 angular.module('ngmReportHub')
-    .controller('CustomListActivitiesDetailCtrl', ['$scope', '$location', '$route', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', function ($scope, $location, $route, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope) {
+    .controller('CustomListReportTypeDetailCtrl', ['$scope', '$location', '$route', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', function ($scope, $location, $route, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope) {
         this.awesomeThings = [
             'HTML5 Boilerplate',
             'AngularJS',
@@ -90,7 +90,7 @@ angular.module('ngmReportHub')
                                 card: 'white grey-text text-darken-2',
                                 style: 'padding: 20px;',
                                 config: {
-                                    html: '<a class="btn-flat waves-effect waves-teal left hide-on-small-only" href="#/custom/config/activities/"><i class="material-icons left">keyboard_return</i> Back </a>'
+                                    html: '<a class="btn-flat waves-effect waves-teal left hide-on-small-only" href="#/custom/config/report-types/"><i class="material-icons left">keyboard_return</i> Back </a>'
                                 }
                             }]
                         }]

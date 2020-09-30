@@ -1,12 +1,12 @@
 /**
  * @ngdoc function
- * @name ngmReportHubApp.controller:CustomListActivitieslCtrl
+ * @name ngmReportHubApp.controller:CustomListReportTypeslCtrl
  * @description
- * # CustomListActivitieslCtrl
+ * # CustomListReportTypeslCtrl
  * Controller of the ngmReportHub
  */
 angular.module('ngmReportHub')
-    .controller('CustomListActivitieslCtrl', ['$scope', '$location', '$route', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', function ($scope, $location, $route, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope) {
+    .controller('CustomListReportTypeslCtrl', ['$scope', '$location', '$route', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', function ($scope, $location, $route, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope) {
         this.awesomeThings = [
             'HTML5 Boilerplate',
             'AngularJS',
@@ -37,25 +37,25 @@ angular.module('ngmReportHub')
                             'param': 'admin0pcode',
                             'active': 'all',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/all'
+                            'href': '/desk/#/custom/config/report-types/all'
                         }, {
                             'title': 'Afghanistan',
                             'param': 'admin0pcode',
                             'active': 'af',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/af'
+                            'href': '/desk/#/custom/config/report-types/af'
                         }, {
                             'title': 'Bangladesh',
                             'param': 'admin0pcode',
                             'active': 'bd',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/bd'
+                            'href': '/desk/#/custom/config/report-types/bd'
                         }, {
                             'title': 'Cox Bazar',
                             'param': 'admin0pcode',
                             'active': 'cb',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/cb'
+                            'href': '/desk/#/custom/config/report-types/cb'
                         }, {
                             'title': 'Democratic Republic of Congo',
                             'param': 'admin0pcode',
@@ -67,64 +67,64 @@ angular.module('ngmReportHub')
                             'param': 'admin0pcode',
                             'active': 'et',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/et'
+                            'href': '/desk/#/custom/config/report-types/et'
                         }, {
                             'title': 'Somalia',
                             'param': 'admin0pcode',
                             'active': 'so',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/so'
+                            'href': '/desk/#/custom/config/report-types/so'
                         }, {
                             'title': 'South Sudan',
                             'param': 'admin0pcode',
                             'active': 'ss',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/ss'
+                            'href': '/desk/#/custom/config/report-types/ss'
                         }, {
                             'title': 'Syria',
                             'param': 'admin0pcode',
                             'active': 'so',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/sy'
+                            'href': '/desk/#/custom/config/report-types/sy'
                         }, {
                             'title': 'Ukraine',
                             'param': 'admin0pcode',
                             'active': 'ua',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/ua'
+                            'href': '/desk/#/custom/config/report-types/ua'
                         }, {
                             'title': 'Yemen',
                             'param': 'admin0pcode',
                             'active': 'ye',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/ye'
+                            'href': '/desk/#/custom/config/report-types/ye'
                         }, {
                             'title': 'Nigeria',
                             'param': 'admin0pcode',
                             'active': 'ng',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/ng'
+                            'href': '/desk/#/custom/config/report-types/ng'
                         },
                         {
                             'title': 'Colombia',
                             'param': 'admin0pcode',
                             'active': 'col',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/col'
+                            'href': '/desk/#/custom/config/report-types/col'
                         },
                         {
                             'title': 'Papua New Guinea',
                             'param': 'admin0pcode',
                             'active': 'pg',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/pg'
+                            'href': '/desk/#/custom/config/report-types/pg'
                         },
                         {
                             'title': 'Philippines',
                             'param': 'admin0pcode',
                             'active': 'phl',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/phl'
+                            'href': '/desk/#/custom/config/report-types/phl'
                         }]
                     },
                     'afro': {
@@ -143,19 +143,19 @@ angular.module('ngmReportHub')
                             'param': 'admin0pcode',
                             'active': 'et',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/et'
+                            'href': '/desk/#/custom/config/report-types/et'
                         }, {
                             'title': 'Nigeria',
                             'param': 'admin0pcode',
                             'active': 'ng',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/ng'
+                            'href': '/desk/#/custom/config/report-types/ng'
                         }, {
                             'title': 'South Sudan',
                             'param': 'admin0pcode',
                             'active': 'ss',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/ss'
+                            'href': '/desk/#/custom/config/report-types/ss'
                         }]
                     },
                     'emro': {
@@ -168,25 +168,25 @@ angular.module('ngmReportHub')
                             'param': 'admin0pcode',
                             'active': 'af',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/af'
+                            'href': '/desk/#/custom/config/report-types/af'
                         }, {
                             'title': 'Somalia',
                             'param': 'admin0pcode',
                             'active': 'so',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/so'
+                            'href': '/desk/#/custom/config/report-types/so'
                         }, {
                             'title': 'Syria',
                             'param': 'admin0pcode',
                             'active': 'sy',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/sy'
+                            'href': '/desk/#/custom/config/report-types/sy'
                         }, {
                             'title': 'Yemen',
                             'param': 'admin0pcode',
                             'active': 'ye',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/ye'
+                            'href': '/desk/#/custom/config/report-types/ye'
                         }]
                     },
                     'searo': {
@@ -199,13 +199,13 @@ angular.module('ngmReportHub')
                             'param': 'admin0pcode',
                             'active': 'bd',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/bd'
+                            'href': '/desk/#/custom/config/report-types/bd'
                         }, {
                             'title': 'Cox Bazar',
                             'param': 'admin0pcode',
                             'active': 'cb',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/cb'
+                            'href': '/desk/#/custom/config/report-types/cb'
                         }]
                     },
                     'euro': {
@@ -218,7 +218,7 @@ angular.module('ngmReportHub')
                             'param': 'admin0pcode',
                             'active': 'ua',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/ua'
+                            'href': '/desk/#/custom/config/report-types/ua'
                         },]
                     },
                     'amer': {
@@ -231,7 +231,7 @@ angular.module('ngmReportHub')
                             'param': 'admin0pcode',
                             'active': 'col',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/col'
+                            'href': '/desk/#/custom/config/report-types/col'
                         },]
                     },
                     'wpro': {
@@ -244,13 +244,13 @@ angular.module('ngmReportHub')
                             'param': 'admin0pcode',
                             'active': 'pg',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/pg'
+                            'href': '/desk/#/custom/config/report-types/pg'
                         }, {
                             'title': 'Philippines',
                             'param': 'admin0pcode',
                             'active': 'phl',
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#/custom/config/activities/phl'
+                            'href': '/desk/#/custom/config/report-types/phl'
                         }]
                     }
                 }
@@ -354,7 +354,7 @@ angular.module('ngmReportHub')
                 //     }]
                 // };
 
-                $scope.list.title = 'Activities Lists' + ($route.current.params.admin0pcode === 'all' ? ' | ALL' : ' | ' + $route.current.params.admin0pcode.toUpperCase());
+                $scope.list.title = 'Report Type Activities Lists' + ($route.current.params.admin0pcode === 'all' ? ' | ALL' : ' | ' + $route.current.params.admin0pcode.toUpperCase());
 
                 $scope.model = {
                     name: 'cluster_project_list',
@@ -382,7 +382,7 @@ angular.module('ngmReportHub')
                                 card: 'white grey-text text-darken-2',
                                 style: 'padding: 20px;',
                                 config: {
-                                    newUrl: '#/custom/config/activities-detail/'+$route.current.params.admin0pcode+'/new',
+                                    newUrl: '#/custom/config/report-types-detail/'+$route.current.params.admin0pcode+'/new',
                                     templateUrl: '/scripts/widgets/ngm-html/template/custom.activities.list.btn.html'
                                 }
                             }]
@@ -398,7 +398,7 @@ angular.module('ngmReportHub')
                                     // color: 'teal lighten-4',
                                     color: 'blue lighten-1',
                                     textColor: 'white-text',
-                                    title: 'Active List',
+                                    title: 'Active Report Type',
                                     icon: 'edit',
                                     templateUrl: '/scripts/widgets/ngm-list/template/global_list.html'
                                     // request: {
@@ -423,7 +423,7 @@ angular.module('ngmReportHub')
                                         // color: 'teal lighten-4',
                                         color: 'blue lighten-1',
                                         textColor: 'white-text',
-                                        title: 'Complete List',
+                                        title: 'Complete Report Type',
                                         icon: 'edit',
                                         templateUrl: '/scripts/widgets/ngm-list/template/global_list.html'
                                         // request: {

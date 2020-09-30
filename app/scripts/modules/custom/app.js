@@ -279,21 +279,21 @@ angular
                     }],
                 }
             })
-            .when('/custom/config/activities/', {
-                redirectTo: '/custom/config/activities/all'
+            .when('/custom/config/report-types/', {
+                redirectTo: '/custom/config/report-types/all'
             })
-            .when('/custom/config/activities/:admin0pcode', {
+            .when('/custom/config/report-types/:admin0pcode', {
                 templateUrl: '/views/app/dashboard.html',
-                controller: 'CustomListActivitieslCtrl',
+                controller: 'CustomListReportTypeslCtrl',
                 resolve: {
                     access: ['ngmAuth', function (ngmAuth) {
                         return ngmAuth.isAuthenticated();
                     }],
                 }
             })
-            .when('/custom/config/activities-detail/:admin0pcode/:id', {
+            .when('/custom/config/report-types-detail/:admin0pcode/:id', {
                 templateUrl: '/views/app/dashboard.html',
-                controller: 'CustomListActivitiesDetailCtrl',
+                controller: 'CustomListReportTypeDetailCtrl',
                 resolve: {
                     access: ['ngmAuth', function (ngmAuth) {
                         return ngmAuth.isAuthenticated();
@@ -303,6 +303,16 @@ angular
             .when('/custom/config/config-lists/', {
                 templateUrl: '/views/app/dashboard.html',
                 controller: 'CustomListConfigCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+
+            .when('/custom/config/list-menu/', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListMenuCtrl',
                 resolve: {
                     access: ['ngmAuth', function (ngmAuth) {
                         return ngmAuth.isAuthenticated();
