@@ -1,14 +1,14 @@
-angular.module('ngm.widget.form.report.type.list', ['ngm.provider'])
+angular.module('ngm.widget.form.activities.list', ['ngm.provider'])
     .config(function (dashboardProvider) {
         dashboardProvider
-            .widget('form.report.type.list', {
-                title: 'Report Type Activities Form List',
-                description: 'Report Type Activities Form List',
-                controller: 'ReportTypeFormListCtrl',
-                templateUrl: '/scripts/modules/custom/views/forms/config/report.type.list.html'
+            .widget('form.activities.list', {
+                title: 'Activities Form List',
+                description: 'Activities Form List',
+                controller: 'ActivitieslFormListCtrl',
+                templateUrl: '/scripts/modules/custom/views/forms/config/global.list.html'
             });
     })
-    .controller('ReportTypeFormListCtrl', [
+    .controller('ActivitieslFormListCtrl', [
         '$scope',
         'config',
         'ngmUser',
@@ -34,8 +34,8 @@ angular.module('ngm.widget.form.report.type.list', ['ngm.provider'])
                     json = JSON.parse($scope.master.definition)
                     missing = '';
 
-                    if (!json.admin0pcode) {
-                        missing += 'admin0pcode </br>'
+                    if (!json.activity) {
+                        missing += 'activity </br>'
 
                     }
 
@@ -44,6 +44,7 @@ angular.module('ngm.widget.form.report.type.list', ['ngm.provider'])
                 save: function () {
                     $scope.master.definition
 
+                    // console.log($scope.master.config, json)
                 },
                 init: function () {
 

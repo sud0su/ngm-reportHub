@@ -319,6 +319,29 @@ angular
                     }],
                 }
             })
+            .when('/custom/config/activities-list/', {
+                redirectTo: '/custom/config/activities-list/all'
+            })
+            .when('/custom/config/activities-list/:admin0pcode', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListActivitiesCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+
+            .when('/custom/config/activity-detail/:id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListActivityDetailCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+
             // FORBIDDEN
             .when('/cluster/forbidden', {
                 templateUrl: '/views/app/dashboard.html',

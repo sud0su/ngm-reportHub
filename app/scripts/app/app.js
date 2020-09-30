@@ -44,6 +44,7 @@ angular
 		'ngm.widget.form.global.list',
 		'ngm.widget.form.config.list',
 		'ngm.widget.form.report.type.list',
+		'ngm.widget.form.activities.list',
 		// modules
 		'ngmBangladesh',
 		'ngmCluster',
