@@ -342,6 +342,29 @@ angular
                 }
             })
 
+            .when('/custom/config/beneficiaries-forms/', {
+                redirectTo: '/custom/config/beneficiaries-forms/all'
+            })
+            .when('/custom/config/beneficiaries-forms/:admin0pcode', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomListFormBeneficiariesCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+
+            .when('/custom/config/beneficiaries-form-detail/:id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomBeneficiariesDetailCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+
             // FORBIDDEN
             .when('/cluster/forbidden', {
                 templateUrl: '/views/app/dashboard.html',

@@ -5,7 +5,7 @@ angular.module('ngm.widget.form.activities.list', ['ngm.provider'])
                 title: 'Activities Form List',
                 description: 'Activities Form List',
                 controller: 'ActivitieslFormListCtrl',
-                templateUrl: '/scripts/modules/custom/views/forms/config/global.list.html'
+                templateUrl: '/scripts/modules/custom/views/forms/config/activities.list.html'
             });
     })
     .controller('ActivitieslFormListCtrl', [
