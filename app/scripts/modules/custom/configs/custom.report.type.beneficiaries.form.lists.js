@@ -309,10 +309,13 @@ angular.module('ngmReportHub')
                                     data: [{ id: 'dummy' ,report_type_id:'dummy'}]
                                     // request: {
                                     //     method:'GET',
-                                    //     url: ngmAuth.LOCATION + '/api/getCustomLists',
+                                    //     url: ngmAuth.LOCATION + '/api/custom/config/getCustomBeneficiariesForms',
                                     //     params:{
                                     //         admin0pcode: $route.current.params.admin0pcode,
-                                    //         list_type_id:'global'
+                                    //          form_id:'', 
+                                    //          reporting_type_id:'', 
+                                    //          form_type_id:'', 
+                                    //          status:''
                                     //     }
                                     // }
                                 }

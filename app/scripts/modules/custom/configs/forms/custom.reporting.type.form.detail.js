@@ -60,8 +60,32 @@ angular.module('ngm.widget.reporting.type.form.detail', ['ngm.provider'])
                         M.toast({ html: 'Please Put The missing atribute below </br>' + missing, displayLength: 4000, classes: 'error' });
                     }
                 },
+                remove: function (id) {
+                    // setReportRequest
+                    // var setReportRequest = {
+                    //     method: 'POST',
+                    //     url: ngmAuth.LOCATION + '/api/custom/config/deleteCustomList/',
+                    //     params:{id : id}
+                    // }
+
+                    // // set report
+                    // $http(setReportRequest).success(function () {
+
+                    // })
+                },
                 save: function () {
                     // $scope.master.definition
+                    // setReportRequest
+                    // var setReportRequest = {
+                    //     method: 'POST',
+                    //     url: ngmAuth.LOCATION + '/api/custom/config/saveCustomList',
+                    //     data: $scope.master.definition
+                    // }
+
+                    // // set report
+                    // $http(setReportRequest).success(function () {
+
+                    // })
                     $location.path('/custom/config/reporting-types/dummy')
                     // console.log($scope.master.config, json)
                 },

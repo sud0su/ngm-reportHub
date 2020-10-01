@@ -310,10 +310,14 @@ angular.module('ngmReportHub')
                                     data:[{id:'dummy-type-list',reporting_type_id:'dummy'}]
                                     // request: {
                                     //     method:'GET',
-                                    //     url: ngmAuth.LOCATION + '/api/getCustomLists',
+                                    //     url: ngmAuth.LOCATION + '/api/custom/config/getCustomLists'',
                                     //     params:{
                                     //         admin0pcode: $route.current.params.admin0pcode,
-                                    //         list_type_id:'global'
+                                    //         list_type_id:'project'
+                                    //          form_id:'',
+                                    //          reporting_type_id:'', 
+                                    //          list_type_id:'', 
+                                    //          status:''
                                     //     }
                                     // }
                                 }

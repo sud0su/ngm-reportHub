@@ -139,7 +139,7 @@ angular.module('ngmReportHub')
         } else {
             var req = {
                 method: 'GET',
-                url: ngmAuth.LOCATION + 'apigetCustomList?list_id=' + $route.current.params.id
+                url: ngmAuth.LOCATION + 'api/custom/config/getCustomBeneficiariesForm?form_id=' + $route.current.params.id
             }
             var x = JSON.stringify({
                 activity: 'a'

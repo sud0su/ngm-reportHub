@@ -148,7 +148,7 @@ angular.module('ngmReportHub')
         } else {
             var req = {
                 method: 'GET',
-                url: ngmAuth.LOCATION + 'api/getCustomActivityDefinition?reporting_type_id=' + $route.current.params.id
+                url: ngmAuth.LOCATION + 'api/custom/config/getCustomReportingType?reporting_type_id=' + $route.current.params.id
             }
             var x = JSON.stringify({
                 admin0pcode: 'AF'

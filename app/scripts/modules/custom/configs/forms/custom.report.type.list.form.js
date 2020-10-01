@@ -47,7 +47,32 @@ angular.module('ngm.widget.form.report.type.list', ['ngm.provider'])
                         $scope.master.save()
                     }
                 },
+                remove:function(id){
+                    // setReportRequest
+                    // var setReportRequest = {
+                    //     method: 'POST',
+                    //     url: ngmAuth.LOCATION + '/api/custom/config/deleteCustomReportingType/:id',
+                    //     params:{id : id}
+                    // }
+
+                    // // set report
+                    // $http(setReportRequest).success(function () {
+
+                    // })
+                },
                 save: function () {
+
+                    // setReportRequest
+                    // var setReportRequest = {
+                    //     method: 'POST',
+                    //     url: ngmAuth.LOCATION + '/api/custom/config/saveCustomReportingType',
+                    //     data: $scope.master.definition
+                    // }
+
+                    // // set report
+                    // $http(setReportRequest).success(function () {
+
+                    // })
                     $location.path('/custom/config/report-types/')
 
                 },

@@ -50,10 +50,32 @@ angular.module('ngm.widget.report.type.form.beneficiaries', ['ngm.provider'])
                         $scope.master.save()
                     }
                 },
+                remove: function (id) {
+                    // setReportRequest
+                    // var setReportRequest = {
+                    //     method: 'POST',
+                    //     url: ngmAuth.LOCATION + '/api/custom/config/deleteCustomBeneficiariesForm/',
+                    //     params:{id : id}
+                    // }
+
+                    // // set report
+                    // $http(setReportRequest).success(function () {
+
+                    // })
+                },
                 save: function () {
-                    // $scope.master.definition
+                    // setReportRequest
+                    // var setReportRequest = {
+                    //     method: 'POST',
+                    //     url: ngmAuth.LOCATION + '/api/custom/config/saveCustomBeneficiariesForm',
+                    //     data: $scope.master.definition
+                    // }
+
+                    // // set report
+                    // $http(setReportRequest).success(function () {
+
+                    // })
                     $location.path('/custom/config/report-beneficiaries-forms/dummy')
-                    // console.log($scope.master.config, json)
                 },
                 switchInputFile: function () {
                     $scope.inputString = !$scope.inputString;

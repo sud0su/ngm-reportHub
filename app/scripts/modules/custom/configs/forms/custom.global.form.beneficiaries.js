@@ -52,11 +52,11 @@ angular.module('ngm.widget.global.form.beneficiaries', ['ngm.provider'])
 
                     
                 },
-                save: function () {
-                    $scope.master.definition
+                // save: function () {
+                //     $scope.master.definition
 
-                    // console.log($scope.master.config, json)
-                },
+                //     // console.log($scope.master.config, json)
+                // },
                 switchInputFile: function(){
                     $scope.inputString = !$scope.inputString;
                 },
@@ -221,7 +221,31 @@ angular.module('ngm.widget.global.form.beneficiaries', ['ngm.provider'])
                 init: function () {
 
                 },
+                remove: function (id) {
+                    // setReportRequest
+                    // var setReportRequest = {
+                    //     method: 'POST',
+                    //     url: ngmAuth.LOCATION + '/api/custom/config/deleteCustomBeneficiariesForm/',
+                    //     params:{id : id}
+                    // }
+
+                    // // set report
+                    // $http(setReportRequest).success(function () {
+
+                    // })
+                },
                 save: function(){
+                    // setReportRequest
+                    // var setReportRequest = {
+                    //     method: 'POST',
+                    //     url: ngmAuth.LOCATION + '/api/custom/config/saveCustomBeneficiariesForm',
+                    //     data: $scope.master.definition
+                    // }
+
+                    // // set report
+                    // $http(setReportRequest).success(function () {
+
+                    // })
                     $location.path('/custom/config/beneficiaries-forms/')
                 }
             }

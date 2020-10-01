@@ -404,10 +404,12 @@ angular.module('ngmReportHub')
                                     data:[{admin0pcode:'ALL',id:'dummy'}]
                                     // request: {
                                     //     method:'GET',
-                                    //     url: ngmAuth.LOCATION + '/api/getCustomActivityDefinitions',
+                                    //     url: ngmAuth.LOCATION + '/api/custom/config/getCustomReportingTypes',
                                     //     params:{
                                     //         admin0pcode: $route.current.params.admin0pcode,
                                     //         status:'active'
+                                    //         reporting_type_id:'',
+                                    //         status:'',
                                     //     }
                                 }
                             }]

@@ -61,7 +61,18 @@ angular.module('ngm.widget.form.global.list', ['ngm.provider'])
                     }
                 },
                 save:function(){
-                    $scope.master.definition
+                    
+                    // setReportRequest
+                    var setReportRequest = {
+                        method: 'POST',
+                        url: ngmAuth.LOCATION + '/api/custom/config/saveCustomList',
+                        data: { email_alert: email_alert, report: $scope.project.report }
+                    }
+
+                    // set report
+                    $http(setReportRequest).success(function () {
+
+                    })
                    
                     // console.log($scope.master.config, json)
                     $location.path('/custom/config/global/all')
