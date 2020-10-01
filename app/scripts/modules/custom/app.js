@@ -310,15 +310,15 @@ angular
                 }
             })
 
-            .when('/custom/config/list-menu/', {
-                templateUrl: '/views/app/dashboard.html',
-                controller: 'CustomListMenuCtrl',
-                resolve: {
-                    access: ['ngmAuth', function (ngmAuth) {
-                        return ngmAuth.isAuthenticated();
-                    }],
-                }
-            })
+            // .when('/custom/config/list-menu/', {
+            //     templateUrl: '/views/app/dashboard.html',
+            //     controller: 'CustomListMenuCtrl',
+            //     resolve: {
+            //         access: ['ngmAuth', function (ngmAuth) {
+            //             return ngmAuth.isAuthenticated();
+            //         }],
+            //     }
+            // })
             .when('/custom/config/activities-list/', {
                 redirectTo: '/custom/config/activities-list/all'
             })
@@ -347,7 +347,7 @@ angular
             })
             .when('/custom/config/beneficiaries-forms/:admin0pcode', {
                 templateUrl: '/views/app/dashboard.html',
-                controller: 'CustomListFormBeneficiariesCtrl',
+                controller: 'CustomGlobalBeneficiariesFormListCtrl',
                 resolve: {
                     access: ['ngmAuth', function (ngmAuth) {
                         return ngmAuth.isAuthenticated();
@@ -357,7 +357,54 @@ angular
 
             .when('/custom/config/beneficiaries-form-detail/:id', {
                 templateUrl: '/views/app/dashboard.html',
-                controller: 'CustomBeneficiariesDetailCtrl',
+                controller: 'CustomGlobalBeneficiariesFormDetailCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+
+            .when('/custom/config/report-type-menu/:report_type_id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomReportTypeMenuCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+            .when('/custom/config/report-beneficiaries-forms/:report_type_id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomReportTypeBeneficiariesFormListCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+
+            .when('/custom/config/report-type-beneficiaries-form-detail/:report_type_id/:id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomReportTypeBeneficiariesFormDetailCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+            .when('/custom/config/reporting-types/:report_type_id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomReportingTypeListCtrl',
+                resolve: {
+                    access: ['ngmAuth', function (ngmAuth) {
+                        return ngmAuth.isAuthenticated();
+                    }],
+                }
+            })
+            .when('/custom/config/reporting-type-detail/:report_type_id/:id', {
+                templateUrl: '/views/app/dashboard.html',
+                controller: 'CustomReportingTypeDetailCtrl',
                 resolve: {
                     access: ['ngmAuth', function (ngmAuth) {
                         return ngmAuth.isAuthenticated();

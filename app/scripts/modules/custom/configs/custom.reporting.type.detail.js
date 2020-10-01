@@ -1,12 +1,12 @@
 /**
  * @ngdoc function
- * @name ngmReportHubApp.controller:CustomBeneficiariesDetailCtrl
+ * @name ngmReportHubApp.controller:CustomReportingTypeDetailCtrl
  * @description
- * # CustomBeneficiariesDetailCtrl
+ * # CustomReportingTypeDetailCtrl
  * Controller of the ngmReportHub
  */
 angular.module('ngmReportHub')
-    .controller('CustomBeneficiariesDetailCtrl', ['$scope', '$location', '$route', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', function ($scope, $location, $route, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope) {
+    .controller('CustomReportingTypeDetailCtrl', ['$scope', '$location', '$route', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', function ($scope, $location, $route, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope) {
         this.awesomeThings = [
             'HTML5 Boilerplate',
             'AngularJS',
@@ -25,9 +25,12 @@ angular.module('ngmReportHub')
             // user
             user: ngmUser.get(),
 
+            backToListUrl: function () {
+                return "#/custom/config/reporting-types/" + $route.current.params.report_type_id
+            },
+
             // init
             init: function (data) {
-
                 // report dashboard model
                 $scope.model = {
                     name: 'cluster_project_list',
@@ -39,11 +42,11 @@ angular.module('ngmReportHub')
                         title: {
                             'class': 'col s12 m9 l9 report-title truncate',
                             style: 'font-size: 3.4rem; color: ' + $scope.config.ngm.style.defaultPrimaryColor,
-                            title: $route.current.params.id === 'new' ? 'New Beneficiaries Form' : "Form "
+                            title: $route.current.params.id === 'new' ? 'New List' : "List "
                         },
                         subtitle: {
                             'class': 'col s12 m12 l12 report-subtitle hide-on-small-only',
-                            title: $route.current.params.id === 'new' ? 'New Form for Beneficiaries' : 'Form : '
+                            title: $route.current.params.id === 'new' ? 'New List' : 'List : '
                         },
                         // download: {
                         //     'class': 'col s12 m3 l3 hide-on-small-only',
@@ -90,7 +93,7 @@ angular.module('ngmReportHub')
                                 card: 'white grey-text text-darken-2',
                                 style: 'padding: 20px;',
                                 config: {
-                                    html: '<a class="btn-flat waves-effect waves-teal left hide-on-small-only" href="#/custom/config/beneficiaries-forms/"><i class="material-icons left">keyboard_return</i> Back </a>'
+                                    html: '<a class="btn-flat waves-effect waves-teal left hide-on-small-only" href=' + $scope.config.backToListUrl() + '><i class="material-icons left">keyboard_return</i> Back </a>'
                                 }
                             }]
                         }]
@@ -99,7 +102,7 @@ angular.module('ngmReportHub')
                         columns: [{
                             styleClass: 's12 m12 l12',
                             widgets: [{
-                                type: 'form.beneficiaries.list',
+                                type: 'reporting.type.form.detail',
                                 style: 'padding:0px; height: 90px; padding-top:10px;',
                                 config: {
                                     style: $scope.config.ngm.style,

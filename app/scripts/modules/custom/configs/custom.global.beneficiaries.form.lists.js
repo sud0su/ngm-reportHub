@@ -1,12 +1,12 @@
 /**
  * @ngdoc function
- * @name ngmReportHubApp.controller:CustomListFormBeneficiariesCtrl
+ * @name ngmReportHubApp.controller:CustomGlobalBeneficiariesFormListCtrl
  * @description
- * # CustomListFormBeneficiariesCtrl
+ * # CustomGlobalBeneficiariesFormListCtrl
  * Controller of the ngmReportHub
  */
 angular.module('ngmReportHub')
-    .controller('CustomListFormBeneficiariesCtrl', ['$scope', '$location', '$route', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', function ($scope, $location, $route, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope) {
+    .controller('CustomGlobalBeneficiariesFormListCtrl', ['$scope', '$location', '$route', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', function ($scope, $location, $route, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope) {
         this.awesomeThings = [
             'HTML5 Boilerplate',
             'AngularJS',

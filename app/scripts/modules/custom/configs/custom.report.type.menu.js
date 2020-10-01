@@ -1,12 +1,12 @@
 /**
  * @ngdoc function
- * @name ngmReportHubApp.controller:CustomListMenuCtrl
+ * @name ngmReportHubApp.controller:CustomReportTypeMenuCtrl
  * @description
- * # CustomListMenuCtrl
+ * # CustomReportTypeMenuCtrl
  * Controller of the ngmReportHub
  */
 angular.module('ngmReportHub')
-    .controller('CustomListMenuCtrl', ['$scope', '$route', '$http', '$location', '$timeout', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', 'ngmCustomConfig', function ($scope, $route, $http, $location, $timeout, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope, ngmCustomConfig) {
+    .controller('CustomReportTypeMenuCtrl', ['$scope', '$route', '$http', '$location', '$timeout', 'ngmAuth', 'ngmData', 'ngmUser', '$translate', '$filter', '$rootScope', 'ngmCustomConfig', function ($scope, $route, $http, $location, $timeout, ngmAuth, ngmData, ngmUser, $translate, $filter, $rootScope, ngmCustomConfig) {
         this.awesomeThings = [
             'HTML5 Boilerplate',
             'AngularJS',
@@ -29,12 +29,12 @@ angular.module('ngmReportHub')
 
             // set summary
             init: function () {
-                $scope.menu.title = 'Activity Config  | Lists | Beneficiaries Form';
+                $scope.menu.title = 'Reporting Type Menu';
                 var subtitle = 'configuration';
 
                 // report dashboard model
                 $scope.model = {
-                    name: 'custom_config_main',
+                    name: 'custom_type_menu',
                     header: {
                         div: {
                             'class': 'col s12 m12 l12 report-header',
@@ -58,7 +58,7 @@ angular.module('ngmReportHub')
                                 card: 'white grey-text text-darken-2',
                                 style: 'padding: 20px;',
                                 config: {
-                                    html: '<a class="btn-flat waves-effect waves-teal left" href="#/custom/config-menu/"><i class="material-icons mirror left">keyboard_return</i>' + 'HOME' + '</a>'
+                                    html: '<a class="btn-flat waves-effect waves-teal left" href="#/custom/config/report-types/"><i class="material-icons mirror left">keyboard_return</i>' + 'BACK' + '</a>'
                                 }
                             }]
                         }]
@@ -70,7 +70,9 @@ angular.module('ngmReportHub')
                                 card: 'white grey-text text-darken-2',
                                 style: 'padding: 0px;',
                                 config: {
-                                    templateUrl: '/scripts/widgets/ngm-html/template/custom.list.menu.html',
+                                    templateUrl: '/scripts/widgets/ngm-html/template/custom.type.menu.html',
+                                    report_type_id: $route.current.params.report_type_id,
+                                    admin0pcode: 'all'
                                 }
                             }]
                         }]
@@ -98,7 +100,10 @@ angular.module('ngmReportHub')
             }
 
         }
-
+        var req = {
+            method: 'GET',
+            url: ngmAuth.LOCATION + 'api/custom/config/getCustomReportingType?report_type_id=' + $route.current.params.report_type_id
+        }
         $scope.menu.init()
 
     }]);

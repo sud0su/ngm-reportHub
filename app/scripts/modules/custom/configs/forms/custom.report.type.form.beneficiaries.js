@@ -1,14 +1,14 @@
-angular.module('ngm.widget.form.beneficiaries.list', ['ngm.provider'])
+angular.module('ngm.widget.report.type.form.beneficiaries', ['ngm.provider'])
     .config(function (dashboardProvider) {
         dashboardProvider
-            .widget('form.beneficiaries.list', {
-                title: 'Beneficiaries Form List',
-                description: 'Beneficiaries Form List',
-                controller: 'BeneficiariesFormListCtrl',
+            .widget('report.type.form.beneficiaries', {
+                title: 'Report Type Beneficiaries Form',
+                description: 'Report Type Beneficiaries Form',
+                controller: 'ReportTypeBeneficiariesFormCtrl',
                 templateUrl: '/scripts/modules/custom/views/forms/config/beneficiaries.list.html'
             });
     })
-    .controller('BeneficiariesFormListCtrl', [
+    .controller('ReportTypeBeneficiariesFormCtrl', [
         '$scope',
         'config',
         'ngmUser',
@@ -50,7 +50,7 @@ angular.module('ngm.widget.form.beneficiaries.list', ['ngm.provider'])
 
                     // console.log($scope.master.config, json)
                 },
-                switchInputFile: function(){
+                switchInputFile: function () {
                     $scope.inputString = !$scope.inputString;
                 },
 
@@ -110,7 +110,7 @@ angular.module('ngm.widget.form.beneficiaries.list', ['ngm.provider'])
                                     document.querySelector(".percent-upload").style.display = 'none';
                                     drop_zone.removeAllFiles(true);
                                     $scope.master.validate()
-                                },2000)
+                                }, 2000)
 
                             } else {
                                 file = drop_zone.getAcceptedFiles()[0]
@@ -143,7 +143,7 @@ angular.module('ngm.widget.form.beneficiaries.list', ['ngm.provider'])
                                             document.querySelector(".percent-upload").style.display = 'none';
                                             drop_zone.removeAllFiles(true);
                                             $scope.master.validate()
-                                        },2000)
+                                        }, 2000)
                                     })
                                 })
                             }

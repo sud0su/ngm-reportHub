@@ -1,0 +1,156 @@
+<style>
+    .no-active {
+        filter: grayscale(1);
+    }
+
+    a .card-image.no-active {
+        pointer-events: none;
+    }
+
+    .disabled-link {
+        pointer-events: none;
+        cursor: default;
+    }
+</style>
+<!-- complete modal -->
+<div id="complete-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal blue"><i
+                class="material-icons left small">info_outline</i>Mark Report Type as Complete</h4>
+        <p>Are you sure want to mark this "Report Type" as  "Complete" ?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="panel.markComplete( panel.project )"
+            class=" modal-action modal-close waves-effect waves-green btn">Yes, Report Type Complete!</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+
+<!-- complete modal -->
+<div id="delete-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal red lighten-2"><i
+                class="material-icons left small">info_outline</i> Delete Report Type</h4>
+        <p> Are You Surw Want to Delete this Report Type?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click=""
+            class=" modal-action modal-close waves-effect waves-red btn">Yes, Delete Report Type!</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+
+
+<!-- active modal -->
+<div id="active-modal" class="modal">
+    <div class="modal-content dialog">
+        <h4 class="header-modal blue"><i
+                class="material-icons left small">info_outline</i>Mark Report Type as Complete</h4>
+        <p>Are you sure want to mark this "Report Type" as "Active" ??</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="panel.markActive()"
+            class=" modal-action modal-close waves-effect waves-green btn"> Yes, Move Report Type to Active!</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m12 l4">
+        <a href="#/custom/config/report-types-detail/{{panel.admin0pcode}}/{{panel.report_type_id}}">
+            <div class="card small blue-grey darken-1 hoverable">
+                <div class="card-image">
+                    <img src="images/cluster/details-1.jpg">
+                </div>
+                <div class="card-content white-text">
+                    <p class="card-title">Definition</p>
+                    </p>
+                </div>
+                <div class="card-action">
+                    <a class="left"
+                        href="#/custom/config/report-types-detail/{{panel.admin0pcode}}/{{panel.report_type_id}}">Go To Definition</a>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col s12 m12 l4">
+        <a href="#/custom/config/reporting-types/{{panel.report_type_id}}">
+            <div class="card small blue-grey darken-1 hoverable">
+                <div class="card-image">
+                    <img src="images/cluster/reports.jpg">
+                </div>
+                <div class="card-content white-text">
+                    <p class="card-title">Type List</p>
+                </div>
+                <div class="card-action">
+                    <a class="left"
+                        href="#/custom/config/reporting-types/{{panel.report_type_id}}">Go to Type List</a>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col s12 m12 l4">
+        <a href="#/custom/config/report-beneficiaries-forms/{{panel.report_type_id}}">
+            <div class="card small blue-grey darken-1 hoverable">
+                <div class="card-image">
+                    <img src="images/cluster/monthly_report.jpg">
+                </div>
+                <div class="card-content white-text">
+                    <p class="card-title">Beneficiaries Form Lists</p>
+                </div>
+                <div class="card-action">
+                    <a class="left"
+                        href="#/custom/config/report-beneficiaries-forms/{{panel.report_type_id}}"> Go to Beneficiaries Form Lists</a>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+</div>
+
+
+<fieldset>
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="widget card-panel white grey-text text-darken-2">
+                <!-- submission -->
+                <div align="center">
+                    <button  data-target="complete-modal"
+                        class="waves-effect waves-light btn modal-trigger blue" ng-cloak>
+                        <i
+                            class="material-icons left">assignment_turned_in</i> Mark Report Type as Complete
+                    </button>
+                    <br />
+                    <br />
+                    <button  data-target="delete-modal"
+                        class="waves-effect waves-light btn modal-trigger red lighten-2" ng-cloak>
+                        <i class="material-icons left">delete_forever</i> Delete Report Type
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- project to active -->
+    <div class="row" ng-if="panel.project.project_status === 'complete'">
+        <div class="col s12 m12 l12">
+            <div class="widget card-panel white grey-text text-darken-2">
+                <!-- submission -->
+                <div align="center">
+                    <button data-target="active-modal"
+                        class="waves-effect waves-light btn modal-trigger blue" ng-cloak>
+                        <i class="material-icons left">assignment_turned_in</i> Mark Report Type as Active
+                    </button>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<script type="text/javascript">
+    // modals
+    $(document).ready(function () {
+        $('.modal').modal();
+    })
+</script>
