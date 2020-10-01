@@ -400,7 +400,8 @@ angular.module('ngmReportHub')
                                     textColor: 'white-text',
                                     title: 'Active Report Type',
                                     icon: 'edit',
-                                    templateUrl: '/scripts/widgets/ngm-list/template/global_list.html'
+                                    templateUrl: '/scripts/widgets/ngm-list/template/report_type_list.html',
+                                    data:[{admin0pcode:'ALL',id:'dummy'}]
                                     // request: {
                                     //     method:'GET',
                                     //     url: ngmAuth.LOCATION + '/api/getCustomActivityDefinitions',

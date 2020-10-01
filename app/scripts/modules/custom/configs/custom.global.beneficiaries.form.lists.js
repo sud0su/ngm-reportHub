@@ -398,7 +398,8 @@ angular.module('ngmReportHub')
                                     textColor: 'white-text',
                                     title: 'List',
                                     icon: 'edit',
-                                    templateUrl: '/scripts/widgets/ngm-list/template/global_list.html',
+                                    templateUrl: '/scripts/widgets/ngm-list/template/global_list_beneficiaries.html',
+                                    data:[{id:'dummy'}]
                                     // request: {
                                     //     method:'GET',
                                     //     url: ngmAuth.LOCATION + '/api/getCustomLists',

@@ -25,6 +25,15 @@ angular.module('ngmReportHub')
             // user
             user: ngmUser.get(),
 
+            backLinkBtn: function () {
+                if($route.current.params.id !== 'new'){
+                    path = "#/custom/config/report-type-menu/" + $route.current.params.id
+                }else{
+                    path = '#/custom/config/report-types/'  
+                }
+              return path    
+            },
+
             // init
             init: function (data) {
 
@@ -90,7 +99,7 @@ angular.module('ngmReportHub')
                                 card: 'white grey-text text-darken-2',
                                 style: 'padding: 20px;',
                                 config: {
-                                    html: '<a class="btn-flat waves-effect waves-teal left hide-on-small-only" href="#/custom/config/report-types/"><i class="material-icons left">keyboard_return</i> Back </a>'
+                                    html: '<a class="btn-flat waves-effect waves-teal left hide-on-small-only" href="' + $scope.config.backLinkBtn()+'"><i class="material-icons left">keyboard_return</i> Back </a>'
                                 }
                             }]
                         }]

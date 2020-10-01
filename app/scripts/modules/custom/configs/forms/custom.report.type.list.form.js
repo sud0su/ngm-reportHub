@@ -16,6 +16,7 @@ angular.module('ngm.widget.form.report.type.list', ['ngm.provider'])
         'ngmData',
         '$http',
         '$timeout',
+        '$location',
         function (
             $scope,
             config,
@@ -23,7 +24,8 @@ angular.module('ngm.widget.form.report.type.list', ['ngm.provider'])
             ngmAuth,
             ngmData,
             $http,
-            $timeout
+            $timeout,
+            $location
         ) {
 
             $scope.master = {
@@ -38,11 +40,15 @@ angular.module('ngm.widget.form.report.type.list', ['ngm.provider'])
                         missing += 'admin0pcode </br>'
 
                     }
-
-                    M.toast({ html: 'Please Put The missing atribute below </br>' + missing, displayLength: 4000, classes: 'error' });
+                    console.log(missing)
+                    if(missing !== ''){
+                        M.toast({ html: 'Please Put The missing atribute below </br>' + missing, displayLength: 4000, classes: 'error' });
+                    }else{
+                        $scope.master.save()
+                    }
                 },
                 save: function () {
-                    $scope.master.definition
+                    $location.path('/custom/config/report-types/')
 
                 },
                 init: function () {

@@ -399,6 +399,15 @@ angular.module('ngmReportHub')
 									title: 'List',
                                     icon: 'edit',
                                     templateUrl: '/scripts/widgets/ngm-list/template/global_list.html',
+                                    // dummy
+                                    data: [{
+                                        admin0pcode: 'AF',
+                                        list_type_id: 'global',
+                                        date_start: '2020-01-10',
+                                        date_end: '2021-12-31',
+                                        reporting_type_id: 'text2',
+                                        id:'dummy'
+                                    }]
 									// request: {
                                     //     method:'GET',
                                     //     url: ngmAuth.LOCATION + '/api/getCustomLists',

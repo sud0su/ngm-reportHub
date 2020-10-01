@@ -17,6 +17,7 @@ angular.module('ngm.widget.report.type.form.beneficiaries', ['ngm.provider'])
         '$http',
         '$timeout',
         '$filter',
+        '$location',
         function (
             $scope,
             config,
@@ -25,7 +26,8 @@ angular.module('ngm.widget.report.type.form.beneficiaries', ['ngm.provider'])
             ngmData,
             $http,
             $timeout,
-            $filter
+            $filter,
+            $location
         ) {
 
             $scope.inputString = true;
@@ -42,12 +44,15 @@ angular.module('ngm.widget.report.type.form.beneficiaries', ['ngm.provider'])
                         missing += 'activity </br>'
 
                     }
-
-                    M.toast({ html: 'Please Put The missing atribute below </br>' + missing, displayLength: 4000, classes: 'error' });
+                    if(missing !== ''){
+                        M.toast({ html: 'Please Put The missing atribute below </br>' + missing, displayLength: 4000, classes: 'error' });
+                    }else{
+                        $scope.master.save()
+                    }
                 },
                 save: function () {
-                    $scope.master.definition
-
+                    // $scope.master.definition
+                    $location.path('/custom/config/report-beneficiaries-forms/dummy')
                     // console.log($scope.master.config, json)
                 },
                 switchInputFile: function () {
@@ -109,6 +114,7 @@ angular.module('ngm.widget.report.type.form.beneficiaries', ['ngm.provider'])
                                 $timeout(function () {
                                     document.querySelector(".percent-upload").style.display = 'none';
                                     drop_zone.removeAllFiles(true);
+                                    $scope.master.definition ='{"activity":"a"}'
                                     $scope.master.validate()
                                 }, 2000)
 
@@ -142,6 +148,7 @@ angular.module('ngm.widget.report.type.form.beneficiaries', ['ngm.provider'])
                                         $timeout(function () {
                                             document.querySelector(".percent-upload").style.display = 'none';
                                             drop_zone.removeAllFiles(true);
+                                            $scope.master.definition = '{"activity":"a"}'
                                             $scope.master.validate()
                                         }, 2000)
                                     })

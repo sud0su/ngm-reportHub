@@ -16,6 +16,7 @@ angular.module('ngm.widget.reporting.type.form.detail', ['ngm.provider'])
         'ngmData',
         '$http',
         '$timeout',
+        '$location',
         function (
             $scope,
             config,
@@ -23,7 +24,8 @@ angular.module('ngm.widget.reporting.type.form.detail', ['ngm.provider'])
             ngmAuth,
             ngmData,
             $http,
-            $timeout
+            $timeout,
+            $location
         ) {
 
             $scope.master = {
@@ -52,12 +54,15 @@ angular.module('ngm.widget.reporting.type.form.detail', ['ngm.provider'])
                     // if (!json.date_end) {
                     //     missing += 'date_end </br>'
                     // }
-
-                    // M.toast({ html: 'Please Put The missing atribute below </br>' + missing, displayLength: 4000, classes: 'error' });
+                    if(missing ===''){
+                        $scope.master.save()
+                    }else{
+                        M.toast({ html: 'Please Put The missing atribute below </br>' + missing, displayLength: 4000, classes: 'error' });
+                    }
                 },
                 save: function () {
-                    $scope.master.definition
-
+                    // $scope.master.definition
+                    $location.path('/custom/config/reporting-types/dummy')
                     // console.log($scope.master.config, json)
                 },
                 init: function () {

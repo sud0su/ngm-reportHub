@@ -16,6 +16,7 @@ angular.module('ngm.widget.form.global.list', ['ngm.provider'])
         'ngmData',
         '$http',
         '$timeout',
+        '$location',
         function (
             $scope,
             config,
@@ -23,7 +24,8 @@ angular.module('ngm.widget.form.global.list', ['ngm.provider'])
             ngmAuth,
             ngmData,
             $http,
-            $timeout
+            $timeout,
+            $location
         ) {
 
             $scope.master = {
@@ -52,13 +54,17 @@ angular.module('ngm.widget.form.global.list', ['ngm.provider'])
                     if(!json.date_end){
                         missing += 'date_end </br>'
                     }
-
-                    M.toast({ html: 'Please Put The missing atribute below </br>'+ missing, displayLength: 4000, classes: 'error' });
+                    if(missing){
+                        M.toast({ html: 'Please Put The missing atribute below </br>'+ missing, displayLength: 4000, classes: 'error' });
+                    }else{
+                        $scope.master.save()
+                    }
                 },
                 save:function(){
                     $scope.master.definition
                    
                     // console.log($scope.master.config, json)
+                    $location.path('/custom/config/global/all')
                 },
                 init: function () {
 

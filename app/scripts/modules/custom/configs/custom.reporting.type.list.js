@@ -306,7 +306,8 @@ angular.module('ngmReportHub')
                                     textColor: 'white-text',
                                     title: 'List',
                                     icon: 'edit',
-                                    templateUrl: '/scripts/widgets/ngm-list/template/global_list.html',
+                                    templateUrl: '/scripts/widgets/ngm-list/template/reporting_type_list.html',
+                                    data:[{id:'dummy-type-list',reporting_type_id:'dummy'}]
                                     // request: {
                                     //     method:'GET',
                                     //     url: ngmAuth.LOCATION + '/api/getCustomLists',
