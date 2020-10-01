@@ -1,0 +1,74 @@
+<script>
+
+    // init textarea
+    setTimeout(function () {
+        $('textarea').height($('textarea')[0].scrollHeight);
+        M.updateTextFields();
+    });
+
+</script>
+
+<!-- bind html -->
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card">
+
+            <ul class="collection with-header">
+                <li class="collection-header indigo lighten-1">
+                    <h5 class="report-panel-title white-text">
+                        <!-- December 2018 -->
+                        <div
+                            ng-if="project.report.admin0pcode === 'SO' && project.report.report_year === 2018 && project.report.report_month === 11">
+                            <i class="material-icons left">location_on</i>{{'notes_for'|translate}} 2018
+                        </div>
+                        <!-- 2019 onwards -->
+                        <div ng-if="project.report.admin0pcode === 'SO' && project.report.report_year > 2018">
+                            <i class="material-icons left">location_on</i>{{'notes_for'|translate}}
+                            {{ project.monthlyTitleFormat }}
+                        </div>
+                        <!-- 2019 onwards -->
+                        <div ng-if="project.report.admin0pcode !== 'SO'">
+                            <i class="material-icons left">location_on</i>{{'notes_for'|translate}}
+                            {{ project.monthlyTitleFormat }}
+                        </div>
+                    </h5>
+                </li>
+
+                <li class="collection-item avatar">
+
+                    <!-- form -->
+
+                    <div class="row">
+
+                        <div class="card" style="padding:20px;">
+
+                            <div class="row">
+
+                                <div class="input-field col s12 m12 l12">
+                                    <textarea id="ngm-project-notes" type="text" class="validate materialize-textarea"
+                                        name="notes" ng-model="project.report.notes"
+                                        ng-disabled="project.report.report_status === 'complete'">
+									</textarea>
+                                    <label for="ngm-project-notes">Put Text Here</label>
+                                </div>
+
+                                <button class="btn" style="margin:10px 10px;"
+                                    ng-click="">
+                                    <i class="material-icons left">save</i>Save
+                                </button>
+                                <button class="btn red lighten-1" style="margin:10px 10px;" ng-click="">
+                                    <i class="material-icons left"></i>Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>

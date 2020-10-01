@@ -41,6 +41,11 @@ angular
 		'ngm.widget.custom.project.detail',
 		'ngm.widget.custom.report',
 		'ngm.widget.custom.schedule',
+		'ngm.widget.form.global.list',
+		'ngm.widget.form.report.type.list',
+		'ngm.widget.global.form.beneficiaries',
+		'ngm.widget.report.type.form.beneficiaries',
+		'ngm.widget.reporting.type.form.detail',
 		// modules
 		'ngmBangladesh',
 		'ngmCluster',

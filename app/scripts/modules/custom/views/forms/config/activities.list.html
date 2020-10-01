@@ -1,0 +1,78 @@
+<script>
+
+    // init textarea
+    setTimeout(function () {
+        $('textarea').height($('textarea')[0].scrollHeight);
+        M.updateTextFields();
+    });
+
+</script>
+
+<!-- bind html -->
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card">
+
+            <ul class="collection with-header">
+                <li class="collection-header indigo lighten-1">
+                    <h5 class="report-panel-title white-text">
+                        <div>
+                            <i class="material-icons left">location_on</i>Reporting Type Configuration
+                        </div>
+                    </h5>
+                </li>
+
+                <li class="collection-item avatar">
+
+                    <!-- form -->
+
+                    <div class="row">
+
+                        <div class="card" style="padding:20px;">
+
+                            <div class="row">
+
+                                <div class="input-field col s12 m12 l12">
+                                    <textarea id="ngm-project-notes" type="text" class="validate materialize-textarea"
+                                        name="notes" ng-model="master.definition"
+                                        >
+									</textarea>
+                                    <label for="ngm-project-notes">Put Text Here</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<div class="row remove">
+    <div class="col s12 m12 l12">
+        <div class="widget card-panel white grey-text text-darken-2">
+
+            <!-- submission -->
+            <div align="center">
+                <button data-target="save-modal" class="waves-effect waves-light btn" ng-click="master.validate()"
+                    ng-cloak><i class="material-icons mirror right">send</i>{{'save_mayus' | translate}}</button>
+
+                <!-- cancel new -->
+                <button data-target="list-modal"
+                    class="waves-effect waves-light btn modal-trigger grey">{{'cancel_mayus' | translate}}
+                </button>
+
+                <!-- cancel update -->
+                <button data-target="summary-modal" class="waves-effect waves-light btn modal-trigger grey" ng-if="project.definition.project_status === 'active' ||
+            										 project.definition.project_status === 'plan' || 
+            										 project.definition.project_status === 'not_implemented'">{{'cancel_mayus' | translate}}
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
