@@ -72,6 +72,8 @@ angular
 		'ngm.widget.table',
 		'ngm.materialize.select',
 		'ngm.materialize.datepicker',
+		'ngm.materialize.form',
+
 	])
 	.config([ '$routeProvider', '$locationProvider', '$compileProvider', '$translateProvider', function ( $routeProvider, $locationProvider, $compileProvider, $translateProvider ) {
 
