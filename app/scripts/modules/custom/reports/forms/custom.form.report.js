@@ -71,9 +71,19 @@ angular.module('ngm.widget.custom.report', ['ngm.provider'])
             $scope.ngmCustomValidation = ngmCustomValidation;
 
             // page scrolled
-            $scope._top_scrolled = 0
+						$scope._top_scrolled = 0
+
             // project
             $scope.project = {
+								beneficiariesFormConfig: {
+									"keys": { "key": "beneficiaries.v1" },
+									"beneficiaries.v1": {
+										"config": { "rows": [{"columns": [{"input_type" : "select", "class": "s12 m4 l4", "id": "cluster_id", "model": "cluster_id", "name": "cluster_name", "label":"Cluster/Unit *", "options":"b.cluster_id as b.cluster_name for b in project.beneficiaries_lists.clusters", "list": "clusters"},{"input_type" : "select", "watch": "true", "class": "s12 m4 l4", "id": "cluster_project_id", "name": "cluster_project_name", "model": "cluster_project_id", "label":"Project", "options":"b.cluster_project_id as b.cluster_project_name for b in project.beneficiaries_lists.projects | filter: { cluster_id: beneficiary.cluster_id }:true" , "list": "projects", "noselection": "true"}, {"input_type" : "select", "class": "s12 m4 l4", "id": "donor_id", "name": "donor_name", "model": "donor_id", "label":"Donor", "options":"b.donor_id as b.donor_name for b in project.beneficiaries_lists.donor", "list": "donor", "noselection": "true"}]} ]},
+										// configById: { "cluster_id": { "input_type": "select", "class": "s12 m4 l4", "id": "cluster_id", "model": "cluster_id", "name": "cluster_name", "label": "Cluster/Unit *", "options": "b.cluster_id as b.cluster_name for b in project.beneficiaries_lists.clusters", "list": "clusters" }, "cluster_project_id": { "input_type": "select", "watch": "true", "class": "s12 m4 l4", "id": "cluster_project_id", "name": "cluster_project_name", "model": "cluster_project_id", "label": "Project", "options": "b.cluster_project_id as b.cluster_project_name for b in project.beneficiaries_lists.projects | filter: { cluster_id: beneficiary.cluster_id }:true", "list": "projects", "noselection": "true" }, "donor_id": { "input_type": "select", "class": "s12 m4 l4", "id": "donor_id", "name": "donor_name", "model": "donor_id", "label": "Donor", "options": "b.donor_id as b.donor_name for b in project.beneficiaries_lists.donor", "list": "donor", "noselection": "true" } },
+									}
+								},
+
+								// beneficiariesFormConfigKeys: { key: 'beneficiaries.v1' },
 
                 /**** DEFAULTS ****/
                 user: ngmUser.get(),
