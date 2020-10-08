@@ -78,7 +78,228 @@ angular.module('ngm.widget.custom.report', ['ngm.provider'])
 								beneficiariesFormConfig: {
 									"keys": { "key": "beneficiaries.v1" },
 									"beneficiaries.v1": {
-										"config": { "rows": [{"columns": [{"input_type" : "select", "class": "s12 m4 l4", "id": "cluster_id", "model": "cluster_id", "name": "cluster_name", "label":"Cluster/Unit *", "options":"b.cluster_id as b.cluster_name for b in project.beneficiaries_lists.clusters", "list": "clusters"},{"input_type" : "select", "watch": "true", "class": "s12 m4 l4", "id": "cluster_project_id", "name": "cluster_project_name", "model": "cluster_project_id", "label":"Project", "options":"b.cluster_project_id as b.cluster_project_name for b in project.beneficiaries_lists.projects | filter: { cluster_id: beneficiary.cluster_id }:true" , "list": "projects", "noselection": "true"}, {"input_type" : "select", "class": "s12 m4 l4", "id": "donor_id", "name": "donor_name", "model": "donor_id", "label":"Donor", "options":"b.donor_id as b.donor_name for b in project.beneficiaries_lists.donor", "list": "donor", "noselection": "true"}]} ]},
+										"config": {
+											"rows": [
+													{
+															"columns": [
+																	{
+																			"input_type": "select",
+																			"class": "s12 m4 l4",
+																			"id": "cluster_id",
+																			"model": "cluster_id",
+																			"name": "cluster_name",
+																			"label": "Cluster/Unit *",
+																			"options": "cluster.cluster_id as cluster.cluster_name for cluster in project.beneficiaries_lists.clusters",
+																			"list": "clusters"
+																	},
+																	{
+																			"input_type": "select",
+																			"watch": "true",
+																			"class": "s12 m4 l4",
+																			"id": "cluster_project_id",
+																			"name": "cluster_project_name",
+																			"model": "cluster_project_id",
+																			"label": "Project",
+																			"options": "project.cluster_project_id as project.cluster_project_name for project in project.beneficiaries_lists.projects | filter: { cluster_id: beneficiary.cluster_id }:true",
+																			"list": "projects",
+																			"noselection": "true"
+																	},
+																	{
+																			"input_type": "select",
+																			"class": "s12 m4 l4",
+																			"id": "donor_id",
+																			"name": "donor_name",
+																			"model": "donor_id",
+																			"label": "Donor",
+																			"options": "donor.donor_id as donor.donor_name for donor in project.beneficiaries_lists.donor",
+																			"list": "donor",
+																			"noselection": "true"
+																	}
+															]
+													},
+													{
+														"columns": [
+																{
+																		"input_type": "select",
+																		"class": "s12 m12 l12",
+																		"id": "indicator_id",
+																		"model": "indicator_id",
+																		"name": "indicator_name",
+																		"label": "Indicator *",
+																		"options": "indicator.indicator_id as indicator.indicator_name for indicator in project.beneficiaries_lists.indicators | filter: { cluster_id: beneficiary.cluster_id }:true",
+																		"list": "clusters",
+																		"disabled": "!beneficiary.cluster_id",
+																		"set_attributes": true
+																}
+														]
+												},
+												{
+													"columns": [
+															{
+																	"input_type": "input",
+																	"type": "number",
+																	"id": "target",
+																	"model": "target",
+																	"label": "Target",
+																	"min": "0",
+																	"required": true
+															}
+													]
+												},
+												{
+													"tag": "Target Groups",
+													"style": "dotted",
+													"columns": [
+														{
+																"input_type": "checkbox",
+																"class": "s12 m4 l4",
+																"id": "pwd",
+																"model": "pwd",
+																"label": "PWD"
+														},
+															{
+																"input_type": "checkbox",
+																"class": "s12 m4 l4",
+																"id": "children",
+																"model": "children",
+																"label": "Children"
+															},
+															{
+																"input_type": "checkbox",
+																"class": "s12 m4 l4",
+																"id": "returnee",
+																"model": "returnee",
+																"label": "Returnee"
+															}
+													]
+												},
+												{
+													"tag": "Planned",
+													"columns": [
+														{
+																"input_type": "input",
+																"class": "s12 m3 l3",
+																"type": "number",
+																"id": "planned_neutral",
+																"model": "planned_neutral",
+																"label": "Neutral",
+																"min": "0",
+																"required": true,
+																"countTotal": true
+														},
+															{
+																"input_type": "input",
+																"class": "s12 m3 l3",
+																"type": "number",
+																"id": "planned_m_b",
+																"model": "planned_m_b",
+																"label": "M/B",
+																"min": "0",
+																"required": true,
+																"countTotal": true
+															},
+															{
+																"input_type": "input",
+																"class": "s12 m3 l3",
+																"type": "number",
+																"id": "planned_w_g",
+																"model": "planned_w_g",
+																"label": "W/G",
+																"min": "0",
+																"required": true,
+																"countTotal": true
+															},
+															{
+																"input_type": "input",
+																"class": "s12 m3 l3",
+																"type": "number",
+																"id": "planned_total",
+																"model": "planned_total",
+																"label": "Total",
+																"min": "0",
+																"required": true,
+																"disabled": true
+															}
+													]
+												},
+												{
+													"tag": "Acheived",
+													"columns": [
+														{
+																"input_type": "input",
+																"class": "s12 m3 l3",
+																"type": "number",
+																"id": "achieved_neutral",
+																"model": "achieved_neutral",
+																"label": "Returnee",
+																"min": "0",
+																"required": true,
+																"countTotal": true
+														},
+															{
+																"input_type": "input",
+																"class": "s12 m3 l3",
+																"type": "number",
+																"id": "achieved_m_b",
+																"model": "achieved_m_b",
+																"label": "M/B",
+																"min": "0",
+																"required": true,
+																"countTotal": true
+															},
+															{
+																"input_type": "input",
+																"class": "s12 m3 l3",
+																"type": "number",
+																"id": "achieved_w_g",
+																"model": "achieved_w_g",
+																"label": "W/G",
+																"min": "0",
+																"required": true,
+																"countTotal": true
+															},
+															{
+																"input_type": "input",
+																"class": "s12 m3 l3",
+																"type": "number",
+																"id": "achieved_total",
+																"model": "achieved_total",
+																"label": "Total",
+																"min": "0",
+																"required": true,
+																"disabled": true
+															}
+													]
+												},
+												{
+													"columns": [
+															{
+																	"input_type": "input",
+																	"type": "text",
+																	"id": "remarks",
+																	"model": "remarks",
+																	"label": "{{'remarks' | translate }}",
+																	"placeholder": "{{ 'remarks_go_here' | translate }}",
+																	"required": true
+															}
+													]
+												},
+												{
+													"card": true,
+													"columns": [
+															{
+																	"input_type": "textarea",
+																	"type": "text",
+																	"id": "justification",
+																	"model": "justification",
+																	"label": "Justification",
+																	"required": true,
+																	"classInput": "materialize-textarea"
+															}
+													]
+												},
+											],
+									},
 										// configById: { "cluster_id": { "input_type": "select", "class": "s12 m4 l4", "id": "cluster_id", "model": "cluster_id", "name": "cluster_name", "label": "Cluster/Unit *", "options": "b.cluster_id as b.cluster_name for b in project.beneficiaries_lists.clusters", "list": "clusters" }, "cluster_project_id": { "input_type": "select", "watch": "true", "class": "s12 m4 l4", "id": "cluster_project_id", "name": "cluster_project_name", "model": "cluster_project_id", "label": "Project", "options": "b.cluster_project_id as b.cluster_project_name for b in project.beneficiaries_lists.projects | filter: { cluster_id: beneficiary.cluster_id }:true", "list": "projects", "noselection": "true" }, "donor_id": { "input_type": "select", "class": "s12 m4 l4", "id": "donor_id", "name": "donor_name", "model": "donor_id", "label": "Donor", "options": "b.donor_id as b.donor_name for b in project.beneficiaries_lists.donor", "list": "donor", "noselection": "true" } },
 									}
 								},
