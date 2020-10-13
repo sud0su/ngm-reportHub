@@ -7,15 +7,15 @@
  */
 angular.module('ngmReportHub')
 	.controller('DashboardEthMonitoringCtrl', [
-			'$scope', 
-			'$q', 
-			'$http', 
-			'$location', 
+			'$scope',
+			'$q',
+			'$http',
+			'$location',
 			'$route',
 			'$rootScope',
-			'$window', 
-			'$timeout', 
-			'$filter', 
+			'$window',
+			'$timeout',
+			'$filter',
 			'ngmUser',
 			'ngmAuth',
 			'ngmData',
@@ -33,10 +33,10 @@ angular.module('ngmReportHub')
 
 			// create dews object
 			$scope.dashboard = {
-				
+
 				// parent
 				ngm: $scope.$parent.ngm,
-				
+
 				// current user
 				user: ngmUser.get(),
 
@@ -59,7 +59,7 @@ angular.module('ngmReportHub')
 
 				// params
 				setParams: function() {
-					
+
 					// report name
 					$scope.dashboard.report += moment().format( 'YYYY-MM-DDTHHmm' );
 
@@ -73,19 +73,19 @@ angular.module('ngmReportHub')
 					ngmData
 						.get( $scope.dashboard.getRequest( 'menu', 'region' ) )
 						.then( function( region_menu  ){
-							
+
 							// set menu
 							$scope.model.menu.push(region_menu.menu);
 							// set next
 							if( $scope.dashboard.region !== 'all' ) {
 								var region_title = $filter( 'filter' )( region_menu.data, { admin1pcode: $scope.dashboard.region } )[0].admin1name
 								$scope.model.header.title.title += ' | ' + region_title;
-								
+
 								// menus & title updates
 								ngmData
 									.get( $scope.dashboard.getRequest( 'menu', 'zone' ) )
 									.then( function( zone_menu  ){
-										
+
 										// set menu
 										$scope.model.menu.push(zone_menu.menu);
 										// set next
@@ -97,14 +97,14 @@ angular.module('ngmReportHub')
 										ngmData
 											.get( $scope.dashboard.getRequest( 'menu', 'woreda' ) )
 											.then( function( woreda_menu  ){
-												
+
 												// set menu
 												$scope.model.menu.push(woreda_menu.menu);
 												// set next
 												if( $scope.dashboard.woreda !== 'all' ) {
 													$scope.model.header.title.title = 'CTC'+' '+$filter('translate')('assessment')+' | ' + region_title  + ' | ' + $filter( 'filter' )( woreda_menu.data, { admin3pcode: $scope.dashboard.woreda } )[0].admin3name;
 												}
-												
+
 											});
 
 									});
@@ -153,7 +153,7 @@ angular.module('ngmReportHub')
 
 					// set param
 					$scope.dashboard.setParams();
-					
+
 					// model
 					$scope.model = {
 						name: 'ctc_admin_dashboard',
@@ -186,10 +186,10 @@ angular.module('ngmReportHub')
 											// set new date
 											$scope.dashboard.startDate = date;
 											// URL
-											var path = '/who/ethiopia/monitoring/' + $route.current.params.region + 
-																					 '/' + $route.current.params.zone + 
-																					 '/' + $route.current.params.woreda + 
-																					 '/' + $scope.dashboard.startDate + 
+											var path = '/who/ethiopia/monitoring/' + $route.current.params.region +
+																					 '/' + $route.current.params.zone +
+																					 '/' + $route.current.params.woreda +
+																					 '/' + $scope.dashboard.startDate +
 																					 '/' + $scope.dashboard.endDate;
 
 											// update new date
@@ -210,10 +210,10 @@ angular.module('ngmReportHub')
 											// set new date
 											$scope.dashboard.endDate = date;
 											// URL
-											var path = '/who/ethiopia/monitoring/' + $route.current.params.region + 
-																					 '/' + $route.current.params.zone + 
-																					 '/' + $route.current.params.woreda + 
-																					 '/' + $scope.dashboard.startDate + 
+											var path = '/who/ethiopia/monitoring/' + $route.current.params.region +
+																					 '/' + $route.current.params.zone +
+																					 '/' + $route.current.params.woreda +
+																					 '/' + $scope.dashboard.startDate +
 																					 '/' + $scope.dashboard.endDate;
 
 											// update new date
@@ -258,7 +258,7 @@ angular.module('ngmReportHub')
 									request: $scope.dashboard.getRequest( 'case_management/indicator', 'download', 'case_management_' ),
 									metrics: $scope.dashboard.getMetrics( 'case_management', 'download' )
 								}]
-							}							
+							}
 						},
 						menu: [],
 						rows: [{
@@ -275,8 +275,8 @@ angular.module('ngmReportHub')
 											$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
 
 											// toast
-											$timeout( function(){ 
-												// Materialize.toast( 'Refreshing data...' , 6000, 'note' ); 
+											$timeout( function(){
+												// Materialize.toast( 'Refreshing data...' , 6000, 'note' );
 												M.toast({ html: 'Refreshing data...', displayLength: 6000, classes: 'note' });
 											});
 
@@ -286,7 +286,7 @@ angular.module('ngmReportHub')
 												.then( function( result  ){
 
 													// toast
-													$timeout( function(){ 
+													$timeout( function(){
 														// Materialize.toast( 'CTC Assessments data updated!' , 6000, 'success' );
 														M.toast({ html: 'CTC Assessments data updated!' + '!', displayLength: 6000, classes: 'success' });
 														$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
@@ -294,9 +294,9 @@ angular.module('ngmReportHub')
 															$route.reload();
 														}, 400 );
 													}, 600 );
-													
+
 												});
-											
+
 										},
 										request: { method: 'GET', url: ngmAuth.LOCATION + '/api/ctc/latestUpdate' },
 										templateUrl: '/scripts/widgets/ngm-html/template/ctc.dashboard.html'
@@ -360,7 +360,7 @@ angular.module('ngmReportHub')
 										title: {
 											style: 'padding-top: 10px;',
 											name: $filter('translate')('2017_assessments_timeline'),
-										},							
+										},
 										options: { itemName: $filter('translate')('assessment(s)'), start: new Date( $scope.dashboard.startDate ) },
 										request: $scope.dashboard.getRequest( 'assessments/indicator', 'calendar' )
 									}
@@ -387,7 +387,7 @@ angular.module('ngmReportHub')
 												osm: {
 													name: 'Mapbox',
 													type: 'xyz',
-													url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+													url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 													layerOptions: {
 														continuousWorld: true
 													}
@@ -403,7 +403,7 @@ angular.module('ngmReportHub')
 													}
 												}
 											}
-										},				
+										},
 										request: $scope.dashboard.getRequest( 'case_management/indicator', 'markers' )
 									}
 								}]

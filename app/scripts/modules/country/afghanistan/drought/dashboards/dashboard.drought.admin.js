@@ -58,11 +58,11 @@ angular.module('ngmReportHub')
 					ngmData
 						.get(ngmDroughtHelper.getRequest('drought/afghanistan/beneficiaries/indicator', 'organizations', true))
 						.then(function (organizations) {
-							
-							
+
+
 							// add menu
 							$scope.model.menu.push(ngmDroughtHelper.getMenu());
-							
+
 							if (role === 'super') {
 
 								// add Cluster based on admin0pcode
@@ -72,29 +72,29 @@ angular.module('ngmReportHub')
 								$scope.model.menu.push(ngmDroughtHelper.getClusterRows('all'));
 							}
 							if (role !== 'user' ) {
-								// add organization to menu						
-								$scope.model.menu.push(ngmDroughtHelper.getOrganizationRows(organizations));								
-								
-							}
-							
-							// add province menu
-							$scope.model.menu.push(ngmDroughtHelper.getProvinceRows());
-						
-							if ($route.current.params.province !== 'all') {
-								$scope.model.menu.push(ngmDroughtHelper.getDistrictRows());
-								
+								// add organization to menu
+								$scope.model.menu.push(ngmDroughtHelper.getOrganizationRows(organizations));
+
 							}
 
-							
+							// add province menu
+							$scope.model.menu.push(ngmDroughtHelper.getProvinceRows());
+
+							if ($route.current.params.province !== 'all') {
+								$scope.model.menu.push(ngmDroughtHelper.getDistrictRows());
+
+							}
+
+
 							// add month to menu
 							$scope.model.menu.push(ngmDroughtHelper.getMonthRows());
-							
+
 							//add response to menu
 							$scope.model.menu.push(ngmDroughtHelper.getResponseRows());
 							//add plan to menu
 							$scope.model.menu.push(ngmDroughtHelper.getPlanRows($route.current.params.urgency));
 
-							
+
 						})
 
 				},
@@ -104,11 +104,11 @@ angular.module('ngmReportHub')
 							$scope.activityStat = ngmDroughtHelper.getRequest('drought/afghanistan/beneficiaries/indicator', 'activities', false);
 							$scope.clusterStat = ngmDroughtHelper.getRequest('drought/afghanistan/beneficiaries/indicator', 'cluster', false);
 							$scope.organizationStat = ngmDroughtHelper.getRequest('drought/afghanistan/beneficiaries/indicator', 'organizations', false);
-							$scope.locationStat = ngmDroughtHelper.getRequest('drought/afghanistan/beneficiaries/indicator', 'locations', false);					
+							$scope.locationStat = ngmDroughtHelper.getRequest('drought/afghanistan/beneficiaries/indicator', 'locations', false);
 				},
 				setLink:function (){
-					link = { 
-						reset: '#/response/afghanistan/drought/dashboard/' + $route.current.params.status_plan, 
+					link = {
+						reset: '#/response/afghanistan/drought/dashboard/' + $route.current.params.status_plan,
 						currentMonth: '#/response/afghanistan/drought/dashboard/' + $route.current.params.status_plan + '/' + moment().year() + '/all/all/all/all/' + (moment().month()+1)+'/' + moment().startOf('month').format('YYYY-MM-DD') + '/' + moment().format('YYYY-MM-DD')}
 					return link;
 				},
@@ -159,9 +159,9 @@ angular.module('ngmReportHub')
 					// 		endDate: $scope.dashboard.endDate,
 					// 		user: $scope.dashboard.user
 					// 	});
-						
-						
-						
+
+
+
 
 					// }
 					ngmDroughtHelper.setParams({
@@ -184,7 +184,7 @@ angular.module('ngmReportHub')
 					if($route.current.params.month !== 'all'){
 						description = {
 							report: 'drought_beneficiaries_' + $route.current.params.status_plan + '_' + moment.months(parseInt($route.current.params.month)).format('MMM') + '_' + $scope.dashboard.startDate+'/'+ $scope.dashboard.endDate
-						}					
+						}
 					} else {
 						description = {
 							report: 'drought_beneficiaries_' + $route.current.params.status_plan +'_all_months'+ '_' + moment().format('YYYY-MM-DD')
@@ -199,7 +199,7 @@ angular.module('ngmReportHub')
 					$scope.dashboard.report += moment().format('YYYY-MM-DDTHHmm');
 					// set params for service
 					$scope.dashboard.setParams();
-					
+
 
 					// $scope.dashboard.setMenu();
 					$scope.dashboard.setRequest();
@@ -222,7 +222,7 @@ angular.module('ngmReportHub')
 							},
 							download: {
 								'class': 'col s12 m2 l2 hide-on-small-only',
-								downloads: [						
+								downloads: [
 								 {
 									type: 'csv',
 									color: 'blue lighten-2',
@@ -249,8 +249,8 @@ angular.module('ngmReportHub')
 											$('#dashboard-fetch-btn').toggleClass('disabled');
 
 											// toast
-											$timeout(function () { 
-												// Materialize.toast('Refreshing data...', 6000, 'note'); 
+											$timeout(function () {
+												// Materialize.toast('Refreshing data...', 6000, 'note');
 												M.toast({ html: 'Refreshing data...', displayLength: 6000, classes: 'note' });
 											});
 
@@ -284,13 +284,13 @@ angular.module('ngmReportHub')
 											} else{
 												var setYear = moment(end_date).format("YYYY");
 											}
-											var setYear = parseInt(moment(end_date).format("YYYY")) ;	
-											
+											var setYear = parseInt(moment(end_date).format("YYYY")) ;
+
 											// set dates
 											$scope.dashboard.startDate = start_date;
 											$scope.dashboard.endDate = end_date;
 											var path = '/response/afghanistan/drought/dashboard/' + $route.current.params.urgency + '/' + $route.current.params.status_plan + '/' + setYear + '/' + $route.current.params.cluster + '/' + $route.current.params.province+'/'+$route.current.params.district+'/'+$route.current.params.organization+'/'+previousMonth+'/'+start_date+'/'+end_date;
-											
+
 											//set Path
 											$location.path( path );
 										},
@@ -391,7 +391,7 @@ angular.module('ngmReportHub')
 												osm: {
 													name: 'Mapbox',
 													type: 'xyz',
-													url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+													url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 													layerOptions: {
 														continuousWorld: true
 													}
@@ -464,7 +464,7 @@ angular.module('ngmReportHub')
 												count: 10
 											},
 											request: ngmDroughtHelper.getRequest('drought/afghanistan/indicator', 'reports', true)
-											
+
 										}
 									}]
 								}]
@@ -503,7 +503,7 @@ angular.module('ngmReportHub')
 			} else {
 				// USER
 				$scope.dashboard.setMenu('user');
-				
+
 			}
 
 			// assign to ngm app scope ( for menu )
@@ -511,7 +511,7 @@ angular.module('ngmReportHub')
 			setTimeout(() => {
 				$('.fixed-action-btn').floatingActionButton({ direction: 'left' });
 			}, 0);
-			
+
 
 		}
 

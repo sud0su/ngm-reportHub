@@ -39,11 +39,11 @@ angular.module('ngm.widget.leaflet', ['ngm.provider'])
         }
       });
   }).controller('leafletCtrl', [
-    '$scope', 
+    '$scope',
     '$element',
     'leafletMarkersHelpers',
     'leafletData',
-    'data', 
+    'data',
     'config',
     function($scope, $element, leafletMarkersHelpers, leafletData, data, config){
 
@@ -51,7 +51,7 @@ angular.module('ngm.widget.leaflet', ['ngm.provider'])
       $scope.$on('$destroy', function () {
         leafletMarkersHelpers.resetMarkerGroups();
       });
-    
+
       // leaflet widget default config
       $scope.leaflet = {
         id: 'ngm-leaflet-' + Math.floor((Math.random()*1000000)),
@@ -71,9 +71,9 @@ angular.module('ngm.widget.leaflet', ['ngm.provider'])
             fullscreenControl: true,
             scrollWheelZoom: false,
             attributionControl: false
-          },          
+          },
           center: { lat: 34.5, lng: 66, zoom: 6 },
-          tileLayer: 'https://api.mapbox.com/v4/fitzpaddy.b207f20f/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+          tileLayer: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 
         },
         markers: {},
@@ -82,7 +82,7 @@ angular.module('ngm.widget.leaflet', ['ngm.provider'])
             osm: {
                 name: 'Afghanistan',
                 type: 'xyz',
-                url: 'https://api.mapbox.com/v4/fitzpaddy.b207f20f/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+                url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
                 layerOptions: {
                     continuousWorld: true
                 }
@@ -98,13 +98,13 @@ angular.module('ngm.widget.leaflet', ['ngm.provider'])
       if ($scope.leaflet.display.type === 'default') {
         $scope.leaflet.geojson = data;
       } else {
-          
+
         // bounds and marker layer
         $scope.leaflet.bounds = [];
         if (data) {
           $scope.leaflet.markers = data.data;
         }
-        
+
 
         // get array of bounds
         angular.forEach($scope.leaflet.markers, function(d, key){
@@ -117,11 +117,11 @@ angular.module('ngm.widget.leaflet', ['ngm.provider'])
         // perform map actions once map promise retrned
         leafletData.getMap().then(function(map) {
 
-          // 
+          //
           $('#ngm-leaflet-modal-pop').click(function(){
             console.log('popup!');
-          })          
-          
+          })
+
           // map $scope
           $scope.leaflet.map = map;
 
