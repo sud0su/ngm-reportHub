@@ -7,15 +7,15 @@
  */
 angular.module( 'ngmReportHub' )
 	.controller( 'DashboardHealthCtrl', [
-			'$scope', 
-			'$q', 
-			'$http', 
-			'$location', 
+			'$scope',
+			'$q',
+			'$http',
+			'$location',
 			'$route',
 			'$rootScope',
-			'$window', 
-			'$timeout', 
-			'$filter', 
+			'$window',
+			'$timeout',
+			'$filter',
 			'ngmUser',
 			'ngmAuth',
 			'ngmData',
@@ -32,10 +32,10 @@ angular.module( 'ngmReportHub' )
 
 			// create dews object
 			$scope.dashboard = {
-				
+
 				// parent
 				ngm: $scope.$parent.ngm,
-				
+
 				// current user
 				user: ngmUser.get(),
 
@@ -44,7 +44,7 @@ angular.module( 'ngmReportHub' )
 
 				// report end
 				endDate: moment( $route.current.params.end ).format( 'YYYY-MM-DD' ),
-				
+
 				// current report
 				report: 'report' + $location.$$path.replace(/\//g, '_') + '-extracted-',
 
@@ -69,12 +69,12 @@ angular.module( 'ngmReportHub' )
 	          'SO': { adminRpcode: 'EMRO', adminRname: 'EMRO', admin0pcode: 'SO', admin0name: 'Somalia', admin1type_name: 'Region', admin2type_name: 'District' },
 	        },
 	        country_regions: {
-						'afro': [{ 
+						'afro': [{
 		        		admin0pcode: 'ET', admin0name: 'Ethiopia', admin1type_name: 'Region', admin2type_name: 'Wordea'
 		        	},{
 		        		admin0pcode: 'KE', admin0name: 'Kenya', admin1type_name: 'County', admin2type_name: 'Constituency'
 		        	}],
-	        	'emro': [{ 
+	        	'emro': [{
 		        		admin0pcode: 'AF', admin0name: 'Afghanistan', admin1type_name: 'Province', admin2type_name: 'District'
 		        	},{
 		        		admin0pcode: 'IQ', admin0name: 'Iraq', admin1type_name: 'Governate', admin2type_name: 'District'
@@ -83,7 +83,7 @@ angular.module( 'ngmReportHub' )
 		        	}]
 	        },
 	        admin1: {},
-	        // project					
+	        // project
 					project_type: {
 						'all': 'All PROJECTS',
 						'capacity_building': 'Capacity Building of Health Staff',
@@ -134,7 +134,7 @@ angular.module( 'ngmReportHub' )
 					};
 				},
 
-				// get metrics 
+				// get metrics
 				getMetricsRequest: function( format, indicator ){
 
 					//
@@ -180,7 +180,7 @@ angular.module( 'ngmReportHub' )
 					request.data = angular.merge( request.data, obj );
 
 					// return
-					return request;	
+					return request;
 
 				},
 
@@ -189,18 +189,18 @@ angular.module( 'ngmReportHub' )
 
 					// user URL
 					var path = '/cluster/health/4w/' + $scope.dashboard.user.adminRpcode.toLowerCase() +
-															 '/' + $scope.dashboard.user.admin0pcode.toLowerCase() + 
-															 '/' + $route.current.params.organization_tag + 
-															 '/' + $route.current.params.admin1 + 
-															 '/' + $route.current.params.admin2 + 
-															 '/' + $route.current.params.project + 
-															 '/' + $route.current.params.beneficiaries + 
-															 '/' + $scope.dashboard.startDate + 
+															 '/' + $scope.dashboard.user.admin0pcode.toLowerCase() +
+															 '/' + $route.current.params.organization_tag +
+															 '/' + $route.current.params.admin1 +
+															 '/' + $route.current.params.admin2 +
+															 '/' + $route.current.params.project +
+															 '/' + $route.current.params.beneficiaries +
+															 '/' + $scope.dashboard.startDate +
 															 '/' + $scope.dashboard.endDate;
-					
-					// if current location is not equal to path 
+
+					// if current location is not equal to path
 					if ( path !== $location.$$path ) {
-						// 
+						//
 						$location.path( path );
 					}
 
@@ -208,7 +208,7 @@ angular.module( 'ngmReportHub' )
 
 				// set dashboard title
 				setTitle: function() {
-					
+
 					// default
 					$scope.dashboard.title = 'H4W | ' + $scope.dashboard.user.adminRname.toUpperCase();
 
@@ -231,7 +231,7 @@ angular.module( 'ngmReportHub' )
 
 				// set dashboard title
 				setSubtitle: function() {
-					
+
 					// default
 					$scope.dashboard.subtitle = 'Health Cluster 4W dashboard for ' + String( $scope.dashboard.data.beneficiary_type[ $scope.dashboard.beneficiary_type ] ).toUpperCase();
 
@@ -254,7 +254,7 @@ angular.module( 'ngmReportHub' )
 
 				// set project title by project type
 				setProjectsTitle: function() {
-					
+
 					// projects stats title
 					$scope.dashboard.projectTitle = '';
 
@@ -269,17 +269,17 @@ angular.module( 'ngmReportHub' )
 
 				// set project title by project type
 				setBeneficiariesTitle: function() {
-					
+
 					// beneficaries stats title
 					$scope.dashboard.beneficiariesTitle = '';
 
-					// foreach type		
+					// foreach type
 					angular.forEach( $scope.dashboard.beneficiary_type, function( d, i ){
 						$scope.dashboard.beneficiariesTitle += $scope.dashboard.data.beneficiary_type[d] + ', ';
 					});
 
 					// remove last 2 characters
-					$scope.dashboard.beneficiariesTitle = $scope.dashboard.beneficiariesTitle.slice( 0, -2 );			
+					$scope.dashboard.beneficiariesTitle = $scope.dashboard.beneficiariesTitle.slice( 0, -2 );
 
 				},
 
@@ -289,19 +289,19 @@ angular.module( 'ngmReportHub' )
 					// menu rows
 					var active,
 							rows = [];
-							
+
 					// for each region
 					angular.forEach( $scope.dashboard.data.menu_regions, function( d, key ){
 
 						// URL path
-						var path = '#/cluster/health/4w/' + key + 
+						var path = '#/cluster/health/4w/' + key +
 															 '/all' +
-															 '/' + $route.current.params.organization_tag +  
-															 '/all' + 
+															 '/' + $route.current.params.organization_tag +
 															 '/all' +
-															 '/' + $route.current.params.project + 
-															 '/' + $route.current.params.beneficiaries + 
-															 '/' + $scope.dashboard.startDate + 
+															 '/all' +
+															 '/' + $route.current.params.project +
+															 '/' + $route.current.params.beneficiaries +
+															 '/' + $scope.dashboard.startDate +
 															 '/' + $scope.dashboard.endDate;
 
 						// row
@@ -324,19 +324,19 @@ angular.module( 'ngmReportHub' )
 					// menu rows
 					var active,
 							rows = [];
-							
+
 					// for each country in region
 					angular.forEach( $scope.dashboard.data.country_regions[ $route.current.params.adminR ], function( d, key ){
 
 						// URL path
-						var path = '#/cluster/health/4w/' + $route.current.params.adminR + 
+						var path = '#/cluster/health/4w/' + $route.current.params.adminR +
 															 '/' + d.admin0pcode +
-															 '/' + $route.current.params.organization_tag + 
-															 '/all' + 
+															 '/' + $route.current.params.organization_tag +
 															 '/all' +
-															 '/' + $route.current.params.project + 
-															 '/' + $route.current.params.beneficiaries + 
-															 '/' + $scope.dashboard.startDate + 
+															 '/all' +
+															 '/' + $route.current.params.project +
+															 '/' + $route.current.params.beneficiaries +
+															 '/' + $scope.dashboard.startDate +
 															 '/' + $scope.dashboard.endDate;
 
 						if ( $scope.dashboard.user.guest ) {
@@ -356,7 +356,7 @@ angular.module( 'ngmReportHub' )
 								'active': d.admin0pcode.toLowerCase(),
 								'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
 								'href': path
-							});							
+							});
 						}
 
 					});
@@ -377,7 +377,7 @@ angular.module( 'ngmReportHub' )
 									list: true,
 									cluster_id: 'health',
 									indicator: 'organizations',
-									organization_tag: 'all', 
+									organization_tag: 'all',
 									report_type: 'activity',
 									adminRpcode: $route.current.params.adminR,
 									admin0pcode: $route.current.params.admin0,
@@ -393,14 +393,14 @@ angular.module( 'ngmReportHub' )
 						organizations.forEach(function( d, i ){
 
 						// URL path
-						var path = '#/cluster/health/4w/' + $route.current.params.adminR + 
+						var path = '#/cluster/health/4w/' + $route.current.params.adminR +
 															 '/' + $route.current.params.admin0 +
 															 '/' + d.organization_tag +
 															 '/' + $route.current.params.admin1 +
 															 '/' + $route.current.params.admin2 +
-															 '/' + $route.current.params.project + 
-															 '/' + $route.current.params.beneficiaries + 
-															 '/' + $scope.dashboard.startDate + 
+															 '/' + $route.current.params.project +
+															 '/' + $route.current.params.beneficiaries +
+															 '/' + $scope.dashboard.startDate +
 															 '/' + $scope.dashboard.endDate;
 
 							// update title to organization
@@ -421,7 +421,7 @@ angular.module( 'ngmReportHub' )
 						});
 
 					});
-	
+
 					// add to menu
 					$scope.model.menu.push({
 						'search': true,
@@ -442,22 +442,22 @@ angular.module( 'ngmReportHub' )
 							rows = [];
 
 					// filter admin1 data object
-					$scope.dashboard.data.admin1 = 
- 									$filter( 'filter' )( $scope.dashboard.admin1List, 
+					$scope.dashboard.data.admin1 =
+ 									$filter( 'filter' )( $scope.dashboard.admin1List,
                   				{ admin0pcode: $route.current.params.admin0.toUpperCase() }, true );
 
 					// for each admin1, add to menu
 					angular.forEach( $scope.dashboard.data.admin1, function( d, key ){
 
 						// URL path
-						var path = '#/cluster/health/4w/' + $route.current.params.adminR + 
+						var path = '#/cluster/health/4w/' + $route.current.params.adminR +
 															 '/' + $route.current.params.admin0 +
-															 '/' + $route.current.params.organization_tag + 
+															 '/' + $route.current.params.organization_tag +
 															 '/' + d.admin1pcode +
 															 '/all' +
-															 '/' + $route.current.params.project + 
-															 '/' + $route.current.params.beneficiaries + 
-															 '/' + $scope.dashboard.startDate + 
+															 '/' + $route.current.params.project +
+															 '/' + $route.current.params.beneficiaries +
+															 '/' + $scope.dashboard.startDate +
 															 '/' + $scope.dashboard.endDate;
 
 						// row
@@ -487,9 +487,9 @@ angular.module( 'ngmReportHub' )
 						$scope.dashboard.getBeneficiariesRows();
 					} else {
 						// filter
-						var admin1 = $filter( 'filter' )( $scope.dashboard.data.admin1, 
+						var admin1 = $filter( 'filter' )( $scope.dashboard.data.admin1,
                   				{ admin1pcode: $route.current.params.admin1 }, true );
-						
+
 						// update model title/subtitle
 						$scope.model.header.title.title += ' | ' + admin1[0].admin1name;
 						$scope.model.header.subtitle.title += ', ' + admin1[0].admin1name + ' ' + admin1[0].admin1type_name;
@@ -506,21 +506,21 @@ angular.module( 'ngmReportHub' )
 
 					// filter admin1 data object
 					$scope.dashboard.data.admin2 =
- 									$filter( 'filter' )( $scope.dashboard.admin2List, 
+ 									$filter( 'filter' )( $scope.dashboard.admin2List,
                   				{ admin1pcode: $route.current.params.admin1 }, true );
 
 					// for each admin1
 					angular.forEach( $scope.dashboard.data.admin2, function( d, key ){
 
 						// URL path
-						var path = '#/cluster/health/4w/' + $route.current.params.adminR + 
+						var path = '#/cluster/health/4w/' + $route.current.params.adminR +
 															 '/' + $route.current.params.admin0 +
-															 '/' + $route.current.params.organization_tag + 
+															 '/' + $route.current.params.organization_tag +
 															 '/' + $route.current.params.admin1 +
-															 '/' + d.admin2pcode + 
-															 '/' + $route.current.params.project + 
-															 '/' + $route.current.params.beneficiaries + 
-															 '/' + $scope.dashboard.startDate + 
+															 '/' + d.admin2pcode +
+															 '/' + $route.current.params.project +
+															 '/' + $route.current.params.beneficiaries +
+															 '/' + $scope.dashboard.startDate +
 															 '/' + $scope.dashboard.endDate;
 
 						// row
@@ -545,12 +545,12 @@ angular.module( 'ngmReportHub' )
 					});
 
 					// beneficiaries
-					$scope.dashboard.getBeneficiariesRows();						
+					$scope.dashboard.getBeneficiariesRows();
 
 					// add beneficiaries to side menu
 					if ( $route.current.params.admin2 !== 'all' ) {
 						// filter
-						var admin2 = $filter( 'filter' )(  $scope.dashboard.data.admin2, 
+						var admin2 = $filter( 'filter' )(  $scope.dashboard.data.admin2,
                   				{ admin2pcode: $route.current.params.admin2 }, true );
 
 						// update model TITLE/SUBTITLE
@@ -562,25 +562,25 @@ angular.module( 'ngmReportHub' )
 
 				// return row of beneficiaries
 				getBeneficiariesRows: function() {
-					
+
 					// menu rows
 					var active,
 							rows = [];
-							
+
 					// for each district
 					angular.forEach( $scope.dashboard.data.beneficiary_type, function( d, key ){
 
 						// URL path
-						var path = '#/cluster/health/4w/' + $route.current.params.adminR + 
+						var path = '#/cluster/health/4w/' + $route.current.params.adminR +
 															 '/' + $route.current.params.admin0 +
-															 '/' + $route.current.params.organization_tag + 
+															 '/' + $route.current.params.organization_tag +
 															 '/' + $route.current.params.admin1 +
 															 '/' + $route.current.params.admin2 +
-															 '/' + $route.current.params.project + 
-															 '/' + key + 
-															 '/' + $scope.dashboard.startDate + 
+															 '/' + $route.current.params.project +
+															 '/' + key +
+															 '/' + $scope.dashboard.startDate +
 															 '/' + $scope.dashboard.endDate;
-						
+
 						// rows
 						rows.push({
 							'title': d,
@@ -626,10 +626,10 @@ angular.module( 'ngmReportHub' )
 							'title': 'Country',
 							'class': 'teal lighten-1 white-text',
 							'rows': $scope.dashboard.getCountryRows()
-						});						
+						});
 					} else {
 						// beneficiaries
-						$scope.dashboard.getBeneficiariesRows();						
+						$scope.dashboard.getBeneficiariesRows();
 					}
 
 					// admin1 levels
@@ -643,7 +643,7 @@ angular.module( 'ngmReportHub' )
 
 					} else {
 						// beneficiaries
-						$scope.dashboard.getBeneficiariesRows();						
+						$scope.dashboard.getBeneficiariesRows();
 					}
 
 					// admin2 levels
@@ -668,10 +668,10 @@ angular.module( 'ngmReportHub' )
 					$scope.dashboard.admin2pcode = $route.current.params.admin2;
 					$scope.dashboard.project_type = $route.current.params.project.split('+');
 					$scope.dashboard.beneficiary_type = $route.current.params.beneficiaries.split('+');
-					
+
 					// report name
 					$scope.dashboard.report += moment().format( 'YYYY-MM-DDTHHmm' );
-				
+
 					// set dashboard URL
 					$scope.dashboard.setUrl();
 
@@ -686,7 +686,7 @@ angular.module( 'ngmReportHub' )
 
 					//  set beneficiaries type title
 					$scope.dashboard.setBeneficiariesTitle();
-					
+
 					// model
 					$scope.model = {
 						name: 'health_4w_dashboard',
@@ -719,14 +719,14 @@ angular.module( 'ngmReportHub' )
 											// set new date
 											$scope.dashboard.startDate = date;
 											// URL
-											var path = '/cluster/health/4w/' + $route.current.params.adminR + 
-																					 '/' + $route.current.params.admin0 + 
-																					 '/' + $route.current.params.organization_tag + 
-																					 '/' + $route.current.params.admin1 + 
-																					 '/' + $route.current.params.admin2 + 
-																					 '/' + $route.current.params.project + 
-																					 '/' + $route.current.params.beneficiaries + 
-																					 '/' + $scope.dashboard.startDate + 
+											var path = '/cluster/health/4w/' + $route.current.params.adminR +
+																					 '/' + $route.current.params.admin0 +
+																					 '/' + $route.current.params.organization_tag +
+																					 '/' + $route.current.params.admin1 +
+																					 '/' + $route.current.params.admin2 +
+																					 '/' + $route.current.params.project +
+																					 '/' + $route.current.params.beneficiaries +
+																					 '/' + $scope.dashboard.startDate +
 																					 '/' + $scope.dashboard.endDate;
 
 											// update new date
@@ -747,14 +747,14 @@ angular.module( 'ngmReportHub' )
 											// set new date
 											$scope.dashboard.endDate = date;
 											// URL
-											var path = '/cluster/health/4w/' + $route.current.params.adminR + 
-																					 '/' + $route.current.params.admin0 + 
-																					 '/' + $route.current.params.organization_tag + 
-																					 '/' + $route.current.params.admin1 + 
-																					 '/' + $route.current.params.admin2 + 
-																					 '/' + $route.current.params.project + 
-																					 '/' + $route.current.params.beneficiaries + 
-																					 '/' + $scope.dashboard.startDate + 
+											var path = '/cluster/health/4w/' + $route.current.params.adminR +
+																					 '/' + $route.current.params.admin0 +
+																					 '/' + $route.current.params.organization_tag +
+																					 '/' + $route.current.params.admin1 +
+																					 '/' + $route.current.params.admin2 +
+																					 '/' + $route.current.params.project +
+																					 '/' + $route.current.params.beneficiaries +
+																					 '/' + $scope.dashboard.startDate +
 																					 '/' + $scope.dashboard.endDate;
 
 											// update new date
@@ -783,7 +783,7 @@ angular.module( 'ngmReportHub' )
 											viewportWidth: 1390,
 											pageLoadTime: 16400
 										}
-									},						
+									},
 									metrics: $scope.dashboard.getMetricsRequest( 'pdf', 'health_4w' )
 								},{
 									type: 'csv',
@@ -827,7 +827,7 @@ angular.module( 'ngmReportHub' )
 									request: $scope.dashboard.getReportRequest( 'health_facility' ),
 									metrics: $scope.dashboard.getMetricsRequest( 'csv', 'health_facility' )
 								}]
-							}							
+							}
 						},
 						menu: [],
 						rows: [{
@@ -946,7 +946,7 @@ angular.module( 'ngmReportHub' )
 												},
 												tooltip: {
 													enabled: false
-												}				
+												}
 											},
 											title: {
 													text: '',
@@ -998,7 +998,7 @@ angular.module( 'ngmReportHub' )
 												},
 												tooltip: {
 													enabled: false
-												}				
+												}
 											},
 											title: {
 													text: '',
@@ -1102,15 +1102,15 @@ angular.module( 'ngmReportHub' )
 												},
 												legend: {
 													enabled: false
-												}																	
+												}
 											},
 											title: {
 												text: ''
 											},
 											xAxis: {
 				                categories: [
-				                	'RH', 
-				                	'PH', 
+				                	'RH',
+				                	'PH',
 				                	'DH',
 				                	'CHC',
 				                	'BHC',
@@ -1168,13 +1168,13 @@ angular.module( 'ngmReportHub' )
 												osm: {
 													name: 'Mapbox',
 													type: 'xyz',
-													url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+													url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 													// url: 'https://api.tiles.mapbox.com/v4/fitzpaddy.b207f20f/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
 													layerOptions: {
 														continuousWorld: true
 													}
 												}
-											},								
+											},
 											overlays: {
 												health: {
 													name: 'Health',
@@ -1201,7 +1201,7 @@ angular.module( 'ngmReportHub' )
 										html: $scope.dashboard.ngm.footer
 									}
 								}]
-							}]						
+							}]
 						}]
 					}
 
@@ -1211,7 +1211,7 @@ angular.module( 'ngmReportHub' )
 
 			// if registered user
 			if ( !ngmUser.get().guest ) {
-				
+
 				// set dashboard
 				$scope.dashboard.setDashboard();
 
@@ -1219,20 +1219,20 @@ angular.module( 'ngmReportHub' )
 				$scope.dashboard.setMenu();
 
 			} else {
-				
+
 				// not first refresh
 				if ( ngmUser.get().visits !== 1 ) {
 
 						// global / region
 						if ( $route.current.params.admin0 === 'all' ) {
-							angular.merge( $scope.dashboard.user, $scope.dashboard.data.menu_regions[ $route.current.params.adminR ] );	
+							angular.merge( $scope.dashboard.user, $scope.dashboard.data.menu_regions[ $route.current.params.adminR ] );
 						}
 
 						// country selection
 						if ( $route.current.params.admin0 !== 'all' ) {
-							angular.merge( $scope.dashboard.user, $scope.dashboard.data.admin_region[ $route.current.params.admin0.toUpperCase() ] );	
+							angular.merge( $scope.dashboard.user, $scope.dashboard.data.admin_region[ $route.current.params.admin0.toUpperCase() ] );
 						}
-						
+
 						// add visit
 						$scope.dashboard.user.visits++;
 
@@ -1255,9 +1255,9 @@ angular.module( 'ngmReportHub' )
 				}
 
 				// send request
-				$q.all([ 
+				$q.all([
 					$http.get( requests.ipApi ),
-					$http.get( requests.getAdmin1List ), 
+					$http.get( requests.getAdmin1List ),
 					$http.get( requests.getAdmin2List ) ]).then( function( results ) {
 
 						// set dashboard lists

@@ -27,7 +27,7 @@ angular.module('ngmReportHub')
 
 			// start date = now - 1 month
 			startDate: moment($route.current.params.start).format('YYYY-MM-DD'),
-			
+
 			// end date = now
 			endDate: moment($route.current.params.end).format('YYYY-MM-DD'),
 
@@ -85,7 +85,7 @@ angular.module('ngmReportHub')
 					zambia: {'id':'Zambia','name':'Zambia'},
 					zimbabwe: {'id':'Zimbabwe','name':'Zimbabwe'}
 				}
-			}, 
+			},
 
 			getMenu: function(){
 				var menu = [{
@@ -107,7 +107,7 @@ angular.module('ngmReportHub')
 						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
 						'href': '#/immap/watchkeeper/' + key + '/' + $route.current.params.start + '/' + $route.current.params.end
 					});
-				});		
+				});
 
 				return menu;
 			}
@@ -121,7 +121,7 @@ angular.module('ngmReportHub')
 		$scope.dashboard.title = 'iMMAP | ' + $scope.dashboard.country.name;
 		$scope.dashboard.subtitle = 'Watchkeeper Security Key Indicators for ' + $scope.dashboard.country.name + ' using ACLED datasource - <a target="_blank" href="https://www.acleddata.com/">https://www.acleddata.com/</a>';
 
-		// calendar heatmap legend (colors) 
+		// calendar heatmap legend (colors)
 		if ($scope.dashboard.country.id === '*') {
 			$scope.dashboard.legend = [20,40,60,80,100];
 		} else if ($scope.dashboard.country.id === 'somalia') {
@@ -202,7 +202,7 @@ angular.module('ngmReportHub')
 								user: $scope.dashboard.user,
 								pageLoadTime: 7600
 							}
-						},						
+						},
 						metrics: {
 							method: 'POST',
 							url: ngmAuth.LOCATION + '/api/metrics/set',
@@ -382,7 +382,7 @@ angular.module('ngmReportHub')
 									},
 									legend: {
 											enabled: false
-									}																	
+									}
 								},
 								title: {
 									text: ''
@@ -416,7 +416,7 @@ angular.module('ngmReportHub')
 											end_date: $scope.dashboard.endDate,
 											country: $scope.dashboard.country.id,
 											indicator: 'death'
-										}	
+										}
 									}
 								},{
 									name: 'Incidents',
@@ -429,7 +429,7 @@ angular.module('ngmReportHub')
 											end_date: $scope.dashboard.endDate,
 											country: $scope.dashboard.country.id,
 											indicator: 'incident'
-										}	
+										}
 									}
 								}]
 							}
@@ -458,7 +458,7 @@ angular.module('ngmReportHub')
 									osm: {
 										name: 'Mapbox',
 										type: 'xyz',
-										url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+										url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 										// url: 'https://api.tiles.mapbox.com/v4/fitzpaddy.b207f20f/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
 										layerOptions: {
 											continuousWorld: true
@@ -475,7 +475,7 @@ angular.module('ngmReportHub')
 										}
 									}
 								}
-							},				
+							},
 							request: {
 								method: 'POST',
 								url: ngmAuth.LOCATION + '/api/wk/markers',
@@ -507,5 +507,5 @@ angular.module('ngmReportHub')
 
 		// assign to ngm app scope
 		$scope.dashboard.ngm.dashboard.model = $scope.model;
-		
+
 	}]);

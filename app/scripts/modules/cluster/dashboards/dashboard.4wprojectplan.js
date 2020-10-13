@@ -1601,7 +1601,7 @@ angular.module('ngmReportHub')
 												osm: {
 													name: 'Mapbox',
 													type: 'xyz',
-													url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+													url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 													layerOptions: {
 														continuousWorld: true
 													}

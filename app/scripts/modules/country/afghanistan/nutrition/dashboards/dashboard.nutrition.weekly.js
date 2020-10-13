@@ -7,15 +7,15 @@
  */
 angular.module('ngmReportHub')
 	.controller('DashboardNutritionWeeklyCtrl', [
-			'$scope', 
-			'$q', 
-			'$http', 
-			'$location', 
+			'$scope',
+			'$q',
+			'$http',
+			'$location',
 			'$route',
 			'$rootScope',
-			'$window', 
-			'$timeout', 
-			'$filter', 
+			'$window',
+			'$timeout',
+			'$filter',
 			'ngmUser',
 			'ngmAuth',
 			'ngmData',
@@ -34,10 +34,10 @@ angular.module('ngmReportHub')
 
 			// create dews object
 			$scope.dashboard = {
-				
+
 				// parent
 				ngm: $scope.$parent.ngm,
-				
+
 				// current user
 				user: ngmUser.get(),
 
@@ -67,8 +67,8 @@ angular.module('ngmReportHub')
 							$scope.model.menu.push(ngmNutritionHelper.getDistrictRows());
 						}
 
-						// add organization to menu						
-						$scope.model.menu.push(ngmNutritionHelper.getOrganizationRows(organizations));				
+						// add organization to menu
+						$scope.model.menu.push(ngmNutritionHelper.getOrganizationRows(organizations));
 						// add weeks to menu
 						$scope.model.menu.push(ngmNutritionHelper.getWeekRows());
 						})
@@ -93,9 +93,9 @@ angular.module('ngmReportHub')
 						endDate: $scope.dashboard.endDate,
 						user: $scope.dashboard.user
 					});
-				
-					$scope.dashboard.setMenu();				
-					
+
+					$scope.dashboard.setMenu();
+
 					// model
 					$scope.model = {
 						name: 'nutrition_admin_dashboard',
@@ -128,12 +128,12 @@ angular.module('ngmReportHub')
 											// set new date/iso week to all locals
 											$scope.dashboard.startDate = moment(date).add(1, 'day').startOf('isoWeek').subtract(1, 'day').format( 'YYYY-MM-DD' );
 											// URL
-											var path = '/nutrition/afghanistan/dashboard/' + $route.current.params.year + 																					
-																					 '/' + $route.current.params.province + 
-																					 '/' + $route.current.params.district + 
+											var path = '/nutrition/afghanistan/dashboard/' + $route.current.params.year +
+																					 '/' + $route.current.params.province +
+																					 '/' + $route.current.params.district +
 																					 '/' + $route.current.params.organization +
 																					 '/' + $route.current.params.week +
-																					 '/' + $scope.dashboard.startDate + 
+																					 '/' + $scope.dashboard.startDate +
 																					 '/' + $scope.dashboard.endDate;
 
 											// update new date
@@ -154,12 +154,12 @@ angular.module('ngmReportHub')
 											// set new date
 											$scope.dashboard.endDate = moment(date).add(1, 'day').endOf('isoWeek').format( 'YYYY-MM-DD' );
 											// URL
-											var path = '/nutrition/afghanistan/dashboard/' + $route.current.params.year + 
-																					 '/' + $route.current.params.province + 
-																					 '/' + $route.current.params.district + 
+											var path = '/nutrition/afghanistan/dashboard/' + $route.current.params.year +
+																					 '/' + $route.current.params.province +
+																					 '/' + $route.current.params.district +
 																					 '/' + $route.current.params.organization +
 																					 '/' + $route.current.params.week +
-																					 '/' + $scope.dashboard.startDate + 
+																					 '/' + $scope.dashboard.startDate +
 																					 '/' + $scope.dashboard.endDate;
 
 											// update new date
@@ -204,7 +204,7 @@ angular.module('ngmReportHub')
 									request: angular.merge({}, ngmNutritionHelper.getRequest( 'nutrition/afghanistan/beneficiaries/data', 'data', false ), { data: { report: 'beneficiaries_' + $scope.dashboard.report } } ),
 									metrics: ngmNutritionHelper.getMetrics( 'nutrition_beneficiaries', 'csv' )
 								}]
-							}							
+							}
 						},
 						menu: [],
 						rows: [{
@@ -222,8 +222,8 @@ angular.module('ngmReportHub')
 											$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
 
 											// toast
-											$timeout( function(){ 
-												// Materialize.toast( $filter('translate')('refreshing_data')+'...' , 6000, 'note' ); 
+											$timeout( function(){
+												// Materialize.toast( $filter('translate')('refreshing_data')+'...' , 6000, 'note' );
 												M.toast({ html: $filter('translate')('refreshing_data') + '...', displayLength: 6000, classes: 'note' });
 											});
 
@@ -233,7 +233,7 @@ angular.module('ngmReportHub')
 												.then( function( result  ){
 
 													// toast
-													$timeout( function(){ 
+													$timeout( function(){
 														// Materialize.toast( $filter('translate')('nutrition_reports_data_updated')+'!' , 6000, 'success' );
 														M.toast({ html: $filter('translate')('nutrition_reports_data_updated') + '!', displayLength: 6000, classes: 'success' });
 														$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
@@ -241,9 +241,9 @@ angular.module('ngmReportHub')
 															$route.reload();
 														}, 400 );
 													}, 600 );
-													
+
 												});
-											
+
 										},
 										request: { method: 'GET', url: ngmAuth.LOCATION + '/api/nutrition/afghanistan/latestUpdate' },
 										templateUrl: '/scripts/widgets/ngm-html/template/nutrition.dashboard.html'
@@ -341,7 +341,7 @@ angular.module('ngmReportHub')
 												osm: {
 													name: 'Mapbox',
 													type: 'xyz',
-													url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+													url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 													layerOptions: {
 														continuousWorld: true
 													}
@@ -357,7 +357,7 @@ angular.module('ngmReportHub')
 													}
 												}
 											}
-										},				
+										},
 										request: ngmNutritionHelper.getRequest( 'nutrition/afghanistan/beneficiaries/indicator', 'markers', false )
 									}
 								}]

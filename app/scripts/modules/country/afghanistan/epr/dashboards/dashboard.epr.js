@@ -7,15 +7,15 @@
  */
 angular.module('ngmReportHub')
 	.controller('DashboardEprCtrl', [
-			'$scope', 
-			'$q', 
-			'$http', 
-			'$location', 
+			'$scope',
+			'$q',
+			'$http',
+			'$location',
 			'$route',
 			'$rootScope',
-			'$window', 
-			'$timeout', 
-			'$filter', 
+			'$window',
+			'$timeout',
+			'$filter',
 			'ngmUser',
 			'ngmAuth',
 			'ngmData',
@@ -34,10 +34,10 @@ angular.module('ngmReportHub')
 
 			// create dews object
 			$scope.dashboard = {
-				
+
 				// parent
 				ngm: $scope.$parent.ngm,
-				
+
 				// current user
 				user: ngmUser.get(),
 
@@ -79,7 +79,7 @@ angular.module('ngmReportHub')
 					}
 					// add weeks to menu
 					$scope.dashboard.menu.push(ngmEprHelper.getWeekRows());
-					
+
 					// model
 					$scope.model = {
 						name: 'epr_admin_dashboard',
@@ -112,11 +112,11 @@ angular.module('ngmReportHub')
 											// set new date
 											$scope.dashboard.startDate = date;
 											// URL
-											var path = '/epr/' + $route.current.params.year + 
-																					 '/' + $route.current.params.region + 
-																					 '/' + $route.current.params.province + 
+											var path = '/epr/' + $route.current.params.year +
+																					 '/' + $route.current.params.region +
+																					 '/' + $route.current.params.province +
 																					 '/all' +
-																					 '/' + $scope.dashboard.startDate + 
+																					 '/' + $scope.dashboard.startDate +
 																					 '/' + $scope.dashboard.endDate;
 
 											// update new date
@@ -137,11 +137,11 @@ angular.module('ngmReportHub')
 											// set new date
 											$scope.dashboard.endDate = date;
 											// URL
-											var path = '/epr/' + $route.current.params.year + 
-																					 '/' + $route.current.params.region + 
-																					 '/' + $route.current.params.province + 
+											var path = '/epr/' + $route.current.params.year +
+																					 '/' + $route.current.params.region +
+																					 '/' + $route.current.params.province +
 																					 '/all' +
-																					 '/' + $scope.dashboard.startDate + 
+																					 '/' + $scope.dashboard.startDate +
 																					 '/' + $scope.dashboard.endDate;
 
 											// update new date
@@ -193,7 +193,7 @@ angular.module('ngmReportHub')
 									request: angular.merge({}, ngmEprHelper.getRequest( 'epr/disasters/data', 'data', false ), { data: { report: 'disasters_' + $scope.dashboard.report } } ),
 									metrics: ngmEprHelper.getMetrics( 'epr_disasters', 'csv' )
 								}]
-							}							
+							}
 						},
 						menu: $scope.dashboard.menu,
 						rows: [{
@@ -290,7 +290,7 @@ angular.module('ngmReportHub')
 												osm: {
 													name: 'Mapbox',
 													type: 'xyz',
-													url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+													url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 													layerOptions: {
 														continuousWorld: true
 													}
@@ -306,7 +306,7 @@ angular.module('ngmReportHub')
 													}
 												}
 											}
-										},				
+										},
 										request: ngmEprHelper.getRequest( 'epr/alerts/indicator', 'markers', false )
 									}
 								}]
@@ -378,7 +378,7 @@ angular.module('ngmReportHub')
 												osm: {
 													name: 'Mapbox',
 													type: 'xyz',
-													url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+													url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 													layerOptions: {
 														continuousWorld: true
 													}
@@ -394,7 +394,7 @@ angular.module('ngmReportHub')
 													}
 												}
 											}
-										},				
+										},
 										request: ngmEprHelper.getRequest( 'epr/disasters/indicator', 'markers', false )
 									}
 								}]

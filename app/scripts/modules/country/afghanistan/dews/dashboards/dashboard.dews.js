@@ -7,7 +7,7 @@
  */
 angular.module('ngmReportHub')
 	// modal controller
-	.controller('DashboardDewsCtrl', ['$rootScope', '$scope', '$http', '$location', '$route', '$window', '$filter', '$timeout', 'ngmAuth', 'ngmUser', 
+	.controller('DashboardDewsCtrl', ['$rootScope', '$scope', '$http', '$location', '$route', '$window', '$filter', '$timeout', 'ngmAuth', 'ngmUser',
 		function ($rootScope, $scope, $http, $location, $route, $window, $filter, $timeout, ngmAuth, ngmUser) {
 		this.awesomeThings = [
 			'HTML5 Boilerplate',
@@ -17,19 +17,19 @@ angular.module('ngmReportHub')
 
 		// create dews object
 		$scope.dashboard = {
-			
+
 			// parent
 			ngm: $scope.$parent.ngm,
-			
+
 			// current user
 			user: ngmUser.get(),
-			
+
 			// report start
 			startDate: moment($route.current.params.start).format('YYYY-MM-DD'),
 
 			// report end
 			endDate: moment($route.current.params.end).format('YYYY-MM-DD'),
-			
+
 			// current report
 			report: 'report' + $location.$$path.replace(/\//g, '_') + '-extracted-',
 
@@ -146,7 +146,7 @@ angular.module('ngmReportHub')
 
 			// return rows for DEWS menu
 			getRows: function(list) {
-				
+
 				// menu rows
 				var active,
 					rows = [];
@@ -197,16 +197,16 @@ angular.module('ngmReportHub')
 			// start date
 			var date = moment( $scope.dashboard.startDate );
 
-			// if the end dates differ from storage, 
+			// if the end dates differ from storage,
 			// if ( localStorage.getItem('dewsEndDate') && localStorage.getItem('dewsEndDate') !== $scope.dashboard.endDate ) {
 			// 	date = moment( $scope.dashboard.endDate ).subtract( 11, 'M' );
 			// }
-			
+
 			// manipulate heatmap date
 			$scope.dashboard.heatmapStartDate = new Date( date.format('YYYY-MM-DD') );
 
 		} else {
-			
+
 			// diff between dates in months
 			var month = parseInt( moment.duration( moment( $scope.dashboard.endDate ).diff( $scope.dashboard.startDate ) ).asMonths().toFixed(0) );
 
@@ -339,7 +339,7 @@ angular.module('ngmReportHub')
 						}
 					}]
 				}
-			},		
+			},
 			menu: [{
 				'id': 'search-dews-disease',
 				'search': true,
@@ -414,7 +414,7 @@ angular.module('ngmReportHub')
 								url: ngmAuth.LOCATION + '/api/dews/indicator',
 								data: {
 									start_date: $scope.dashboard.startDate,
-									end_date: $scope.dashboard.endDate,									
+									end_date: $scope.dashboard.endDate,
 									// indicator: 'u5male + u5female + o5male + o5female + u5death + o5death',
 									indicator: 'total_cases + total_deaths',
 									disease: $scope.dashboard.disease.id,
@@ -456,9 +456,9 @@ angular.module('ngmReportHub')
 							title: {
 								style: 'padding-top: 10px;',
 								name: $scope.dashboard.location.name + ', ' + $scope.dashboard.disease.name + ' - 1 Year Timeline'
-							},							
+							},
 							options: {
-								
+
 								// calendar start date
 								start: $scope.dashboard.heatmapStartDate,
 
@@ -479,7 +479,7 @@ angular.module('ngmReportHub')
 													disease: $scope.dashboard.disease.id,
 													prov_code: $scope.dashboard.location.id
 												}
-											}											
+											}
 										}
 
 										// fire modal open event
@@ -522,7 +522,7 @@ angular.module('ngmReportHub')
 										zoomType: 'x',
 										events: {
 											selection: function(event){
-												
+
 												// if xaxis udpate
 												if(event.xAxis) {
 
@@ -534,7 +534,7 @@ angular.module('ngmReportHub')
 													// toast
 													// Materialize.toast('Updating Dashboard!', 6000, 'success');
 													M.toast({ html: 'Updating Dashboard!', displayLength: 6000, classes: 'success' });
-													
+
 													// update
 													$timeout(function() {
 														$location.path(path);
@@ -610,7 +610,7 @@ angular.module('ngmReportHub')
 									osm: {
 										name: 'Mapbox',
 										type: 'xyz',
-										url: 'https://b.tiles.mapbox.com/v4/aj.um7z9lus/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
+										url: 'https://api.mapbox.com/styles/v1/reporthub/ckg6rf3um0w2319qom5jnv1nd/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVwb3J0aHViIiwiYSI6ImNrZzZxeDhwYTAwMW4ydXBtbWp0ZzhseGEifQ.uRwnl0E6kRZZhducGRK6vQ',
 										// url: 'https://api.tiles.mapbox.com/v4/fitzpaddy.b207f20f/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZml0enBhZGR5IiwiYSI6ImNpZW1vcXZiaTAwMXBzdGtrYmp0cDlkdnEifQ.NCI7rTR3PvN4iPZpt6hgKA',
 										layerOptions: {
 											continuousWorld: true
@@ -627,7 +627,7 @@ angular.module('ngmReportHub')
 										}
 									}
 								}
-							},				
+							},
 							request: {
 								method: 'POST',
 								url: ngmAuth.LOCATION + '/api/dews/markers',
@@ -665,5 +665,5 @@ angular.module('ngmReportHub')
 		setTimeout(() => {
 			$('.fixed-action-btn').floatingActionButton({ direction: 'left' });
 		}, 0);
-		
+
 	}]);
