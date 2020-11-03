@@ -61,7 +61,7 @@ angular.module('ngmReportHub')
 					$scope.report.title = $scope.report.project.organization + ' | ' + $scope.report.project.admin0name.toUpperCase().substring(0, 3) + ' | ';
 				}
 				// cluster
-				if( $scope.report.project.cluster.length < 31 ){
+				if ($scope.report.project.cluster && $scope.report.project.cluster.length < 31 ){
 					$scope.report.title += $scope.report.project.cluster.toUpperCase() + ' | ';
 				} else {
 					$scope.report.title += $scope.report.project.cluster_id.toUpperCase() + ' | ';
