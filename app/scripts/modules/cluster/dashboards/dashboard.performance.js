@@ -95,6 +95,12 @@ angular.module('ngmReportHub')
                             'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
                             'href': '/desk/#/performance/et/' +$scope.dashboard.hrp+'/'+ $scope.dashboard.startDate + '/' + $scope.dashboard.endDate
                         }, {
+                            'title': 'Iraq',
+                            'param': 'admin0pcode',
+                            'active': 'iq',
+                            'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+                            'href': '/desk/#/performance/iq/' +$scope.dashboard.hrp+'/'+ $scope.dashboard.startDate + '/' + $scope.dashboard.endDate
+                        }, {
                             'title': 'Somalia',
                             'param': 'admin0pcode',
                             'active': 'so',

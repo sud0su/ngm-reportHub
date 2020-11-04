@@ -489,6 +489,12 @@ angular.module('ngmReportHub')
 										'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
 										'href': '/desk/#/cluster/dashboard4wplus/emro/af'
 									},{
+										'title': 'Iraq',
+										'param': 'admin0pcode',
+										'active': 'iq',
+										'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+										'href': '/desk/#/cluster/dashboard4wplus/emro/iq'
+									},{
 										'title': 'Somalia',
 										'param': 'admin0pcode',
 										'active': 'so',

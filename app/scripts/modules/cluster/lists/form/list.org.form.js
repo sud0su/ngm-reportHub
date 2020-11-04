@@ -86,6 +86,10 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                         'admin0pcode': 'ET',
 
                     }, {
+                        'admin0pname': 'Iraq',
+                        'admin0pcode': 'IQ',
+
+                    }, {
                         'admin0pname': 'Somalia',
                         'admin0pcode': 'SO',
 

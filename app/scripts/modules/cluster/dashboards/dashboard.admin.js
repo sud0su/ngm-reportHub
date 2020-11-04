@@ -799,6 +799,12 @@ angular.module('ngmReportHub')
 								'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
 								'href': '/desk/#/cluster/admin/afro/et'
 							}, {
+								'title': 'Iraq',
+								'param': 'admin0pcode',
+								'active': 'iq',
+								'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+								'href': '/desk/#/cluster/admin/emro/iq'
+							}, {
 								'title': 'Somalia',
 								'param': 'admin0pcode',
 								'active': 'so',
@@ -899,6 +905,12 @@ angular.module('ngmReportHub')
 								'active': 'af',
 								'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
 								'href': '/desk/#/cluster/admin/emro/af'
+							}, {
+								'title': 'Iraq',
+								'param': 'admin0pcode',
+								'active': 'iq',
+								'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+								'href': '/desk/#/cluster/admin/emro/iq'
 							}, {
 								'title': 'Somalia',
 								'param': 'admin0pcode',
