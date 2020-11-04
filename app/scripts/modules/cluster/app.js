@@ -410,6 +410,9 @@ angular
 			.when( '/cluster/admin/emro/af', {
 				redirectTo: '/cluster/admin/emro/af/all/all/all/activity/' + this.page.start_date() + '/' + this.page.end_date()
 			})
+			.when('/cluster/admin/emro/iq', {
+				redirectTo: '/cluster/admin/emro/iq/all/all/all/activity/' + this.page.start_date() + '/' + this.page.end_date()
+			})
 			.when( '/cluster/admin/emro/so', {
 				redirectTo: '/cluster/admin/emro/so/all/all/all/activity/' + this.page.start_date() + '/' + this.page.end_date()
 			})
@@ -585,6 +588,9 @@ angular
 			.when( '/cluster/5w/emro/af', {
 				redirectTo: '/cluster/5w/emro/af/all/all/all/all/all/all/all/2018-01-01/' + moment().format('YYYY-MM-DD')
 			})
+			.when('/cluster/5w/emro/iq', {
+				redirectTo: '/cluster/5w/emro/iq/all/all/all/all/all/all/all/2018-01-01/' + moment().format('YYYY-MM-DD')
+			})
 			.when( '/cluster/5w/emro/so', {
 				redirectTo: '/cluster/5w/emro/so/all/all/all/all/all/all/all/2018-01-01/' + moment().format('YYYY-MM-DD')
 			})
@@ -759,6 +765,9 @@ angular
 			.when( '/cluster/4wprojectplan/emro/af', {
 				redirectTo: '/cluster/4wprojectplan/emro/af/all/all/all/all/all/all/all/all/all/2019-01-01/' + moment().format('YYYY-MM-DD')
 			})
+			.when('/cluster/4wprojectplan/emro/iq', {
+				redirectTo: '/cluster/4wprojectplan/emro/iq/all/all/all/all/all/all/all/all/all/2019-01-01/' + moment().format('YYYY-MM-DD')
+			})
 			.when( '/cluster/4wprojectplan/emro/so', {
 				redirectTo: '/cluster/4wprojectplan/emro/so/all/all/all/all/all/all/all/all/all/2019-01-01/' + moment().format('YYYY-MM-DD')
 			})
@@ -899,6 +908,9 @@ angular
 			.when( '/cluster/dashboard4wplus/emro/af', {
 				redirectTo: '/cluster/dashboard4wplus/emro/af/all/all/all/all/all/all/all/all/all/2019-01-01/' + moment().format('YYYY-MM-DD')
 			})
+			.when('/cluster/dashboard4wplus/emro/iq', {
+				redirectTo: '/cluster/dashboard4wplus/emro/iq/all/all/all/all/all/all/all/all/all/2019-01-01/' + moment().format('YYYY-MM-DD')
+			})
 			.when( '/cluster/dashboard4wplus/emro/so', {
 				redirectTo: '/cluster/dashboard4wplus/emro/so/all/all/all/all/all/all/all/all/all/2019-01-01/' + moment().format('YYYY-MM-DD')
 			})
@@ -1022,6 +1034,9 @@ angular
 			.when('/cluster/record-admin/beneficiaries/emro/af', {
 				redirectTo: '/cluster/record-admin/beneficiaries/emro/af/all/all/' + this.page.start_date() + '/' + this.page.end_date()
 			})
+			.when('/cluster/record-admin/beneficiaries/emro/iq', {
+				redirectTo: '/cluster/record-admin/beneficiaries/emro/iq/all/all/' + this.page.start_date() + '/' + this.page.end_date()
+			})
 			.when('/cluster/record-admin/beneficiaries/emro/so', {
 				redirectTo: '/cluster/record-admin/beneficiaries/emro/so/all/all/' + this.page.start_date() + '/' + this.page.end_date()
 			})
@@ -1035,8 +1050,14 @@ angular
 				redirectTo: '/cluster/record-admin/beneficiaries/emro/ye/all/all/' + this.page.start_date() + '/' + this.page.end_date()
 			})
 			// stocks
-			.when('/cluster/record-admin/stocks/emro/af', {
+			.when('/cluster/record-admin/stocks/emro/', {
 				redirectTo: '/cluster/record-admin/stocks/emro/all/all/all/' + this.page.start_date() + '/' + this.page.end_date()
+			})
+			.when('/cluster/record-admin/stocks/emro/af', {
+				redirectTo: '/cluster/record-admin/stocks/emro/af/all/all/' + this.page.start_date() + '/' + this.page.end_date()
+			})
+			.when('/cluster/record-admin/stocks/emro/iq', {
+				redirectTo: '/cluster/record-admin/stocks/emro/iq/all/all/' + this.page.start_date() + '/' + this.page.end_date()
 			})
 			.when('/cluster/record-admin/stocks/emro/so', {
 				redirectTo: '/cluster/record-admin/stocks/emro/so/all/all/' + this.page.start_date() + '/' + this.page.end_date()

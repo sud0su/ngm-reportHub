@@ -153,6 +153,12 @@ angular.module('ngmReportHub')
                         'active': 'et',
                         'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
                         'href': '#/cluster/lists/admin/et/' + $route.current.params.cluster_id
+                    },{
+                        'title': 'Iraq',
+                        'param': 'admin0pcode',
+                        'active': 'iq',
+                        'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+                        'href': '#/cluster/lists/admin/iq/' + $route.current.params.cluster_id
                     }, {
                         'title': 'Nigeria',
                         'param': 'admin0pcode',
@@ -284,6 +290,7 @@ angular.module('ngmReportHub')
                         'cb': 'Cox Bazar',
                         'cd': 'Democratic Republic of Congo',
                         'et': 'Ethiopia',
+                        'iq':'Iraq',
                         'ng': 'Nigeria',
                         'ss': 'South Sudan',
                         'so': 'Somalia',
