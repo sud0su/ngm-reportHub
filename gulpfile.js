@@ -189,7 +189,7 @@ gulp.task('rename:index', function () {
 
 // gulp causing grief on copy, think its memory related
 gulp.task('copy:images', function () {
-  return gulp.src(yeoman.app + '/images/*.{gif,jpeg,jpg,png,svg}')
+  return gulp.src(yeoman.app + '/images/**/*.{gif,jpeg,jpg,png,svg}')
     .pipe($.cache($.imagemin({
         optimizationLevel: 5,
         progressive: true,
