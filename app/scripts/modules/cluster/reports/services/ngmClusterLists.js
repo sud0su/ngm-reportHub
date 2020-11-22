@@ -8915,7 +8915,8 @@ angular.module( 'ngmReportHub' )
 				if(admin0pcode === 'AF'){
 					project_details = [
 						{ project_detail_id: 'acbar_partner', project_detail_name: 'ACBAR Partner' },
-						{ project_detail_id: 'covid19_response', project_detail_name: 'COVID-19 Response' }
+						{ project_detail_id: 'covid19_response', project_detail_name: 'COVID-19 Response' },
+						{ project_detail_id: 'winterization', project_detail_name: 'Winterization' }
 					];
 				}
 				return project_details
