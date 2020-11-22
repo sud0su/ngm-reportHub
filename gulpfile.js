@@ -37,7 +37,7 @@ var uglify = require('gulp-uglify-es').default;
 // cache.clearAll();
 
 var yeoman = {
-  app: require('./bower.json').appPath || 'app',
+  app: 'app',
   dist: 'dist'
 };
 
@@ -46,12 +46,12 @@ var paths = {
   styles: [yeoman.app + '/styles/**/*.css'],
   test: ['test/spec/**/*.js'],
   testRequire: [
-    yeoman.app + '/bower_components/angular/angular.js',
+    yeoman.app + '/node_modules/angular/angular.js',
     yeoman.app + '/bower_components/angular-mocks/angular-mocks.js',
-    yeoman.app + '/bower_components/angular-resource/angular-resource.js',
-    yeoman.app + '/bower_components/angular-cookies/angular-cookies.js',
-    yeoman.app + '/bower_components/angular-sanitize/angular-sanitize.js',
-    yeoman.app + '/bower_components/angular-route/angular-route.js',
+    yeoman.app + '/node_modules/angular-resource/angular-resource.js',
+    yeoman.app + '/node_modules/angular-cookies/angular-cookies.js',
+    yeoman.app + '/node_modules/angular-sanitize/angular-sanitize.js',
+    yeoman.app + '/node_modules/angular-route/angular-route.js',
     'test/mock/**/*.js',
     'test/spec/**/*.js'
   ],
@@ -177,7 +177,7 @@ gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'ht
     .pipe($.rev())
     .pipe($.revReplace())
     // .pipe(header(getLicense()))
-    // .pipe(header('/* ' + pkg.name + ' version ' + pkg.version + ' */ \n' ))    
+    // .pipe(header('/* ' + pkg.name + ' version ' + pkg.version + ' */ \n' ))
     .pipe(gulp.dest(yeoman.dist));
 });
 
