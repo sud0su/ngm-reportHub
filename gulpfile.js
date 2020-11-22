@@ -192,83 +192,137 @@ gulp.task('rename:index', function () {
 // gulp causing grief on copy, think its memory related
 gulp.task('copy:images', function () {
   return gulp.src(yeoman.app + '/images/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images'));
 });
 gulp.task('copy:cluster', function () {
   return gulp.src(yeoman.app + '/images/cluster/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images/cluster'));
 });
 gulp.task('copy:country', function () {
   return gulp.src(yeoman.app + '/images/country/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images/country'));
 });
 gulp.task('copy:cdc', function () {
   return gulp.src(yeoman.app + '/images/snapshots/cdc/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images/snapshots/cdc'));
 });
 gulp.task('copy:drr', function () {
   return gulp.src(yeoman.app + '/images/snapshots/drr/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images/snapshots/drr'));
 });
 gulp.task('copy:snapshots', function () {
   return gulp.src(yeoman.app + '/images/snapshots/immap/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images/snapshots/immap'));
 });
 gulp.task('copy:immap', function () {
   return gulp.src(yeoman.app + '/images/immap/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images/immap'));
 });
 gulp.task('copy:reporthub', function () {
   return gulp.src(yeoman.app + '/images/snapshots/reporthub/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images/snapshots/reporthub'));
 });
 gulp.task('copy:who-immap', function () {
   return gulp.src(yeoman.app + '/images/snapshots/who-immap/**/*.{gif,jpeg,jpg,png,svg}')
-    .pipe($.cache(imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })))
+		.pipe($.cache(imagemin([
+			imagemin.gifsicle({ interlaced: true }),
+			imagemin.mozjpeg({ quality: 75, progressive: true }),
+			imagemin.optipng({ optimizationLevel: 5 }),
+			imagemin.svgo({
+				plugins: [
+					{ removeViewBox: true },
+					{ cleanupIDs: false }
+				]
+			})
+		], { verbose: true })))
     .pipe(gulp.dest(yeoman.dist + '/images/snapshots/who-immap'));
 });
 
