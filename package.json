@@ -40,7 +40,7 @@
     "angular-mocks": "^1.4.8",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "2.3.1",
-    "gulp-cache": "^0.2.10",
+    "gulp-cache": "^0.4.4",
     "gulp-concat": "^2.6.0",
     "gulp-connect": "^5.7.0",
     "gulp-filter": "^2.0.2",

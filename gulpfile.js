@@ -95,8 +95,8 @@ gulp.task('clean:tmp', function (cb) {
   rimraf('./.tmp', cb);
 });
 
-gulp.task('clear', function() {
-		cache.clearAll()
+gulp.task('clear', function (done) {
+  return cache.clearAll(done);
 });
 
 gulp.task('watch', function () {
