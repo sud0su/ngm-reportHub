@@ -1413,7 +1413,8 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
 
               // Materialize.toast('Stock Contain Error !', 4000, 'error');
               M.toast({ html: 'Stock Contain Error !', displayLength: 4000, classes: 'error' });
-              $timeout(function () { $(elements[0]).animatescroll() }, 100);
+              // $timeout(function () { $(elements[0]).animatescroll() }, 100);
+              $timeout(function () { $(elements[0]).scrollHere() }, 100);
             }, 200);
             return false
           }
@@ -1421,7 +1422,8 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
           if (stockRow !== stockRowComplete && notDetailOpen.length < 1) {
             // Materialize.toast('Stock Contain Error !', 4000, 'error');
             M.toast({ html: 'Stock Contain Error !', displayLength: 4000, classes: 'error' });
-            $(elements[0]).animatescroll();
+            // $(elements[0]).animatescroll();
+            $(elements[0]).scrollHere();
             return false;
           } else {
             return true;

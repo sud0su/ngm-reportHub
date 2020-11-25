@@ -1829,7 +1829,8 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						$scope.project.addLocationGroupingsforNewLocation()
 					}else{
 						var elements = result.divs
-						$(elements[0]).animatescroll();
+						// $(elements[0]).animatescroll();
+						$(elements[0]).scrollHere();
 					};
 					
 				},

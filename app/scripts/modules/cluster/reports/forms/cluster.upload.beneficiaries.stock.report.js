@@ -1025,7 +1025,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                     }
                     // valid = false;
                     if(divs.length>0){
-                        $timeout(function () { $(divs[0]).animatescroll() }, 100);
+                        // $timeout(function () { $(divs[0]).animatescroll() }, 100);
+                        $timeout(function () { $(divs[0]).scrollHere() }, 100);
                     }
                     
                     
@@ -1319,7 +1320,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         }
                     }
                     if (divs.length > 0) {
-                        $timeout(function () { $(divs[0]).animatescroll() }, 100);
+                        // $timeout(function () { $(divs[0]).animatescroll() }, 100);
+                        $timeout(function () { $(divs[0]).scrollHere() }, 100);
                     }
                     return valid
                 },

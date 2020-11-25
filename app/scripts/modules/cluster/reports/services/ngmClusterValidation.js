@@ -218,7 +218,8 @@ angular.module( 'ngmReportHub' )
 
 						// Materialize.toast($filter('translate')('beneficiaries_contains_errors'), 4000, 'error');
 						M.toast({ html: $filter('translate')('Target Location Contain Error'), displayLength: 4000, classes: 'error' });
-						$timeout(function () { $(elements[0]).animatescroll() }, 100);
+						// $timeout(function () { $(elements[0]).animatescroll() }, 100);
+						$timeout(function () { $(elements[0]).scrollHere() }, 100);
 					}, 200);
 					return false
 				}
@@ -227,7 +228,8 @@ angular.module( 'ngmReportHub' )
 					ngmClusterValidation.targetLocationsValidatelabel.push(elements[0])
 					// Materialize.toast($filter('translate')('beneficiaries_contains_errors'), 4000, 'error');
 					M.toast({ html: $filter('translate')('Target Location Contain Error'), displayLength: 4000, classes: 'error' });
-					$(elements[0]).animatescroll();
+					// $(elements[0]).animatescroll();
+					$(elements[0]).scrollHere();
 					return false;
 				} else {
 					return true;
@@ -330,7 +332,8 @@ angular.module( 'ngmReportHub' )
 								}
 								M.toast({ html: "Error: no such input: " + id_missing, displayLength: 4000, classes: 'error' });
 							} else{
-								$(elements[0]).animatescroll()
+								// $(elements[0]).animatescroll()
+								$(elements[0]).scrollHere()
 							}
 						 }, 100);
 					}, 200);
@@ -348,7 +351,8 @@ angular.module( 'ngmReportHub' )
 						}
 						M.toast({ html: "Error: no such input: "+id_missing, displayLength: 4000, classes: 'error' });
 					}else{
-						$(elements[0]).animatescroll();
+						// $(elements[0]).animatescroll();
+						$(elements[0]).scrollHere()
 					}
 					
 					return false;
@@ -905,7 +909,8 @@ angular.module( 'ngmReportHub' )
 					return true
 				} else {
 					// scroll and error
-					scrollDiv.animatescroll();
+					// scrollDiv.animatescroll();
+					scrollDiv.scrollHere();
 					// Materialize.toast( $filter('translate')('project_contains_errors'),10000, 'error' );
 					M.toast({ html: $filter('translate')('project_contains_errors'), displayLength: 10000, classes: 'error' });
 
@@ -1009,7 +1014,8 @@ angular.module( 'ngmReportHub' )
 								}
 								M.toast({ html: "Error: no such input: " + id_missing, displayLength: 4000, classes: 'error' });
 							} else{
-								$(elements[0]).animatescroll()
+								// $(elements[0]).animatescroll()
+								$(elements[0]).scrollHere()
 							}
 						},100);
 					}, 200);
@@ -1026,7 +1032,8 @@ angular.module( 'ngmReportHub' )
 						}
 						M.toast({ html: "Error: no such input: " + id_missing, displayLength: 4000, classes: 'error' });
 					} else{
-						$(elements[0]).animatescroll();
+						// $(elements[0]).animatescroll();
+						$(elements[0]).scrollHere()
 					}
 					return false;
 				} else {
