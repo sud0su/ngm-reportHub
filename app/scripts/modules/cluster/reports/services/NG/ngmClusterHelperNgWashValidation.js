@@ -966,7 +966,8 @@ angular.module( 'ngmReportHub' )
 							cashLength !== cashRowComplete  ||
 							accountabilityLength !== accountabilityRowComplete ) {
 					M.toast({ html: 'Form contains errors!', displayLength: 6000, classes: 'error' });
-					$( elements[0] ).animatescroll();
+					// $( elements[0] ).animatescroll();
+					$(elements[0]).scrollHere();
 					return false;
 				} else {
 					return true;

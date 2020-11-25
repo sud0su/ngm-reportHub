@@ -70,7 +70,8 @@ angular.module('ngmReportHub')
 
 							// Materialize.toast($filter('translate')('beneficiaries_contains_errors'), 4000, 'error');
 							M.toast({ html: $filter('translate')('beneficiaries_contains_errors'), displayLength: 4000, classes: 'error' });
-							$timeout(function () { $(elements[0]).animatescroll() }, 100);
+							// $timeout(function () { $(elements[0]).animatescroll() }, 100);
+							$timeout(function () { $(elements[0]).scrollHere() }, 100);
 						}, 200);
 						return false
 					}
@@ -78,7 +79,8 @@ angular.module('ngmReportHub')
 					if (budgetRow !== budgetRowComplete && notDetailOpen.length < 1) {
 						// Materialize.toast($filter('translate')('Form_contains_errors'), 4000, 'error');
 						M.toast({ html: $filter('translate')('Form_contains_errors'), displayLength: 4000, classes: 'error' });
-						$(elements[0]).animatescroll();
+						// $(elements[0]).animatescroll();
+						$(elements[0]).scrollHere();
 						return false;
 					} else {
 						return true;

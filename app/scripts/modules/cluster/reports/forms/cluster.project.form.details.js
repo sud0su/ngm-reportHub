@@ -605,7 +605,8 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						// Materialize.toast( $filter('translate')('no_project_activity_type'), 4000, 'success' );
 						M.toast({ html: $filter('translate')('no_project_activity_type'), displayLength: 4000, classes: 'success' });
 						$timeout(function() {
-							$('#ngm-activity_type_label').animatescroll();
+							// $('#ngm-activity_type_label').animatescroll();
+							$('#ngm-activity_type_label').scrollHere();
 							$timeout(function() { $('#ngm-activity_type').css({'font-weight':600}); }, 1000 );
 						}, 600 );
 					}
