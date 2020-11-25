@@ -1,6 +1,12 @@
 
-
-  <div class="modal-content">
+<style>
+  .close-uplod-btn {
+		background-color: red;
+		color: #fff;
+		font-size: 30px;
+	}
+</style>
+  <!-- <div class="modal-content">
     <h5 class="report-title" style="color: #2196F3; margin-top:20px;" align="left">{{'need_assistance'|translate}}</h5>
       <div class="row">
         <div class="col l4 m4 s12">
@@ -51,4 +57,126 @@
   </div>
   <div class="modal-footer">
     <a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
-  </div> 
+  </div>  -->
+<div class="modal-footer" style=" padding-top: 1px; padding-right: 1px; height: 0px;">
+  <a class=" modal-action waves-effect waves-green right close-button" style="margin-top:0px"
+    ng-click="upload.closeModal('upload-file-report')">
+    <i class="material-icons modal-action modal-close close-uplod-btn">clear</i></a>
+</div>
+  <div class="modal-content">
+    <h5 class="report-title" style="color: #2196F3; margin-top:20px;" align="left">{{'need_assistance'|translate}}</h5>
+    <div class="row">
+            <div class="col l12 m12 s12 hide-on-small-only">
+              <div class="card center promo blue-grey darken-1">
+                <img title="{{'contact_to'|translate}} {{ngm.var4wplusrh}} {{'with_any_questions'|translate}}!"
+                  src="images/contact.png" />
+              </div>
+            </div>
+    </div>
+    <div class="row">
+     
+      <div class="col l4 m4 s12 ">
+        <p style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">{{'contact'|translate}} {{ngm.var4wplusrh}}</p>
+        <div style="margin-top:15px;margin-bottom: 35px; text-align: left;">
+          <a class="btn-floating">
+            <i class="material-icons blue"> email </i>
+          </a>
+          <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;">
+            ngmReportHub@gmail.com
+          </a>
+      
+        </div>
+        <!-- <div style=" margin-top:35px; margin-bottom: 35px; text-align: left;">
+          <a class="btn-floating">
+            <i class="material-icons blue"> contacts </i>
+          </a>
+          <a style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;">
+           Global 
+          </a>
+          <a style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;" ng-if="ngm.var4wplusrh === 'REPORTHUB'" href="tel:+93780763601">
+          &lrm;+93-780-763-601
+          </a>
+
+          <a style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;" ng-if="ngm.var4wplusrh === '4wPlus'" href="tel:+571 6221100">
+            &lrm;+571 6221100 ext. 1304
+          </a>
+        </div> -->
+      </div>
+      <div class="col l4 m4 s12 " ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'">
+        <p style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">{{'contact'|translate}} Per Country
+        </p>
+        <div style=" margin-top:15px; margin-bottom: 35px; text-align: left;">
+          <a class="btn-floating">
+            <i class="material-icons blue"> contacts </i>
+          </a>
+          <a ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'" style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;">
+            Afghanistan
+          </a>
+          <a ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'" style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;"
+            href="tel:+93799869533">&lrm;+93-799-869-533</a>
+        </div>
+      </div>
+      <div class="col l4 m4 s12 ">
+          <p style="color: #2196F3;font-weight: 500;font-size: 18px;" align="left">{{'user_guide'|translate}}
+            {{ngm.var4wplusrh}}</p>
+          <!-- GUIDE -->
+          <div ng-if="ngm.var4wplusrh === 'REPORTHUB'" style="margin-top:15px;margin-bottom: 35px; text-align: left;">
+            <a class="btn-floating modal-action modal-close" href="/report/guide/ReportHub_User_Guide.pdf">
+              <i class="material-icons blue"> get_app </i>
+            </a>
+            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close" href="/report/guide/ReportHub_User_Guide.pdf"> 
+              Download User Guide
+            </a>
+        
+          </div>
+
+          <div ng-if="ngm.var4wplusrh === '4wPlus'" style="margin-top:15px;margin-bottom: 35px; text-align: left;">
+            <a class="btn-floating" href="/report/guide/4wPlus_User_Guide.pdf">
+              <i class="material-icons blue modal-action modal-close"> get_app </i>
+            </a>
+            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close" href="/report/guide/4wPlus_User_Guide.pdf">
+              Download User Guide
+            </a>
+          
+          </div>
+          <!-- GUIDE -->
+          <div ng-if="ngm.var4wplusrh === 'REPORTHUB'" style=" margin-top:35px; margin-bottom: 35px; text-align: left;">
+            <a class="btn-floating modal-action modal-close" href="#/cluster/guides" >
+              <i class="material-icons blue"> import_contacts </i>
+            </a>
+            <a href="#/cluster/guides" style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;" class="modal-action modal-close">
+              Online {{'user_guide'|translate}}
+            </a>
+        
+        
+        
+          </div>
+
+          <div ng-if="ngm.var4wplusrh === '4wPlus'" style=" margin-top:35px; margin-bottom: 35px; text-align: left;">
+            <a class="btn-floating modal-action modal-close" href="https://drive.google.com/drive/folders/1A0PGufE6QXhGpDn3FBMDkGJdq6tIO3rl">
+              <i class="material-icons blue"> import_contacts </i>
+            </a>
+            <a href="https://drive.google.com/drive/folders/1A0PGufE6QXhGpDn3FBMDkGJdq6tIO3rl" class="modal-action modal-close" style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;">
+              Online {{'user_guide'|translate}}
+            </a>
+          
+          
+          
+          </div>
+          <!-- YOUTUBE -->
+          <div style=" margin-top:35px;margin-bottom: 35px; text-align: left;">
+            <a class="btn-floating modal-action modal-close" href="https://www.youtube.com/watch?v=-mqFobV06hY&list=PL2Hpi_A3YwWIHGzZv89EHH6_FBT58Nsg9">
+              <i class="material-icons blue"> video_library </i>
+            </a>
+            <a style="color: #6d6e71; font-weight: 500; padding-left: 5px;"
+              href="https://www.youtube.com/watch?v=-mqFobV06hY&list=PL2Hpi_A3YwWIHGzZv89EHH6_FBT58Nsg9" class="modal-action modal-close">
+              Video User Guide
+            </a>
+        
+          </div>
+      </div>
+    </div>
+  </div>
+    <!-- <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
+    </div> -->
