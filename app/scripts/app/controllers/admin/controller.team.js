@@ -620,9 +620,11 @@ angular.module('ngmReportHub')
 
 			},
 			checkCloseRegisteration:function(id){
-				var z = $scope.list_organization.filter(x=>x.id === id)
-				if(z.length){
-					return z[0].closed_registration ? true: false;
+				if ($scope.list_organization && $scope.list_organization.length){
+					var z = $scope.list_organization.filter(x=>x.id === id)
+					if(z.length){
+						return z[0].closed_registration ? true: false;
+					}
 				}
 				
 			},
