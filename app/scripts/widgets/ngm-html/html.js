@@ -31,11 +31,11 @@ angular.module('ngm.widget.html', ['ngm.provider'])
         controller: 'htmlCtrl',
         templateUrl: '/scripts/widgets/ngm-html/view.html',
         resolve: {
-          data: function(ngmData, config){
-            if (config.request){
-              return ngmData.get(config.request);
-            }
-          }
+          data: ['ngmData', 'config', function (ngmData, config) {
+						if (config.request) {
+							return ngmData.get(config.request);
+						}
+					}]
         }
       });
   }).controller('htmlCtrl', [
@@ -45,19 +45,19 @@ angular.module('ngm.widget.html', ['ngm.provider'])
     '$location',
     '$timeout',
     'ngmAuth',
-    'data', 
+    'data',
     'config',
     function($scope, $sce, $element, $location, $timeout, ngmAuth, data, config){
       // preload
       $scope.preload = false;
-      $scope.$on("preload", function (event,obj) { 
+      $scope.$on("preload", function (event,obj) {
         if(obj.show){
           $scope.preload = true;
         }else{
           $scope.preload = false;
         }
       });
-    
+
       // statistics widget default config
       $scope.panel = {
 
@@ -66,10 +66,10 @@ angular.module('ngm.widget.html', ['ngm.provider'])
 
         // display card
         display: true,
-        
+
         // html template
         html: '',
-        
+
         // src template
         templateUrl: '/scripts/widgets/ngm-html/template/default.html',
 
@@ -84,7 +84,7 @@ angular.module('ngm.widget.html', ['ngm.provider'])
 
         }
 
-      }; 
+      };
 
       // assign data
       $scope.panel.data = data ? data : false;
@@ -92,7 +92,7 @@ angular.module('ngm.widget.html', ['ngm.provider'])
       // Merge defaults with config
       $scope.panel = angular.merge({}, $scope.panel, config);
 
-      
+
 
       // trust html
       $scope.panel.html = $sce.trustAsHtml($scope.panel.html);
