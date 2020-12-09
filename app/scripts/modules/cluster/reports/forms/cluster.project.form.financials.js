@@ -354,7 +354,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           return show;
         },
 				showProgrammingField:function(budget){
-					if (budget.budget_funds_id === 'financial'){
+					if (budget && budget.budget_funds_id === 'financial'){
 						return true;
 					}
 					return false;
@@ -417,7 +417,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           return show;
 				},
 				showMultiYearFundingField:function(budget){
-					if(budget.multi_year_funding_id === 'yes'){
+					if(budget && budget.multi_year_funding_id === 'yes'){
 						var start_year = moment($scope.project.definition.project_start_date).year();
 						end_year = moment($scope.project.definition.project_end_date).year();
 						if (!budget.multi_year_array || budget.multi_year_array.length<1){
@@ -478,7 +478,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           return show;
 				},
 				showFtsIdLabelField: function (budget) {
-					if (budget.reported_on_fts_id === 'yes') {
+					if (budget && budget.reported_on_fts_id === 'yes') {
 						return true;
 					}
 					return false;
