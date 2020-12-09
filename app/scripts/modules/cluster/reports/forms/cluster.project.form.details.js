@@ -2943,6 +2943,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 							}
 						});
 
+						$scope.project.addLocationGroupingsforNewLocation($scope.project.definition.target_locations)
 					//SAVE COMPONENT-PLANS
 
 					 $scope.project.definition.plan_component = [];
