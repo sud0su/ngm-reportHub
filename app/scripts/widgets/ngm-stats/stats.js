@@ -32,21 +32,21 @@ angular.module('ngm.widget.stats', ['ngm.provider'])
         templateUrl: '/scripts/widgets/ngm-stats/view.html',
         resolve: {
           // pass in ngmData for $http requests
-          data: function(ngmData, config){
-            if (config.request){
-              return ngmData.get(config.request);
-            }
-          }
+          data: ['ngmData', 'config', function (ngmData, config) {
+						if (config.request) {
+							return ngmData.get(config.request);
+						}
+					}]
         }
       });
   })
   .controller('statsCtrl', [
-    '$scope', 
+    '$scope',
     '$element',
-    'data', 
+    'data',
     'config',
     function($scope, $element, data, config){
-    
+
       // statistics widget default config
       $scope.stats = {
         title: 'Incidents',

@@ -65,8 +65,7 @@
     "lazypipe": "^0.2.4",
     "open": "^7.0.2",
     "rimraf": "^2.4.0",
-    "run-sequence": "^1.1.1",
-    "wiredep": "^4.0.0"
+    "run-sequence": "^1.1.1"
   },
   "engines": {
     "node": ">=0.10.0"

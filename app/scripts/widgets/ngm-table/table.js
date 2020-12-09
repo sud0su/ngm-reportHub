@@ -31,11 +31,11 @@ angular.module('ngm.widget.table', ['ngm.provider'])
         controller: 'tableCtrl',
         templateUrl: '/scripts/widgets/ngm-table/view.html',
         resolve: {
-          data: function(ngmData, config){
-            if (config.request){
-              return ngmData.get(config.request);
-            }
-          }
+          data: ['ngmData', 'config', function (ngmData, config) {
+						if (config.request) {
+							return ngmData.get(config.request);
+						}
+					}]
         }
       });
   }).controller('tableCtrl', [
@@ -43,11 +43,11 @@ angular.module('ngm.widget.table', ['ngm.provider'])
     '$location',
     '$element',
 		'$filter',
-    'data', 
+    'data',
     'config',
     'NgTableParams',
 		function ($scope, $location, $element, $filter, data, config, NgTableParams){
-    
+
       // table config
       $scope.table = {
 
@@ -113,7 +113,7 @@ angular.module('ngm.widget.table', ['ngm.provider'])
 
       // data
 			$scope.data = config.data ? config.data : data;
-			
+
       // check if features
       if ( data && data.features ) {
         $scope.data = data.features;
@@ -128,7 +128,7 @@ angular.module('ngm.widget.table', ['ngm.provider'])
 			$scope.showSearch = (($scope.data.length > 10) && config.search_tool) ? true : false;
 
   }
-  
+
 ]);
 
 

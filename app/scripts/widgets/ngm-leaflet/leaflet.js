@@ -31,11 +31,11 @@ angular.module('ngm.widget.leaflet', ['ngm.provider'])
         controller: 'leafletCtrl',
         templateUrl: '/scripts/widgets/ngm-leaflet/view.html',
         resolve: {
-          data: function(ngmData, config){
-            if (config.request){
-              return ngmData.get(config.request);
-            }
-          }
+					data: ['ngmData', 'config', function (ngmData, config) {
+						if (config.request) {
+							return ngmData.get(config.request);
+						}
+					}]
         }
       });
   }).controller('leafletCtrl', [

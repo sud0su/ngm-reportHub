@@ -31,27 +31,27 @@ angular.module('ngm.widget.calHeatmap', ['ngm.provider'])
         controller: 'calHeatmapCtrl',
         templateUrl: '/scripts/widgets/ngm-calHeatmap/view.html',
         resolve: {
-          data: function(ngmData, config){
-            if (config.request){
-              return ngmData.get(config.request);
-            }
-          }
+          data: ['ngmData', 'config', function (ngmData, config) {
+						if (config.request) {
+							return ngmData.get(config.request);
+						}
+					}]
         }
       });
   }).controller('calHeatmapCtrl', [
-    '$scope', 
+    '$scope',
     '$element',
     '$timeout',
-    'data', 
+    'data',
     'config',
     function($scope, $element, $timeout, data, config){
 
       // unique id
       var id = 'ngm-cal-heatmap-' + Math.floor((Math.random()*1000000));
 			$scope.sum= function(data){
-				var getValue = (Object.values(data));				
+				var getValue = (Object.values(data));
 				temp = 0;
-        for (i = 0; i < getValue.length; i++) { 
+        for (i = 0; i < getValue.length; i++) {
           temp = getValue[i] + temp;
         }
 				return temp;
@@ -84,7 +84,7 @@ angular.module('ngm.widget.calHeatmap', ['ngm.provider'])
             return display;
           },
           onComplete: function() {
-            
+
             // Set 'day' labels for calendar heatmap
             if($scope.calHeatmap.display.dayLabel) {
               $scope.calHeatmap.display.setDayLabel();
@@ -130,7 +130,7 @@ angular.module('ngm.widget.calHeatmap', ['ngm.provider'])
 
               // Wednesday
               svg
-                .select('.graph')   
+                .select('.graph')
                 .append('text')
                   .attr('class', 'graph-secondary-label')
                   .attr('y', yOffset + (offset)*3)
@@ -140,7 +140,7 @@ angular.module('ngm.widget.calHeatmap', ['ngm.provider'])
 
               // Friday
               svg
-                .select('.graph')   
+                .select('.graph')
                 .append('text')
                   .attr('class', 'graph-secondary-label')
                   .attr('y', yOffset + (offset)*5)
@@ -152,7 +152,7 @@ angular.module('ngm.widget.calHeatmap', ['ngm.provider'])
               svg
                 .select('.graph')
                 .selectAll('.graph-domain').each(function(d,i) {
-                
+
                   // select svg calendar block
                   var graph = d3.select(this);
                       graph.attr('x', parseFloat(graph.attr('x')) +  offset);
@@ -162,7 +162,7 @@ angular.module('ngm.widget.calHeatmap', ['ngm.provider'])
               // update cal graph legend
               svg
                 .select('.graph-legend')
-                .attr('x', parseInt(svg.select('.graph-legend').attr('x')) + offset);              
+                .attr('x', parseInt(svg.select('.graph-legend').attr('x')) + offset);
 
             }, 500);
 
@@ -180,7 +180,7 @@ angular.module('ngm.widget.calHeatmap', ['ngm.provider'])
 
               // Select all the calendar elements
               svg
-                .select('.graph').selectAll('.graph-domain').each(function(d,i) { 
+                .select('.graph').selectAll('.graph-domain').each(function(d,i) {
 
                 // select svg calendar block
                 var graph = d3.select(this);
@@ -225,7 +225,7 @@ angular.module('ngm.widget.calHeatmap', ['ngm.provider'])
 		    },
 		    dataLength: data && data.data ? $scope.sum(data.data) : 0,
       };
-      
+
       // Merge defaults with config
       $scope.calHeatmap = angular.merge({}, $scope.calHeatmap, config);
 
