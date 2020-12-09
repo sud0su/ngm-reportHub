@@ -29,7 +29,6 @@ var $ = require('gulp-load-plugins')();
 var openURL = require('open');
 var lazypipe = require('lazypipe');
 var rimraf = require('rimraf');
-var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 var cache = require('gulp-cache');
 var uglify = require('gulp-uglify-es').default;
@@ -97,20 +96,6 @@ gulp.task('clean:tmp', function (cb) {
 
 gulp.task('clear', function (done) {
   return cache.clearAll(done);
-});
-
-gulp.task('watch', function () {
-  gulp.watch('package.json', ['node']);
-});
-
-// inject node components
-gulp.task('node', function () {
-  return gulp.src(paths.views.main)
-    .pipe(wiredep({
-      directory: yeoman.app + '/node_modules',
-      ignorePath: '..'
-    }))
-  .pipe(gulp.dest(yeoman.app + '/views'));
 });
 
 gulp.task('translate', function () {
