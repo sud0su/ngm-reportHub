@@ -9,6 +9,7 @@
 angular
 	.module('ngmReportHub', [
 		// vendor
+		'LocalForageModule',
 		'ngRaven',
 	    'pascalprecht.translate',
 		'ngAnimate',
@@ -634,5 +635,8 @@ angular
 			removeItem: function (key) {
 				obj[key] = undefined;
 			},
+			hasKey: function(key) {
+				return key in obj && !!obj[key];
+			}
 		}
 	});

@@ -11,9 +11,8 @@ angular.module( 'ngmReportHub' )
 				'$http',
 				'$filter',
 				'$timeout',
-				'ngmAuth','$location', 'ngmLists',
-		function( $q, $http, $filter, $timeout, ngmAuth,$location, ngmLists ) {
-
+				'ngmAuth','$location', 'ngmLists', '$localForage',
+		function( $q, $http, $filter, $timeout, ngmAuth,$location, ngmLists, $localForage ) {
 
 		var ngmClusterLists = {
 
@@ -274,7 +273,7 @@ angular.module( 'ngmReportHub' )
 					};
 
 					// storage
-					localStorage.setObject( 'lists', lists );
+					// localStorage.setObject( 'lists', lists );
 					ngmLists.setObject( 'lists', lists );
 
 					// for ROLE REGIONAL above
@@ -324,8 +323,9 @@ angular.module( 'ngmReportHub' )
 							};
 
 							// storage
-							localStorage.setObject( 'lists', lists );
+							// localStorage.setObject( 'lists', lists );
 							ngmLists.setObject( 'lists', lists );
+							$localForage.setItem('lists', lists );
 
 						});
 				}
