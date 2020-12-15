@@ -230,7 +230,7 @@
 							<li style="position: relative;border-bottom: 1px solid #f1f1f1" ng-show="ngm.getUserName() !== 'welcome'">
 								<a href="#/cluster/admin/{{ ngm.getUser().adminRpcode | lowercase }}/{{ ngm.getUser().admin0pcode | lowercase }}"
 									>
-									<i class="material-icons small right">move_to_inbox</i>PROJECTS ADMIN</a>
+									<i class="material-icons small right">move_to_inbox</i>PROGRESS ADMIN</a>
 							</li>
 							<li style="position: relative;border-bottom: 1px solid #f1f1f1" ng-if="ngm.getUser().admin0pcode === 'AF'"
 								ng-show="ngm.getUser().organization.toLowerCase() === 'immap' ||
@@ -753,7 +753,7 @@
 										<li style="position: relative;border-bottom: 1px solid #f1f1f1"
 											 ng-show="ngm.getUserName() !== 'welcome'">
 											<a href="#/cluster/admin/{{ ngm.getUser().adminRpcode | lowercase }}/{{ ngm.getUser().admin0pcode | lowercase }}" ng-click="ngm.toggleNavigationMenu();ngm.openDashboard= !ngm.openDashboard;">
-												<i class="material-icons small right">move_to_inbox</i>PROJECTS ADMIN</a>
+												<i class="material-icons small right">move_to_inbox</i>PROGRESS ADMIN</a>
 										</li>
 										<li style="position: relative;border-bottom: 1px solid #f1f1f1" ng-if="ngm.getUser().admin0pcode === 'AF'" ng-show="ngm.getUser().organization.toLowerCase() === 'immap' ||
 																																			ngm.getUser().organization.toLowerCase() === 'moph' ||
