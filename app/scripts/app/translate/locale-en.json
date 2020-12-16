@@ -952,7 +952,9 @@
 
          "target_beneficiaries":"Target Beneficiaries",
           "reported_beneficiaries":"Services to Beneficiaries",
-         "progress":"Progress",
+          "new_beneficiaries":"New Beneficiaries",
+         "progress":"% progress for Services to Beneficiaries",
+         "new_progress": " % progress for New Beneficiaries",
 
 
 
