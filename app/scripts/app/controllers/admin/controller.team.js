@@ -363,7 +363,7 @@ angular.module('ngmReportHub')
 				$scope.dashboard.ngm.style.paddingHeight = 20;
 
 				// get user email HASH
-				$scope.dashboard.user.emailHash = $scope.dashboard.MD5( $scope.dashboard.user.email.trim().toLowerCase() );
+				$scope.dashboard.user.emailHash = $scope.dashboard.user.email ? $scope.dashboard.MD5($scope.dashboard.user.email.trim().toLowerCase()) : '';
 				
 				// url href
 				// $scope.dashboard.profileHref = ( $scope.dashboard.user.organization === 'iMMAP' 
