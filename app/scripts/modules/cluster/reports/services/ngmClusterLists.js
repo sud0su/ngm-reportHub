@@ -11,8 +11,12 @@ angular.module( 'ngmReportHub' )
 				'$http',
 				'$filter',
 				'$timeout',
-				'ngmAuth','$location', 'ngmLists', '$localForage',
-		function( $q, $http, $filter, $timeout, ngmAuth,$location, ngmLists, $localForage ) {
+				'ngmAuth', 'ngmUser', '$location', 'ngmLists', '$localForage', 'ngmLocalDB',
+		function( $q, $http, $filter, $timeout, ngmAuth, ngmUser, $location, ngmLists, $localForage, ngmLocalDB ) {
+		// loading flags
+		var areListsLoading;
+		var areListsFetched = $q.resolve( true );
+		// areListsFetched.resolve();
 
 		var ngmClusterLists = {
 
@@ -181,7 +185,9 @@ angular.module( 'ngmReportHub' )
 
 			// get lists for cluster reporting
 			setClusterLists: function( user ) {
-
+				// set flags
+				areListsLoading = true;
+				areListsFetched = $q.defer();
 				// requests
 				var requests = {
 
@@ -274,7 +280,7 @@ angular.module( 'ngmReportHub' )
 
 					// storage
 					// localStorage.setObject( 'lists', lists );
-					ngmLists.setObject( 'lists', lists );
+					// ngmLists.setObject( 'lists', lists );
 
 					// for ROLE REGIONAL above
 					if (user.roles.length > 1) {
@@ -321,15 +327,29 @@ angular.module( 'ngmReportHub' )
 								organizationsList: results[10].data,
 
 							};
-
 							// storage
 							// localStorage.setObject( 'lists', lists );
 							ngmLists.setObject( 'lists', lists );
-							$localForage.setItem('lists', lists );
-
+							ngmLocalDB.setItem('lists', lists, false, false ).then(function (success) {
+								// no data returns null
+								areListsFetched.resolve(success);
+								areListsLoading = false;
+							})
+						}).catch(function (err) {
+								areListsFetched.resolve(false);
+								areListsLoading = false;
 						});
 				}
+				return areListsFetched.promise;
 
+			},
+
+			areListsFetched: function() {
+				return areListsFetched.promise;
+			},
+
+			areListsLoading: function() {
+				return areListsLoading
 			},
 
 				// set org users for a project

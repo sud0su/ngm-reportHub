@@ -14,8 +14,11 @@ angular
 		$compileProvider.debugInfoEnabled( false );
 
 		var clusterResolves = {
-			lists: [ 'ngmLocalDBLists', function( ngmLocalDBLists ) {
-				return ngmLocalDBLists.loadLists();
+			// lists: [ 'ngmClusterLists', function( ngmClusterLists ) {
+			// 	return ngmClusterLists.areListsFetched();
+			// }],
+			db: [ 'ngmLocalDB', function( ngmLocalDB ) {
+				return ngmLocalDB.isVirtualDBLoaded;
 			}]
 		};
 
@@ -298,6 +301,9 @@ angular
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'ClusterProjectDetailsCtrl',
 				resolve: {
+					lists: [ 'ngmClusterLists', function( ngmClusterLists ) {
+						return ngmClusterLists.areListsFetched();
+					}],
 					access: [ 'ngmAuth', function(ngmAuth) {
 						return ngmAuth.isAuthenticated();
 					}],
@@ -318,6 +324,9 @@ angular
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'ClusterProjectReportCtrl',
 				resolve: {
+					lists: [ 'ngmClusterLists', function( ngmClusterLists ) {
+						return ngmClusterLists.areListsFetched();
+					}],
 					access: [ 'ngmAuth', function( ngmAuth ) {
 						return ngmAuth.isAuthenticated();
 					}],
@@ -1204,25 +1213,34 @@ angular
 			});
 
 	}])
-	.factory('ngmLocalDBLists', function ($q, $localForage, ngmLists) {
+	.factory('ngmLocalDBLists', ['$q', 'ngmLocalDB', 'ngmLists', 'ngmClusterLists', 'ngmUser', function ($q, ngmLocalDB, ngmLists, ngmClusterLists, ngmUser) {
+
 		return {
-			loadLists: function (update) {
+
+			loadLists: function (update, fetch) {
+				var KEY = 'lists';
 				var deferred = $q.defer();
-				// force update or no virtual storage lists
-				if (update || !ngmLists.hasKey('lists')) {
-					$localForage.getItem('lists').then(function (data) {
-						// no data returns null
-						ngmLists.setObject('lists', data ? data : undefined);
-						deferred.resolve(true);
+				if (!ngmClusterLists.areListsLoading()) {
+					// load into virtual data service
+					ngmLocalDB.loadItem(KEY, update, fetch).then(function (data) {
+						// if not data on localdb and logged user
+						if (!data && ngmUser.get()) {
+							// fetch lists data again
+							ngmClusterLists.setClusterLists(ngmUser.get()).then(function (data) {
+								deferred.resolve(data);
+							});
+						} else {
+							deferred.resolve(data);
+						}
 					}).catch(function (err) {
 						console.log(err);
 						deferred.resolve(true);
 					});
 				} else {
-					// do nothing
+					// lists are loading do nothing
 					deferred.resolve(true);
 				}
 				return deferred.promise;
-			}
+			},
 		}
-});
+}]);

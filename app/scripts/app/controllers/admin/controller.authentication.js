@@ -28,10 +28,11 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 		'ngmData',
 		'ngmClusterLists',
 		'ngmLists',
+		'ngmLocalDB',
 		'config',
 		'$translate',
 		'$rootScope',
-		function ($scope, $http, $location, $timeout, $filter, $q, ngmAuth, ngmUser, ngmData, ngmClusterLists, ngmLists, config, $translate,$rootScope){
+		function ($scope, $http, $location, $timeout, $filter, $q, ngmAuth, ngmUser, ngmData, ngmClusterLists, ngmLists, ngmLocalDB, config, $translate,$rootScope){
 
 
 			// 4wPlus
@@ -149,7 +150,8 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 						}
 						// send request
 						$q.all([ $http( getDutyStations ) ] ).then( function( results ){
-							localStorage.setObject( 'dutyStations', results[0].data );
+							localStorage.setObject( 'dutyStations', true );
+							ngmLocalDB.setItem( 'dutyStations', results[0].data );
 							ngmLists.setObject( 'dutyStations', results[0].data );
 							$scope.panel.dutyStations = results[0].data;
 						});
@@ -168,7 +170,9 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 
 					// set
 					$http.get( ngmAuth.LOCATION + '/api/list/organizations' ).then(function( organizations ){
-						localStorage.setObject( 'organizations', organizations.data );
+						// localStorage.setObject( 'organizations', organizations.data );
+						localStorage.setObject( 'organizations', true );
+						ngmLocalDB.setItem( 'organizations' , organizations.data, false, false )
 						ngmLists.setObject( 'organizations', organizations.data );
 						$scope.panel.organizations = organizations.data;
 						$scope.panel.organizations_list = organizations.data;

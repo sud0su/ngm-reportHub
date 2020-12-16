@@ -11,7 +11,7 @@
  *
  */
 angular.module('ngmReportHub')
-	.factory( 'ngmUser', [ '$injector', 'ngmLists', '$localForage', function( $injector, ngmLists, $localForage ) {
+	.factory( 'ngmUser', [ '$injector', 'ngmLists', '$localForage', 'ngmLocalDB', function( $injector, ngmLists, $localForage, ngmLocalDB ) {
 
 		return {
 
@@ -37,13 +37,10 @@ angular.module('ngmReportHub')
 			unset: function() {
 				// remove lists / user
 				localStorage.removeItem( 'lists' );
-				localStorage.removeItem( 'dutyStations' );
 				localStorage.removeItem( 'auth_token' );
 				ngmLists.removeItem('lists')
-				ngmLists.removeItem('dutyStations')
 				ngmLists.removeItem('auth_token');
-
-				$localForage.removeItem( 'lists' );
+				ngmLocalDB.removeItem( 'lists' );
 			},
 
 			// check user role
