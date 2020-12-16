@@ -13,7 +13,11 @@
 		background-color: #009688;
 	}
 	/* Progress Bar */
-	.percentage-wrapper{	
+	.percentage-wrapper{
+		    display: flex;
+    		justify-content: center;
+			position: relative;
+
 	}
 	.percentage-wrapper span{
 		line-height: 10px;
@@ -30,6 +34,8 @@
 			width: 50px;
 			height: 12px;
 			border-radius: 4px;
+			position: absolute;
+    		right: 0;
 			
 	}
 	.project-progress-bar-wrapper .project-progress-bar-inner {
@@ -82,6 +88,9 @@
 								<td data-title="'reported_beneficiaries'|translate" sortable="'report_total_format'">
 									{{ row.report_total_format }}
 								</td>
+								<td data-title="'new_beneficiaries'|translate" sortable="'report_total_format'">
+									{{ row.new_beneficiaries_total_format }}
+								</td>
 								<td data-title="'progress'|translate" sortable="'progress_percentage'" ng-if="row.progress_percentage ==='N/A'">
 									{{ row.progress_percentage}}
 								</td>
@@ -92,14 +101,38 @@
 								<td width="15%" data-title="'progress'|translate" sortable="'progress_percentage'" ng-if="row.progress_percentage !=='N/A' && windowWidth >992">
 									<div class="percentage-wrapper">
 										<span>{{ row.progress_percentage| number : 1 }}%</span>
-										<span class="project-progress-bar-wrapper ">
+										<div class="project-progress-bar-wrapper ">
 											<div class="project-progress-bar-inner" style="width: {{row.progress_percentage}}%" ng-if="row.progress_percentage <=100">
 												&nbsp
 											</div>
 											<div class="project-progress-bar-inner" style="width: 100%" ng-if="row.progress_percentage >100">
 												&nbsp
 											</div>											
-										</span>
+										</div>
+									</div>
+								</td>
+
+								<td data-title="'new_progress'|translate" sortable="'new_benefeciaries_progress_percentage'" ng-if="row.new_benefeciaries_progress_percentage ==='N/A'">
+									{{ row.new_benefeciaries_progress_percentage}}
+								</td>
+								<td data-title="'new_progress'|translate" sortable="'new_benefeciaries_progress_percentage'"
+									ng-if="row.new_benefeciaries_progress_percentage !=='N/A' && windowWidth <=992">
+									{{ row.new_benefeciaries_progress_percentage| number : 1 }}%
+								</td>
+								<td width="15%" data-title="'new_progress'|translate" sortable="'new_benefeciaries_progress_percentage'"
+									ng-if="row.new_benefeciaries_progress_percentage !=='N/A' && windowWidth >992">
+									<div class="percentage-wrapper">
+										<span>{{ row.new_benefeciaries_progress_percentage| number : 1 }}%</span>
+
+										<div class="project-progress-bar-wrapper ">
+											<div class="project-progress-bar-inner" style="width: {{row.new_benefeciaries_progress_percentage}}%"
+												ng-if="row.new_benefeciaries_progress_percentage <=100">
+												&nbsp
+											</div>
+											<div class="project-progress-bar-inner" style="width: 100%" ng-if="row.new_benefeciaries_progress_percentage >100">
+												&nbsp
+											</div>
+										</div>
 									</div>
 								</td>
 

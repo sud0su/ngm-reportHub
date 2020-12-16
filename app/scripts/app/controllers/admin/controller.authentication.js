@@ -611,6 +611,10 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 
 					// update home page for iMMAP Ethiopia
 					if ( $scope.panel.user.organization === 'iMMAP' ) {
+						// set adminRpcode here 
+						if(!$scope.panel.user.adminRpcode) {
+							$scope.panel.user.adminRpcode = $filter('filter')($scope.panel.adminRegion, { admin0pcode: $scope.panel.user.admin0pcode }, true)[0].adminRpcode
+						}
 						// add defaults as admin
 						// $scope.panel.user.app_home = '/immap/';
 						$scope.panel.user.app_home = '/cluster/admin/' + $scope.panel.user.adminRpcode.toLowerCase() + '/' + $scope.panel.user.admin0pcode.toLowerCase();

@@ -65,7 +65,7 @@ angular.module( 'ngmReportHub' )
 
 			projectDescription:function(project){
 				ngmClusterValidation.project_description_valid_labels=[];
-				var template_text = "Please complete a Project Plan and enter a summary description including objectives...";
+				var template_text = "Please complete an Activity Plan";//"Please complete a Project Plan and enter a summary description including objectives...";
 				var string_same_or_not = template_text.localeCompare(project.project_description);
 
 				if (!project.project_description || (/^\s*$/).test(project.project_description)) {

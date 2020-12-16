@@ -314,7 +314,7 @@
 									  <input id="ngm-project_hrp_code" type="text" class="validate"
 									  				ng-model="project.definition.project_hrp_code"
 									  				disabled="true"/>
-									  <label for="ngm-project-budget" ng-style="(windowWidth <= 600) && {'transform':'translateY(-30%)'}">
+									  <label class="active" for="ngm-project-budget" ng-style="(windowWidth <= 600) && {'transform':'translateY(-30%)'}">
 									  	{{ ngmClusterHelper.getProjectHrpName( project.definition ) }} Project Code
 									  </label>
 									</div>
@@ -322,7 +322,7 @@
 									  <input id="ngm-project_hrp_code" type="text" class="validate"
 									  				ng-model="project.definition.project_hrp_code"
 									  				disabled="true">
-									  <label for="ngm-project_hrp_code">
+									  <label class="active" for="ngm-project_hrp_code" ng-style="(windowWidth <= 600) && {'transform':'translateY(-30%)'}">
 									  	Non-{{ ngmClusterHelper.getProjectHrpName( project.definition ) }} {{'project_code' | translate}}
 										</label>
 									</div>

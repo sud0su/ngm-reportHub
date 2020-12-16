@@ -629,10 +629,13 @@ angular.module('ngmReportHub')
 				
 			},
 			disabledOrgcheckCloseRegisteration:function(orgonization_tag){
-				var canEdit = ngmAuth.canDo('EDIT_ORGANIZATION', { organization_tag: orgonization_tag})
-				var disabled = !canEdit
-				
-				return disabled
+				if($location.path() !== '/login'){
+					var canEdit = ngmAuth.canDo('EDIT_ORGANIZATION', { organization_tag: orgonization_tag})
+					var disabled = !canEdit
+					return disabled
+				}else{
+					return disabled = true;
+				}
 			},
 			btnManageAccessDisabled: false
 

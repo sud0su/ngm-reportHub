@@ -614,6 +614,10 @@ angular.module('ngmReportHub')
 				var deferred = $q.defer();
 
 				if ( !ngmUser.get() || ngmUser.get().guest ) {
+					// reset user property if the user visit as a guest
+					if (ngmUser.get()&& ngmUser.get().guest){
+						ngmUser.unset();
+					}
 					deferred.resolve( ngmAuth.OK );
 				} else {
 					deferred.reject( ngmAuth.FORBIDDEN );
