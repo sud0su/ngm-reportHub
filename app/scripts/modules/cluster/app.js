@@ -13,8 +13,23 @@ angular
 		// https://medium.com/swlh/improving-angular-performance-with-1-line-of-code-a1fb814a6476#.ufea9sjt1
 		$compileProvider.debugInfoEnabled( false );
 
+		var clusterResolves = {
+			// lists: [ 'ngmClusterLists', function( ngmClusterLists ) {
+			// 	return ngmClusterLists.areListsFetched();
+			// }],
+			db: [ 'ngmLocalDB', function( ngmLocalDB ) {
+				return ngmLocalDB.isVirtualDBLoaded;
+			}]
+		};
 
-
+		var clusterRouteProvider = angular.extend({}, $routeProvider, {
+			when: function (path, route) {
+					route.resolve = (route.resolve) ? route.resolve : {};
+					angular.extend(route.resolve, clusterResolves);
+					$routeProvider.when(path, route);
+					return this;
+			}
+		});
 
 		this.page = {
 			start_date: function() {
@@ -38,7 +53,7 @@ angular
 		}
 
 		// app routes with access rights
-		$routeProvider
+		clusterRouteProvider
 			// login
 			.when( '/cluster/login', {
 				templateUrl: '/views/app/dashboard.html',
@@ -286,6 +301,9 @@ angular
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'ClusterProjectDetailsCtrl',
 				resolve: {
+					lists: [ 'ngmClusterLists', function( ngmClusterLists ) {
+						return ngmClusterLists.areListsFetched();
+					}],
 					access: [ 'ngmAuth', function(ngmAuth) {
 						return ngmAuth.isAuthenticated();
 					}],
@@ -306,6 +324,9 @@ angular
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'ClusterProjectReportCtrl',
 				resolve: {
+					lists: [ 'ngmClusterLists', function( ngmClusterLists ) {
+						return ngmClusterLists.areListsFetched();
+					}],
 					access: [ 'ngmAuth', function( ngmAuth ) {
 						return ngmAuth.isAuthenticated();
 					}],
@@ -994,7 +1015,7 @@ angular
 			.when('/cluster/record-admin/stocks/', {
 				redirectTo: '/cluster/record-admin/stocks/hq/all/all/all/' + this.page.start_date() + '/' + this.page.end_date()
 			})
-	
+
 			// AFRO
 			.when('/cluster/record-admin/beneficiaries/afro', {
 				redirectTo: '/cluster/record-admin/beneficiaries/afro/all/all/all/' + this.page.start_date() + '/' + this.page.end_date()
@@ -1191,4 +1212,35 @@ angular
 				redirectTo: '/cluster/organization'
 			});
 
-	}]);
+	}])
+	.factory('ngmLocalDBLists', ['$q', 'ngmLocalDB', 'ngmLists', 'ngmClusterLists', 'ngmUser', function ($q, ngmLocalDB, ngmLists, ngmClusterLists, ngmUser) {
+
+		return {
+
+			loadLists: function (update, fetch) {
+				var KEY = 'lists';
+				var deferred = $q.defer();
+				if (!ngmClusterLists.areListsLoading()) {
+					// load into virtual data service
+					ngmLocalDB.loadItem(KEY, update, fetch).then(function (data) {
+						// if not data on localdb and logged user
+						if (!data && ngmUser.get()) {
+							// fetch lists data again
+							ngmClusterLists.setClusterLists(ngmUser.get()).then(function (data) {
+								deferred.resolve(data);
+							});
+						} else {
+							deferred.resolve(data);
+						}
+					}).catch(function (err) {
+						console.log(err);
+						deferred.resolve(true);
+					});
+				} else {
+					// lists are loading do nothing
+					deferred.resolve(true);
+				}
+				return deferred.promise;
+			},
+		}
+}]);

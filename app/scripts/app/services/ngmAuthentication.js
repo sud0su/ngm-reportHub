@@ -11,7 +11,7 @@
  *
  */
 angular.module('ngmReportHub')
-	.factory( 'ngmUser', [ '$injector', 'ngmLists', function( $injector, ngmLists ) {	
+	.factory( 'ngmUser', [ '$injector', 'ngmLists', '$localForage', 'ngmLocalDB', function( $injector, ngmLists, $localForage, ngmLocalDB ) {
 
 		return {
 
@@ -37,19 +37,18 @@ angular.module('ngmReportHub')
 			unset: function() {
 				// remove lists / user
 				localStorage.removeItem( 'lists' );
-				localStorage.removeItem( 'dutyStations' );
 				localStorage.removeItem( 'auth_token' );
 				ngmLists.removeItem('lists')
-				ngmLists.removeItem('dutyStations')
-				ngmLists.removeItem('auth_token')
-			},			
+				ngmLists.removeItem('auth_token');
+				ngmLocalDB.removeItem( 'lists' );
+			},
 
 			// check user role
 			hasRole: function( role ) {
 				// get from storage
 				var user = ngmLists.getObject( 'auth_token' );
 				// if no user
-				if ( !user ) return false; 
+				if ( !user ) return false;
 				// else has role?
 				return angular.uppercase( user.roles ).indexOf( angular.uppercase( role ) ) >= 0;
 			},
@@ -81,7 +80,7 @@ angular.module('ngmReportHub')
 	 * @property {number} LEVEL - ROLE priority level (for selecting filters, e.g. ADMIN dashboard uses max priority).
 	 * @returns {UserPermissions[]} - Array of Roles permission definitions.
 	 */
-	.constant( 'ngmPermissions', [{ 
+	.constant( 'ngmPermissions', [{
 			ROLE: 'PUBLIC',
 			EDIT: false,
 			EDIT_USER: false,
@@ -100,7 +99,7 @@ angular.module('ngmReportHub')
 			VALIDATE: false,
 			LEVEL: 0,
 			DESCRIPTION: 'Public Access'
-		},{ 
+		},{
 			ROLE: 'USER',
 			EDIT: true,
 			EDIT_RESTRICTED: ['organization_tag', 'admin0pcode', 'adminRpcode' ],
@@ -126,7 +125,7 @@ angular.module('ngmReportHub')
 			LEVEL: 1,
 			DESCRIPTION: 'The USER can add, edit and update reports for your Organization'
 		},
-		{ 
+		{
 			ROLE: 'ORG',
 			EDIT: true,
 			EDIT_RESTRICTED: ['organization_tag', 'admin0pcode', 'adminRpcode'],
@@ -153,7 +152,7 @@ angular.module('ngmReportHub')
 			LEVEL: 2,
 			DESCRIPTION: 'The ORG role is to manage the USERS of your Organization'
 		},
-		{ 
+		{
 			ROLE: 'CLUSTER',
 			EDIT: true,
 			EDIT_RESTRICTED: ['cluster_id', 'admin0pcode', 'adminRpcode'],
@@ -180,7 +179,7 @@ angular.module('ngmReportHub')
 			LEVEL: 3,
 			DESCRIPTION: 'The CLUSTER role is to manage the partners and projects of your Sector'
 		},
-		{ 
+		{
 			ROLE: 'COUNTRY',
 			EDIT: false,
 			EDIT_RESTRICTED: ['admin0pcode', 'adminRpcode'],
@@ -207,7 +206,7 @@ angular.module('ngmReportHub')
 			LEVEL: 4,
 			DESCRIPTION: 'The COUNTRY role acts as an observer and can view (but not edit) all Sectors of your COUNTRY'
 		},
-		{ 
+		{
 			ROLE: 'COUNTRY_ADMIN',
 			EDIT: true,
 			EDIT_RESTRICTED: [ 'admin0pcode', 'adminRpcode'],
@@ -234,7 +233,7 @@ angular.module('ngmReportHub')
 			LEVEL: 4,
 			DESCRIPTION: 'The COUNTRY_ADMIN manages the partners and projects of your COUNTRY'
 		},
-		{ 
+		{
 			ROLE: 'REGION_ORG',
 			EDIT: false,
 			EDIT_RESTRICTED: ['organization_tag', 'adminRpcode'],
@@ -260,7 +259,7 @@ angular.module('ngmReportHub')
 			LEVEL: 5,
 			DESCRIPTION: 'The REGION_ORG role can view projects in your Region for your Organization'
 		},
-		{ 
+		{
 			ROLE: 'REGION',
 			EDIT: false,
 			EDIT_RESTRICTED: ['adminRpcode'],
@@ -286,7 +285,7 @@ angular.module('ngmReportHub')
 			LEVEL: 6,
 			DESCRIPTION: 'The REGION role can view projects in your Region for all Sectors'
 		},
-		{ 
+		{
 			ROLE: 'HQ_ORG',
 			EDIT: false,
 			EDIT_RESTRICTED: ['organization_tag'],
@@ -312,7 +311,7 @@ angular.module('ngmReportHub')
 			LEVEL: 7,
 			DESCRIPTION: 'The HQ_ORG role can view projects Globally for your Organisation'
 		},
-		{ 
+		{
 			ROLE: 'HQ',
 			EDIT: false,
 			EDIT_RESTRICTED: [],
@@ -338,7 +337,7 @@ angular.module('ngmReportHub')
 			LEVEL: 8,
 			DESCRIPTION: 'The HQ role can view projects Globally for your all Sectors'
 		},
-		{ 
+		{
 			ROLE: 'SUPERADMIN',
 			EDIT: true,
 			EDIT_RESTRICTED: [],
@@ -377,16 +376,16 @@ angular.module('ngmReportHub')
 			APP: $location.path().split('/')[1],
 
 			// guest
-			GUEST: { 
-				adminRpcode: 'HQ', 
-				adminRname: 'Global', 
-				admin0pcode: 'all', 
-				admin0name: 'All', 
+			GUEST: {
+				adminRpcode: 'HQ',
+				adminRname: 'Global',
+				admin0pcode: 'all',
+				admin0name: 'All',
 				guest: true,
 				visits: 1,
 				cluster_id: 'all',
 				cluster: 'All',
-				organization: 'All', 
+				organization: 'All',
 				organization_tag: 'all',
 				username: 'welcome',
 				email: 'public@immap.org',
@@ -426,7 +425,7 @@ angular.module('ngmReportHub')
 
 			// update user profile
 			updateProfile: function( user ) {
-				
+
 				// set the $http object
 				var update = $http({
 					method: 'POST',
@@ -449,7 +448,7 @@ angular.module('ngmReportHub')
 
 			// login
 			login: function( user ) {
-				
+
 				// set the $http object
 				var login = $http({
 					method: 'POST',
@@ -484,13 +483,13 @@ angular.module('ngmReportHub')
 					method: 'POST',
 					url: this.LOCATION + '/api/send-email',
 					data: user
-				});		
+				});
 
 				return reset;
 			},
 
 			passwordReset: function(user) {
-				
+
 				// set the $http object
 				var reset = $http({
 					method: 'POST',
@@ -526,7 +525,7 @@ angular.module('ngmReportHub')
 				// toggle menu dropdown
 				$('.ngm-profile-menu-content').slideToggle();
 
-				// unset token, backend dosnt care about logouts 
+				// unset token, backend dosnt care about logouts
 				ngmUser.unset();
 				$location.path( '/login' );
 				// $location.path( '/' + $location.$$path.split('/')[1] + '/login' );
@@ -539,15 +538,15 @@ angular.module('ngmReportHub')
 				// tmp fix
 				if ( !user || !user.last_logged_in ) {
 						// unset localStorage
-						ngmUser.unset();				
+						ngmUser.unset();
 				} else {
 					// get minutes since last login
-					var minutes = 
+					var minutes =
 								moment.duration( moment().diff( user.last_logged_in ) ).asMinutes();
 
 					// ( 24 * 60 ) = 1440 minutes
 					if ( minutes > ( 24 * 60 ) ) {
-						
+
 						// unset localStorage
 						ngmUser.unset();
 
@@ -578,7 +577,7 @@ angular.module('ngmReportHub')
 
 			// has role
 			hasRole: function( role ) {
-				
+
 				var deferred = $q.defer();
 
 				if ( ngmUser.hasRole( role ) ) {
@@ -594,7 +593,7 @@ angular.module('ngmReportHub')
 
 			// has any role
 			hasAnyRole: function( roles ) {
-				
+
 				var deferred = $q.defer();
 
 				if ( ngmUser.hasAnyRole( roles ) ) {
@@ -610,7 +609,7 @@ angular.module('ngmReportHub')
 
 			// anonymous
 			isAnonymous: function() {
-				
+
 				var deferred = $q.defer();
 
 				if ( !ngmUser.get() || ngmUser.get().guest ) {
@@ -628,7 +627,7 @@ angular.module('ngmReportHub')
 
 			// authenticated
 			isAuthenticated: function() {
-				
+
 				var deferred = $q.defer();
 
 				if ( ngmUser.get() && !ngmUser.get().guest ) {
@@ -664,12 +663,12 @@ angular.module('ngmReportHub')
 			 * @param {Object} zones - Object containing zones and their values.
 			 * @param {string} zones.adminRpcode - adminRpcode.
 			 * @param {string} zones.admin0pcode - admin0pcode.
-			 * @param {string} zones.cluster_id - cluster_id. 
-			 * @param {string} zones.organization_tag - organization_tag. 
+			 * @param {string} zones.cluster_id - cluster_id.
+			 * @param {string} zones.organization_tag - organization_tag.
 			 * @returns {boolean} User can/cannot edit for input view zones.
 			 */
 			canDo: function(permission, zones){
-				
+
 				// check params
 				if (!permission||!zones||typeof zones!=='object'||typeof permission!=='string') return false
 
@@ -681,9 +680,9 @@ angular.module('ngmReportHub')
 				// _RESTRICTED prop on permissions conf with user restricted zones
 				const permission_restricted = permission + '_RESTRICTED';
 
-				// validation logic 
+				// validation logic
 
-				// roll over user roles definitions, use for...of in future				
+				// roll over user roles definitions, use for...of in future
 				for (const role of USER_PERMISSIONS){
 					// if permission active
 					if (role[permission]){
@@ -700,9 +699,9 @@ angular.module('ngmReportHub')
 						if(allowed) return allowed
 					}
 				}
-				
+
 				// otherwise if no match, no edit rights
-				return false;	
+				return false;
 			},
 
 			/**
@@ -714,7 +713,7 @@ angular.module('ngmReportHub')
 				// permissions filter prop
 				const dashboard_filter = dashboard+'_RESTRICTED'
 				const USER_PERMISSIONS = ngmAuth.userPermissions();
-				// for menu get role with highest priority if user has multiple roles 
+				// for menu get role with highest priority if user has multiple roles
 				return USER_PERMISSIONS.reduce(function(max, v){return v.LEVEL > max.LEVEL ? v : max })[dashboard_filter] || []
 			},
 
@@ -727,7 +726,7 @@ angular.module('ngmReportHub')
 				// permissions filter prop
 				const dashboard_filter = dashboard+'_MENU'
 				const USER_PERMISSIONS = ngmAuth.userPermissions();
-				// for menu get role with highest priority if user has multiple roles 
+				// for menu get role with highest priority if user has multiple roles
 				return USER_PERMISSIONS.reduce(function(max, v){return v.LEVEL > max.LEVEL ? v : max })[dashboard_filter]
 			},
 
@@ -739,7 +738,7 @@ angular.module('ngmReportHub')
 				// filter permissions if EDIT_USER allowed
 				const USER_PERMISSIONS = ngmAuth.userPermissions().filter(role=>role['EDIT_USER']&&role['EDIT_USER_ROLES']);
 				if (!USER_PERMISSIONS.length) return [];
-				// get users allowed roles to edit highest priority if user has multiple roles 
+				// get users allowed roles to edit highest priority if user has multiple roles
 				return USER_PERMISSIONS.reduce(function(max, role){return role.LEVEL > max.LEVEL ? role : max })['EDIT_USER_ROLES']
 			},
 
@@ -761,7 +760,7 @@ angular.module('ngmReportHub')
 
 	}])
 	.factory( 'ngmAuthInterceptor', [ '$q', '$injector', function( $q, $injector ) {
-			
+
 		// get user
 		var ngmUser = $injector.get( 'ngmUser' );
 

@@ -9,6 +9,7 @@
 angular
 	.module('ngmReportHub', [
 		// vendor
+		'LocalForageModule',
 		'ngRaven',
 	    'pascalprecht.translate',
 		'ngAnimate',
@@ -634,5 +635,125 @@ angular
 			removeItem: function (key) {
 				obj[key] = undefined;
 			},
+			hasKey: function(key) {
+				return key in obj && !!obj[key];
+			}
 		}
-	});
+	})
+	.factory('ngmLocalDB', ['$q', '$localForage', 'ngmLists', function ($q, $localForage, ngmLists) {
+		var deferredLoadVirtualDB = $q.defer();
+
+		var ngmLocalDB =  {
+			loadItem: function (key, update, fetch) {
+				var deferred = $q.defer();
+				// force update or no virtual storage lists
+				if (update || !ngmLists.hasKey(key)) {
+					$localForage.getItem(key).then(function (data) {
+						// no data returns null
+						ngmLists.setObject(key, data ? data : undefined);
+						// notify client if data exists
+						if (data) { deferred.resolve(fetch ? data : true); } else { deferred.resolve(null); }
+					}).catch(function (err) {
+						console.log(err);
+						deferred.resolve(true);
+					});
+				} else {
+					// do nothing
+					deferred.resolve(true);
+				}
+				return deferred.promise;
+			},
+			getItem: function (key) {
+				var deferred = $q.defer();
+				$localForage.getItem(key).then(function (data) {
+					// no data returns null
+					deferred.resolve(data);
+				}).catch(function (err) {
+					console.log(err);
+					deferred.resolve(null);
+				});
+
+				return deferred.promise;
+			},
+			setItem: function (key, data, virtual, fetch) {
+				var deferred = $q.defer();
+				$localForage.setItem(key, data).then(function (value) {
+					if (virtual) ngmLists.setObject(key, value ? value : undefined);
+					deferred.resolve(fetch ? value : true);
+				}).catch(function (err) {
+					console.log(err);
+					deferred.resolve(true);
+				});
+				return deferred.promise;
+			},
+			removeItem: function (key, virtual) {
+				var deferred = $q.defer();
+				$localForage.removeItem(key).then(function () {
+					if (virtual) ngmLists.removeItem(key);
+					deferred.resolve(true);
+				}).catch(function (err) {
+					console.log(err);
+					deferred.resolve(true);
+				});
+				return deferred.promise;
+			},
+			keys: function () {
+				var deferred = $q.defer();
+				$localForage.keys().then(function (keys) {
+					deferred.resolve(keys)
+				}).catch(function (err) {
+					console.log(err);
+					deferred.resolve(null);
+				});
+				return deferred.promise;
+			},
+			// bind to scope
+			bind: function (scope, key, defaultValue, scopeKey) {
+				var deferred = $q.defer();
+				$localForage.bind(scope, {
+					key: key,
+					defaultValue: defaultValue,
+					scopeKey: scopeKey
+				}).then(function () {
+					deferred.resolve(true)
+				}).catch(function (err) {
+					console.log(err);
+					deferred.resolve(false)
+				});
+				return deferred.promise;
+			},
+			clear: function () {
+				var deferred = $q.defer();
+				$localForage.clear().then(function () {
+					deferred.resolve(true)
+				}).catch(function (err) {
+					console.log(err);
+					deferred.resolve(false);
+				});
+				return deferred.promise;
+			},
+			loadVirtualDB: function () {
+				var deferred = $q.defer();
+				$localForage.iterate(function (data, key) {
+					ngmLists.setObject(key, data);
+				}).then(function () {
+					deferred.resolve(true);
+				}).catch(function(err) {
+					console.log(err);
+					deferred.resolve(false)
+			  });
+				return deferred.promise;
+			},
+
+			// expose virtual data service loaded flag
+			isVirtualDBLoaded:  deferredLoadVirtualDB.promise,
+		};
+
+		// load from localdb to virtual data service on reload
+		ngmLocalDB.loadVirtualDB().then(function () {
+				// set virtual data service loaded flag
+				deferredLoadVirtualDB.resolve(true);
+			}
+		);
+		return ngmLocalDB;
+}]);
