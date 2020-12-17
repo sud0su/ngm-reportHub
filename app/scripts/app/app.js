@@ -697,7 +697,7 @@ angular
 				});
 				return deferred.promise;
 			},
-			keys: function (key, virtual) {
+			keys: function () {
 				var deferred = $q.defer();
 				$localForage.keys().then(function (keys) {
 					deferred.resolve(keys)
@@ -707,7 +707,22 @@ angular
 				});
 				return deferred.promise;
 			},
-			clear: function (key, virtual) {
+			// bind to scope
+			bind: function (scope, key, defaultValue, scopeKey) {
+				var deferred = $q.defer();
+				$localForage.bind(scope, {
+					key: key,
+					defaultValue: defaultValue,
+					scopeKey: scopeKey
+				}).then(function () {
+					deferred.resolve(true)
+				}).catch(function (err) {
+					console.log(err);
+					deferred.resolve(false)
+				});
+				return deferred.promise;
+			},
+			clear: function () {
 				var deferred = $q.defer();
 				$localForage.clear().then(function () {
 					deferred.resolve(true)
@@ -725,7 +740,7 @@ angular
 					deferred.resolve(true);
 				}).catch(function(err) {
 					console.log(err);
-					deferred.resolve(true)
+					deferred.resolve(false)
 			  });
 				return deferred.promise;
 			},
