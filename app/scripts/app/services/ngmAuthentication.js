@@ -403,18 +403,18 @@ angular.module('ngmReportHub')
 				});
 
 				// register success
-				register.success( function( result ) {
+				register.then( function( result ) {
 
-					if ( !result.err && !result.summary ){
+					if ( !result.data.err && !result.data.summary ){
 						// unset guest
 						ngmUser.unset();
 						// set localStorage
 						ngmUser.set( result );
 						// manage session
-						ngmAuth.setSessionTimeout( result );
+						ngmAuth.setSessionTimeout( result.data );
 					}
 
-				}).error(function( err ) {
+				}).catch(function( err ) {
 					// update
 					// Materialize.toast( 'Error!', 6000, 'error' );
 					M.toast({ html: 'Error!', displayLength: 6000, classes: 'error' });
@@ -434,9 +434,9 @@ angular.module('ngmReportHub')
 				});
 
 				// on success store in localStorage
-				update.success( function( result ) {
+				update.then( function( result ) {
 					//  success handles in controller.authentication.js
-				}).error(function( err ) {
+				}).catch(function( err ) {
 					// update
 					// Materialize.toast( 'Error!', 6000, 'error' );
 					M.toast({ html: 'Error!', displayLength: 6000, classes: 'error' });
@@ -457,18 +457,18 @@ angular.module('ngmReportHub')
 				});
 
 				// on success store in localStorage
-				login.success( function( result ) {
+				login.then( function( result ) {
 
-					if ( !result.err && !result.summary ){
+					if ( !result.data.err && !result.data.summary ){
 						// unset guest
 						ngmUser.unset();
 						// set localStorage
-						ngmUser.set( result );
+						ngmUser.set( result.data );
 						// manage session
-						ngmAuth.setSessionTimeout( result );
+						ngmAuth.setSessionTimeout( result.data );
 					}
 
-				}).error(function( err ) {
+				}).catch(function( err ) {
 					// update
 					// Materialize.toast( 'Error!', 6000, 'error' );
 					M.toast({ html: 'Error!', displayLength: 6000, classes: 'error' });
@@ -498,12 +498,12 @@ angular.module('ngmReportHub')
 				});
 
 				// on success store in localStorage
-				reset.success( function( result ) {
-					if ( !result.err && !result.summary ){
+				reset.then( function( result ) {
+					if ( !result.data.err && !result.data.summary ){
 						// unset guest
 						ngmUser.unset();
 						// set user
-						ngmUser.set( result );
+						ngmUser.set( result.data );
 					}
 				}).error(function( err ) {
 					// update

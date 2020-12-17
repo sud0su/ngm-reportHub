@@ -2264,9 +2264,9 @@ angular.module('ngmReportHub')
 
 					// dashboard metrics
 					var visit = angular.merge( $scope.dashboard.getMetrics( $scope.dashboard.cluster_id + /*'_cluster_dashboard'*/'_4wprojectplan_dashboad', 'view' ), { async: true } );
-					$http( visit ).success( function( data ) {;
+					$http( visit ).then( function( data ) {;
 		         // success
-		      }).error( function( data ) {;
+		      }).catch( function( data ) {;
 		       //  console.log('error!');
 		      });
 

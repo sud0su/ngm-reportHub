@@ -89,7 +89,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
             if ($scope.report.report.stocklocations[i].stocks.length) {
               $scope.detailStocks[i][0] = true;
             }
-            
+
               // set list for stock_details
             if ($scope.report.report.stocklocations[i].stocks.length){
               angular.forEach($scope.report.report.stocklocations[i].stocks,function(stock,j){
@@ -531,13 +531,13 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
 							method: 'POST',
 							url: ngmAuth.LOCATION + '/api/cluster/stock/removeStock',
 							data: { id: id }
-					}).success( function( result ){
-						if ( result.err ) {
+					}).then( function( result ){
+						if ( result.data.err ) {
 							// Materialize.toast( 'Error! Please correct the ROW and try again', 4000, 'error' );
 							M.toast({ html: 'Error! Please correct the ROW and try again', displayLength: 4000, classes: 'error' });
 						}
-						if ( !result.err ) { $scope.report.save( false ); }
-					}).error(function( err ) {
+						if ( !result.data.err ) { $scope.report.save( false ); }
+					}).catch(function( err ) {
 						// Materialize.toast( 'Error!', 4000, 'error' );
 						M.toast({ html: 'Error!', displayLength: 4000, classes: 'error' });
 					});
@@ -808,7 +808,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
                           (j.admin1name === values[x].admin1name) &&
                           (j.admin2name === values[x].admin2name) &&
                           (j.admin3name ? (j.admin3name === values[x].admin3name) : true));
-                        
+
                         if (index < 0 || (!values[x].cluster_id)|| !values[x].stock_item_type) {
                           if (!$scope.messageFromfile[x]) {
                             $scope.messageFromfile[x] = []
@@ -947,7 +947,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
                       document.querySelector(".dz-default.dz-message").style.display = 'none';
                       document.querySelector(".percent-upload").style.display = 'block';
                       // $scope.answer = result;
-                      
+
                       if (result.length > 0 || (!result[x].cluster_id)|| (!result[x].stock_item_type)) {
                         var count_error = 0
                         for (var x = 0; x < result.length; x++) {
@@ -1150,7 +1150,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
                       $scope.messageFromfile[x] = []
                     }
                     obj = {}
-                    
+
                     if (index < 0) {
                       obj = { label: false, property: 'location', reason: '' }
                       obj.reason = 'Location not Found : ' + values[x].admin1name + ', ' + values[x].admin2name;
@@ -1301,7 +1301,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
               obj.stock_item_purpose_id = selected_purpose[0].stock_item_purpose_id;
             }
           }
-          
+
           return obj
         },
         switchInputFile: function () {
@@ -1310,9 +1310,9 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
         },
 
 
-        // 
+        //
         updateNameStock: function (list, key, name, item, locationIndex, stockIndex) {
-          
+
           $timeout(function () {
             var obj = {}
             obj[key] = item[key];
@@ -1356,7 +1356,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
             }
             // clear name
             if (item[name_array][0][key] === null) {
-              
+
               item[name_array][0][name] = null;
             }
           }, 0)
@@ -1428,8 +1428,8 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
           } else {
             return true;
           }
-          
-          
+
+
         },
         validateStock: function (stock, i,j,d) {
           var valid = true;

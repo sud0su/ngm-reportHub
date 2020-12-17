@@ -15,7 +15,7 @@ angular.module('ngmReportHub')
 
 		// assign to ngm app scope
 		$scope.model = $scope.$parent.ngm.dashboard.model;
-		
+
 		// login object
 		$scope.dashboard = {
 
@@ -124,7 +124,7 @@ angular.module('ngmReportHub')
 				menu_items.push( 'cluster_id');
 
 				// request
-				var request = angular.merge( $scope.dashboard.getRequest( 0, 0 ), { url: ngmAuth.LOCATION + '/api/getOrganizationMenu', data: { menu_items: menu_items } } ) 
+				var request = angular.merge( $scope.dashboard.getRequest( 0, 0 ), { url: ngmAuth.LOCATION + '/api/getOrganizationMenu', data: { menu_items: menu_items } } )
 
 				// ngmData
 				ngmData
@@ -324,14 +324,14 @@ angular.module('ngmReportHub')
 					}]
 				}];
 
-				// region / hq 
-				if ( $scope.dashboard.user.roles.indexOf( 'HQ' ) > -1 || 
+				// region / hq
+				if ( $scope.dashboard.user.roles.indexOf( 'HQ' ) > -1 ||
 										$scope.dashboard.user.roles.indexOf( 'REGION' ) > -1 ) {
 					stats = stats.concat( stats_country_level_above );
 				}
 
 				// region / hq ORG
-				else if ( $scope.dashboard.user.roles.indexOf( 'HQ_ORG' ) > -1 || 
+				else if ( $scope.dashboard.user.roles.indexOf( 'HQ_ORG' ) > -1 ||
 										$scope.dashboard.user.roles.indexOf( 'REGION_ORG' ) > -1 ) {
 					stats = stats.concat( stats_country_level_above_org );
 				}
@@ -342,16 +342,16 @@ angular.module('ngmReportHub')
 				}
 
 				// cluster
-				else if ( $scope.dashboard.user.roles.indexOf( 'CLUSTER' ) > -1 || 
+				else if ( $scope.dashboard.user.roles.indexOf( 'CLUSTER' ) > -1 ||
 										$scope.dashboard.user.roles.indexOf( 'ADMIN' ) > -1 ) {
 					stats = stats.concat( stats_country_level );
-				} 
-				// user / org
-				else if ( $scope.dashboard.user.roles.indexOf( 'USER' ) > -1 || 
-										$scope.dashboard.user.roles.indexOf( 'ORG' ) > -1 ) {
-					stats = stats.concat( stats_org_level );					
 				}
-				
+				// user / org
+				else if ( $scope.dashboard.user.roles.indexOf( 'USER' ) > -1 ||
+										$scope.dashboard.user.roles.indexOf( 'ORG' ) > -1 ) {
+					stats = stats.concat( stats_org_level );
+				}
+
 				return stats;
 
 			},
@@ -364,9 +364,9 @@ angular.module('ngmReportHub')
 
 				// get user email HASH
 				$scope.dashboard.user.emailHash = $scope.dashboard.user.email ? $scope.dashboard.MD5($scope.dashboard.user.email.trim().toLowerCase()) : '';
-				
+
 				// url href
-				// $scope.dashboard.profileHref = ( $scope.dashboard.user.organization === 'iMMAP' 
+				// $scope.dashboard.profileHref = ( $scope.dashboard.user.organization === 'iMMAP'
 				// 	&& ( $scope.dashboard.user.admin0pcode === 'CD' || $scope.dashboard.user.admin0pcode === 'ET' ) ) ? '/immap/profile' : '/profile';
 				$scope.dashboard.profileHref = '/profile';
 
@@ -409,7 +409,7 @@ angular.module('ngmReportHub')
 									templateUrl: '/scripts/app/views/authentication/team.html',
 									tableOptions:{
 										count: 10,
-										sorting: { updatedAt: "desc" } 
+										sorting: { updatedAt: "desc" }
 									},
 									request: $scope.dashboard.getRequest( 'list', 'active' ),
 									onClick: function(user){
@@ -438,7 +438,7 @@ angular.module('ngmReportHub')
 									formDisabled: (function () {
 										var disabled = true;
 										if ($scope.dashboard.user.status === 'active' &&
-											
+
 												(ngmAuth.canDo('EDIT_USER', {
 													adminRpcode:$scope.dashboard.user.adminRpcode,
 													admin0pcode: $scope.dashboard.user.admin0pcode,
@@ -449,7 +449,7 @@ angular.module('ngmReportHub')
 										}
 										return disabled;
 									})(),
-									btnDisabled: (function(){										
+									btnDisabled: (function(){
 										if(!$scope.dashboard.btnManageAccessDisabled){
 											return false
 										}
@@ -476,7 +476,7 @@ angular.module('ngmReportHub')
 									templateUrl: '/scripts/app/views/authentication/team.html',
 									tableOptions:{
 										count: 10,
-										sorting: { updatedAt: "desc" } 
+										sorting: { updatedAt: "desc" }
 									},
 									request: $scope.dashboard.getRequest( 'list', 'deactivated' ),
 									onClick: function(user){
@@ -532,7 +532,7 @@ angular.module('ngmReportHub')
 				// assign to ngm app scope
 				$scope.dashboard.ngm.dashboard.model = $scope.model;
 
-			},			
+			},
 			openModal: function (modal) {
 				// $('#' + modal).openModal({ dismissible: false });
 				$('#' + modal).modal({ dismissible: false });
@@ -547,7 +547,7 @@ angular.module('ngmReportHub')
 						// set landing page to admin
 						if ( user.roles.length > 1 ) {
 							user.app_home = '/cluster/admin/';
-						} 
+						}
 						// set landing page to org
 						if ( user.roles.length === 1 && user.roles.indexOf( 'USER' ) !== -1 ) {
 							user.app_home = '/cluster/organization/';
@@ -566,22 +566,22 @@ angular.module('ngmReportHub')
 				}
 			},
 			saveAccess:function(user){
-				//set button to disable 
+				//set button to disable
 				$scope.dashboard.btnManageAccessDisabled= true;
 				// toast to wait
 				// Materialize.toast('Plesase! wait a moment...', 10000, 'note');
 				M.toast({ html: 'Plesase! wait a moment...', displayLength:10000, classes:'note'});
 				//save update
 				ngmAuth
-					.updateProfile({ user: user }).success(function (result) {
+					.updateProfile({ user: user }).then(function (result) {
 						// db error!
-						if (result.err || result.summary) {
-							var msg = result.msg ? result.msg : 'error!';
+						if (result.data.err || result.data.summary) {
+							var msg = result.data.msg ? result.data.msg : 'error!';
 							// Materialize.toast(msg, 6000, msg);
 							M.toast({ html: msg, displayLength: 6000, classes: 'error' });
 						}
 						// success
-						if (result.success) {							
+						if (result.data.success) {
 							// Materialize.toast('Success! Role updated!', 3000, 'success');
 							M.toast({ html: 'Success! Role updated!', displayLength: 3000, classes: 'success'});
 							$scope.dashboard.btnManageAccessDisabled=false;
@@ -597,7 +597,7 @@ angular.module('ngmReportHub')
 				index = $scope.list_organization.findIndex(x => x.id === org_id)
 
 				var org = $scope.list_organization[index];
-				
+
 
 				$http({
 					method: 'POST',
@@ -608,12 +608,12 @@ angular.module('ngmReportHub')
 							closed_registration: closed_registration_value
 						}
 					}
-				}).success(function (result) {
-						$scope.list_organization[index] = result[0];
+				}).then(function (result) {
+						$scope.list_organization[index] = result.data[0];
 						M.toast({ html: 'Succeessfully updated... !', displayLength: 4000, classes: 'success' });
-					
+
 					// success!
-				}).error(function (err) {
+				}).catch(function (err) {
 					// Materialize.toast( 'ACBAR Partner Organization Error!', 6000, 'error' );
 					M.toast({ html: 'Close Registeration Failed !', displayLength: 6000, classes: 'error' });
 				});
@@ -626,7 +626,7 @@ angular.module('ngmReportHub')
 						return z[0].closed_registration ? true: false;
 					}
 				}
-				
+
 			},
 			disabledOrgcheckCloseRegisteration:function(orgonization_tag){
 				if($location.path() !== '/login'){
@@ -659,6 +659,6 @@ angular.module('ngmReportHub')
 			$rootScope.teamPreviouseUrl = absOldUrl;
 		})
 
-		
-		
+
+
 	}]);

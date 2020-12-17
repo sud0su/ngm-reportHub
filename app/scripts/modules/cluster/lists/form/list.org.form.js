@@ -132,12 +132,12 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                         data: {
                             organization: $scope.addOrganizationAtribute
                         }
-                    }).success(function (new_org) {
-                        if (new_org.err) {
-                            M.toast({ html: 'Error! Organization Not Added </br>' + new_org.err, displayLength: 3000, classes: 'error' });
+                    }).then(function (new_org) {
+                        if (new_org.data.err) {
+                            M.toast({ html: 'Error! Organization Not Added </br>' + new_org.data.err, displayLength: 3000, classes: 'error' });
                         }
-                        if (!new_org.err) {
-                            $scope.master.organization.unshift(new_org);
+                        if (!new_org.data.err) {
+                            $scope.master.organization.unshift(new_org.data);
                             $timeout(function () {
                                 $('#add-org-modal').modal('close');
                                 // Materialize.toast( msg , 6000, 'success');
@@ -145,9 +145,9 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                             }, 1000);
 
                         }
-                    }).error(function (err) {
+                    }).catch(function (err) {
                         M.toast({
-                            html: 'Error! Organization Not Added </br>' + err.err +'</br> Please change your Organization Tag!', displayLength: 6000, classes: 'error' });
+                            html: 'Error! Organization Not Added </br>' + err.data.err +'</br> Please change your Organization Tag!', displayLength: 6000, classes: 'error' });
                     })
                 },
                 checkValidationOrganization: function (org) {
@@ -236,7 +236,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                             $scope.master.organization[$scope.IndexOrg].admin0pcode = 'ALL';
                             $scope.master.organization[$scope.IndexOrg].admin0pcode_inactive = '';
                         }else{
-                            if ($scope.master.organization[$scope.IndexOrg].admin0pcode_inactive && 
+                            if ($scope.master.organization[$scope.IndexOrg].admin0pcode_inactive &&
                                 $scope.master.organization[$scope.IndexOrg].admin0pcode_inactive !== ''){
                                 copy = $scope.master.organization[$scope.IndexOrg].admin0pcode_inactive
                                 copyarray = copy.replace(/\s/g, '').split(",");
@@ -255,11 +255,11 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                                         $scope.master.organization[$scope.IndexOrg].admin0pcode_inactive ='';
                                     }
                                 }
-                                
+
                             }else{
                                 $scope.master.organization[$scope.IndexOrg].admin0pcode = $scope.master.organization[$scope.IndexOrg].admin0pcode += ", " + $scope.master.admin0pcode;
                             }
-                            
+
                         }
                     }else{
 
@@ -268,7 +268,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                         }
 
 
-                        if($scope.master.organization[$scope.IndexOrg].organization_type === 'International NGO' || 
+                        if($scope.master.organization[$scope.IndexOrg].organization_type === 'International NGO' ||
                         $scope.master.organization[$scope.IndexOrg].organization_type === 'United Nations'){
                             if ($scope.master.admin0pcode ==='ALL'){
                                 $scope.master.organization[$scope.IndexOrg].admin0pcode_inactive = 'ALL';
@@ -280,7 +280,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                                 }
                             }
 
-                            
+
                         }else{
                             if ($scope.master.organization[$scope.IndexOrg].admin0pcode_inactive === '') {
                                 $scope.master.organization[$scope.IndexOrg].admin0pcode_inactive = $scope.master.organization[$scope.IndexOrg].admin0pcode_inactive += $scope.master.admin0pcode
@@ -321,7 +321,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                     $scope.master.changeListCountry($scope.master.editedOrg);
                 },
                 editOrganization:function(org){
-                    
+
                     M.toast({ html: 'Updating Organization....', displayLength: 2000, classes: 'note' });
                     $http({
                         method: 'POST',
@@ -329,20 +329,20 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                         data: {
                             organization: org
                         }
-                    }).success(function (org_edited) {
-                        if(org_edited.err){
+                    }).then(function (org_edited) {
+                        if(org_edited.data.err){
                             M.toast({ html: 'Error! Organization not updated', displayLength: 3000, classes: 'error' });
                         }
-                        if (!org_edited.err) {
-                            var index = $scope.master.organization.map(x => { return x.id }).indexOf(org_edited.id);
+                        if (!org_edited.data.err) {
+                            var index = $scope.master.organization.map(x => { return x.id }).indexOf(org_edited.data.id);
                             $scope.master.organization[index] = org;
                             $timeout(function () {
                                 // Materialize.toast( msg , 6000, 'success');
                                 M.toast({ html: 'Organization is Updated ', displayLength: 3000, classes: 'success' });
                             }, 1000);
-                            
+
                         }
-                    }).error(function (err) {
+                    }).catch(function (err) {
                         M.toast({ html: 'Error! Organization not updated', displayLength: 3000, classes: 'error' });
                     })
 
@@ -370,7 +370,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                     //     $scope.master.editedOrg.admin0pcode_inactive = '';
                     // }
                     // if (document.getElementById('edit-'+id).checked) {
-                        
+
                     //     if ($scope.master.editedOrg.admin0pcode === '') {
                     //         $scope.master.editedOrg.admin0pcode += id;
                     //     } else {
@@ -415,7 +415,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                             if (id === 'ALL') {
                                 $scope.master.editedOrg.admin0pcode = 'ALL';
                             } else {
-                                // if ALL not selected 
+                                // if ALL not selected
                                 // if empty string
                                 if ($scope.master.editedOrg.admin0pcode === '') {
                                     $scope.master.editedOrg.admin0pcode += id;
@@ -455,7 +455,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                                     if(copyarray.length>0){
                                         var copystring = copyarray.join(", ")
                                         $scope.master.editedOrg.admin0pcode_inactive = copystring
-                                        
+
                                     }else{
                                         $scope.master.editedOrg.admin0pcode_inactive = '';
                                     }
@@ -469,7 +469,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                         var copy = $scope.master.editedOrg.admin0pcode
                         var copyarray = copy.replace(/\s/g, '').split(",")
                         if (copyarray.length > 1) {
-                            
+
                             if (!$scope.master.editedOrg.admin0pcode_inactive) {
                                 $scope.master.editedOrg.admin0pcode_inactive = '';
                             }
@@ -480,8 +480,8 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                             }
 
 
-                            
-                           
+
+
                         } else {
                             if (!$scope.master.editedOrg.admin0pcode_inactive) {
                                 $scope.master.editedOrg.admin0pcode_inactive = '';
@@ -552,11 +552,11 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                         data: {
                            id: id
                         }
-                    }).success(function (org) {
-                        if (org.err) {
+                    }).then(function (org) {
+                        if (org.data.err) {
                             M.toast({ html: 'Error! Organization not deleted', displayLength: 3000, classes: 'error' });
                         }
-                        if (!org.err) {
+                        if (!org.data.err) {
                             $timeout(function () {
                                 var index = $scope.master.organization.map(x => { return x.id }).indexOf(id);
                                 $scope.master.organization.splice(index,1);
@@ -565,8 +565,8 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                             }, 1000);
 
                         }
-                    }).error(function (err) {
-                        M.toast({ html: 'Error! Organization not deleted </br>' + err.err, displayLength: 3000, classes: 'error' });
+                    }).catch(function (err) {
+                        M.toast({ html: 'Error! Organization not deleted </br>' + err.data.err, displayLength: 3000, classes: 'error' });
                     })
                 },
                 changeListCountry:function(item){
@@ -585,9 +585,9 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                     }
                 },
                 showInactive:function(org){
-                    return org && org.admin0pcode && 
+                    return org && org.admin0pcode &&
                           (org.admin0pcode.indexOf('ALL') > -1)
-                          
+
                 },
                 editInactiveCountry:function(id,prefix,item) {
                     if (document.getElementById(prefix + id).checked) {
@@ -603,7 +603,7 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                                 item.admin0pcode_inactive = item.admin0pcode_inactive += ', ' +id;
                             }
                         }
-                        
+
                     }else{
                         if (id === 'ALL') {
                             item.admin0pcode_inactive = '';

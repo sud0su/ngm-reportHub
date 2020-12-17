@@ -60,22 +60,22 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
 
       $scope.messageFromfile = [];
       $scope.inputString = false;
-      
+
 
       $scope.project = {
-        
+
         // user
         user: ngmUser.get(),
-        
+
         // app style
         style: config.style,
-        
+
         // project
         definition: config.project,
 
         // last update
         updatedAt: moment( config.project.updatedAt ).format( 'DD MMMM, YYYY @ h:mm:ss a' ),
-                
+
         // templates
         templatesUrl: '/scripts/modules/cluster/views/forms/financials/',
 
@@ -91,11 +91,11 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           reported_on_fts: [ { reported_on_fts_id: 'yes', reported_on_fts_name: $filter('translate')('yes') }, { reported_on_fts_id: 'no', reported_on_fts_name: 'No' } ],
           //budget_funds: [ { budget_funds_id: 'financial', budget_funds_name: $filter('translate')('financial') }, { budget_funds_id: 'inkind',budget_funds_name: $filter('translate')('inkind') } ],
           budget_funds: budget_funds,
-          financial_programming: [{ 
+          financial_programming: [{
             financial_programming_id: 'non_cash', financial_programming_name: $filter('translate')('non_cash')
-          },{ 
-            financial_programming_id: 'restricted_cash', financial_programming_name: $filter('translate')('restricted_cash') 
-          },{ 
+          },{
+            financial_programming_id: 'restricted_cash', financial_programming_name: $filter('translate')('restricted_cash')
+          },{
             financial_programming_id: 'unrestricted_cash', financial_programming_name: $filter('translate')('unrestricted_cash')
           }],
           multi_year_funding: [ { multi_year_funding_id: 'yes', multi_year_funding_name: $filter('translate')('yes') }, { multi_year_funding_id: 'no', multi_year_funding_name: 'No' } ],
@@ -118,7 +118,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           maxDate: moment().format('YYYY-MM-DD'),
           onClose: function( $budget ) {
             // format date on selection
-            $budget.project_budget_date_recieved = 
+            $budget.project_budget_date_recieved =
                 moment( new Date( $budget.project_budget_date_recieved ) ).format('YYYY-MM-DD');
           }
         },
@@ -149,18 +149,18 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
             if( selected.length ) {
               $budget.project_donor_name = selected[0].project_donor_name;
             }
-          } 
+          }
           return selected.length ? selected[0].project_donor_name : $filter('translate')('no_selection')+'!';
         },
 
         // activity
         showActivity: function( $data, $budget ) {
 
-          
+
           var selected = [];
 
           $budget.activity_type_id = $data;
-       
+
           if( $budget.activity_type_id ) {
             selected = $filter('filter')( $scope.project.lists.activity_type, { activity_type_id: $budget.activity_type_id }, true);
             if( selected.length ) {
@@ -170,8 +170,8 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
             }
 
             $scope.project.lists.activity_descriptions2 = $filter('filter')( $scope.project.lists.activity_descriptions, { activity_type_id: $budget.activity_type_id }, true);
-            
-          } 
+
+          }
           return selected.length ? selected[0].activity_type_name : $filter('translate')('no_selection')+'!';
         },
 
@@ -187,7 +187,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
 
               if($budget.admin1name == 'All' || $budget.admin1name == 'Todos'){
 
-             
+
                $budget.admin1name = $filter('translate')('all_min1');
               $budget.admin1pcode = $filter('translate')('all_min1');
               $budget.admin1lat = 4.3200072;
@@ -197,7 +197,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
                  $scope.project.lists.target_locations_municipios =  [... new Set($scope.project.lists.target_locations_municipios2.map(data => data.admin2name))];
                   $scope.project.lists.target_locations_municipios.unshift($filter('translate')('all_min1'))
 
-                 
+
 
                return $budget ? $budget.admin1name : $filter('translate')('no_selection')+'!';
 
@@ -221,7 +221,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
 
                       $scope.project.lists.target_locations_municipios.unshift($filter('translate')('all_min1'))
 
-                }          
+                }
 
                 return selected.length ? selected[0].admin1name : $filter('translate')('no_selection')+'!';
 
@@ -230,7 +230,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
          }
 
 
-         
+
         },
 
         //select municipio FOR COLOMBIA
@@ -255,7 +255,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
             }else{
 
               selected = $filter('filter')( $scope.project.lists.target_locations_municipios2,  {admin2name: $budget.admin2name} , true);
-         
+
             if( selected.length ) {
 
               $budget.admin2name = selected[0].admin2name;
@@ -270,13 +270,13 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
 
            }
 
-           
+
           }
 
 
         },
 
-        
+
 
         //activitydesciption
         showActivityDescription: function( $data, $budget ) {
@@ -288,11 +288,11 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
 
             selected = $filter('filter')( $scope.project.lists.activity_descriptions, { activity_description_id: $budget.activity_description_id }, true);
             if( selected.length ) {
-              
+
               $budget.activity_description_name = selected[0].activity_description_name;
             }
-            
-          } 
+
+          }
 
 
           return selected.length ? selected[0].activity_description_name : $filter('translate')('no_selection')+'!';
@@ -307,28 +307,28 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
             if( selected.length ) {
               $budget.currency_name = selected[0].currency_name;
             }
-          } 
+          }
           return selected.length ? selected[0].currency_name : $filter('translate')('no_selection')+'!';
         },
 
         // show in fts
         showFunds: function( $data, $budget ) {
           var selected = [];
-          $budget.budget_funds_id = $data; 
+          $budget.budget_funds_id = $data;
 
           // default
           if($scope.project.definition.admin0pcode == 'COL'){
-           
+
           }
           else{
             if( !$budget.reported_on_fts_id ){
-            
+
               $budget.budget_funds_id = 'financial';
               $budget.budget_funds_name = $filter('translate')('financial');
               }
 
           }
-          
+
 
           // selection
           if( $budget.budget_funds_id ) {
@@ -337,7 +337,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
               $budget.budget_funds_id = selected[0].budget_funds_id;
               $budget.budget_funds_name = selected[0].budget_funds_name;
             }
-          } 
+          }
 
           return selected.length ? selected[0].budget_funds_name : 'N/A';
         },
@@ -377,7 +377,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
               $budget.financial_programming_id = selected[0].financial_programming_id;
               $budget.financial_programming_name = selected[0].financial_programming_name;
             }
-          } 
+          }
           return selected.length ? selected[0].financial_programming_name : 'N/A';
         },
 
@@ -391,7 +391,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           });
           return show;
         },
-				
+
 				//multi year funding
 				showMultiYearFunding:function(){
 					var show = false;
@@ -404,11 +404,11 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
 
 					// to set range multi year
 					if(show){
-						var start_year = moment($scope.project.definition.project_start_date).year(); 
+						var start_year = moment($scope.project.definition.project_start_date).year();
 								end_year   = moment($scope.project.definition.project_end_date).year();
 						if(end_year % start_year > 0){
 							for (let index = start_year; index <= end_year; index++) {
-								$scope.multiYearRange.push(index)								
+								$scope.multiYearRange.push(index)
 							}
 						}else{
 							$scope.multiYearRange.push(end_year)
@@ -423,7 +423,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
 						if (!budget.multi_year_array || budget.multi_year_array.length<1){
 							budget.multi_year_array =[];
 							if (end_year % start_year > 0) {
-								for (let index = start_year; index <= end_year; index++) {							
+								for (let index = start_year; index <= end_year; index++) {
 									budget.multi_year_array.push({ year: index, budget: 0 })
 								}
 							} else {
@@ -455,9 +455,9 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
               $budget.multi_year_funding_id = selected[0].multi_year_funding_id;
               $budget.multi_year_funding_name = selected[0].multi_year_funding_name;
             }
-          } 
+          }
 
-          // multi-year set 
+          // multi-year set
           if ( $budget.multi_year_funding_id === 'no' ) {
 						$budget.funding_2017 = $budget.project_budget;
 						delete $budget.funding_year ;
@@ -482,7 +482,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
 						return true;
 					}
 					return false;
-					
+
 				},
 
         // show in fts
@@ -508,7 +508,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
         },
         // add beneficiary
         addBudgetItem: function() {
-          
+
           // inserted
           $scope.inserted = {
             project_budget_amount_recieved: 0,
@@ -537,14 +537,14 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
         },
 
         addBudgetItemFromFile:function(budget,index){
-         
+
           $scope.project.definition.project_budget_progress.push(budget);
           $scope.detailFinancial[$scope.project.definition.project_budget_progress.length - 1] = true;
 
           $scope.messageFromfile[index] = ngmClusterFinancial.validateBudgetFromFile(budget, ($scope.project.definition.project_budget_progress.length - 1), $scope.detailFinancial);
 
           if (budget.multi_year_array && budget.multi_year_array.length && budget.multi_year_funding_id === 'yes'){
-            
+
             var start_year = moment($scope.project.definition.project_start_date).year();
             end_year = moment($scope.project.definition.project_end_date).year();
             var years = []
@@ -555,7 +555,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
             } else {
               years.push(end_year)
             }
-            var temp_array = [] 
+            var temp_array = []
             angular.forEach(budget.multi_year_array,function(e,i){
               indexYear = years.findIndex(x => x=== e.year);
               if(indexYear >-1){
@@ -570,7 +570,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           if (!budget.multi_year_array && budget.multi_year_funding_id === 'yes'){
             $scope.messageFromfile[index].push({ label: false, property: 'multi_year_array', reason: 'Missing value '})
           }
-          
+
 
         },
 
@@ -589,18 +589,18 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           var id = $scope.project.definition.project_budget_progress[ $scope.project.budgetIndex ].id;
           // splice
           $scope.project.definition.project_budget_progress.splice( $scope.project.budgetIndex, 1 );
-          // remove 
+          // remove
           $http({
             method: 'POST',
             url: ngmAuth.LOCATION + '/api/cluster/project/removeBudgetItem',
             data: {
               id: id
             }
-          }).success( function( project ){
+          }).then( function( project ){
             // on success
             // Materialize.toast( $filter('translate')('project_budget_item_removed')+'!', 3000, 'success');
             M.toast({ html: $filter('translate')('project_budget_item_removed') + '!', displayLength: 3000, classes: 'success' });
-          }).error(function( err ) {
+          }).catch(function( err ) {
             // update
             // Materialize.toast( 'Error!', 6000, 'error' );
             M.toast({ html: 'Error', displayLength: 6000, classes: 'error' });
@@ -618,7 +618,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
               project: $scope.project.definition
             }
           }).then( function( project ){
-            
+
             // set project definition
 						$scope.project.definition = project;
 
@@ -628,9 +628,9 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
               M.toast({ html: $filter('translate')('project_budget_item_added') + '!', displayLength: 3000, classes: 'success' });
               $scope.project.isSaving = false;
             },2000);
-          });          
+          });
 				},
-				
+
 				openCloseDetailFinancial: function ($index) {
 					$scope.detailFinancial[$index] = !$scope.detailFinancial[$index];
 				},
@@ -718,7 +718,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
                       obj_true = $scope.project.addMissingAttributeFromFile(obj_true);
                       values.push(obj_true);
                     }
-                    
+
                     if (values.length > 0) {
                       var previews = document.querySelectorAll(".dz-preview");
                       previews.forEach(function (preview) {
@@ -728,9 +728,9 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
                       document.querySelector(".percent-upload").style.display = 'block';
                       var count_error = 0;
                       for (var x = 0; x < values.length; x++) {
-                        
+
                         if ((!values[x].project_donor_id) || (!values[x].activity_type_id)) {
-                          
+
                           if (!$scope.messageFromfile[x]) {
                             $scope.messageFromfile[x] = []
                           }
@@ -762,7 +762,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
                       document.querySelector(".percent-upload").style.display = 'none';
                       $('#upload-monthly-file-financial').modal('close');
                       drop_zone.removeAllFiles(true);
-                      
+
 
                       var message_temp = '';
 
@@ -896,7 +896,7 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
                         document.querySelector(".percent-upload").style.display = 'none';
                         $('#upload-monthly-file-financial').modal('close');
                         drop_zone.removeAllFiles(true);
-                        
+
 
                         var message_temp = '';
 
@@ -1082,9 +1082,9 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
                 $('#upload-monthly-file-financial').modal('close');
                 $scope.project.text_input = '';
 
-                
 
-               
+
+
 
                 if (message_temp !== '') {
 
@@ -1178,10 +1178,10 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
             }
 
             if (obj.multi_year_array && obj.multi_year_funding_id === 'yes') {
-              
+
               obj.multi_year_array = obj.multi_year_array.split(';').map(function (y_a) {
                 y_a = y_a.trim().split(' ')
-                
+
                 var year_value = y_a[0].trim() === 'n/a' ? 0 : parseInt(y_a[0].trim());
                 var budget_value = y_a[1].trim() === 'n/a' ? 0 : parseInt(y_a[1].trim());
                 year_budget = {
@@ -1235,12 +1235,12 @@ angular.module( 'ngm.widget.project.financials', [ 'ngm.provider' ])
           $filter('translate')('all_min1')
 
         );
-       
+
         $scope.project.lists.target_locations_municipios.unshift(
           $filter('translate')('all_min1')
 
         );
-       
+
 
 
       }, 0 );

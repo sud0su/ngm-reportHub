@@ -68,7 +68,7 @@ angular.module('ngmReportHub')
 							url: ngmAuth.LOCATION + '/api/deleteGDriveFile/' + this.removeFileId,
 							headers: { 'Authorization': 'Bearer ' + upload.token },
 						})
-							.success(function (result) {
+							.then(function (result) {
 								$timeout(function () {
 									msg = $filter('translate')('file_deleted');
 									typ = 'success';
@@ -78,7 +78,7 @@ angular.module('ngmReportHub')
 									$rootScope.$broadcast('refresh:listUpload');
 								}, 2000);
 							})
-							.error(function (err) {
+							.catch(function (err) {
 								$timeout(function () {
 									msg = $filter('translate')('error_file_not_deleted');
 									typ = 'error';

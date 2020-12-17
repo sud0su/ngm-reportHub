@@ -20,12 +20,12 @@ angular.module( 'ngmReportHub' )
             organization_id: project.organization_id,
             project_acbar_partner: project.project_acbar_partner
           }
-        }).success( function( result ) {
+        }).then( function( result ) {
           // success!
-        }).error( function( err ) {
+        }).catch( function( err ) {
           // Materialize.toast( 'ACBAR Partner Organization Error!', 6000, 'error' );
           M.toast({ html: 'ACBAR Partner Organization Error!', displayLength: 6000, classes: 'error' });
-        });				
+        });
 			},
 
       // set to model on check
@@ -56,7 +56,7 @@ angular.module( 'ngmReportHub' )
         });
         return strategic_objectives;
       }
-      
+
 		};
 
     // return

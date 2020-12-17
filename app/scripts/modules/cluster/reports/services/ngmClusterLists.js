@@ -364,10 +364,10 @@ angular.module( 'ngmReportHub' )
 						organization: project.organization,
 						status: 'active'
 					}
-				}).success( function( users ) {
+				}).then( function( users ) {
 					// return
-					lists.users = users;
-				}).error( function( err ) {
+					lists.users = users.data;
+				}).catch( function( err ) {
 					//
 				});
 			},
