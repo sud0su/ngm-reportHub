@@ -393,7 +393,7 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 						.updateProfile({ user: $scope.panel.user }).then(function( result ) {
 
 							// db error!
-							if( result.data.err || result.data,summary ){
+							if( result.data.err || result.data.summary ){
 								var msg = result.data.msg ? result.data.msg : 'error!';
 								// Materialize.toast( msg, 6000, msg );
 								M.toast({ html: msg, displayLength: 6000, classes: 'error' });
