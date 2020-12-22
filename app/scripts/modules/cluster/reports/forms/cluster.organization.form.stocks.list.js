@@ -123,13 +123,13 @@ angular.module( 'ngm.widget.organization.stocks.list', [ 'ngm.provider' ])
           // filter
           if ( filterAdmin2 ) {
             // why is admin2 filter not working in ng-repeat?
-            $scope.report.options.list.admin2 = localStorage.getObject( 'lists' ).admin2List;
+            $scope.report.options.list.admin2 = ngmLists.getObject( 'lists' ).admin2List;
           }
 
           // filter
           if ( filterAdmin3 ) {
             // why is admin2 filter not working in ng-repeat?
-            $scope.report.options.list.admin3 = localStorage.getObject( 'lists' ).admin3List;
+            $scope.report.options.list.admin3 = ngmLists.getObject( 'lists' ).admin3List;
           }
 
           // update material_select

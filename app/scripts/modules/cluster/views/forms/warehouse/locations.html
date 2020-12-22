@@ -316,7 +316,7 @@
 													<label for="ngm-warehouse-admin2pcode-{{ $index }}" class="active" style="transform:translateY(-10%)">
 														{{ report.options.list.admin3[0].admin3type_name }} *</label>
 												</div>
-												<div class="input-field col s12 m4">
+												<div class="input-field col s12 m3">
 													<input id="ngm-warehouse_name-{{ $index }}" type="text" placeholder="Site Name" ng-model="warehouse.site_name"
 														ng-disabled="!report.canEdit || !warehouse.admin2pcode" class="validate"
 														ng-change="ngmClusterBeneficiaries.inputChange( 'ngm-warehouse_name-{{ $index }}' )">
