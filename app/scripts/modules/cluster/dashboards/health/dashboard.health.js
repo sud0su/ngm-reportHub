@@ -19,8 +19,9 @@ angular.module( 'ngmReportHub' )
 			'ngmUser',
 			'ngmAuth',
 			'ngmData',
+			'ngmLists',
 			'$translate','$filter',
-		function ( $scope, $q, $http, $location, $route, $rootScope, $window, $timeout, $filter, ngmUser, ngmAuth, ngmData,$translate ,$filter) {
+		function ($scope, $q, $http, $location, $route, $rootScope, $window, $timeout, $filter, ngmUser, ngmAuth, ngmData,ngmLists,$translate ,$filter) {
 			this.awesomeThings = [
 				'HTML5 Boilerplate',
 				'AngularJS',
@@ -49,8 +50,8 @@ angular.module( 'ngmReportHub' )
 				report: 'report' + $location.$$path.replace(/\//g, '_') + '-extracted-',
 
 				// lists
-				admin1List: localStorage.getObject( 'lists' ) ? localStorage.getObject( 'lists' ).admin1List : [],
-				admin2List: localStorage.getObject( 'lists' ) ? localStorage.getObject( 'lists' ).admin2List : [],
+				admin1List: ngmLists.getObject( 'lists' ) ? ngmLists.getObject( 'lists' ).admin1List : [],
+				admin2List: ngmLists.getObject( 'lists' ) ? ngmLists.getObject( 'lists' ).admin2List : [],
 
 				// dashboard data
 				data: {
@@ -1267,6 +1268,7 @@ angular.module( 'ngmReportHub' )
 
 						// set in localstorage
 						localStorage.setObject( 'lists', { admin1List: results[1].data, admin2List: results[2].data } );
+						ngmLists.setObject('lists', { admin1List: results[1].data, admin2List: results[2].data });
 
 						// update guest location
 						angular.merge( $scope.dashboard.user, $scope.dashboard.data.admin_region[ ipApi.countryCode ] );

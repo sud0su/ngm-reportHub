@@ -4,15 +4,15 @@
  * # ngmNutritionHelper
  */
 angular.module( 'ngmReportHub' )
-	.factory( 'ngmNutritionHelper', [ '$location', '$q', '$http', '$filter', '$timeout', 'ngmAuth', function( $location, $q, $http, $filter, $timeout, ngmAuth ) {
+  .factory('ngmNutritionHelper', ['$location', '$q', '$http', '$filter', '$timeout', 'ngmAuth', 'ngmLists', function ($location, $q, $http, $filter, $timeout, ngmAuth, ngmLists ) {
 
     var dashboard = {
 
       // admin1 ( with admin0 filter from API )
-      admin1: localStorage.getObject( 'lists' ).admin1List.filter(function(row){return !row.inactive}),
+      admin1: ngmLists.getObject( 'lists' ).admin1List.filter(function(row){return !row.inactive}),
 
       // admin2 ( with admin0 filter from API )
-      admin2: localStorage.getObject( 'lists' ).admin2List.filter(function(row){return !row.inactive}),
+      admin2: ngmLists.getObject( 'lists' ).admin2List.filter(function(row){return !row.inactive}),
       
     };
 
