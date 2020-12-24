@@ -5,7 +5,7 @@
  *
  */
 
-/* AngularJS cloaking of loading elements */]
+/* AngularJS cloaking of loading elements */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
@@ -30,7 +30,7 @@ header, main, footer {
 	width: 90%;
 	/*background-image: url("../images/worldmap.svg");*/
 	background-repeat: no-repeat;
-	background-position: center;	
+	background-position: center;
 }
 h1, h2, h3, h4, h5, p {
 	color: #424242;
@@ -38,7 +38,7 @@ h1, h2, h3, h4, h5, p {
 }
 
 /* FORMS DISABLED */
-.btn.disabled, 
+.btn.disabled,
 .disabled.btn-large,
 .btn-floating.disabled,
 .btn-large.disabled,
@@ -166,7 +166,7 @@ h1, h2, h3, h4, h5, p {
 	z-index: 9999;
 	text-align: center;
 	border-radius: 2px;
-	box-shadow: 1px 2px 2px 2px rgba(0,0,0,0.2);	
+	box-shadow: 1px 2px 2px 2px rgba(0,0,0,0.2);
 }
 
 /* REPORT HEADER CONTAINER */
@@ -177,7 +177,7 @@ h1, h2, h3, h4, h5, p {
 	height: 160px;
 }
 .report-title {
-	font-size: 2.8rem; 
+	font-size: 2.8rem;
 	/* margin-top: 60px; */
 	margin-top: 45px;
 	font-weight: 200;
@@ -266,7 +266,7 @@ table, tbody, td {
 }
 
 .pagination li.active {
-  background-color: #009688; 
+  background-color: #009688;
 }
 
 .ngm-project_donor_select md-chip{
@@ -301,7 +301,7 @@ body.md-default-theme, body, html.md-default-theme, html {
 	z-index: 99999;
 	pointer-events: none;
 }
-		
+
 #splash-screen .center {
 	display: block;
 	width: 100%;
@@ -314,35 +314,35 @@ body.md-default-theme, body, html.md-default-theme, html {
   height: 200px;
   margin: 0 auto;
   background-color: #2196f3;
-    
+
   padding-top: 70px;
   border-radius: 50%;
 	box-shadow: 1px 3px 7px 2px rgba(0,0,0,0.32);
  	animation: ripple 2s linear infinite;}
-	
-		
+
+
 #splash-screen .logo img {
 	filter: drop-shadow(0px 10px 6px rgba(0, 0, 0, 0.2))
 }
-	
-		
+
+
 .progress-bar-wrapper {
 	background-color: #2196f3;
 	position: fixed;
 	top: 0;
 }
-		
+
 .progress-bar-wrapper,.progress-bar {
 	height: 5px;
 	width: 100%;
 	margin: 0;
 }
-		
+
 .progress-bar {
 	background-color: #ffffff;
 	animation: running-progress 2s cubic-bezier(0.3, 0, 0.2, 1) infinite;
 }
-		
+
 @keyframes running-progress {
 	0% {
 			margin-left: 0px;
@@ -352,8 +352,8 @@ body.md-default-theme, body, html.md-default-theme, html {
 			margin-left: 50%;
 			margin-right: 50%;
 			}
-		
-		
+
+
 	100% {
 				margin-left: 100%;
 				margin-right: 0;
@@ -361,13 +361,13 @@ body.md-default-theme, body, html.md-default-theme, html {
 }
 @keyframes ripple {
   0% {
-    box-shadow: 
-               
+    box-shadow:
+
                 0 0 0 .7rem rgba(33, 150, 243, 0.2);
   }
   100% {
     box-shadow: 0 0 0 .2rem rgba(33, 150, 243, 0.2),
-                
+
                 0 0 0 1rem rgba(33, 150, 243, 0);
   }
 }

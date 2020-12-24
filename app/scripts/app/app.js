@@ -69,7 +69,7 @@ angular
 
 		// from http://mysite.com/#/notes/1 to http://mysite.com/notes/1
 		// $locationProvider.html5Mode(true);
-
+		$locationProvider.hashPrefix('');
 		// translate staic files
     $translateProvider.useStaticFilesLoader({
       prefix: 'scripts/app/translate/locale-',

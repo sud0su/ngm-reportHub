@@ -1002,13 +1002,13 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							update: obj
 						}
 					};
-					$http(setRequest).success(function (report) {
-						if (report.err) {
+					$http(setRequest).then(function (report) {
+						if (report.data.err) {
 							// update
 							// Materialize.toast('Error! something went wrong', 6000, 'error');
 							M.toast({ html: 'Error! something went wrong', displayLength: 6000, classes: 'error' });
 						}
-						if (!report.err) {
+						if (!report.data.err) {
 							$timeout(function () {
 								// Materialize.toast('Submitted Monthly Report is ' + status, 4000, 'success');
 								M.toast({ html: 'Submitted Monthly Report is', displayLength: 4000, classes: 'success' });
@@ -1725,8 +1725,8 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						}
 
 						// set report
-						$http(setReportRequest).success(function (report) {
-							$scope.project.report = report;
+						$http(setReportRequest).then(function (report) {
+							$scope.project.report = report.data;
 						})
 					};
 
@@ -1736,10 +1736,10 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							method: 'POST',
 							url: ngmAuth.LOCATION + '/api/cluster/project/setProject',
 							data: { project: $scope.project.definition }
-						}).success(function (project) {
+						}).then(function (project) {
 							// add id to client json
 							M.toast({ html: "Please Wait ... we will redirect you to Group,</br> Because New Location not Match with this Group ", displayLength: 6000, classes: 'note' });
-							$scope.project.definition = angular.merge($scope.project.definition, project);
+							$scope.project.definition = angular.merge($scope.project.definition, project.data);
 							var path = '/cluster/projects/group/' + $scope.project.definition.id + '/' + $scope.project.report.id;
 							$location.path(path)
 						})
@@ -1871,18 +1871,18 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					}
 
 					// set report
-					$http( setReportRequest ).success( function( report ){
+					$http( setReportRequest ).then( function( report ){
 
-						if ( report.err ) {
+						if ( report.data.err ) {
 							// update
 							$scope.project.isSaving = false;
 							M.toast({ html: 'Error! ' + $filter('translate')('please_correct_the_row_and_try_again'), displayLength: 6000, classes: 'error' });
 						}
 
-						if ( !report.err ) {
+						if ( !report.data.err ) {
 
 							// updated report
-							$scope.project.report = report;
+							$scope.project.report = report.data;
 							$scope.project.report.submit = false;
 
 							// sort locations
@@ -1931,7 +1931,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 								}, 400);
 							}
 						}
-					}).error(function( err ) {
+					}).catch(function( err ) {
 						// update
 						$scope.project.isSaving = false;
 						M.toast({ html: 'Error', displayLength: 6000, classes: 'error' });

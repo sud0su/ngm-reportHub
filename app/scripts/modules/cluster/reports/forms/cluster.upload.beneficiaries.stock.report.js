@@ -77,7 +77,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                 $scope.currentPage  = newPageNumber;
             }
             $scope.removeRecordId ='';
-            
+
             $scope.upload = {
 
                 /**** DEFAULTS ****/
@@ -192,7 +192,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                             stocks_upload =[];
                                             for (var x = 0; x < values.length; x++) {
                                                 values[x] = $scope.upload.addMissingStockAttibute(values[x]);
-                                                
+
 
                                                 if ((!values[x].cluster) || (!values[x].stock_item_type)){
                                                     if (!$scope.messageFromfile[x]) {
@@ -216,7 +216,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
 
 
                                         }
-                                        
+
                                         var upload = {};
                                         if ($scope.type === 'beneficiaries') {
                                             upload = { beneficiaries: beneficiaries_upload }
@@ -226,7 +226,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                             }else{
                                                 msg_info = 'All Beneficairy Rows Succeccfully Updated'
                                             }
-                                            
+
                                         } else {
                                             upload = { stocks: stocks_upload };
                                             url = '/api/cluster/stock/setStocksById';
@@ -241,8 +241,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                             method: 'POST',
                                             url: ngmAuth.LOCATION + url,
                                             data: upload
-                                        }).success(function (report) {
-                                            $scope.upload.addUpdatedStatus(report);
+                                        }).then(function (report) {
+                                            $scope.upload.addUpdatedStatus(report.data);
                                             $timeout(function () {
                                                 // success
                                                 document.querySelector(".percent-upload").style.display = 'none';
@@ -256,7 +256,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                                 $scope.messageFromfile=[];
                                             }, 2000)
 
-                                        }).error(function (err) {
+                                        }).catch(function (err) {
                                             // error
                                             $timeout(function () {
                                                 document.querySelector(".percent-upload").style.display = 'none';
@@ -400,8 +400,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                                 method: 'POST',
                                                 url: ngmAuth.LOCATION + url,
                                                 data: upload
-                                            }).success(function (report) {
-                                                $scope.upload.addUpdatedStatus(report);
+                                            }).then(function (report) {
+                                                $scope.upload.addUpdatedStatus(report.data);
                                                 $timeout(function () {
                                                     // success
                                                     document.querySelector(".percent-upload").style.display = 'none';
@@ -415,7 +415,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                                     $scope.messageFromfile = [];
                                                 }, 2000)
 
-                                            }).error(function (err) {
+                                            }).catch(function (err) {
                                                 // error
                                                 $timeout(function () {
                                                     document.querySelector(".percent-upload").style.display = 'none';
@@ -443,10 +443,10 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                                 $scope.messageFromfile = []
                                             }, 2000)
                                         }
-                                        
+
                                     })
                                 });
-                               
+
                             }
                         });
 
@@ -538,7 +538,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             }, 1000)
                             return
                         }
-                        
+
                         values = ngmClusterImportFile.setCsvValueToArrayofObject(csv_array);
 
                         if (values.length > 0) {
@@ -635,8 +635,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                 method: 'POST',
                                 url: ngmAuth.LOCATION + url,
                                 data: upload
-                            }).success(function (report) {
-                                $scope.upload.addUpdatedStatus(report);
+                            }).then(function (report) {
+                                $scope.upload.addUpdatedStatus(report.data);
                                 $timeout(function () {
                                     // success
                                     document.querySelector(".percent-upload").style.display = 'none';
@@ -650,7 +650,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                     $scope.messageFromfile = [];
                                 }, 2000)
 
-                            }).error(function (err) {
+                            }).catch(function (err) {
                                 // error
                                 $timeout(function () {
                                     document.querySelector(".percent-upload").style.display = 'none';
@@ -723,7 +723,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                     if(obj.report_month_number){
                         obj.report_month = obj.report_month_number;
                     }
-                    
+
                     if (obj.total_amount < 1 || obj.total_amount === '' || obj.total_amount === undefined || obj.total_amount === null || obj.total_amount === NaN){
                         obj.total_amount = 0;
                         var units = (obj.units === null || obj.units === undefined || obj.units === NaN || obj.units < 0 || obj.units === '') ? 0 : obj.units;
@@ -780,18 +780,18 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                 var reason = messageList[z][y].reason;
                                 if(field !== 'status'){
                                     if (form === 'beneficiaries' && (field === 'activity_type_id' || field === 'activity_description_id' || field === 'cluster_id')) {
-                                        
+
                                             message_temp += 'For Incorrect Cluster or Activity Type or Activity Description \nPlease check spelling, or verify that this is a correct value for this report! \n'
                                     } else if (form === 'stocks' && (field === 'stock_item_type' || field === 'cluster_id')){
-                                    
+
                                             message_temp += 'For Incorrect Stock Type or Cluster \nPlease check spelling, or verify that this is a correct value for this report! \n'
-                                        
+
                                     } else{
                                         message_temp += 'For incorrect values please check spelling, or verify that this is a correct value for this report! \n'
                                     }
 
-                                            
-                                            
+
+
                                     message_temp += 'Incorrect value at: row ' + (z + 2) + ', ' + field + ' : ' + reason + '\n';
                                 }else{
                                     message_temp += 'Row ' + (z + 2) +', '+ field +': '+ reason +'\n';
@@ -801,7 +801,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         }
 
                     }
-                    
+
                     if (message_temp !== '') {
 
                         $scope.upload.messageWarning = message_temp;
@@ -818,7 +818,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                     }else{
                         data = data.stocks
                     }
-                    
+
                     for (var z = 0; z < data.length; z++) {
                         if (!$scope.messageFromfile[z]) { $scope.messageFromfile[z]=[]}
                         obj = { label: false, property: 'status', reason: '' }
@@ -935,7 +935,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         var obj = {}
                         obj[key] = item[key];
                         var select = $filter('filter')(list, obj, true);
-                        
+
 
                         // set name
                         if (select.length) {
@@ -946,7 +946,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         if (item[key] === null) {
                             item[name] = null;
                         }
-                        
+
                     },0)
 
                 },
@@ -1028,10 +1028,10 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         // $timeout(function () { $(divs[0]).animatescroll() }, 100);
                         $timeout(function () { $(divs[0]).scrollHere() }, 100);
                     }
-                    
-                    
+
+
                     return valid
-                    
+
                 },
                 validateBeneficiary:function(b,i){
                     valid = true;
@@ -1043,8 +1043,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         divs.push(id);
                         valid = false;
                     }
-                    
-                    
+
+
 
                     if (!b.activity_description_id) {
                         id = "label[for='" + 'ngm-activity_description_id-' + i + "']";
@@ -1052,8 +1052,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         divs.push(id);
                         valid = false;
                     }
-                    
-                    
+
+
 
                     // DETAIL
                     if (ngmClusterBeneficiaries.form[0][i] && ngmClusterBeneficiaries.form[0][i]['display_activity_detail']) {
@@ -1064,11 +1064,11 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             valid = false;
                         }
                     }
-                    
-                    
 
-                    
-                    
+
+
+
+
 
                     // INDICATOR
                     if (ngmClusterBeneficiaries.form[0][i] && ngmClusterBeneficiaries.form[0][i]['display_indicator']) {
@@ -1079,8 +1079,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             valid = false;
                         }
                     }
-                    
-                    
+
+
 
                     if (!b.beneficiary_type_id) {
                         id = "label[for='" + 'ngm-beneficiary_type_id-' + i + "']";
@@ -1088,8 +1088,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         divs.push(id);
                         valid = false;
                     }
-                    
-                    
+
+
 
                     if (ngmClusterBeneficiaries.form[0][i] && !ngmClusterBeneficiaries.form[0][i]['hrp_beneficiary_type_id'] && (b.admin0pcode === 'AF') && b.project_hrp_project) {
 
@@ -1099,8 +1099,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             divs.push(id);
                             valid = false;
                         }
-                        
-                        
+
+
                     }
 
                     // CATEGORY
@@ -1122,8 +1122,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             valid = false;
                         }
                     }
-                    
-                    
+
+
                     if (ngmClusterBeneficiaries.form[0][i] && ngmClusterBeneficiaries.form[0][i]['mpc_mechanism_type_id']) {
                         // QUICK FIX HARDCODE TODO: REFACTOR
                         if (!b.mpc_mechanism_type_id && b.mpc_delivery_type_id !== 'in-kind') {
@@ -1133,8 +1133,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             valid = false;
                         }
                     }
-                    
-                    
+
+
                     if (ngmClusterBeneficiaries.form[0][i] && ngmClusterBeneficiaries.form[0][i]['mpc_transfer_type_id']) {
                         if (!b.transfer_type_id && b.mpc_delivery_type_id !== 'in-kind') {
                             id = "label[for='" + 'ngm-transfer_type_id-' + i + "']";
@@ -1143,8 +1143,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             valid = false;
                         }
                     }
-                    
-                    
+
+
                     if (ngmClusterBeneficiaries.form[0][i] && ngmClusterBeneficiaries.form[0][i]['mpc_package_type_id']) {
                         if (!b.package_type_id && b.mpc_delivery_type_id !== 'in-kind') {
                             id = "label[for='" + 'ngm-package_type_id-' + i + "']";
@@ -1153,8 +1153,8 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             valid = false;
                         }
                     }
-                    
-                    
+
+
 
                     // UNIT TYPE
                     if (ngmClusterBeneficiaries.form[0][i] && ngmClusterBeneficiaries.form[0][i]['unit_type_id']) {
@@ -1327,7 +1327,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                 },
                 save:function(type,item,index){
                     // msg
-                    
+
                     M.toast({ html:'Processing', displayLength: 3000, classes: 'note' });
                     result = type === 'beneficiaries' ? $scope.upload.validateBeneficiary(item,index) :$scope.upload.validateStock(item,index);
                     if(!result){
@@ -1335,11 +1335,11 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             M.toast({ html: $filter('translate')('Beneficiaries Contain Error'), displayLength: 6000, classes: 'error' });
                         }else{
                             M.toast({ html: $filter('translate')('Stock Contain Error'), displayLength: 6000, classes: 'error' });
-                        }         
+                        }
                         return
                     }
-                     
-                    
+
+
                     // setReportRequest
                     var setReportRequest = {
                         method: 'POST',
@@ -1357,21 +1357,21 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         success_msg = 'Stock Successfully Updated'
                     }
 
-                    $http(setReportRequest).success(function (record) {
-                        index = $scope.upload.list.findIndex(x => x.id === record.id);
-                        $scope.upload.list[index] = record;
+                    $http(setReportRequest).then(function (record) {
+                        index = $scope.upload.list.findIndex(x => x.id === record.data.id);
+                        $scope.upload.list[index] = record.data;
                         $timeout(function () {
                             M.toast({ html: success_msg, displayLength: 6000, classes: 'success' });
                         },3000);
-                    }).error(function (err) {
+                    }).then(function (err) {
                         M.toast({ html: 'Error', displayLength: 6000, classes: 'error' });
-                        if (err.err){
-                            M.toast({ html: err.err, displayLength: 6000, classes: 'error' });
+                        if (err.data.err){
+                            M.toast({ html: err.data.err, displayLength: 6000, classes: 'error' });
                         }
                     });
 
-                    
-                    
+
+
 
                 },
                 removeRecord:function(item){
@@ -1385,7 +1385,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         url: ngmAuth.LOCATION,
                         data: { id: $scope.removeRecordId }
                     }
-                    
+
                     if (type === 'beneficiaries') {
                         setRemoveRequest.url += '/api/cluster/report/removeBeneficiary';
                     }else{
@@ -1393,31 +1393,31 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                     }
 
                     M.toast({ html: 'Processing!', displayLength: 4000, classes: 'note' });
-                    $http(setRemoveRequest).success(function (result) {
-                        if (result.err) {
+                    $http(setRemoveRequest).then(function (result) {
+                        if (result.data.err) {
                             // Materialize.toast( 'Error! Please correct the ROW and try again', 4000, 'error' );
                             M.toast({ html: 'Error! Please try again', displayLength: 4000, classes: 'error' });
                         }
-                        if (!result.err) { 
+                        if (!result.data.err) {
                             $timeout(function () {
                             index = $scope.upload.list.findIndex(x => x.id === $scope.removeRecordId);
                             $scope.upload.list.splice(index, 1);
-                           
+
                                 M.toast({ html: 'Record succesfully removed!', displayLength: 4000, classes: 'success' });
                             },3000)
-                            
+
                          }
-                    }).error(function (err) {
+                    }).catch(function (err) {
                         // Materialize.toast( 'Error!', 4000, 'error' );
                         $timeout(function () {
                             M.toast({ html: 'Error! Please try again!', displayLength: 4000, classes: 'error' });
                         },3000)
-                        
+
                     });
                 },
                 openCloseRecord:function(index){
-                    
-                    
+
+
                     var start_date = moment($route.current.params.start).format('YYYY-MM-DD');
                     var end_date = moment($route.current.params.end).format('YYYY-MM-DD');
                     var item = $scope.upload.list[index];
@@ -1427,16 +1427,16 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         $scope.upload.lists.beneficiary_categories = ngmClusterLists.getBeneficiariesCategories(item.admin0pcode),
                         $scope.upload.lists.hrp_beneficiary_types= ngmClusterLists.getHrpBeneficiaries(item.admin0pcode, moment(end_date).year())
                         $scope.upload['definition']={}
-                        $scope.upload['definition']['activity_type'] =[] 
+                        $scope.upload['definition']['activity_type'] =[]
                         $scope.upload.definition['activity_type'] = item.activity_type;
-                        
+
                         $scope.beneficiariesList[index] = $scope.upload.lists;
                     }else{
                         $scope.detailStocks[index] = !$scope.detailStocks[index];
                         $scope.upload.lists.stocks = ngmClusterLists.getStockLists(item.admin0pcode)
                         $scope.stocksList[index] = $scope.upload.lists.stocks
                     }
-                    
+
                 },
 
                 currentMonth: config.getCurrentMonth,
@@ -1456,7 +1456,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         activity_descriptions: ngmClusterLists.getActivities({}, true, ['activity_description_id', 'activity_type_id'], true, start_date, end_date),
                         activity_details: ngmClusterLists.getActivities({}, true, ['activity_detail_id', 'activity_description_id', 'activity_type_id'], true, start_date, end_date),
                         activity_indicators: ngmClusterLists.getActivities({}, true, ['indicator_id', 'activity_detail_id', 'activity_description_id', 'activity_type_id'], true, start_date, end_date),
-                        
+
                     }
                     if ($scope.type === 'beneficiaries') {
                         for (i in data.data) {
@@ -1473,21 +1473,21 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         // set list for each item
                         $scope.stocksList = new Array($scope.upload.list.length)
                     }
-                      
-                    // set form for beneficiaries form    
+
+                    // set form for beneficiaries form
                     if ($scope.type === 'beneficiaries') {
                         ngmClusterBeneficiaries.setBeneficiariesForm($scope.upload.lists, 0, $scope.upload.list);
                     }
-                    
-                    
-                    
+
+
+
 
                 }
-                    
+
             }
 
             $scope.upload.init();
-            
+
         }
 
     ])

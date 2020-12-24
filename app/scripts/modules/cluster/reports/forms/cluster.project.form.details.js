@@ -2995,22 +2995,22 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						method: 'POST',
 						url: ngmAuth.LOCATION + '/api/cluster/project/setProject',
 						data: { project: $scope.project.definition }
-					}).success( function( project ){
+					}).then( function( project ){
 
 						// enable
 						$scope.project.submit = true;
 
 						// error
-						if ( project.err ) {
+						if ( project.data.err ) {
 							// Materialize.toast( $filter('translate')('save_failed_the_project_contains_error')+'!', 4000, 'error' );
 							M.toast({ html: $filter('translate')('save_failed_the_project_contains_error') + '!', displayLength: 4000, classes: 'error' });
 						}
 
 						// if success
-						if ( !project.err ) {
+						if ( !project.data.err ) {
 
 							// add id to client json
-							$scope.project.definition = angular.merge( $scope.project.definition, project );
+							$scope.project.definition = angular.merge( $scope.project.definition, project.data );
 
 							// save
 							if( save_msg ){
@@ -3039,7 +3039,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 							}
 						}
 
-					}).error(function( err ) {
+					}).catch(function( err ) {
 						// error
 						// Materialize.toast( 'Error!', 4000, 'error' );
 						M.toast({ html: 'Error', displayLength: 4000, classes: 'error' });

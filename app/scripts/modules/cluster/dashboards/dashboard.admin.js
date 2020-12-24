@@ -1418,7 +1418,7 @@ angular.module('ngmReportHub')
 													url: ngmAuth.LOCATION + '/api/deleteGDriveFile/' + $scope.fileId,
 													headers: { 'Authorization': 'Bearer ' + $scope.report.user.token },
 												})
-													.success(function (result) {
+													.then(function (result) {
 														$timeout(function () {
 															msg = "File Deleted!";
 															typ = 'success';
@@ -1427,7 +1427,7 @@ angular.module('ngmReportHub')
 															$rootScope.$broadcast('refresh:doclist');
 														}, 2000);
 													})
-													.error(function (err) {
+													.catch(function (err) {
 														$timeout(function () {
 															msg = "Error, File Not Deleted!";
 															typ = 'error';

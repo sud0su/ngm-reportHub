@@ -115,7 +115,7 @@ angular.module('ngmReportHub')
                         }else{
                             subtitle += $scope.report.admin0pcode.toUpperCase();
                         }
-                        
+
                     }
                     // cluster
                     if ($scope.report.cluster_id === 'all') {
@@ -274,7 +274,7 @@ angular.module('ngmReportHub')
                     if (userMenuItems.includes('organization_tag')) {
                         $scope.report.setOrgMenu()
                     }
-                   
+
                 },
                 setCountryMenu: function () {
                     var menu = {
@@ -550,8 +550,8 @@ angular.module('ngmReportHub')
                 },
                 setOrgMenu:function(){
                     orgRows = [];
-                    $http($scope.report.getRequestList()).success(function (result) {
-                        org = result.data.map((x) => {
+                    $http($scope.report.getRequestList()).then(function (result) {
+                        org = result.data.data.map((x) => {
                             var obj = {};
                             obj['organization'] = x.organization
                             obj['organization_tag'] = x.organization_tag
@@ -737,7 +737,7 @@ angular.module('ngmReportHub')
                                     }]
                                 }]
                             },
-                        
+
                     ]
                     }
 
