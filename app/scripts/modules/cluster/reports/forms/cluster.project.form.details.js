@@ -1414,9 +1414,11 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 				// compile cluster activities
 				compileInterClusterActivities: function(){
-					ngmClusterHelper.compileInterClusterActivities( $scope.project.definition, $scope.project.lists );
-					// when new inter cluster added set new list of site_type && site_implementation
-					ngmClusterLocations.setSiteTypeAndImplementationSelect($scope.project);
+					$timeout(function() {
+					    ngmClusterHelper.compileInterClusterActivities( $scope.project.definition, $scope.project.lists );
+					    // when new inter cluster added set new list of site_type && site_implementation
+					    ngmClusterLocations.setSiteTypeAndImplementationSelect($scope.project);
+					});
 				},
 
 				// compile cluster activities
