@@ -144,6 +144,11 @@ angular.module( 'ngmReportHub' )
 					$scope.model.header.download.downloads[0].request.data.report = $scope.model.header.download.downloads[0].request.data.report + '_projects-extracted-' + moment().format('YYYY-MM-DDTHHmm');
 					$scope.model.header.title.title = $scope.model.header.title.title + ' | ' + ($route.current.params.admin0pcode === 'af' ? $filter('translate')('activty_plans_mayus1'):$filter('translate')('projects_mayus1'));
 					$scope.report.title = $scope.report.title + " | " + $scope.report.cluster_id.toUpperCase() + ' | ' + $filter('translate')('projects_mayus1');
+					if($route.current.params.year){
+						$scope.model.header.download.downloads[0].request.data.report = $scope.model.header.download.downloads[0].request.data.report+ ' | ' + $route.current.params.year.toUpperCase();
+						$scope.model.header.title.title = $scope.model.header.title.title + ' | ' + $route.current.params.year.toUpperCase();
+						$scope.report.title = $scope.report.title + ' | ' + $route.current.params.year.toUpperCase();
+					}
 			},
 
 			// set Region Menu
@@ -295,6 +300,42 @@ angular.module( 'ngmReportHub' )
 					});
 			},
 
+			setYearMenu: function () {
+				endYear = moment().year() - 3;
+				startYear = moment().year()
+				
+				// default
+				var url = '/desk/#/cluster/projects/list';
+
+				// url
+				url += '/' + $route.current.params.adminRpcode + '/' + $route.current.params.admin0pcode + '/' + $route.current.params.organization_tag + '/' + $route.current.params.cluster_id + '/';
+
+				var yearRow = [{
+					'title': 'ALL',
+					'param': 'year',
+					'active': 'all',
+					'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+					'href': url + 'all'
+				}];
+				for (eyear = startYear; eyear >=endYear; eyear--) {
+					year_obj = {
+						'title': eyear,
+						'param': 'year',
+						'active': eyear,
+						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+						'href': url + eyear
+					}
+					yearRow.push(year_obj)
+				}
+				$scope.model.menu.push({
+					'id': 'year',
+					'icon': 'date_range',
+					'title': 'Year',
+					'class': 'teal lighten-1 white-text',
+					'rows': yearRow
+				})
+			},
+
 			// set menu
 			setMenu: function (userMenuItems){
 				// get menu
@@ -330,6 +371,9 @@ angular.module( 'ngmReportHub' )
 				if (userMenuItems.includes('organization_tag')) {
 					$scope.report.setOrgMenu();
 				}
+				setTimeout(() => {
+					$scope.report.setYearMenu()
+				}, 0);
 
 			},
 			getQuery:function(){
@@ -386,6 +430,9 @@ angular.module( 'ngmReportHub' )
 
 				if ($route.current.params.organization_tag !== 'all') {
 					filter.organization_tag = $scope.report.organization_tag;
+				}
+				if($route.current.params.year){
+					filter.year = $route.current.params.year
 				}
 				// if ($route.current.params.admin0pcode && $route.current.params.admin0pcode !== 'all') {
 				// 	filter = {
