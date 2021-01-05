@@ -356,6 +356,18 @@ angular.module( 'ngmReportHub' )
 
 
 
+			// show cxb health label for record admin page
+			cxbHealthForRecordAdmin: function (item) {
+				var display = false;
+				if (item.admin0pcode === 'CB'
+					&& item.cluster_id === 'health') {
+					display = true;
+				}
+				return display;
+			},
+
+
+
 			/* BENEFICIARIES */
 
       // display delivery
