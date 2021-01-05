@@ -272,12 +272,13 @@ angular
 						const admin0pcode = userInitRouteParams.includes('admin0pcode') && user && user.admin0pcode ? user.admin0pcode.toLowerCase() : 'all';
 						const cluster_id = userInitRouteParams.includes('cluster_id') && user && user.cluster_id ? user.cluster_id.toLowerCase() : 'all';
 						const organization_tag = userInitRouteParams.includes('organization_tag') && user && user.organization_tag ? user.organization_tag.toLowerCase() : 'all';
-						const url = '/cluster/projects/list/' + adminRpcode + '/' + admin0pcode + '/' + organization_tag + '/' + cluster_id;
+						const year = moment().subtract(1, 'month').year();
+						const url = '/cluster/projects/list/' + adminRpcode + '/' + admin0pcode + '/' + organization_tag + '/' + cluster_id+'/'+year;
 						$location.path(url);
 					}]
 				},
 			})
-			.when('/cluster/projects/list/:adminRpcode/:admin0pcode/:organization_tag/:cluster_id', {
+			.when('/cluster/projects/list/:adminRpcode/:admin0pcode/:organization_tag/:cluster_id/:year', {
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'ClusterProjectProjectsCtrl',
 				resolve: {
