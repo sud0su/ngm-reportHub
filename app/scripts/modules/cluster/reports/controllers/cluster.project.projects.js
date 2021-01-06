@@ -50,7 +50,7 @@ angular.module( 'ngmReportHub' )
 				var url = '/desk/#/cluster/projects/list';
 
 				// url
-				url += '/' + $route.current.params.adminRpcode + '/' + $route.current.params.admin0pcode + '/' + $route.current.params.organization_tag + '/' + cluster_id;
+				url += '/' + $route.current.params.adminRpcode + '/' + $route.current.params.admin0pcode + '/' + $route.current.params.organization_tag + '/' + cluster_id + '/' + $route.current.params.year;
 
 				return url;
 			},
@@ -217,7 +217,7 @@ angular.module( 'ngmReportHub' )
 						'param': 'organization_tag',
 						'active': 'all',
 						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-						'href': urlOrganization + 'all/' + $route.current.params.cluster_id
+						'href': urlOrganization + 'all/' + $route.current.params.cluster_id + '/all'
 					}]
 					angular.forEach(org, function (o, i) {
 						listOrg.push({
@@ -225,7 +225,7 @@ angular.module( 'ngmReportHub' )
 							'param': 'organization_tag',
 							'active': o.organization_tag,
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': urlOrganization + o.organization_tag + '/' + $route.current.params.cluster_id
+							'href': urlOrganization + o.organization_tag + '/' + $route.current.params.cluster_id + '/' + $route.current.params.year
 						});
 					})
 					orgMenu = {
