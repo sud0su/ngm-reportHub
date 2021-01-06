@@ -409,7 +409,7 @@ angular.module('ngmReportHub')
 						// unset guest
 						ngmUser.unset();
 						// set localStorage
-						ngmUser.set( result );
+						ngmUser.set( result.data );
 						// manage session
 						ngmAuth.setSessionTimeout( result.data );
 					}

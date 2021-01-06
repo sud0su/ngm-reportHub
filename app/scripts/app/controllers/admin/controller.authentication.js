@@ -487,9 +487,8 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 							}else{
 								$location.path('/cluster/pending/');
 								$timeout(function () {
-									M.toast({ html: result.username + ', Not Activated Yet!', displayLength: 6000, classes: 'error'  });
-
-								}, 2000);
+									M.toast({ html: result.data.username + ', not activated yet!', displayLength: 6000, classes: 'error'  });
+								}, 1000);
 								ngmUser.unset();
 							}
 						}
