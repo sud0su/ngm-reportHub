@@ -14,7 +14,7 @@ angular.module( 'ngmReportHub' )
         '$timeout',
         'ngmAuth',
         'ngmClusterLists',
-        'ngmClusterLocations','$translate','$filter',
+        'ngmClusterLocations','$translate',
     function( $location,
                 $q,
                 $http,
@@ -22,7 +22,7 @@ angular.module( 'ngmReportHub' )
                 $timeout,
                 ngmAuth,
                 ngmClusterLists,
-                ngmClusterLocations,$translate,$filter ) {
+                ngmClusterLocations,$translate ) {
 
 		var ngmClusterHelper = {
 
@@ -756,7 +756,7 @@ angular.module( 'ngmReportHub' )
             project.inter_cluster_activities.push({cluster_id:project.cluster_id,cluster:project.cluster});
           }
         }
-       
+
        template = angular.merge({},template,project);
        return template;
       }

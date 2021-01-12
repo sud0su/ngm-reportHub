@@ -19,8 +19,8 @@ angular.module('ngmReportHub')
 			'ngmUser',
 			'ngmAuth',
 			'ngmData',
-			'ngmNutritionHelper','$translate','$filter',
-		function ( $scope, $q, $http, $location, $route, $rootScope, $window, $timeout, $filter, ngmUser, ngmAuth, ngmData, ngmNutritionHelper, $translate, $filter ) {
+			'ngmNutritionHelper','$translate',
+		function ( $scope, $q, $http, $location, $route, $rootScope, $window, $timeout, $filter, ngmUser, ngmAuth, ngmData, ngmNutritionHelper, $translate ) {
 			this.awesomeThings = [
 				'HTML5 Boilerplate',
 				'AngularJS',
@@ -220,8 +220,8 @@ angular.module('ngmReportHub')
 											$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
 
 											// toast
-											$timeout( function(){ 
-												// Materialize.toast( 'Refreshing data...' , 6000, 'note' ); 
+											$timeout( function(){
+												// Materialize.toast( 'Refreshing data...' , 6000, 'note' );
 												M.toast({ html: 'Refreshing data...', displayLength: 6000, classes: 'note' });
 											});
 
@@ -313,8 +313,8 @@ angular.module('ngmReportHub')
 											$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
 											$( '#nutrition-edit-btn'+dataid ).toggleClass( 'disabled' );
 											// toast
-											$timeout( function(){ 
-												// Materialize.toast( 'Please Wait...' , 6000, 'note' ); 
+											$timeout( function(){
+												// Materialize.toast( 'Please Wait...' , 6000, 'note' );
 												M.toast({ html: 'Please Wait...', displayLength: 6000, classes: 'note' });
 											});
 
@@ -359,8 +359,8 @@ angular.module('ngmReportHub')
 											$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
 											$( '#nutrition-delete-btn'+dataid ).toggleClass( 'disabled' );
 
-											$timeout( function(){ 
-												// Materialize.toast( 'Please Wait...' , 6000, 'note' ); 
+											$timeout( function(){
+												// Materialize.toast( 'Please Wait...' , 6000, 'note' );
 												M.toast({ html: 'Please Wait...', displayLength: 6000, classes: 'note' });
 											});
 											// ngmData
@@ -413,8 +413,8 @@ angular.module('ngmReportHub')
 											$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
 											$( '#nutrition-edit-btn'+dataid ).toggleClass( 'disabled' );
 											// toast
-											$timeout( function(){ 
-												// Materialize.toast( 'Please Wait...' , 6000, 'note' ); 
+											$timeout( function(){
+												// Materialize.toast( 'Please Wait...' , 6000, 'note' );
 												M.toast({ html: 'Please Wait...', displayLength: 6000, classes: 'success' });
 											});
 
@@ -459,8 +459,8 @@ angular.module('ngmReportHub')
 											$( '#dashboard-fetch-btn' ).toggleClass( 'disabled' );
 											$( '#nutrition-delete-btn'+dataid ).toggleClass( 'disabled' );
 
-											$timeout( function(){ 
-												// Materialize.toast( 'Please Wait...' , 6000, 'note' ); 
+											$timeout( function(){
+												// Materialize.toast( 'Please Wait...' , 6000, 'note' );
 												M.toast({ html: 'Please Wait...', displayLength: 6000, classes: 'note' });
 											});
 											// ngmData
