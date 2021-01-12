@@ -23,8 +23,7 @@ angular.module('ngmReportHub')
         'ngmClusterLists',
         'ngmLists',
         '$translate',
-        '$filter',
-        function ($scope, $q, $http, $location, $route, $rootScope, $window, $timeout, $filter, ngmUser, ngmAuth, ngmData, ngmClusterHelper, ngmClusterLists, ngmLists, $translate, $filter) {
+        function ($scope, $q, $http, $location, $route, $rootScope, $window, $timeout, $filter, ngmUser, ngmAuth, ngmData, ngmClusterHelper, ngmClusterLists, ngmLists, $translate ) {
             this.awesomeThings = [
                 'HTML5 Boilerplate',
                 'AngularJS',
@@ -180,7 +179,7 @@ angular.module('ngmReportHub')
                     $scope.model.menu = countryMenu;
                 },
 
-                
+
 
                 getPath: function () {
 
@@ -204,7 +203,7 @@ angular.module('ngmReportHub')
                     // var cluster_user_by_cluster = data.users_by_cluster.map(x => x.cluster);
                     // var registered_data_user_by_cluster = data.users_registered_by_cluster.map(x => x.count);
                     // var registered_cluster_user_by_cluster = data.users_registered_by_cluster.map(x => x.cluster);
-                    
+
                     // model
                     $scope.model = {
                         name: 'cluster_dashboard',
@@ -235,7 +234,7 @@ angular.module('ngmReportHub')
                                         // set date
                                         var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
                                         if (date !== $scope.dashboard.startDate) {
-                                            
+
                                             // set new date
                                             $scope.dashboard.startDate = date;
                                             var path = $scope.dashboard.getPath();
@@ -437,12 +436,12 @@ angular.module('ngmReportHub')
             //     .then(function (data) {
             //         // load data
             //         $scope.dashboard.init(data.data);
-                   
+
             //         $scope.dashboard.admin0pcode = $route.current.params.admin0pcode
             //         $scope.dashboard.hrp = $route.current.params.hrp
             //         $scope.dashboard.setMenu();
             //         $scope.dashboard.ngm.dashboard.model = $scope.model;
-                    
+
             //     });
             // $scope.$on('$includeContentLoaded', function (eve, htmlpath) {
             //     if ($rootScope.$broadcast("preload",{show:true}))
@@ -452,10 +451,10 @@ angular.module('ngmReportHub')
             // });
             $scope.dashboard.init();
 
-                
-           
 
-            
+
+
+
 
         }
 

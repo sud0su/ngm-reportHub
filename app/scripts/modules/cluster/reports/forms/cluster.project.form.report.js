@@ -45,7 +45,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 		'ngmClusterDocument',
 		'ngmClusterImportFile',
 		// 'NgTableParams',
-		'config','$translate','$filter',
+		'config','$translate',
 
 		function(
 			$scope,
@@ -76,7 +76,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 			ngmClusterDocument,
 			ngmClusterImportFile,
 			// NgTableParams,
-			config,$translate,$filter ){
+			config,$translate ){
 
 
 			/**** SERVICES ****/
@@ -388,7 +388,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					if ($scope.project.report.locations[$parent].implementing_partners && $scope.project.report.locations[$parent].implementing_partners.length >0){
 						$scope.project.report.locations[$parent].implementing_partners = $scope.project.report.locations[$parent].implementing_partners.filter(x=> x !== '');
 					}
-					
+
 					if ($scope.project.report.locations[$parent].implementing_partners && $scope.project.report.locations[$parent].implementing_partners.length > 0) {
 						if (beneficiary.implementing_partners && (typeof beneficiary.implementing_partners === 'string')){
 							implementing_partners_string_array = beneficiary.implementing_partners.split(',').map(function (org) {
@@ -478,7 +478,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					if (beneficiary.indicator_name) {
 						temp_indicator_name = beneficiary.indicator_name
 					}
-					
+
 					// validation for input from file
 					if(ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]){
 						// $scope.messageFromfile[$indexFile] =[]
@@ -1539,7 +1539,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									})
 
 								}
-								// need to fix 
+								// need to fix
 								if (count_error > 0 || values.length < 1) {
 									if ((count_error === values.length) || (values.length < 1)) {
 										M.toast({ html: 'Import Fail!', displayLength: 2000, classes: 'error' });
@@ -1757,7 +1757,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									location.beneficiaries =[];
 
 									if ($scope.project.definition.location_groups.findIndex(group => group.location_group_id === location.admin1pcode) < 0) {
-										
+
 										var new_group = {
 											location_group_id: location.admin1pcode,
 											location_group_type: location.admin1type_name,
@@ -1810,21 +1810,21 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							});
 
 							saveLocation();
-							
+
 						}
 
 						if (newGroupCount > 0) {
 							saveNewGroup();
 						}
 
-						
+
 					}
 				},
 
 				validateAddNewLocation:function(){
 					var result = ngmClusterValidation.validateAddNewLocationMonthlyReport(ngmClusterLocations.new_location)
 					if (result.complete){
-						ngmClusterLocations.addNewLocation($scope.project, ngmClusterLocations.new_location); 
+						ngmClusterLocations.addNewLocation($scope.project, ngmClusterLocations.new_location);
 						$scope.project.incrementLocationLimitByOneAutoSelect()
 						$scope.project.addLocationGroupingsforNewLocation()
 					}else{
@@ -1832,7 +1832,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						// $(elements[0]).animatescroll();
 						$(elements[0]).scrollHere();
 					};
-					
+
 				},
 				// save
 				save: function( complete, display_modal, email_alert ){
