@@ -1,0 +1,62 @@
+<!-- ngTable -->
+<div class="row" ng-if="data.length">
+    <div class="col s12 m12 l12">
+        <div class="card">
+            <ul class="collection with-header">
+                <li class="{{ table.headerClass }}" style="{{ table.headerStyle }};height:80px;">
+                    <div class="col s9 m7 l8">
+                        <h5 class="report-work-title {{ table.headerText }}">
+                            <i class="material-icons left">{{ table.headerIcon }}</i>
+                            {{ table.headerTitle }}
+                        </h5>
+                    </div>
+                    <div class="col s3 m5 l4 right" ng-if="showSearch">
+                        <nav class="nav-list-search right"
+                            ng-class="{'focused':table.search.focused===true || table.search.filter }">
+                            <div class="nav-wrapper" ng-click="table.toggleSearch()">
+                                <form style="padding: 0px">
+                                    <div class="input-field">
+                                        <input id="search_{{table.id}}" type="search" ng-model="table.search.filter"
+                                            ng-focus="table.search.focused=true" ng-blur="table.search.focused=false"
+                                            ng-change="table.searchLoadTable()">
+                                        <label for="search_{{table.id}}" style="top:-10px" class="search">
+                                            <i class="material-icons" style="color: teal; padding-left:25px;">search</i>
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+                        </nav>
+                    </div>
+                </li>
+                <li class="collection-item avatar" style="padding:10px;">
+
+                    <!-- if data -->
+                    <div ng-if="data.length">
+                        <table class="centered highlight responsive-table" ng-table="table.tableParams">
+                            <tr ng-repeat="row in $data" style="cursor: pointer; cursor: hand;">
+                                <td data-title="'name_mayus' | translate" sortable="'name'"
+                                    ng-click="table.onClick(row)">
+                                    {{ row.name }}
+                                </td>
+                                <td data-title="'username'|translate" sortable="'username'"
+                                    ng-click="table.onClick(row)">
+                                    {{ row.username }}
+                                </td>
+                                <td data-title="'Sector'" sortable="'cluster'">
+                                    {{ row.cluster }}
+                                </td>
+                                <td data-title="'Email'" sortable="'email'">
+                                    {{ row.email }}
+                                </td>
+                                <td data-title="'Phone'" sortable="'phone'">
+                                    {{ row.phone }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

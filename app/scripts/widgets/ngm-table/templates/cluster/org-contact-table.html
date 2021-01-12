@@ -1,0 +1,155 @@
+<style>
+    .count,
+    .label {
+        z-index: 1 !important;
+    }
+
+    .ng-table th.sortable .sort-indicator {
+        color: #2196F3;
+        font-weight: 400;
+    }
+
+    .pagination li.active {
+        background-color: #009688;
+    }
+
+    /* Progress Bar */
+    .percentage-wrapper {
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+    }
+
+    .percentage-wrapper span {
+        line-height: 10px;
+    }
+
+    .percentage-wrapper span:last-child {
+        position: absolute;
+        right: 15px;
+        margin-top: 5px;
+    }
+
+    .project-progress-bar-wrapper {
+        background-color: #ffffff;
+        border: 1px solid #4db6ac;
+        display: inline-block;
+        width: 50px;
+        height: 12px;
+        border-radius: 4px;
+        position: absolute;
+        right: 0;
+
+    }
+
+    .project-progress-bar-wrapper .project-progress-bar-inner {
+        height: 100%;
+        background-color: #4db6ac;
+    }
+    .color_teal {
+		color: #26a69a !important;
+	}
+</style>
+
+<!-- ngTable -->
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card" ng-init="grid = false">
+            <ul class="collection with-header">
+                <li class="{{ table.headerClass }} collection-header" style="height:80px;">
+                    <div class="col s12 m10 l10">
+                        <h5 class="report-work-title {{ table.headerText }}">
+                            <i class="material-icons left">{{ table.headerIcon }}</i>{{ table.headerTitle }}
+                        </h5>
+                    </div>
+                    <div class="col s12 m2 l2">
+                        <div class="grid-list upload-view-switch hide-on-small-only">
+                            <div class="btn-floating wave-effect space tooltipped-upload" data-position="bottom"
+                                data-tooltip="{{'grid_view'|translate}}" ng-click="grid=true" ng-class="{white: grid,teal:!grid}">
+                                <i class="material-icons " style="color: #ffffff" ng-class="{color_teal: grid,color_white:!grid}">
+                                    view_module
+                                </i>
+                            </div>
+                            <div class="btn-floating wave-effect space tooltipped-upload" data-position="bottom"
+                                data-tooltip="{{'list_view'|translate}}" ng-click="grid=false" ng-class="{white: !grid,teal:grid}">
+                                <i class="material-icons mirror " ng-class="{color_teal: !grid,color_white:grid}">
+                                    format_list_bulleted
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="collection-item avatar" style="padding:10px;">
+
+                    <!-- if no data -->
+                    <div ng-if="data.length === 0">
+                        <div class="label" style="text-align:center; padding-top:20px;">
+                            <span>No {{ table.headerTitle }}!</span>
+                        </div>
+                    </div>
+
+                    <!-- if data -->
+                    <div ng-if="data.length" window-size>
+                        <table class="centered striped responsive-table" ng-table="table.tableParams">
+                            <tr ng-repeat="row in $data" style="cursor: pointer; cursor: hand;">
+                                <td data-title="'cluster'|translate" style="vertical-align:top;font-size: 1.1rem;" sortable="'cluster'" ng-if="!grid">
+                                    <div style="padding: 10px;border-radius: 15px;height:120px;" ng-class="{'card':grid}" >
+                                        <div style="display: flex;justify-content: center;align-items: center;height: 100%;">
+                                            <div>
+                                                {{ row.cluster }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    
+                                </td>
+                                <td data-title="'Active Organizations'" style="vertical-align:top;font-size: 1.1rem;" sortable="'sum_org'" ng-if="!grid">
+                                <div style="padding: 10px;border-radius: 15px;height:120px;" ng-class="{'card':grid}">
+                                    <div style="display: flex;justify-content: center;align-items: center;height: 100%;">
+                                        <div>
+                                            {{ row.sum_org }}
+                                        </div>
+                                    </div>
+                                </div> 
+                                </td>
+                                <td data-title="'Organization Contacts'" sortable="'organization'">
+                                    <div class="row" ng-if="grid">
+                                        <div class="col" ng-class="{'s4 m4 l4':(row.organization.length >= 3),'s6 m6 l6':(row.organization.length <= 2)}" ng-repeat="org in row.organization">
+                                            <div style="padding: 15px 10px 10px 10px;height: 150px; border-radius: 15px;" ng-class="{'card':grid}">
+                                                <a href="#/organization-contact/{{org.organization_id}}"
+                                                    style="font-weight: 500;height: 25px;line-height: 25px;">
+                                                    
+                                                    <div style="font-weight: 500;">{{org.organization}} <span style="position: absolute;margin-left: 5px;margin-top: 4px;"><i class="material-icons blue-text" style="font-size: 18px;">launch</i></span></div>
+                                                </a>
+                                                <div style="cursor: auto;font-weight: 500;">{{row.cluster}}</div>
+                                                <div style="cursor: auto;">{{org.fullname}} </div>
+                                                <div style="cursor: auto;">{{org.email}} </div>
+                                                <div style="cursor: auto;"> {{org.phone}}</div>
+                                            </div>
+                                        </div>
+                                   </div>
+                                <div class="row" ng-if="!grid">
+                                    <div class="col s12 m12 l12" >
+                                        <div style="padding: 35px 10px 10px 10px;min-height: 80px; border-radius: 15px;">
+                                            <div class="center">
+                                                <p>
+                                                    <span
+                                                        ng-repeat="org in row.organization  track by $index">
+                                                        {{org.organization}}{{$last ? '' : ', '}}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

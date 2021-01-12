@@ -1193,6 +1193,15 @@ angular
 					}],
 				}
 			})
+			.when('/organization-contact/:organization',{
+				templateUrl: '/views/app/dashboard.html',
+				controller: 'OrganizationContactPageCtrl',
+				resolve: {
+					access: ['ngmAuth', function (ngmAuth) {
+						return ngmAuth.isAuthenticated();
+					}],
+				}
+			})
 
 			// FORBIDDEN
 			.when( '/cluster/forbidden', {
