@@ -34,6 +34,7 @@ var cache = require('gulp-cache');
 var uglify = require('gulp-uglify-es').default;
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
+var sourcemaps = require('gulp-sourcemaps');
 
 // clear
 // cache.clearAll();
@@ -158,6 +159,7 @@ gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'ht
 
   return gulp.src(paths.views.main)
     .pipe($.useref({searchPath: [yeoman.app, '.tmp']}))
+		.pipe(sourcemaps.init())
     .pipe(jsFilter)
     .pipe($.ngAnnotate())
     // .pipe($.uglify())
@@ -168,6 +170,7 @@ gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'ht
     .pipe(cssFilter.restore())
     .pipe($.rev())
     .pipe($.revReplace())
+		.pipe(sourcemaps.write('maps'))
     // .pipe(header(getLicense()))
     // .pipe(header('/* ' + pkg.name + ' version ' + pkg.version + ' */ \n' ))
     .pipe(gulp.dest(yeoman.dist));
