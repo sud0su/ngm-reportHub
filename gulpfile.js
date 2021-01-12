@@ -34,6 +34,7 @@ var cache = require('gulp-cache');
 var uglify = require('gulp-uglify-es').default;
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
+var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 
 // clear
@@ -153,15 +154,23 @@ gulp.task('clean:dist', function (cb) {
 });
 
 gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'html:ethiopia', 'html:nutrition', 'html:bangladesh', 'html:immap','html:drought', 'styles' ], function () {
-  var jsFilter = $.filter('**/*.js', {restore: true});
+	var jsFilter = $.filter('**/*scripts.js', {restore: true});
+	var jsVendorFilter = $.filter('**/*vendor.js', {restore: true});
   var cssFilter = $.filter('**/*.css', {restore: true});
   var gulpUtil = require('gulp-util');
 
   return gulp.src(paths.views.main)
-    .pipe($.useref({searchPath: [yeoman.app, '.tmp']}))
+		.pipe($.useref({searchPath: [yeoman.app, '.tmp']}))
 		.pipe(sourcemaps.init())
+		.pipe(jsVendorFilter)
+    .pipe(uglify().on('error', gulpUtil.log))
+    .pipe(jsVendorFilter.restore())
     .pipe(jsFilter)
-    .pipe($.ngAnnotate())
+		.pipe($.ngAnnotate())
+		.pipe(babel({
+			presets: ['@babel/env'],
+		}))
+		.pipe( $.replace(/"use strict";/g, ''))
     // .pipe($.uglify())
     .pipe(uglify().on('error', gulpUtil.log))
     .pipe(jsFilter.restore())
@@ -169,7 +178,7 @@ gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'ht
     .pipe($.minifyCss({cache: true}))
     .pipe(cssFilter.restore())
     .pipe($.rev())
-    .pipe($.revReplace())
+		.pipe($.revReplace())
 		.pipe(sourcemaps.write('maps'))
     // .pipe(header(getLicense()))
     // .pipe(header('/* ' + pkg.name + ' version ' + pkg.version + ' */ \n' ))
