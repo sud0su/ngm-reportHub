@@ -197,6 +197,11 @@
 									<i class="material-icons small right">person_pin</i>{{'my_profile' | translate}}</a>
 							</li>
 							<li style="position: relative;border-bottom: 1px solid #f1f1f1">
+								<a href="#/organization-contact/{{ ngm.getUser().organization_id }}"
+									ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
+									<i class="material-icons small right">person_pin</i>MY ORGANIZATION</a>
+							</li>
+							<li style="position: relative;border-bottom: 1px solid #f1f1f1">
 								<a href="#/cluster/admin/{{ ngm.getUser().adminRpcode | lowercase }}/{{ ngm.getUser().admin0pcode | lowercase }}"
 									>
 									<i class="material-icons small right">move_to_inbox</i>{{'my_admin' | translate}}</a>
@@ -674,6 +679,10 @@
 										<li style="position: relative;border-bottom: 1px solid #f1f1f1">
 											<a href="#/profile/{{ ngm.getUserName() }}" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
 												<i class="material-icons small right">person_pin</i>{{'my_profile' | translate}}</a>
+										</li>
+										<li style="position: relative;border-bottom: 1px solid #f1f1f1">
+											<a href="#/organization-contact/{{ ngm.getUser().organization_id }}" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
+												<i class="material-icons small right">person_pin</i>MY ORGANIZATION</a>
 										</li>
 										<li style="position: relative;border-bottom: 1px solid #f1f1f1">
 											<a href="#/cluster/admin/{{ ngm.getUser().adminRpcode | lowercase }}/{{ ngm.getUser().admin0pcode | lowercase }}" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
