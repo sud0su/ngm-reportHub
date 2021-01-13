@@ -118,7 +118,7 @@ angular.module('ngmReportHub')
 
 									// permissions
 									canEdit: ngmAuth.canDo( 'EDIT', { adminRpcode: $scope.report.project.adminRpcode, admin0pcode:$scope.report.project.admin0pcode, cluster_id: $scope.report.project.cluster_id, organization_tag:$scope.report.project.organization_tag } ),
-
+									canDelete: ngmAuth.canDelete(),
 									// mark project active
 									markActive: function( project ){
 
