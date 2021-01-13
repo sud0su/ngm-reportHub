@@ -90,6 +90,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_ORG_RESTRICTED:[],
 			EDIT_ORGANIZATION:false,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: false,
 			ADMIN_RESTRICTED: [ 'admin0pcode', 'organization_tag' ],
 			ADMIN_MENU: [ 'cluster_id', 'report_id' ],
 			DASHBOARD_RESTRICTED: [],
@@ -111,6 +112,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: ['organization_tag', 'admin0pcode', 'adminRpcode'],
 			EDIT_ORGANIZATION:false,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: false,
 			ADMIN_RESTRICTED: [ 'admin0pcode', 'organization_tag' ],
 			ADMIN_MENU: [ 'cluster_id', 'report_id' ],
 			DASHBOARD_RESTRICTED: [ 'adminRpcode', 'admin0pcode', 'organization_tag' ],
@@ -138,6 +140,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: ['organization_tag', 'admin0pcode', 'adminRpcode'],
 			EDIT_ORGANIZATION:true,
 			EDIT_ORGANIZATION_RESTRICTED: ['organization_tag'],
+			ADMIN: true,
 			ADMIN_RESTRICTED: [ 'admin0pcode', 'organization_tag' ],
 			ADMIN_MENU: [ 'cluster_id', 'report_id' ],
 			DASHBOARD_RESTRICTED: [ 'adminRpcode', 'admin0pcode', 'organization_tag' ],
@@ -165,6 +168,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: ['cluster_id', 'admin0pcode', 'adminRpcode'],
 			EDIT_ORGANIZATION:true,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: true,
 			ADMIN_RESTRICTED: [ 'admin0pcode', 'cluster_id' ],
 			ADMIN_MENU: [ 'organization_tag', 'report_id' ],
 			DASHBOARD_RESTRICTED: [ 'adminRpcode', 'admin0pcode', 'cluster_id' ],
@@ -192,6 +196,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: ['admin0pcode', 'adminRpcode'],
 			EDIT_ORGANIZATION:false,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: false,
 			ADMIN_RESTRICTED: [ 'admin0pcode' ],
 			ADMIN_MENU: [ 'cluster_id', 'report_id', 'organization_tag' ],
 			DASHBOARD_RESTRICTED: [ 'admin0pcode', 'adminRpcode' ],
@@ -219,6 +224,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: ['admin0pcode', 'adminRpcode'],
 			EDIT_ORGANIZATION:true,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: true,
 			ADMIN_RESTRICTED: [ 'admin0pcode' ],
 			ADMIN_MENU: [ 'cluster_id', 'report_id', 'organization_tag' ],
 			DASHBOARD_RESTRICTED: [ 'admin0pcode', 'adminRpcode' ],
@@ -245,6 +251,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: ['adminRpcode', 'organization_tag'],
 			EDIT_ORGANIZATION:false,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: false,
 			ADMIN_RESTRICTED: [ 'adminRpcode', 'organization_tag' ],
 			ADMIN_MENU: [ 'admin0pcode', 'cluster_id', 'report_id' ],
 			DASHBOARD_RESTRICTED: [ 'adminRpcode', 'organization_tag' ],
@@ -271,6 +278,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: ['adminRpcode'],
 			EDIT_ORGANIZATION:false,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: false,
 			ADMIN_RESTRICTED: [ 'adminRpcode' ],
 			ADMIN_MENU: [ 'admin0pcode', 'cluster_id', 'report_id', 'organization_tag' ],
 			DASHBOARD_RESTRICTED: [ 'adminRpcode' ],
@@ -297,6 +305,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: ['organization_tag'],
 			EDIT_ORGANIZATION:false,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: false,
 			ADMIN_RESTRICTED: [ 'organization_tag' ],
 			ADMIN_MENU: [ 'adminRpcode', 'admin0pcode', 'cluster_id', 'report_id' ],
 			DASHBOARD_RESTRICTED: [ 'organization_tag' ],
@@ -323,6 +332,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: [],
 			EDIT_ORGANIZATION:false,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: false,
 			ADMIN_RESTRICTED: [],
 			ADMIN_MENU: [ 'adminRpcode', 'admin0pcode', 'cluster_id', 'report_id', 'organization_tag' ],
 			DASHBOARD_RESTRICTED: [],
@@ -350,6 +360,7 @@ angular.module('ngmReportHub')
 			EDIT_USER_RESTRICTED: [],
 			EDIT_ORGANIZATION:true,
 			EDIT_ORGANIZATION_RESTRICTED:[],
+			ADMIN: true,
 			ADMIN_RESTRICTED: [],
 			ADMIN_MENU: [ 'adminRpcode', 'admin0pcode', 'cluster_id', 'report_id', 'organization_tag' ],
 			DASHBOARD_RESTRICTED: [],
@@ -754,6 +765,12 @@ angular.module('ngmReportHub')
 				}
 				return this.canDo(permission, zones)
 			},
+			canDelete: function(){
+				const USER_PERMISSIONS = ngmAuth.userPermissions();
+				var asAdmin = USER_PERMISSIONS.some(role => role.ADMIN);
+				return asAdmin
+
+			}
 		};
 
 		return ngmAuth;
