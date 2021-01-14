@@ -170,7 +170,7 @@ gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'ht
     .pipe(jsFilter)
 		.pipe($.ngAnnotate())
 		.pipe(babel({
-			presets: ['@babel/preset-env'],
+			presets: ['@babel/env'],
 		}))
 		.pipe( $.replace(/"use strict";/g, ''))
     // .pipe($.uglify())
