@@ -1356,6 +1356,32 @@ angular.module('ngmReportHub')
 								}]
 							}]
 							}, {
+							columns: [{
+								styleClass: 's12 m12 l12 remove',
+								widgets: [{
+									type: 'table',
+									card: 'panel',
+									style: 'padding:0px; height: ' + $scope.dashboard.ngm.style.height + 'px;',
+									config: {
+										style: $scope.dashboard.ngm.style,
+										headerClass: 'collection-header teal lighten-2',
+										headerText: 'white-text',
+										headerIcon: 'perm_contact_calendar',
+										headerTitle: 'Organizations Provided Services',
+										templateUrl: '/scripts/widgets/ngm-table/templates/cluster/org-contact-table.html',
+										tableOptions:{
+											count: 10
+										},
+										request: {
+											method: 'POST',
+											url: ngmAuth.LOCATION + '/api/cluster/admin/indicator',
+											// indicator, list
+											data: $scope.dashboard.getRequest('organization_cluster_contact', true)
+										}
+									}
+								}]
+							}]
+							}, {
 								columns: [{
 									styleClass: 's12 m12 l12',
 									widgets: [{
@@ -1500,6 +1526,11 @@ angular.module('ngmReportHub')
 			setTimeout(() => {
 				$('.fixed-action-btn').floatingActionButton({ direction: 'left' });
 			}, 0);
+			$scope.$on('$locationChangeSuccess', function (evt, absNewUrl, absOldUrl) {
+
+				var absOldUrl = absOldUrl.substring(absOldUrl.indexOf("/#") + 1);
+				$rootScope.backToAdmin= absOldUrl;
+			})
 
 
 		}

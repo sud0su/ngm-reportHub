@@ -31,6 +31,7 @@ angular
 		// ngm
 		'ngm',
 		'ngm.widget.form.authentication',
+		'ngm.widget.org.profile',
 		'ngm.widget.project.details',
 		'ngm.widget.project.financials',
 		// 'ngm.widget.project.reports.list',

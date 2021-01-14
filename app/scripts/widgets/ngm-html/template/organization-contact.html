@@ -1,0 +1,367 @@
+<style>
+    .stats-card {
+        display: block;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats-card i {
+        position: absolute;
+        font-size: 6rem;
+        right: 0;
+        bottom: -1rem;
+    }
+
+    .stats-card .count {
+        position: relative;
+        font-weight: 100;
+        font-size: 3rem;
+        line-height: 3rem;
+    }
+
+    .stats-card .name {
+        position: relative;
+        font-weight: 300;
+        font-size: 1.1rem;
+        line-height: 1.1rem;
+    }
+
+    .stats-card .graph {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .progress.tiny {
+        height: 2px;
+    }
+
+    .stats-card .progress {
+        position: absolute;
+        border-radius: 0;
+        margin: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        box-shadow: none;
+    }
+
+    .stats-card .progress.top {
+        bottom: auto;
+        top: 0;
+    }
+
+    .stats-card .progress.background {
+        top: 0;
+        height: 100%;
+    }
+
+    .stats-card .progress.background div {
+        height: 100%;
+    }
+
+    /*
+   stats card large
+  */
+    .stats-card.large {
+        padding: 1.6rem;
+    }
+
+    .stats-card.large>i {
+        font-size: 8rem;
+        bottom: -1.3rem;
+    }
+
+    .stats-card.large .count {
+        font-size: 3rem;
+        line-height: 3rem;
+    }
+
+    .stats-card.large .name {
+        font-size: 1.2rem;
+        line-height: 1.2rem;
+    }
+    .icon {
+	padding-top:10px;
+}
+
+.icon .card {
+  width: 150px;
+  height: 150px;
+  padding: 30px 0px 30px 20px;
+  border-radius: 50% !important;
+  margin: 10px auto;
+}
+.carousel {
+	min-height: 800px;
+}
+
+.icon {
+	padding-top:10px;
+}
+
+.icon .card {
+  width: 150px;
+  height: 150px;
+  padding: 30px 0px 30px 20px;
+  border-radius: 50% !important;
+  margin: 10px auto;
+}
+
+.title {
+	margin:20px 0px 10px;
+	font-weight:100;
+}
+
+form {
+	padding: 0px 20% !important;
+}
+
+.input-field .prefix {
+	padding-top: 8px;
+	color: #616161;
+}
+
+.helpers {
+	font-size:1.3rem !important;
+	margin-top:0px;
+	padding-bottom:4px;
+	cursor: pointer;
+}
+
+.action {
+	padding-top: 50px;
+}
+.color_teal{
+    color:#24a69a !important;
+}
+</style>
+
+<!-- LOCATIONS -->
+<div class="row">
+    <div class="col s12 m12 l8 offset-l2">
+
+            <div class="card z-depth-1" style="padding:0px 20% 5% !important;">
+
+                <div class="icon center">
+                    <div class="card">
+                        <img title="Profile" src="images/registration.png" width="110%" style="margin-left:-20px;" />
+                    </div>
+                    <h5 class="title">{{panel.organization.organization_name}} Organization</h5>
+                    <h5 class="title">{{panel.organization.organization_type}}</h5>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <div class="widget card-panel stats-card white grey-text text-darken-2" style="text-align: center;">
+                            <span class="count">
+                                <span value="0" ng-count-to="{{panel.organization_users.user_active }}" duration="1" filter="number">
+                                </span>
+                            </span>
+                            <div class="grey-text text-darken-2">
+                                Active User
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <div class="widget card-panel stats-card white grey-text text-darken-2" style="text-align: center;">
+                            <span class="count">
+                                <span value="0" ng-count-to="{{panel.organization_users.user_inactive }}" duration="1" filter="number">
+                                </span>
+                            </span>
+                            <div class="grey-text text-darken-2">
+                                Inactive User
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card z-depth-1" style="padding:3% 5% 5% 5% !important;">
+                <!-- btn as title! -->
+                <h5 style="text-align: center;margin-bottom: 20px;font-weight: 300;">PAGES</h5>
+                <div class="row">
+                    <ul class="collection">
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle blue ">bubble_chart</i>
+                            <!-- <span class="title"> 5W</span> -->
+                            <p>5W <br>
+                                Dashboard
+                            </p>
+                            <a href="{{panel.url5W}}" class="secondary-content"><i class="material-icons blue-text">launch</i></a>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle blue">move_to_inbox</i>
+                            <!-- <span class="title">ADMIN</span> -->
+                            <p>ADMIN <br>
+                                Dashboard
+                            </p>
+                            <a href="{{panel.adminURL}}" class="secondary-content"><i class="material-icons blue-text">launch</i></a>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle blue">group</i>
+                            <!-- <span class="title">TEAM</span> -->
+                            <p>TEAM <br>
+                                List
+                            </p>
+                            <a href="{{panel.urlTeam}}" class="secondary-content"><i class="material-icons blue-text">launch</i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card z-depth-1" style="padding:5% 20% 5% !important;">
+            
+                <!-- btn as title! -->
+                <a class="btn button-label" style="left:-1px;position:absolute;pointer-events:none;">Description</a>
+                <div class="row" style="margin-top: 50px;" >
+                    <p ng-if="!btn.description" style="word-break: break-word;font-weight:500">{{panel.organization.description?panel.organization.description:'No Description'}}</p>
+                    <div class="card" style="padding:20px;"ng-if="btn.description">
+                        <div class="row">
+                            <div class="input-field col s12">
+        
+                                
+                                <textarea id="ngm-org-description" type="text" class="validate materialize-textarea" name="ngm-org-description"
+                                    ng-model="panel.organization.description" ng-disabled="">
+                                                </textarea>
+                                <label for="ngm-org-description" class="active">Description</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action center" ng-if="panel.canEdit()">
+                        <button  class="btn waves-effect waves-teal" style="top:0px;" type="button" ng-click="panel.switch('description')">
+                            <i class="material-icons left">{{btn.description?'done':'edit'}}</i>{{btn.description?'Save':'Edit'}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card z-depth-1" style="padding:5% 20% 5% !important;" ng-init="$contact=false">
+            
+                <!-- btn as title! -->
+                <a class="btn button-label" style="left:-1px;position:absolute;pointer-events:none;">Contatct</a>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">perm_identity</i>
+                        <input id="ngm-phone" type="tel" class="validate" ng-model="panel.organization.contact[0].name" ng-disabled="true" required>
+                        <label class="active" for="ngm-phone">Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">phone</i>
+                        <input id="ngm-phone" type="tel" class="validate" ng-model="panel.organization.contact[0].phone" ng-disabled="true"
+                            required>
+                        <label class="active" for="ngm-phone">{{'phone' | translate}}</label>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">email</i>
+                        <input id="ngm-email" type="email" class="validate" ng-model="panel.organization.contact[0].email" ng-disabled="true"
+                            required>
+                        <label class="active" for="ngm-email">{{'email' | translate}}</label>
+                    </div>
+                </div>
+                
+                
+                <div class="row" style="margin-top: 20px;" ng-if="btn.contact">
+                    <div class="card" style="padding:20px;">
+                        <div class="row">
+                                <div class="input-field col s12 m12" style="margin-top: 3.7%;">
+                                    <select materialize-select ng-model="panel.organization.contact_id"
+                                    ng-change="panel.selectMainContact()"
+                                        ng-options="item.id as item.name for item in panel.organization_users.users track by item.username">
+                                    </select>
+                                    <label for="ngm-project-implementing_partners">Contact</label>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="panel.canEdit()" class="action center">
+                    <button class="btn waves-effect waves-teal" style="top:0px;" type="button" ng-click="panel.switch('contact')">
+                        <i class="material-icons left">{{btn.contact?'done':'edit'}}</i>{{btn.contact?'Save':'Edit'}}
+                    </button>
+                </div>
+            </div>
+            <div class="card z-depth-1" style="padding:5% 5% 5% 20% !important;">
+                <!-- btn as title! -->
+                <a class="btn button-label" style="left:-1px;position:absolute;pointer-events:none;">Cluster</a>
+            
+                <div class="row">
+                    <div class="col s12 m6 l6" ng-repeat="c in panel.cluster">
+                        <label>
+                            <input type="checkbox" class="filled-in" id={{c.cluster_id}} value={{c.cluster_id}} ng-checked="panel.checkCLuster(c.cluster_id)" ng-click="panel.manageCluster(c.cluster_id)" ng-disabled="!panel.canEdit()">
+                            <span style="color: #000000; font-weight: 500;">{{c.cluster}}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="action center" ng-if="panel.canEdit()">
+    <button class="btn waves-effect waves-teal" style="top:-40px;" type="button"
+        ng-click="panel.save()">
+        <i class="material-icons left"></i>Update
+    </button>
+</div>
+<!-- <div class="row">
+    <div class="col s12 m12 l12">
+        <div class="widget card-panel stats-card white grey-text text-darken-2" style="text-align: center;">
+            <span class="count">
+                <span value="0" ng-count-to="{{panel.data.users.length }}" duration="1" filter="number">
+                </span>
+            </span>
+            <div class="grey-text text-darken-2">
+                Focal Point
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m3 l3">
+        <div class="widget card-panel stats-card white grey-text text-darken-2" style="text-align: center;">
+            <span class="count">
+                <span value="0" ng-count-to="{{panel.data.user_active }}" duration="1" filter="number">
+                </span>
+            </span>
+            <div class="grey-text text-darken-2">
+                Active
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m3 l3">
+        <div class="widget card-panel stats-card white grey-text text-darken-2" style="text-align: center;">
+            <span class="count">
+                <span value="0" ng-count-to="{{panel.data.user_inactive }}" duration="1" filter="number">
+                </span>
+            </span>
+            <div class="grey-text text-darken-2">
+                Active
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m3 l3">
+        <div class="widget card-panel stats-card white grey-text text-darken-2" style="text-align: center;">
+            <span class="count">
+                <span value="0" ng-count-to="{{panel.data.country.length }}" duration="1" filter="number">
+                </span>
+            </span>
+            <div class="grey-text text-darken-2">
+                Country
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m3 l3">
+        <div class="widget card-panel stats-card white grey-text text-darken-2" style="text-align: center;">
+            <span class="count">
+                <span value="0" ng-count-to="{{panel.data.cluster.length }}" duration="1" filter="number">
+                </span>
+            </span>
+            <div class="grey-text text-darken-2">
+                Cluster
+            </div>
+        </div>
+    </div>
+</div> -->
+
