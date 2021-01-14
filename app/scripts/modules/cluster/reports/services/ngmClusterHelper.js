@@ -311,21 +311,24 @@ angular.module( 'ngmReportHub' )
 
       // compile project_donor
       compileDonor: function( project, lists ){
-        project.project_donor = [];
-        angular.forEach( project.project_donor_check, function( d, key ){
-          if ( d ) {
-            var donor = $filter( 'filter' )( lists.donors, { project_donor_id: key }, true)[0];
-            project.project_donor.push( donor );
-          }
-          // focus on select
-          if ( key === 'other' && d ) {
-            $( '#ngm-project-project_donor_other' ).focus();
-          }
-          // remove if un-selected
-          if ( key === 'other' && !d ) {
-            project.project_donor_other = '';
-          }
-        });
+				// wrap in timeout for change detection
+				$timeout(function() {
+					project.project_donor = [];
+					angular.forEach( project.project_donor_check, function( d, key ){
+						if ( d ) {
+							var donor = $filter( 'filter' )( lists.donors, { project_donor_id: key }, true)[0];
+							project.project_donor.push( donor );
+						}
+						// focus on select
+						if ( key === 'other' && d ) {
+							$( '#ngm-project-project_donor_other' ).focus();
+						}
+						// remove if un-selected
+						if ( key === 'other' && !d ) {
+							project.project_donor_other = '';
+						}
+					});
+				});
       },
 
 
