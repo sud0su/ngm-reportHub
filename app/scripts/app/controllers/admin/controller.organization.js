@@ -104,6 +104,7 @@ angular.module('ngmReportHub')
                                             url: ngmAuth.LOCATION + '/api/getUsersForOrgPage',
                                             params: {
                                                 organization: $scope.dashboard.organization.organization,
+                                                admin0pcode: $scope.dashboard.organization.admin0pcode,
                                                 statistic: 'true'
                                             }
                                         },
