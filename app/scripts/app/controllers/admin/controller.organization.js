@@ -26,7 +26,7 @@ angular.module('ngmReportHub')
         '$translate',
         '$filter',
         'NgTableParams',
-        function ($scope, $q, $http, $location, $route, $rootScope, $window, $timeout, $filter, ngmUser, ngmAuth, ngmData, ngmClusterHelper, ngmClusterLists, ngmLists, $translate, $filter, NgTableParams) {
+        function ($scope, $q, $http, $location, $route, $rootScope, $window, $timeout, $filter, ngmUser, ngmAuth, ngmData, ngmClusterHelper, ngmClusterLists, ngmLists, $translate, NgTableParams) {
             this.awesomeThings = [
                 'HTML5 Boilerplate',
                 'AngularJS',

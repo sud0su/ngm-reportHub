@@ -36,6 +36,7 @@ var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
+var plumber = require('gulp-plumber');
 
 // clear
 // cache.clearAll();
@@ -159,7 +160,8 @@ gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'ht
   var cssFilter = $.filter('**/*.css', {restore: true});
   var gulpUtil = require('gulp-util');
 
-  return gulp.src(paths.views.main)
+	return gulp.src(paths.views.main)
+		.pipe(plumber())
 		.pipe($.useref({searchPath: [yeoman.app, '.tmp']}))
 		.pipe(sourcemaps.init())
 		.pipe(jsVendorFilter)
@@ -168,7 +170,7 @@ gulp.task('client:build', [ 'translate', 'html', 'html:app', 'html:cluster', 'ht
     .pipe(jsFilter)
 		.pipe($.ngAnnotate())
 		.pipe(babel({
-			presets: ['@babel/env'],
+			presets: ['@babel/preset-env'],
 		}))
 		.pipe( $.replace(/"use strict";/g, ''))
     // .pipe($.uglify())
