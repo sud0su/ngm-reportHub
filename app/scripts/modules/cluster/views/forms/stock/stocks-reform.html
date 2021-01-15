@@ -45,7 +45,7 @@
         <div class="row">
             <!-- Cluster -->
             <div class="input-field col s12 m6 l4">
-                <select materialize-select id="ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}"
+                <select materialize-select watch id="ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}" class="validate"
                     ng-options="c.cluster_id as c.cluster for c in report.lists.clusters" ng-model="stock.cluster_id"
                     ng-change="report.updateNameStock(report.lists.clusters,'cluster_id','cluster',stock,$locationIndex, $stockIndex)" 
@@ -59,7 +59,7 @@
         
             <!-- stock purpose  -->
             <div class="input-field col s12 m6 l4" ng-if="stock.admin0pcode !== 'ET'">
-                <select materialize-select id="ngm-stock_item_purpose_id-{{$locationIndex}}-{{$stockIndex}}"
+                <select materialize-select watch id="ngm-stock_item_purpose_id-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-stock_item_purpose_id-{{$locationIndex}}-{{$stockIndex}}" class="validate"
                     ng-options="sp.stock_item_purpose_id as sp.stock_item_purpose_name for sp in report.lists.stock_item_purpose"
                     ng-model="stock.stock_item_purpose_id"
@@ -101,7 +101,7 @@
         
             <!-- Type  -->
             <div class="input-field col s12 m6 l4" ng-if="stock.admin0pcode === 'ET'">
-                <select materialize-select id="ngm-stock_type_id-{{$locationIndex}}-{{$stockIndex}}" name="ngm-stock_type_id-{{$locationIndex}}-{{$stockIndex}}"
+                <select materialize-select watch id="ngm-stock_type_id-{{$locationIndex}}-{{$stockIndex}}" name="ngm-stock_type_id-{{$locationIndex}}-{{$stockIndex}}"
                     class="validate" ng-options="s.stock_type_id as s.stock_type_name for s in report.lists.types"
                     ng-model="stock.stock_type_id"
                     ng-change="report.updateNameStock(report.lists.types,'stock_type_id','stock_type_name',stock,$locationIndex, $stockIndex)"
@@ -156,7 +156,7 @@
 
             <!-- Units -->
             <div class="input-field col s12 m6 l4">
-                <select materialize-select id="ngm-stock_unit_type_id-{{$locationIndex}}-{{$stockIndex}}"
+                <select materialize-select watch id="ngm-stock_unit_type_id-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-stock_unit_type_id-{{$locationIndex}}-{{$stockIndex}}" class="validate"
                     ng-options="u.unit_type_id as u.unit_type_name for u in report.lists.units | filter: { cluster_id: stock.cluster_id }"
                     ng-model="stock.unit_type_id"
