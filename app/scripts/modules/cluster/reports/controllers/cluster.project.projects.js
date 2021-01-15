@@ -154,7 +154,8 @@ angular.module( 'ngmReportHub' )
 			// set Region Menu
 			setRegionMenu: function () {
 				url = '/desk/#/cluster/projects/list';
-				var region = ngmClusterHelper.getRegionMenu(url);
+				var year = $route.current.params.year
+				var region = ngmClusterHelper.getRegionMenu(url,year);
 				$scope.model.menu.push(region);
 			},
 
@@ -162,7 +163,8 @@ angular.module( 'ngmReportHub' )
 			setCountryMenu: function (region) {
 
 				var url = '/desk/#/cluster/projects/list/';
-				var menu = ngmClusterHelper.getCountryMenu(url);
+				var year = $route.current.params.year
+				var menu = ngmClusterHelper.getCountryMenu(url,year);
 				$scope.model.menu.push(menu[region]);
 			},
 

@@ -468,7 +468,7 @@ angular.module( 'ngmReportHub' )
       },
 
 			// get Menu Country
-			getCountryMenu:function(url){
+			getCountryMenu:function(url,year){
 				var menu = {
 					'all': {
             'search': true,
@@ -481,80 +481,80 @@ angular.module( 'ngmReportHub' )
 							'param': 'admin0pcode',
 							'active': 'af',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/af/all/all',
+							'href': url + 'emro/af/all/all/'+year,
 						}, {
 							'title': 'Bangladesh',
 							'param': 'admin0pcode',
 							'active': 'bd',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'searo/bd/all/all',
+							'href': url + 'searo/bd/all/all/'+year,
 						}, {
 							'title': 'Cox Bazar',
 							'param': 'admin0pcode',
 							'active': 'cb',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'searo/cb/all/all',
+							'href': url + 'searo/cb/all/all/'+year,
 						}, {
 							'title': 'Democratic Republic of Congo',
 							'param': 'admin0pcode',
 							'active': 'cd',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'afro/cd/all/all'
+							'href': url + 'afro/cd/all/all/'+year
 						}, {
 							'title': 'Ethiopia',
 							'param': 'admin0pcode',
 							'active': 'et',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'afro/et/all/all',
+							'href': url + 'afro/et/all/all/'+year,
 						},{
 							'title': 'Iraq',
 							'param': 'admin0pcode',
 							'active': 'iq',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/iq/all/all',
+							'href': url + 'emro/iq/all/all/'+year,
 						}, {
 							'title': 'Somalia',
 							'param': 'admin0pcode',
 							'active': 'so',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/so/all/all',
+							'href': url + 'emro/so/all/all/'+year,
 						}, {
 							'title': 'South Sudan',
 							'param': 'admin0pcode',
 							'active': 'ss',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'afro/ss/all/all',
+							'href': url + 'afro/ss/all/all/'+year,
 						}, {
 							'title': 'Syria',
 							'param': 'admin0pcode',
 							'active': 'so',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/sy/all/all',
+							'href': url + 'emro/sy/all/all/'+year,
 						}, {
 							'title': 'Ukraine',
 							'param': 'admin0pcode',
 							'active': 'ua',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'euro/ua/all/all',
+							'href': url + 'euro/ua/all/all/'+year,
 						}, {
 							'title': 'Yemen',
 							'param': 'admin0pcode',
 							'active': 'ye',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/ye/all/all',
+							'href': url + 'emro/ye/all/all/'+year,
 						}, {
 							'title': 'Nigeria',
 							'param': 'admin0pcode',
 							'active': 'ng',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'afro/ng/all/all',
+							'href': url + 'afro/ng/all/all/'+year,
 						},
 						{
 							'title': 'Colombia',
 							'param': 'admin0pcode',
 							'active': 'col',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'amer/col/all/all',
+							'href': url + 'amer/col/all/all/'+year,
 						}]
 					},
 					'afro': {
@@ -568,25 +568,25 @@ angular.module( 'ngmReportHub' )
 							'param': 'admin0pcode',
 							'active': 'cd',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'afro/cd/all/all'
+							'href': url + 'afro/cd/all/all/'+year
 						}, {
 							'title': 'Ethiopia',
 							'param': 'admin0pcode',
 							'active': 'et',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'afro/et/all/all',
+							'href': url + 'afro/et/all/all/'+year,
 						}, {
 							'title': 'Nigeria',
 							'param': 'admin0pcode',
 							'active': 'ng',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'afro/ng/all/all',
+							'href': url + 'afro/ng/all/all/'+year,
 						}, {
 							'title': 'South Sudan',
 							'param': 'admin0pcode',
 							'active': 'ss',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'afro/ss/all/all',
+							'href': url + 'afro/ss/all/all/'+year,
 						}]
 					},
 					'emro': {
@@ -600,31 +600,31 @@ angular.module( 'ngmReportHub' )
 							'param': 'admin0pcode',
 							'active': 'af',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/af/all/all',
+							'href': url + 'emro/af/all/all/'+year,
 						}, {
 							'title': 'Iraq',
 							'param': 'admin0pcode',
 							'active': 'iq',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/iq/all/all',
+							'href': url + 'emro/iq/all/all/'+year,
 						},{
 							'title': 'Somalia',
 							'param': 'admin0pcode',
 							'active': 'so',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/so/all/all',
+							'href': url + 'emro/so/all/all/'+year,
 						}, {
 							'title': 'Syria',
 							'param': 'admin0pcode',
 							'active': 'sy',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/sy/all/all',
+							'href': url + 'emro/sy/all/all/'+year,
 						}, {
 							'title': 'Yemen',
 							'param': 'admin0pcode',
 							'active': 'ye',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'emro/ye/all/all',
+							'href': url + 'emro/ye/all/all/'+year,
 						}]
 					},
 					'searo': {
@@ -638,13 +638,13 @@ angular.module( 'ngmReportHub' )
 							'param': 'admin0pcode',
 							'active': 'bd',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'searo/bd/all/all',
+							'href': url + 'searo/bd/all/all/'+year,
 						}, {
 							'title': 'Cox Bazar',
 							'param': 'admin0pcode',
 							'active': 'cb',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'searo/cb/all/all',
+							'href': url + 'searo/cb/all/all/'+year,
 						}]
 					},
 					'euro': {
@@ -658,7 +658,7 @@ angular.module( 'ngmReportHub' )
 							'param': 'admin0pcode',
 							'active': 'ua',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'euro/ua/all/all'
+							'href': url + 'euro/ua/all/all/'+year
 						},]
 					},
 					'amer': {
@@ -672,7 +672,7 @@ angular.module( 'ngmReportHub' )
 							'param': 'admin0pcode',
 							'active': 'col',
 							'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-							'href': url + 'amer/col/all/all'
+							'href': url + 'amer/col/all/all/'+year
 						},]
 					}
 				}
@@ -680,7 +680,7 @@ angular.module( 'ngmReportHub' )
 			},
 
 			// get Menu Region
-			getRegionMenu: function(url){
+			getRegionMenu: function(url,year){
 				var region = {
           'search': true,
 					'id': 'search-region',
@@ -692,37 +692,37 @@ angular.module( 'ngmReportHub' )
 						'param': 'adminRpcode',
 						'active': 'all',
 						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-						'href': url + '/all/all/all/all',
+						'href': url + '/all/all/all/all/'+year,
 					}, {
 						'title': 'AFRO',
 						'param': 'adminRpcode',
 						'active': 'afro',
 						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-						'href': url + '/afro/all/all/all'
+						'href': url + '/afro/all/all/all/'+year
 					}, {
 						'title': 'AMER',
 						'param': 'adminRpcode',
 						'active': 'amer',
 						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-						'href': url + '/amer/all/all/all'
+						'href': url + '/amer/all/all/all/'+year
 					}, {
 						'title': 'EMRO',
 						'param': 'adminRpcode',
 						'active': 'emro',
 						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-						'href': url + '/emro/all/all/all'
+						'href': url + '/emro/all/all/all/'+year
 					}, {
 						'title': 'SEARO',
 						'param': 'adminRpcode',
 						'active': 'searo',
 						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-						'href': url + '/searo/all/all/all'
+						'href': url + '/searo/all/all/all/'+year
 					}, {
 						'title': 'EURO',
 						'param': 'adminRpcode',
 						'active': 'euro',
 						'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-						'href': url + '/euro/all/all/all'
+						'href': url + '/euro/all/all/all/'+year
 					}
 					]
 				};
