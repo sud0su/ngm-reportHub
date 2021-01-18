@@ -568,7 +568,7 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 							$timeout(function(){
 
 								// Materialize.toast( $filter('translate')('welcome_back')+' ' + + result.username + '!', 6000, 'note' );
-								M.toast({ html: $filter('translate')('welcome_back') + ' ' + + result.data.username + '!' , displayLength: 6000, classes: 'note' });
+								M.toast({ html: $filter('translate')('welcome_back') + ' ' + result.data.username + '!' , displayLength: 6000, classes: 'note' });
 							}, 2000);
 
 
