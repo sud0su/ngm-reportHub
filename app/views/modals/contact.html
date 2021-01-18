@@ -75,8 +75,10 @@
     </div>
     <div class="row">
      
-      <div class="col l4 m4 s12 ">
-        <p style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">{{'contact'|translate}} {{ngm.var4wplusrh}}</p>
+      <div class="col l3 m3 s12 ">
+        <p style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">{{'contact'|translate}} 
+          <!-- {{ngm.var4wplusrh}} -->
+        </p>
         <div style="margin-top:15px;margin-bottom: 35px; text-align: left;">
           <a class="btn-floating">
             <i class="material-icons blue"> email </i>
@@ -102,8 +104,8 @@
           </a>
         </div> -->
       </div>
-      <div class="col l4 m4 s12 " ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'">
-        <p style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">{{'contact'|translate}} Per Country
+      <div class="col l3 m3 s12 " ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'">
+        <p style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">Country {{'contact'|translate}}
         </p>
         <div style=" margin-top:15px; margin-bottom: 35px; text-align: left;">
           <a class="btn-floating">
@@ -116,9 +118,27 @@
             href="tel:+93799869533">&lrm;+93-799-869-533</a>
         </div>
       </div>
-      <div class="col l4 m4 s12 ">
+      <div class="col l3 m3 s12 ">
+        <p style="color: #2196F3;font-weight: 500;font-size: 18px;" align="left">
+          Support Services
+        </p>
+        <!-- GUIDE -->
+        <div style="margin-top:15px;margin-bottom: 35px; text-align: left;">
+          <a class="btn-floating modal-action modal-close"
+            href="https://reporthub.atlassian.net/servicedesk/customer/portal/1 " target="_blank">
+            <i class="material-icons blue"> room_service </i>
+          </a>
+          <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close"
+            href="https://reporthub.atlassian.net/servicedesk/customer/portal/1" target="_blank">
+            Reporthub Service Desk
+          </a>
+      
+        </div>
+      </div>
+      <div class="col l3 m3 s12 ">
           <p style="color: #2196F3;font-weight: 500;font-size: 18px;" align="left">{{'user_guide'|translate}}
-            {{ngm.var4wplusrh}}</p>
+            <!-- {{ngm.var4wplusrh}} -->
+          </p>
           <!-- GUIDE -->
           <div ng-if="ngm.var4wplusrh === 'REPORTHUB'" style="margin-top:15px;margin-bottom: 35px; text-align: left;">
             <a class="btn-floating modal-action modal-close" href="/report/guide/ReportHub_User_Guide.pdf">
