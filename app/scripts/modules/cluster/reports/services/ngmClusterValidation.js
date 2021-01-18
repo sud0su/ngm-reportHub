@@ -1396,6 +1396,14 @@ angular.module( 'ngmReportHub' )
 					validation.divs.push(id);
 					complete = false;
 				}
+				if (ngmClusterBeneficiaries.form[i] && ngmClusterBeneficiaries.form[i][j]['total_pwd']){
+					if (b.total_pwd === null || b.total_pwd === undefined || b.total_pwd === NaN || b.total_pwd < 0 || b.total_pwd > b.total_beneficiaries ) {
+						id = "label[for='" + 'ngm-total_pwd-' + i + '-' + j + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
+				}
 				// console.log( 'complete31' );
 				// console.log( complete );
 
