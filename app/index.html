@@ -790,6 +790,10 @@
 											<a href="#/cluster/5w" ng-click="ngm.toggleNavigationMenu();ngm.openDashboard= !ngm.openDashboard;">
 												<i class="material-icons small right">bubble_chart</i>{{'5WDASHBOARD_mayus' |translate}}</a>
 										</li>
+										<li style="position: relative;border-bottom: 1px solid #f1f1f1" ng-if="ngm.accessByRole('USER,ORG',false)">
+											<a href="#/country-organizaion-list/af/all/all" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
+												<i class="material-icons small right">group</i>ORGANIZATION LIST</a>
+										</li>
 										<li style="position: relative;border-bottom: 1px solid #f1f1f1" ng-if="ngm.getUser().admin0pcode === 'AF'" ng-show="ngm.getUser().organization.toLowerCase() === 'immap' ||
 																																												ngm.getUser().organization.toLowerCase() === 'moph' ||
 																																												ngm.getUser().organization.toLowerCase() === 'who' ||
@@ -1100,6 +1104,8 @@
 		<script src="scripts/modules/cluster/reports/controllers/cluster.beneficiaries.stock.admin.js"></script>
 		<script src="scripts/modules/cluster/reports/forms/cluster.upload.beneficiaries.stock.report.js"></script>
 
+		<!-- ORGANIZATION LIST -->
+		<script src="scripts/modules/cluster/reports/controllers/cluster.country.organization.list.js"></script>
 		<!-- SERVICES -->
 		<script src="scripts/modules/cluster/reports/services/ngmClusterHelper.js"></script>
 		<script src="scripts/modules/cluster/reports/services/ngmClusterLists.js"></script>

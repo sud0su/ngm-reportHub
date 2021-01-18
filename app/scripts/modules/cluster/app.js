@@ -1202,6 +1202,25 @@ angular
 					}],
 				}
 			})
+			.when('/country-organizaion-list/',{
+				resolve: {
+					access: ['$location', 'ngmUser', function ($location, ngmUser) {
+						const user = ngmUser.get();
+						const admin0pcode = user.admin0pcode.toLowerCase();
+						const url = '/country-organizaion-list/'+admin0pcode+'/all/all';
+						$location.path(url);
+					}]
+				}
+			})
+			.when('/country-organizaion-list/:admin0pcode/:cluster_id/:type',{
+				templateUrl: '/views/app/dashboard.html',
+				controller: 'CountryOrganizationListCtrl',
+				resolve: {
+					access: ['ngmAuth', function (ngmAuth) {
+						return ngmAuth.isAuthenticated();
+					}],
+				}
+			})
 
 			// FORBIDDEN
 			.when( '/cluster/forbidden', {

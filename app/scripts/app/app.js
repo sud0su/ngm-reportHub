@@ -548,6 +548,19 @@ angular
 						$('.ngm-profile-icon').toggleClass('rotate-icon');
 					}
 				}
+			},
+			accessByRole:function(string_role,include_role){
+				//if include_role is 'true' then only the role defined in the string_role can access
+				// if include_role is 'false' then only the role defined in the string_role cannot access
+				//example string_role => 'USER,ORG'
+				roles = string_role.split(',');
+				
+				var access =false
+				const USER_PERMISSIONS = ngmAuth.userPermissions();
+				// for menu get role with highest priority if user has multiple roles
+				role = USER_PERMISSIONS.reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })
+				access = (roles.indexOf(role.ROLE) > -1) ===  include_role ;
+				return access
 			}
 
 		};
