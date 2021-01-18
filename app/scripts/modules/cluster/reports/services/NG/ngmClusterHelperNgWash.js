@@ -178,6 +178,9 @@ angular.module( 'ngmReportHub' )
 
 					// associations
 					delete b.id;
+					if (b.total_pwd) {
+						delete b.total_pwd;
+					}
 					inserted = angular.merge( inserted, b, sadd );
 					angular.forEach( inserted, function( d, i ){
 						if ( Array.isArray( d ) ) {
