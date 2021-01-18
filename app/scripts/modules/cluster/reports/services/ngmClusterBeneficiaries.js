@@ -404,6 +404,9 @@ angular.module( 'ngmReportHub' )
 					if (b.response){
 						b.response =[];
 					}
+					if (b.total_pwd){
+						delete b.total_pwd;
+					}
 					context_defaults = defaults[ project.definition.admin0pcode ] && defaults[ project.definition.admin0pcode ][ b.cluster_id ] ? defaults[ project.definition.admin0pcode ][ b.cluster_id ] : {}
 					angular.merge( inserted, b, defaults.inputs, context_defaults );
 				}
