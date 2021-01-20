@@ -560,7 +560,7 @@ angular
 						const year_by_admin0pcode = {
 							'AF': moment().subtract(2, 'M').year().toString(),
 							'PG': moment().subtract(2, 'M').year().toString(),
-							'default': '2018'
+							'default': moment().subtract(2, 'M').year().toString()
 						};
 						const year = year_by_admin0pcode[user.admin0pcode] || year_by_admin0pcode['default'];
 						const url = '/cluster/5w/' + adminRpcode + '/' + admin0pcode + '/all/all/' + cluster_id + '/all/all/' + organization_tag + '/all/' + year + '-01-01/' + moment().format('YYYY-MM-DD');
