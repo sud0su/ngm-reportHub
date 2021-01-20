@@ -230,8 +230,9 @@ angular.module('ngmReportHub')
                                     headerIcon: 'perm_contact_calendar',
                                     headerTitle: 'Organizations List',
                                     templateUrl: '/scripts/widgets/ngm-table/templates/cluster/country.org.list.html',
+                                    search_tool:true,
                                     tableOptions: {
-                                        count: 10
+                                        count: 20
                                     },
                                     request: {
                                         method: 'POST',

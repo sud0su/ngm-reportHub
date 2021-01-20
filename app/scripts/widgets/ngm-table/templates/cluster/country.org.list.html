@@ -51,6 +51,29 @@
     .color_teal {
         color: #26a69a !important;
     }
+    .nav-list-search {
+	margin-top: 6px;
+	background-color: white;
+	width:72px;
+	-webkit-transition: width 1s ease;
+	-moz-transition: width 1s ease;
+	-o-transition: width 1s ease;
+	-ms-transition: width 1s ease;
+	transition: width 1s ease;		
+}
+.nav-list-search.focused {
+	margin-top: 6px;
+	width: 100%;
+	-webkit-transition: width 1s ease;
+	-moz-transition: width 1s ease;
+	-o-transition: width 1s ease;
+	-ms-transition: width 1s ease;
+	transition: width 1s ease;
+}
+.input-field input[type=search] {
+	font-weight: 300;
+	padding-top: 0px;
+}
 </style>
 
 <!-- ngTable -->
@@ -59,30 +82,30 @@
         <div class="card" ng-init="grid = false">
             <ul class="collection with-header">
                 <li class="{{ table.headerClass }} collection-header" style="height:80px;">
-                    <div class="col s12 m10 l10">
+                    <div class="col s12 m5 l5">
                         <h5 class="report-work-title {{ table.headerText }}">
                             <i class="material-icons left">{{ table.headerIcon }}</i>{{ table.headerTitle }}
                         </h5>
                     </div>
-                    <!-- <div class="col s12 m2 l2">
-                        <div class="grid-list upload-view-switch hide-on-small-only">
-                            <div class="btn-floating wave-effect space tooltipped-upload" data-position="bottom"
-                                data-tooltip="{{'grid_view'|translate}}" ng-click="grid=true"
-                                ng-class="{white: grid,teal:!grid}">
-                                <i class="material-icons " style="color: #ffffff"
-                                    ng-class="{color_teal: grid,color_white:!grid}">
-                                    view_module
-                                </i>
+                    <div class="col s3 m7 l7 right" ng-if="showSearch">
+                        <nav class="nav-list-search right" ng-class="{'focused':table.search.focused===true || table.search.filter }">
+                            <div class="nav-wrapper" ng-click="table.toggleSearch()">
+                                <form style="padding: 0px">
+                                    <div class="input-field">
+                                        <input id="search_{{table.id}}" type="search" ng-model="table.search.filter"
+                                            ng-focus="table.search.focused=true" ng-blur="table.search.focused=false"
+                                            ng-change="table.searchLoadTable()">
+                                        <!-- <label for="search_{{table.id}}">
+                    											<i class="material-icons" style="color: teal; padding-left:5px;">search</i>
+                    										</label> -->
+                                        <label for="search_{{table.id}}" style="top:-10px" class="search">
+                                            <i class="material-icons" style="color: teal; padding-left:25px;">search</i>
+                                        </label>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="btn-floating wave-effect space tooltipped-upload" data-position="bottom"
-                                data-tooltip="{{'list_view'|translate}}" ng-click="grid=false"
-                                ng-class="{white: !grid,teal:grid}">
-                                <i class="material-icons mirror " ng-class="{color_teal: !grid,color_white:grid}">
-                                    format_list_bulleted
-                                </i>
-                            </div>
-                        </div>
-                    </div> -->
+                        </nav>
+                    </div>
                 </li>
                 <li class="collection-item avatar" style="padding:10px;">
 

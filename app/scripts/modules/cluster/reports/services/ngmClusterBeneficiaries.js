@@ -474,7 +474,7 @@ angular.module( 'ngmReportHub' )
 						delete beneficiary.indicator_name;
 						delete beneficiary.beneficiary_type_id;
 						delete beneficiary.beneficiary_type_name;
-						delete beneficiary.total_pwd
+						delete beneficiary.total_pwd;
 
 						// set form
 						ngmClusterBeneficiaries.setBeneficiariesInputs( project.lists, $parent, $index, beneficiary );
