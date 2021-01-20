@@ -719,6 +719,50 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 							}
 
 						});
+				},
+				setClusterContact:function(id){
+					// Materialize.toast( $filter('translate')('processing')+'...', 6000, 'note');
+					// M.toast({ html: $filter('translate')('processing') + '...', displayLength: 6000, classes: 'note' });
+					if (document.getElementById(id).checked) {
+						$scope.panel.user.cluster_contact = true;
+					} else {
+						$scope.panel.user.cluster_contact = false;
+					}
+					M.toast({ html: 'Please Click Update Button to Save Change...', displayLength: 4000, classes: 'note' });
+				
+
+				},
+				showClusterContact:function(){
+					var _roles = ['CLUSTER', 'COUNTRY', 'COUNTRY_ADMIN', 'SUPERADMIN'];
+					var show = false;
+					user_see_profile = ngmUser.get() ? _roles.some(role => ngmUser.get().roles.includes(role)):false;
+					if ((_roles.some(role => $scope.panel.user.roles.includes(role))) && user_see_profile){
+						show = true;
+					}
+					return show
+
+				},
+				setContactPermissions: function (string_role, include_role) {
+					//if include_role is 'true' then only the role defined in the string_role can access
+					// if include_role is 'false' then only the role defined in the string_role cannot access
+					//example string_role => 'USER,ORG'
+					roles = string_role.split(',');
+					var access = false;
+					if (!ngmUser.get()) return false;
+					const USER_PERMISSIONS = ngmAuth.userPermissions();
+					// for menu get role with highest priority if user has multiple roles
+					role = USER_PERMISSIONS.reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['ROLE']
+					//who can set/unset user as cluster contact
+					if (role === 'SUPERADMIN' || role === 'COUNTRY_ADMIN'){
+						access = true;
+
+					} else {
+						if((role === 'CLUSTER') && (ngmUser.get().cluster_id === config.user.cluster_id)){
+							access = true;
+						}
+					};
+					
+					return access;
 				}
 
 			}

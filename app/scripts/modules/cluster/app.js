@@ -1221,6 +1221,26 @@ angular
 					}],
 				}
 			})
+			.when('/cluster/wg/sector-contacts/',{
+				resolve: {
+					access: ['$location', 'ngmUser', function ($location, ngmUser) {
+						const user = ngmUser.get();
+						const cluster_id = user.cluster_id;
+						const admin0pcode = user.admin0pcode.toLowerCase();
+						const url = '/cluster/wg/sector-contacts/'+admin0pcode+'/'+cluster_id;
+						$location.path(url);
+					}]
+				}
+			})
+			.when('/cluster/wg/sector-contacts/:admin0pcode/:cluster_id',{
+				templateUrl: '/views/app/dashboard.html',
+				controller: 'ClusterContactListCtrl',
+				resolve: {
+					access: ['ngmAuth', function (ngmAuth) {
+						return ngmAuth.isAuthenticated();
+					}],
+				}
+			})
 
 			// FORBIDDEN
 			.when( '/cluster/forbidden', {
