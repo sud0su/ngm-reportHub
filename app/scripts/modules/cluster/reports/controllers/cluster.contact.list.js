@@ -322,14 +322,12 @@ angular.module('ngmReportHub')
                     $scope.report.title = 'Cluster Contact List ';
                     $scope.report.subtitle = 'Cluster Contact List for ';
                     $scope.report.title += ($scope.report.admin0pcode === 'all' ? '' : ' | '+$scope.report.admin0pcode.toUpperCase());
-                    $scope.report.subtitle += ($scope.report.admin0pcode === 'all' ? 'All Country, ' : $scope.report.admin0pcode.toUpperCase()+' Country, ');
+                    $scope.report.subtitle += ($scope.report.admin0pcode === 'all' ? 'All Country ' : $scope.report.admin0pcode.toUpperCase()+' Country ');
                     if ($scope.report.cluster_id !== 'all'){
                         var cluster = $filter('filter')($scope.report.clusters, { cluster_id: $scope.report.cluster_id })
                         $scope.report.cluster = cluster[0].cluster;
                         $scope.report.title += ' | ' + $scope.report.cluster;
-                        $scope.report.subtitle +=  $scope.report.cluster;
-                    }else{
-                        $scope.report.subtitle += 'All Cluster'
+                        $scope.report.subtitle += ', ' +$scope.report.cluster;
                     }
                     
 
@@ -358,12 +356,16 @@ angular.module('ngmReportHub')
                                     icon: 'description',
                                     hover: 'Cluster Contact List CSV',
                                     request: {
-                                        method: 'POST',
-                                        url: ngmAuth.LOCATION + '/api/getUserByCluster',
-                                        data: {
+                                        method: 'GET',
+                                        url: ngmAuth.LOCATION + '/api/getClusterContactUsers',
+                                        params: {
                                             cluster_id: $scope.report.cluster_id,
                                             admin0pcode: $scope.report.admin0pcode,
-                                            report: 'cluster_contact_lists' + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'), 
+                                            cluster_contact: true,
+                                            csv: true
+                                        },
+                                        data: {
+                                            report: 'cluster_contact_lists' + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'),
                                             csv: true
                                         }
                                     },
@@ -403,11 +405,12 @@ angular.module('ngmReportHub')
                                             count: 20
                                         },
                                         request: {
-                                            method: 'POST',
-                                            url: ngmAuth.LOCATION + '/api/getUserByCluster',
-                                            data: {
+                                            method: 'GET',
+                                            url: ngmAuth.LOCATION + '/api/getClusterContactUsers',
+                                            params: {
+                                                cluster_id: $scope.report.cluster_id,
                                                 admin0pcode: $scope.report.admin0pcode,
-                                                cluster_id: $scope.report.cluster_id
+                                                cluster_contact: true,
                                             }
                                         }
                                     }
@@ -446,8 +449,8 @@ angular.module('ngmReportHub')
             // run page
             $scope.report.init();
             const USER_PERMISSIONS = ngmAuth.userPermissions();
-            var user_level = USER_PERMISSIONS.reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['LEVEL'];
-            if(user_level>=4){
+            var countryFilter = USER_PERMISSIONS.reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['MULTICOUNTRY'];
+            if(countryFilter){
                 $scope.report.setCountryMenu();
             }
             $scope.report.setClusterMenu();
