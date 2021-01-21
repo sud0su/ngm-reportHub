@@ -311,32 +311,6 @@ angular.module('ngmReportHub')
                         'rows': clusterRows
                     });
                 },
-                setTypeMenu: function () {
-                    var typeRows = []
-
-                    angular.forEach($scope.report.type_org, function (t, i) {
-                        // admin URL
-                        var path = $scope.report.getPath($scope.report.admin0pcode, $scope.report.cluster_id, t.organization_type_id);
-
-                        // menu rows
-                        typeRows.push({
-                            'title': $scope.report.type_org[i].organization_type,
-                            'param': 'type',
-                            'active': t.organization_type_id,
-                            'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-                            'href': '/desk/#' + path
-                        });
-                    })
-
-                    $scope.model.menu.push({
-                        'search': false,
-                        'id': 'search-cluster',
-                        'icon': 'camera',
-                        'title': 'Organization Type',
-                        'class': 'teal lighten-1 white-text',
-                        'rows': typeRows
-                    });
-                },
                 // set project details
                 init: function () {
 
@@ -347,14 +321,13 @@ angular.module('ngmReportHub')
                     // title
                     $scope.report.title = 'Cluster Contact List ';
                     $scope.report.subtitle = 'Cluster Contact List for ';
-                    $scope.report.title += ($scope.report.admin0pcode === 'all' ? '' : ' | '+$scope.report.admin0pcode.toUpperCase())
-                    $scope.report.subtitle += ($scope.report.admin0pcode === 'all' ? 'All Country, ' : $scope.report.admin0pcode.toUpperCase()+' Country, ')
-                    console.log($scope.report.subtitle)
+                    $scope.report.title += ($scope.report.admin0pcode === 'all' ? '' : ' | '+$scope.report.admin0pcode.toUpperCase());
+                    $scope.report.subtitle += ($scope.report.admin0pcode === 'all' ? 'All Country, ' : $scope.report.admin0pcode.toUpperCase()+' Country, ');
                     if ($scope.report.cluster_id !== 'all'){
                         var cluster = $filter('filter')($scope.report.clusters, { cluster_id: $scope.report.cluster_id })
                         $scope.report.cluster = cluster[0].cluster;
                         $scope.report.title += ' | ' + $scope.report.cluster;
-                        $scope.report.subtitle +=  $scope.report.cluster+' Cluster';
+                        $scope.report.subtitle +=  $scope.report.cluster;
                     }else{
                         $scope.report.subtitle += 'All Cluster'
                     }
@@ -472,7 +445,11 @@ angular.module('ngmReportHub')
 
             // run page
             $scope.report.init();
-            $scope.report.setCountryMenu();
+            const USER_PERMISSIONS = ngmAuth.userPermissions();
+            var user_level = USER_PERMISSIONS.reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['LEVEL'];
+            if(user_level>=4){
+                $scope.report.setCountryMenu();
+            }
             $scope.report.setClusterMenu();
 
         }]);
