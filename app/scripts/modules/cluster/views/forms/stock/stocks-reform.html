@@ -133,7 +133,8 @@
                     ng-model="stock.implementing_partners[0].organization_tag"
                     ng-change="report.updateNameStockImplementingPartnerDonor(report.lists.organizations,'implementing_partners','organization_tag','organization',stock,$locationIndex, $stockIndex);report.inputChange('ngm-implementing_partner-{{$locationIndex}}-{{$stockIndex}}')"
                     ng-disabled="report.report.report_status === 'complete'">
-                    <option value="">{{ 'select' | translate }}</option>
+                    <!-- <option value="">{{ 'select' | translate }}</option> -->
+                    <option value="">-</option>
                 </select>
                 <label for="ngm-implementing_partner-{{$locationIndex}}-{{$stockIndex}}" class="active"
                     style="transform:translateY(-10%)">Implementing Partner</label>
@@ -147,7 +148,8 @@
                     ng-model="stock.donors[0].donor_id"
                     ng-change="report.updateNameStockImplementingPartnerDonor(report.lists.donors,'donors','donor_id','donor_name',stock,$locationIndex, $stockIndex);report.inputChange('ngm-donor-{{$locationIndex}}-{{$stockIndex}}')"
                     ng-disabled="report.report.report_status === 'complete'">
-                    <option value="">{{ 'select' | translate }}</option>
+                    <!-- <option value="">{{ 'select' | translate }}</option> -->
+                    <option value="">-</option>
                 </select>
                 <label for="ngm-donor-{{$locationIndex}}-{{$stockIndex}}" class="active"
                     style="transform:translateY(-10%)">Donor</label>
