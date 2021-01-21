@@ -7,7 +7,7 @@
     <!-- <p>Project has been saved!</p> -->
   </div>
   <div class="modal-footer">
-	  <a ng-click="report.save( false, true )" class=" modal-action modal-close waves-effect waves-green btn">{{'yes'|translate}}</a>
+	  <a ng-click="report.validateForm( false, true )" class=" modal-action modal-close waves-effect waves-green btn">{{'yes'|translate}}</a>
   	<a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
   </div>
 </div>
@@ -30,7 +30,7 @@
     <p>{{'submit_monthly_stock_report_for'|translate}} {{ report.monthlyTitleFormat }}?</p>
   </div>
   <div class="modal-footer">
-	  <a ng-click="report.save( true, false )" class=" modal-action modal-close waves-effect waves-green btn">{{'yes_submit_report'|translate}}!</a>
+	  <a ng-click="report.validateForm( true, false )" class=" modal-action modal-close waves-effect waves-green btn">{{'yes_submit_report'|translate}}!</a>
   	<a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
   </div>
 </div>
@@ -84,9 +84,9 @@
 						-->
 
 						<!-- validation -->
-						<div ng-if="!report.formComplete()" style="padding:20px;"><span style="color:#EE6E73">{{'form_not_completed'|translate}}</span></div>
+						<!-- <div ng-if="!report.formComplete()" style="padding:20px;"><span style="color:#EE6E73">{{'form_not_completed'|translate}}</span></div> -->
 
-						<button class="waves-effect waves-light btn modal-trigger" data-target="save-modal" ng-disabled="!report.formComplete()">
+						<button class="waves-effect waves-light btn modal-trigger" data-target="save-modal">
 							<i class="material-icons right">send</i>{{'save_mayus'|translate}}</button>
 
 
@@ -105,7 +105,7 @@
 						<br/>
 
 						<button class="waves-effect waves-light btn modal-trigger blue"
-							data-target="complete-modal" ng-disabled="!report.formComplete()">
+							data-target="complete-modal">
 							<i class="material-icons left">assignment_turned_in</i>{{'submit_monthly_report'|translate}}
 						</button>
 
