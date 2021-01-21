@@ -1525,19 +1525,19 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
                 valid = false;
               }
             }
-            if (stock.implementing_partners && stock.implementing_partners.length && !stock.implementing_partners[0].organization_tag) {
-              id = "label[for='" + 'ngm-implementing_partner-' + i + '-' + j + "']";
-              validation.divs.push(id);
-              $(id).addClass('error');
-              valid = false;
-            }
+            // if (stock.implementing_partners && stock.implementing_partners.length && !stock.implementing_partners[0].organization_tag) {
+            //   id = "label[for='" + 'ngm-implementing_partner-' + i + '-' + j + "']";
+            //   validation.divs.push(id);
+            //   $(id).addClass('error');
+            //   valid = false;
+            // }
 
-            if (stock.donors && stock.donors.length && !stock.donors[0].donor_id){
-              id = "label[for='" + 'ngm-donor-' + i + '-' + j + "']";
-              validation.divs.push(id);
-              $(id).addClass('error');
-              valid = false;
-            }
+            // if (stock.donors && stock.donors.length && !stock.donors[0].donor_id){
+            //   id = "label[for='" + 'ngm-donor-' + i + '-' + j + "']";
+            //   validation.divs.push(id);
+            //   $(id).addClass('error');
+            //   valid = false;
+            // }
 
           }
 
