@@ -541,9 +541,8 @@ angular.module( 'ngmReportHub' )
 					ngmClusterDetails.setList( ngmClusterBeneficiaries.form[ $parent ][ $index ].details, $parent, $index, 0, '', [{}] );
 				}
 
-
 				// clear
-				if (!ngmClusterBeneficiaries.form[$locationIndex][$beneficiaryIndex]['total_pwd'] && beneficiary.total_pwd){
+				if (!ngmClusterBeneficiaries.form[ $parent ][ $index ]['total_pwd'] && beneficiary.total_pwd){
 					delete beneficiary.total_pwd;
 				}
 
