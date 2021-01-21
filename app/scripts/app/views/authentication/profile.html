@@ -397,6 +397,18 @@ form {
 		        </div>
 		      </div>
 
+			<div class="row" ng-if="panel.showClusterContact()">
+				<div class="col s12 m12 l12">
+					<div style="margin:15px 0 10px 0;">
+						<label>
+							<input type="checkbox" class="filled-in" id="cluster_contact"
+								ng-checked="panel.user.cluster_contact" 
+								ng-click="panel.setClusterContact('cluster_contact')" ng-disabled="!panel.setContactPermissions('CLUSTER, COUNTRY, COUNTRY_ADMIN',true)"/>
+							<span style="color: #000000; font-weight: 400;padding-left: 41px;margin-left: 3px;line-height: 20px;">Cluster Contact</span>
+						</label class="active">
+					</div>
+				</div>
+			</div>
 				</div>
 
 				<!-- ROLE -->
