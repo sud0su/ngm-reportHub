@@ -13,11 +13,14 @@ angular
 		// https://medium.com/swlh/improving-angular-performance-with-1-line-of-code-a1fb814a6476#.ufea9sjt1
 		$compileProvider.debugInfoEnabled( false )
 
+		const year_dashboards = moment().subtract(2, 'M').year();
+		const start_date_dashboards = moment([year_dashboards]).format('YYYY-MM-DD');
+
 		// app routes with access rights
 		$routeProvider
 			// epr
 			.when( '/epr', {
-				redirectTo: '/epr/2019/all/all/all/2019-01-01/' + moment().format('YYYY-MM-DD')
+				redirectTo: '/epr/' + year_dashboards + '/all/all/all/' + start_date_dashboards+'/' + moment().format('YYYY-MM-DD')
 			})
 			// epr dashboard
 			.when( '/epr/:year/:region/:province/:week/:start/:end', {
@@ -31,7 +34,7 @@ angular
 			})
 			// epr
 			.when( '/epr/admin', {
-				redirectTo: '/epr/admin/2019/all/all/all/2019-01-01/' + moment().format('YYYY-MM-DD')
+				redirectTo: '/epr/admin/' + year_dashboards + '/all/all/all/' + start_date_dashboards+'/' + moment().format('YYYY-MM-DD')
 			})
 			// epr admin
 			.when( '/epr/admin/:year/:region/:province/:week/:start/:end', {
