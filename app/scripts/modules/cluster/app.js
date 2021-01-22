@@ -1217,17 +1217,17 @@ angular
 					}],
 				}
 			})
-			.when('/country-organizaion-list/',{
+			.when('/country-organization-list/',{
 				resolve: {
 					access: ['$location', 'ngmUser', function ($location, ngmUser) {
 						const user = ngmUser.get();
 						const admin0pcode = user.admin0pcode.toLowerCase();
-						const url = '/country-organizaion-list/'+admin0pcode+'/all/all';
+						const url = '/country-organization-list/'+admin0pcode+'/all/all';
 						$location.path(url);
 					}]
 				}
 			})
-			.when('/country-organizaion-list/:admin0pcode/:cluster_id/:type',{
+			.when('/country-organization-list/:admin0pcode/:cluster_id/:type',{
 				templateUrl: '/views/app/dashboard.html',
 				controller: 'CountryOrganizationListCtrl',
 				resolve: {

@@ -790,10 +790,6 @@
 											<a href="#/cluster/5w" ng-click="ngm.toggleNavigationMenu();ngm.openDashboard= !ngm.openDashboard;">
 												<i class="material-icons small right">bubble_chart</i>{{'5WDASHBOARD_mayus' |translate}}</a>
 										</li>
-										<li style="position: relative;border-bottom: 1px solid #f1f1f1" ng-if="ngm.accessByRole('USER,ORG',false)">
-											<a href="#/country-organizaion-list/af/all/all" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
-												<i class="material-icons small right">group</i>ORGANIZATION LIST</a>
-										</li>
 										<li style="position: relative;border-bottom: 1px solid #f1f1f1" ng-if="ngm.getUser().admin0pcode === 'AF'" ng-show="ngm.getUser().organization.toLowerCase() === 'immap' ||
 																																												ngm.getUser().organization.toLowerCase() === 'moph' ||
 																																												ngm.getUser().organization.toLowerCase() === 'who' ||
@@ -834,12 +830,31 @@
 									<a class="white-text right" href="#/performance/">
 										<i class="material-icons smedium right">show_chart</i>PERFORMANCE</a>
 								</li>
-								<!-- contact modal -->
+								<!-- Dashboard -->
 								<li align="center" class="teal z-depth-2">
-									<a class="white-text right" ng-click="ngm.contact(); ngm.toggleNavigationMenu()">
-										<i class="material-icons smedium right">perm_phone_msg</i>{{'contact_mayus' | translate}} {{ngm.var4wplusrh}}</span>
+									<a class="white-text right" ng-click="ngm.openContact= !ngm.openContact;">
+										<i class="material-icons smedium right">perm_phone_msg</i>
+										<i class="material-icons small right icon-arrow"
+											ng-class="{'rotate-icon':ngm.openContact === true}">keyboard_arrow_down</i>CONTACTS</a>
 									</a>
 								</li>
+								<div ng-if="ngm.openContact" style="margin-bottom: 5px; background-color: #fff">
+									<!-- contact modal -->
+									<li style="position: relative;border-bottom: 1px solid #f1f1f1">
+										<a ng-click="ngm.contact(); ngm.toggleNavigationMenu()">
+											<i class="material-icons small right">perm_phone_msg</i>TECHNICAL CONTACTS</span>
+										</a>
+									</li>
+									<li style="position: relative;border-bottom: 1px solid #f1f1f1"
+										ng-if="ngm.accessByRole('CLUSTER,COUNTRY,COUNTRY_ADMIN,SUPERADMIN',true)">
+										<a href="#/cluster/wg/sector-contacts/" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
+											<i class="material-icons small right">perm_contact_calendar</i>CLUSTER CONTACTS</a>
+									</li>
+									<li style="position: relative;border-bottom: 1px solid #f1f1f1" ng-if="ngm.accessByRole('USER,ORG',false)">
+										<a href="#/country-organization-list/" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
+											<i class="material-icons small right">group</i>ORGANIZATION CONTACTS</a>
+									</li>
+								</div>
 
 							</ul>
 						</div>
