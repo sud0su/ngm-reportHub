@@ -559,8 +559,10 @@ angular
 				if($scope.ngm.getUserName() === 'welcome') return false;
 				const USER_PERMISSIONS = ngmAuth.userPermissions();
 				// for menu get role with highest priority if user has multiple roles
-				role = USER_PERMISSIONS.reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })
-				access = (roles.indexOf(role.ROLE) > -1) ===  include_role ;
+				if(USER_PERMISSIONS.length){
+					role = USER_PERMISSIONS.reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })
+					access = (roles.indexOf(role.ROLE) > -1) ===  include_role ;
+				}
 				return access
 			}
 

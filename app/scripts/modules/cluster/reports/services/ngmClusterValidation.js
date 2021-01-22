@@ -1474,14 +1474,12 @@ angular.module( 'ngmReportHub' )
 				verified= false;
 				permission = ngmAuth.userPermissions();
 				// find higer level user role if its more than one role
-				if(permission.length>1){
+				if(permission && permission.length){
 					var level_permission = permission.map((item) => {
 						return item.LEVEL;
 					});
 					maxLevel = Math.max(...level_permission);
 					permission =permission.filter((obj) => { return obj.LEVEL === maxLevel })
-					verified = permission[0].VALIDATE;
-				}else{
 					verified = permission[0].VALIDATE;
 				}
 				return verified;

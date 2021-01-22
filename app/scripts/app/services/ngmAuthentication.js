@@ -676,7 +676,7 @@ angular.module('ngmReportHub')
 			 */
 			userPermissions: function(){
 				const user = ngmUser.get();
-				return ngmPermissions.filter(function(x){return user.roles.includes(x.ROLE)})
+				return user ? ngmPermissions.filter(function(x){return user.roles.includes(x.ROLE)}):[];
 			},
 
 			/**
