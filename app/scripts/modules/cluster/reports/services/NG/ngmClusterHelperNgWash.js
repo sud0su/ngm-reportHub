@@ -6,7 +6,7 @@
  *
  */
 angular.module( 'ngmReportHub' )
-	.factory( 'ngmClusterHelperNgWash', 
+	.factory( 'ngmClusterHelperNgWash',
 			[ '$http',
 				'$filter',
 				'$timeout',
@@ -19,7 +19,7 @@ angular.module( 'ngmReportHub' )
 
 		// definition
 		var ngmClusterHelperNgWash = {
-					
+
 			// NG and WASH
 			templateUrl: 'beneficiaries/NG/wash/',
 
@@ -96,13 +96,13 @@ angular.module( 'ngmReportHub' )
 				}
 			},
 
-			
+
 			// TEMPLATES
 
 			// show template
 			getTemplate: function( beneficiary ){
-				if ( beneficiary && 
-							beneficiary.activity_detail_id && 
+				if ( beneficiary &&
+							beneficiary.activity_detail_id &&
 							ngmClusterHelperNgWashKeys.keys[ beneficiary.activity_detail_id ].template ) {
 					return ngmClusterHelperNgWashKeys.keys[ beneficiary.activity_detail_id ].template
 				} else {
@@ -118,12 +118,12 @@ angular.module( 'ngmReportHub' )
 				$timeout(function(){
 					$( '.input-field input' ).removeClass( 'invalid' );
 					$( '.input-field input' ).removeClass( 'ng-touched' );
-					// $( '.input-field select' ).material_select(); 
+					// $( '.input-field select' ).material_select();
 					$('.input-field select').formSelect();
 				}, 10 );
 			},
 
-			// set input style 
+			// set input style
 			inputChange: function( label ){
 				$("label[for='" + label + "']").removeClass('error');
 				$("label[for='" + label + "']").addClass('active');
@@ -171,21 +171,18 @@ angular.module( 'ngmReportHub' )
 
 				// if previous beneficiaries
 				if ( length ) {
-										
+
 					var b = angular.copy( beneficiaries[ length - 1 ] );
 					var keys = ngmClusterHelperNgWashKeys.keys[ b.activity_detail_id ];
 					var defaults = ngmClusterHelperNgWashKeys.keys.defaults;
 
 					// associations
 					delete b.id;
-					if (b.total_pwd) {
-						delete b.total_pwd;
-					}
 					inserted = angular.merge( inserted, b, sadd );
 					angular.forEach( inserted, function( d, i ){
 						if ( Array.isArray( d ) ) {
 							// associations
-							if ( i === 'water' || 
+							if ( i === 'water' ||
 										i === 'boreholes' ||
 										i === 'sanitation' ||
 										i === 'hygiene' ||
@@ -217,11 +214,11 @@ angular.module( 'ngmReportHub' )
 
 				// slight timeout to capture UI changes
 				$timeout(function(){
-					
+
 					// beneficiary
 					if ( $beneficiary.activity_detail_id ) {
 
-						// ngmClusterHelperNgWash keys 
+						// ngmClusterHelperNgWash keys
 						var keys = ngmClusterHelperNgWashKeys.keys[ $beneficiary.activity_detail_id ];
 						var defaults = ngmClusterHelperNgWashKeys.keys.defaults;
 
@@ -255,7 +252,7 @@ angular.module( 'ngmReportHub' )
 				var length = beneficiary[ association ] ? beneficiary[ association ].length : 0;
 				var keys = ngmClusterHelperNgWashKeys.keys[ beneficiary.activity_detail_id ];
 				var defaults = ngmClusterHelperNgWashKeys.keys.defaults;
-				
+
 				// create model using ngmClusterHelperNgWash keys ( based on activity_detail )
 				var activity = angular.merge( {}, keys.measurement, defaults );
 
@@ -283,7 +280,7 @@ angular.module( 'ngmReportHub' )
 				ngmClusterHelperNgWash.setActivityBeneficiaries( locations );
 
 				// ensures page does not scroll to 5W activity input form
-				// if ( btn_id ) { 
+				// if ( btn_id ) {
 				// 	$( '#' + btn_id ).animatescroll();
 				// }
 
@@ -324,18 +321,18 @@ angular.module( 'ngmReportHub' )
 
 			// remove borehole
 			remove: function(){
-				
+
 				// get id
 				var id = ngmClusterHelperNgWash.beneficiary[ ngmClusterHelperNgWash.association ][ ngmClusterHelperNgWash.removeIndex ].id;
 				ngmClusterHelperNgWash.beneficiary[ ngmClusterHelperNgWash.association ].splice( ngmClusterHelperNgWash.removeIndex, 1 );
 
 				// calculate location totals
 				ngmClusterHelperNgWash.setActivityBeneficiaries( ngmClusterHelperNgWash.project.report.locations );
-				
+
 				// update db if id exists (stored in db)
 				if ( id ) {
 					ngmClusterHelperNgWash.project.save( false, false );
-				}			
+				}
 			},
 
 
@@ -358,7 +355,7 @@ angular.module( 'ngmReportHub' )
 			// borehole
 			// m3 = yield*hrs*3600secs
 			boreholeOutput: function( locations, b ){
-				if ( b.borehole_yield_ltrs_second >=0 && 
+				if ( b.borehole_yield_ltrs_second >=0 &&
 							b.borehole_pumping_ave_daily_hours >=0 ) {
 					// metrics
 					b.borehole_m3 = b.borehole_yield_ltrs_second * b.borehole_pumping_ave_daily_hours * 3600;
@@ -384,7 +381,7 @@ angular.module( 'ngmReportHub' )
 					// make it sadd
 					ngmClusterHelperNgWash.bSadd( b );
 					// calculate beneficairy totals
-					ngmClusterHelperNgWash.setActivityBeneficiaries( locations ); 
+					ngmClusterHelperNgWash.setActivityBeneficiaries( locations );
 				}
 			},
 
@@ -395,7 +392,7 @@ angular.module( 'ngmReportHub' )
 				// set beneficiary populations
 				angular.forEach( locations, function( l, i ){
 					angular.forEach( l.beneficiaries, function( b, j ){
-						if ( 	
+						if (
 									// water - ops and maintenance
 									b.activity_detail_id === 'washcoms_establishment_training' ||
 									b.activity_detail_id === 'operation_maintenance_monitoring' ||
@@ -425,8 +422,8 @@ angular.module( 'ngmReportHub' )
 									b.activity_detail_id === 'hygiene_promotion_monitoring_visits' // ||
 
 									// much easier - by description
-									// b.activity_description_id === 'community_participation' || 
-									// b.activity_description_id === 'transparency' 
+									// b.activity_description_id === 'community_participation' ||
+									// b.activity_description_id === 'transparency'
 								) {
 							ngmClusterHelperNgWash.setActivityBeneficiariesBySite( l, b );
 						} else {
@@ -453,7 +450,7 @@ angular.module( 'ngmReportHub' )
 				angular.forEach( b, function( d, k ){
 					if ( Array.isArray( d ) ) {
 						// associations
-						if ( k === 'water' || 
+						if ( k === 'water' ||
 									k === 'boreholes' ||
 									k === 'sanitation' ||
 									k === 'hygiene' ||
@@ -486,12 +483,12 @@ angular.module( 'ngmReportHub' )
 				b.elderly_men = 0;
 				b.elderly_women = 0;
 				b.total_beneficiaries = 0;
-				
+
 				// each association
 				angular.forEach( b, function( d, k ){
 					if ( Array.isArray( d ) ) {
 						// associations
-						if ( k === 'water' || 
+						if ( k === 'water' ||
 									k === 'boreholes' ||
 									k === 'sanitation' ||
 									k === 'hygiene' ||
@@ -515,7 +512,7 @@ angular.module( 'ngmReportHub' )
 
 		}
 
-		// return 
+		// return
 		return ngmClusterHelperNgWash;
 
 	}]);

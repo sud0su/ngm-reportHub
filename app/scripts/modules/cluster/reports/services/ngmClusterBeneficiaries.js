@@ -129,7 +129,8 @@ angular.module( 'ngmReportHub' )
 					elderly_women:0,
 					total_male:0,
 					total_female:0,
-					total_beneficiaries:0
+					total_beneficiaries:0,
+					total_pwd: 0
 				},
 				// activity_description: {
 				// 	activity_description_id: '',
@@ -404,9 +405,7 @@ angular.module( 'ngmReportHub' )
 					if (b.response){
 						b.response =[];
 					}
-					if (b.total_pwd){
-						delete b.total_pwd;
-					}
+
 					context_defaults = defaults[ project.definition.admin0pcode ] && defaults[ project.definition.admin0pcode ][ b.cluster_id ] ? defaults[ project.definition.admin0pcode ][ b.cluster_id ] : {}
 					angular.merge( inserted, b, defaults.inputs, context_defaults );
 				}
@@ -474,7 +473,6 @@ angular.module( 'ngmReportHub' )
 						delete beneficiary.indicator_name;
 						delete beneficiary.beneficiary_type_id;
 						delete beneficiary.beneficiary_type_name;
-						delete beneficiary.total_pwd;
 
 						// set form
 						ngmClusterBeneficiaries.setBeneficiariesInputs( project.lists, $parent, $index, beneficiary );
