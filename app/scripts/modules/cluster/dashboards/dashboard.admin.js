@@ -1363,6 +1363,8 @@ angular.module('ngmReportHub')
 									card: 'panel',
 									style: 'padding:0px; height: ' + $scope.dashboard.ngm.style.height + 'px;',
 									config: {
+										showTable: $scope.dashboard.report_type === 'activity' ? true : false,
+										showTitle: $scope.dashboard.report_type === 'activity' ? true : false,
 										style: $scope.dashboard.ngm.style,
 										headerClass: 'collection-header teal lighten-2',
 										headerText: 'white-text',
