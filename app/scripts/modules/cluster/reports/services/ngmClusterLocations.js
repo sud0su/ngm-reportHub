@@ -165,13 +165,20 @@ angular.module( 'ngmReportHub' )
 
       // site implementation
       showSiteImplementation: function( lists, $data, target_location ){
-        var selected = [];
+				var selected = [];
+				// if (target_location.site_implementation_id === $data) return $data ? target_location.site_implementation_name : '-';
         target_location.site_implementation_id = $data;
         if( target_location.site_implementation_id ) {
-          selected = $filter('filter')( lists.site_implementation, { site_implementation_id: target_location.site_implementation_id }, true);
-          target_location.site_implementation_name = selected[0].site_implementation_name;
-        }
-        return selected.length ? selected[0].site_implementation_name : '-';
+					selected = $filter('filter')( lists.site_implementation, { site_implementation_id: target_location.site_implementation_id }, true);
+					if (selected && selected.length){
+						target_location.site_implementation_name = selected[0].site_implementation_name;
+					} // else historical
+        } else {
+					// if no value then set to empty string to resave on database
+					target_location.site_implementation_id = "";
+					target_location.site_implementation_name = "";
+				}
+        return target_location.site_implementation_name || '-';
       },
 
       // get sites
@@ -322,9 +329,12 @@ angular.module( 'ngmReportHub' )
             target_location.site_type_name = selected[0].site_type_name;
           }
 
-        }
+        } else {
+					target_location.site_type_id = "";
+					target_location.site_type_name = "";
+				}
         // return name
-        return selected && selected.length ? selected[0].site_type_name : '-';
+        return target_location.site_type_name || '-';
       },
 
 
