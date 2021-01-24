@@ -57,7 +57,7 @@ angular.module('ngmReportHub')
             ],
             getPath: function (admin0pcode,cluster_id,type) {
                 // go with URL
-                var path = '/country-organizaion-list/' + admin0pcode +
+                var path = '/country-organization-list/' + admin0pcode +
                     '/' + cluster_id+
                     '/' + type;
                 // return path
