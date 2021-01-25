@@ -113,7 +113,7 @@
 					</h5>
 					<h5 ng-if="project.definition.admin0pcode === 'AF'" class="report-work-title white-text">
 						<i class="material-icons left">border_color</i>{{'activity_plan_detail'|translate}}
-					
+
 					</h5>
 					<button ng-if="!project.newProject && project.definition.admin0pcode === 'AF'" class="right waves-effect waves-light btn copy-project-btn"
 						ng-click="project.copyProject()">
@@ -246,8 +246,8 @@
 
 							<!-- Project Details -->
 							<div class="row" ng-if="project.lists.project_details.length">
-							
-								
+
+
 								<!-- <div class="input-field col s12 m6 l6">
 									<label class="active">ACBAR {{'partner'|translate}}?</label>
 									<br>
@@ -260,7 +260,7 @@
 										</label>
 									</p>
 								</div>
-								
+
 								<div class="input-field col s12 m6 l6">
 									<label class="active">COVID-19 Response?</label>
 									<br>
@@ -273,7 +273,7 @@
 										</label>
 									</p>
 								</div> -->
-								
+
 								<div class="input-field col s12 m6 l6" ng-repeat="p in project.lists.project_details">
 									<label class="active">{{p.project_detail_name}}?</label>
 									<br>
@@ -287,8 +287,8 @@
 										</label>
 									</p>
 								</div>
-								
-							
+
+
 							</div>
 
 							<!-- HRP / JRP -->
@@ -379,10 +379,10 @@
 										<div style="padding-bottom:15px;"></div>
 										<!-- for project cluster activity_type -->
 										<p  ng-style="($root.rtl) && { 'padding-right':'10px' } || { 'padding-left':'10px' }"
-													ng-repeat="a in project.lists.activity_types | 
-																			filter: { 
-																							admin0pcode: project.definition.admin0pcode, 
-																							cluster_id: project.definition.cluster_id, 
+													ng-repeat="a in project.lists.activity_types |
+																			filter: {
+																							admin0pcode: project.definition.admin0pcode,
+																							cluster_id: project.definition.cluster_id,
 																							active: 1
 																						}">
 											<!-- checkboxes -->
@@ -406,11 +406,11 @@
 													<div style="padding-bottom:15px;"></div>
 													<!-- for project cluster activity_type -->
 													<p  ng-style="($root.rtl) && { 'padding-right':'10px' } || { 'padding-left':'10px' }"
-																ng-repeat="a in project.lists.activity_types | 
+																ng-repeat="a in project.lists.activity_types |
 																						filter: { admin0pcode: project.definition.admin0pcode,
 																											cluster_id: cluster.cluster_id,
 																											active: 1 } ">
-														<!-- checkboxes -->																						
+														<!-- checkboxes -->
 														<label class="checkbox-label" for="activity_{{ a.activity_type_id }}">
 															<input type="checkbox" class="filled-in" id="activity_{{ a.activity_type_id }}"
 																ng-model="project.definition.activity_type_check[ a.activity_type_id ]"
@@ -513,9 +513,9 @@
 										<div style="padding-bottom:15px;"></div>
 										<!-- for project cluster activity_type -->
 										<p  ng-style="($root.rtl) && { 'padding-right':'10px' } || { 'padding-left':'10px' }"
-													ng-repeat="a in project.lists.activity_types | 
-														filter: { 
-																			admin0pcode: project.definition.admin0pcode, 
+													ng-repeat="a in project.lists.activity_types |
+														filter: {
+																			admin0pcode: project.definition.admin0pcode,
 																			cluster_id: project.definition.cluster_id,
 																			active: 1
 																		}">
@@ -649,7 +649,7 @@
 								</p>
 							</div>
 							<div ng-show="project.definition.implementing_partners_checked">
-								<div class="input-field col s12 m6" style="margin-top:65px;">
+								<div class="input-field col s12 m6" style="margin-top:25px;">
 
 									<md-select style="margin-top: 15px;"
 														 ng-model="project.definition.implementing_partners"
@@ -675,7 +675,8 @@
 						</div>
 
 						<!-- Programme Partners/ Supporting Organizations -->
-						<div class="row">
+						<!-- place SO into configuration  -->
+						<div class="row" ng-if="project.definition.admin0pcode !== 'SO'">
 							<div class="input-field col s12 m6" style="padding-bottom:35px;" ng-style="($root.rtl) && {'padding-right':'25px'}">
 								<p style="padding-top:25px;">
 									<label class="checkbox-label" for="ngm-programme_partners">
@@ -688,7 +689,7 @@
 								</p>
 							</div>
 							<div ng-show="project.definition.programme_partners_checked">
-								<div class="input-field col s12 m6" style="margin-top:40px;">
+								<div class="input-field col s12 m6" style="margin-top:25px;">
 
 									<md-select style="margin-top: 15px;"
 														 ng-model="project.definition.programme_partners"

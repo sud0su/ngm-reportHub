@@ -6129,7 +6129,7 @@ angular.module( 'ngmReportHub' )
 						beneficiary_type_id: 'idp_flood',
 						beneficiary_type_name: 'Flood Affected IDPs'
 					},{
-						cluster_id: ngmClusterLists.all_sectors,
+						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
 						beneficiary_type_id: 'idp_natural_disaster',
 						beneficiary_type_name: 'Natural Disaster IDPs'
 					},{
@@ -6149,7 +6149,7 @@ angular.module( 'ngmReportHub' )
 						beneficiary_type_id: 'returnees_home',
 						beneficiary_type_name: 'Returnees (who went home)'
 					},{
-						cluster_id: ngmClusterLists.all_sectors,
+						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
 						beneficiary_type_id: 'refugees',
 						beneficiary_type_name: 'Refugees'
 					},{
