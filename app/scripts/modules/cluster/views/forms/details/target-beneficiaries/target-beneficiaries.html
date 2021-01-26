@@ -1408,10 +1408,28 @@
 													/>
 										<label for="ngm-total_amount-{{ $index }}" class="active">Total Amount Transfered</label>
 									</div>
-								
-								</div>								
 
+								</div>
 
+								<!-- Total Persons With Disabilities -->
+								<div class="row" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'total_pwd' ]">
+
+									<!--Total Persons With Disabilities -->
+									<div class="input-field col s12 m12 l12 ">
+										<input id="ngm-total_pwd-{{ $index }}"
+											name="ngm-total_pwd-{{ $index }}" type="number" class="validate"
+											min="0"
+											max="{{beneficiary.total_beneficiaries}}"
+											ng-model="beneficiary.total_pwd"
+											ng-change="ngmClusterBeneficiaries.inputChange( 'ngm-total_pwd-{{ $index }}' )"
+											title="# of people from total"
+											ng-disabled="false"
+											ng-init="beneficiary.total_pwd || ( beneficiary.total_pwd=0 )"
+										/>
+										<label for="ngm-total_pwd-{{ $index }}" class="active">Persons with Disabilities (# of people from total)</label>
+									</div>
+
+								</div>
 
 
 				        <!-- REMARKS -->

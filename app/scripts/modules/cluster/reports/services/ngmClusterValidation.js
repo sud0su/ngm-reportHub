@@ -324,7 +324,7 @@ angular.module( 'ngmReportHub' )
 
 						// Materialize.toast($filter('translate')('beneficiaries_contains_errors'), 4000, 'error');
 						M.toast({ html: $filter('translate')('Target Benefecaries Contain Error'), displayLength: 4000, classes: 'error' });
-						$timeout(function () { 
+						$timeout(function () {
 							if (document.querySelector(elements[0]) === null || document.querySelector(elements[0]) === undefined) {
 								var id_missing = elements[0] ? elements[0] : '';
 								if (id_missing !== '') {
@@ -354,7 +354,7 @@ angular.module( 'ngmReportHub' )
 						// $(elements[0]).animatescroll();
 						$(elements[0]).scrollHere()
 					}
-					
+
 					return false;
 				} else {
 					return true;
@@ -741,6 +741,18 @@ angular.module( 'ngmReportHub' )
 					}
 				}
 				// console.log('targetbeneficiary-complete31');
+				// console.log(complete);
+
+				// TOTAL PWD
+				if (ngmClusterBeneficiaries.form[0][i] && ngmClusterBeneficiaries.form[0][i]['total_pwd']){
+					if (b.total_pwd === null || b.total_pwd === undefined || b.total_pwd === NaN || b.total_pwd < 0 || b.total_pwd > b.total_beneficiaries ) {
+						id = "label[for='" + 'ngm-total_pwd-' + i + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
+				}
+				// console.log('targetbeneficiary-complete32');
 				// console.log(complete);
 
 				if (project.admin0pcode === 'ET' && b.activity_description_id === 'loose_items') {
@@ -2212,7 +2224,7 @@ angular.module( 'ngmReportHub' )
 						obj.reason = 'not in the list'
 					}
 					validation.push(obj);
-				} 
+				}
 				if(!s.stock_status_id){
 					var obj = { label: false, property: 'stock_status_id', reason: 'missing value' };
 					if (s.stock_status_name) {
@@ -2256,7 +2268,7 @@ angular.module( 'ngmReportHub' )
 							validation.push(obj);
 						}
 					}
-				} 
+				}
 				if (s.number_in_stock === null || s.number_in_stock === undefined || s.number_in_stock === NaN || s.number_in_stock < 0){
 					var obj = { label: false, property: 'number_in_stock', reason: 'should be >=0' };
 					validation.push(obj);
@@ -2377,7 +2389,7 @@ angular.module( 'ngmReportHub' )
 					var obj = { label: id, property: 'project_budget', reason: 'should be >=0', file:'Project Details' };
 					validation.push(obj);
 				}
-	
+
 
 				// activity types?
 				if (typeof project.activity_type_check === 'undefined' || project.activity_type.length < 1) {
@@ -2389,7 +2401,7 @@ angular.module( 'ngmReportHub' )
 					$('#ngm-activity_type').css({ 'color': '#26a69a' });
 				}
 
-				
+
 
 				// donor
 				if (!project.project_donor_check || (project.project_donor.length < 1)) {
