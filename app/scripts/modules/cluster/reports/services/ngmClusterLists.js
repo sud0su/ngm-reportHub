@@ -4442,10 +4442,6 @@ angular.module( 'ngmReportHub' )
 						{
 							"project_donor_id": "world_bank",
 							"project_donor_name": "Worldbank"
-						},
-						{
-							"project_donor_id": "other",
-							"project_donor_name": "Other"
 						}
 					];
 				}
