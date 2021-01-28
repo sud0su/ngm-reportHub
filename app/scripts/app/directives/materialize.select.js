@@ -1,7 +1,8 @@
 angular.module("ngm.materialize.select", [])
         .directive("materializeSelect", ["$compile", "$timeout", function ($compile, $timeout) {
             return {
-                link: function (scope, element, attrs) {
+								require: ['select'],
+                link: function (scope, element, attrs, ctrls) {
                     if (element.is("select")) {
 						//BugFix 139: In case of multiple enabled. Avoid the circular looping.
                         function initSelect(newVal, oldVal) {
@@ -32,7 +33,18 @@ angular.module("ngm.materialize.select", [])
                             //             }
                             //         });
                             //     }
-                            // }
+														// }
+
+
+														// handle historical record view when select option list was updated
+
+														// if (attrs.unknownValue && element.children('option:first[value="?"]').length) {
+														// 	element.children('option:first[value="?"]').text(attrs.unknownValue);
+														// }
+														if (attrs.unknownValue && ctrls[0].$isUnknownOptionSelected()) {
+															element[0].options[0].innerHTML = attrs.unknownValue;
+														}
+
                             scope.$evalAsync(function () {
 
                                 // TODO: test that no bugs
