@@ -82,6 +82,10 @@ angular.module( 'ngmReportHub' )
 			// form
 			form:[[]],
 
+			resetForm() {
+				this.form = [[]];
+			},
+
 			merge_keys: [
 				'display_activity_detail',
 				'display_indicator',
@@ -571,6 +575,10 @@ angular.module( 'ngmReportHub' )
 
 				// set form
 				angular.forEach( locations, function( location, location_index ){
+
+					// reset form array on setup
+					ngmClusterBeneficiaries.resetForm();
+
 					// for each location
 					ngmClusterBeneficiaries.setBeneficiariesForm( lists, location_index, location.beneficiaries );
 				});
