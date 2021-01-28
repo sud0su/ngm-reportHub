@@ -31,7 +31,7 @@
     <div class="modal-content dialog">
         <h4 class="header-modal teal lighten-2"><i class="material-icons left small">info_outline</i>Change Custom
             Grouping</h4>
-        
+
         <div class="row" style="margin-left: 10px;margin-right:10px;">
             <div class="col s4" ng-repeat="g in project.definition.location_groups track by $index">
                 <label>
@@ -139,7 +139,7 @@
 
                                 <div class="input-field col s12 m4">
                                     <input id="group-name-{{$groupIndex}}" type="text" placeholder=""
-                                        ng-model="group.location_group_name" class="validate" 
+                                        ng-model="group.location_group_name" class="validate"
                                         ng-change="ngmClusterBeneficiaries.inputChange( 'group-name-{{$groupIndex}}' )"
                                         ng-disabled="group.location_group_name === 'Default Custom'"
                                         >
@@ -148,7 +148,7 @@
                                 </div>
                                 <!-- <div class="input-field col s12 m4">
                                     <input id="group-type-{{$groupIndex}}" type="text" placeholder=""
-                                        ng-model="group.location_group_type" class="validate" 
+                                        ng-model="group.location_group_type" class="validate"
                                         ng-change="ngmClusterBeneficiaries.inputChange( 'group-type-{{$groupIndex}}' )"
                                         ng-disabled="group.location_group_name === 'Default Custom'"
                                         >
@@ -169,7 +169,7 @@
                             <!-- default -->
                             <button class="btn" style="margin:20px 0px;" ng-click="project.addLocationGroupingCustom()">
                                 <i class="material-icons left">add</i> Add Group
-                            
+
                             </button>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                                     {{location.admin2name }},
                                     {{location.admin3name }}, {{location.admin4name }}, {{location.admin5name }}
                                 </h5>
-                        
+
                                 <!-- location type, name -->
                                 <h5 style="padding-left: 50px;" class="report-beneficiary-second-title" ng-if="location.site_type_name && !location.site_name">
                                     {{ location.site_type_name }}
@@ -217,15 +217,15 @@
                                     {{ location.site_type_name }}: {{ location.site_name }}
                                 </h5>
                             </div>
-                        
+
                             <!-- btns -->
                             <div class="col s12 m12" ng-style="(windowWidth > 600 && location.site_type_name) && { 'margin-top': '-72px' } || (windowWidth > 600 && !location.site_type_name) && {'margin-top': '-40px'} "
                                 ng-class="{'right-align':windowWidth > 600 }">
-                        
+
                                 <button class="btn-floating waves-effect waves-light" title="Save"
                                     ng-if="!project.newProject && detailLocation[$index] && project.canEdit" ng-click="project.saveLocation()"
                                     ng-disabled="( !project.submit ) || ( project.definition.project_status === 'complete' ) && !project.canEdit">
-                        
+
                                     <i class="material-icons">save</i>
                                 </button>
                                 <button class="btn-floating red lighten-2 waves-effect waves-light" title="Remove"
@@ -249,7 +249,7 @@
                                         {{ 'Click to Expand'|translate }}
                                     </md-tooltip>
                                 </button>
-                        
+
                             </div>
                         </div>
 
@@ -271,7 +271,8 @@
                                 <div class="input-field col s12 m6">
                                     <select materialize-select watch id="ngm-username-{{ $index }}"
                                         name="username-{{ $index }}" class="validate" ng-model="location.username"
-                                        ng-options="item.username as item.username for item in project.lists.users"
+																				ng-options="item.username as item.username for item in project.lists.users"
+																				unknown-value="{{ ::location.username }}"
                                         ng-change="ngmClusterLocations.updateReporter(project.lists,location)"
                                         ng-disabled="project.definition.project_status === 'complete'">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -284,7 +285,8 @@
                                 <div class="input-field col s12 m6">
                                     <select materialize-select watch id="ngm-site_type_id-{{ $index }}"
                                         name="ngm-site_type_id-{{ $index }}" class="validate"
-                                        ng-model="location.site_type_id"
+																				ng-model="location.site_type_id"
+																				unknown-value="{{ ::location.site_type_name }}"
                                         ng-options="item.site_type_id as item.site_type_name for item in ngmClusterLocations.site_typeFilter"
                                         ng-change="ngmClusterLocations.updateSiteType(project.lists,location)"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -307,7 +309,8 @@
                                 <div class="input-field col s12 m4">
                                     <select materialize-select watch id="ngm-username-{{ $index }}"
                                         name="username-{{ $index }}" class="validate" ng-model="location.username"
-                                        ng-options="item.username as item.username for item in project.lists.users"
+																				ng-options="item.username as item.username for item in project.lists.users"
+																				unknown-value="{{ ::location.username }}"
                                         ng-change="ngmClusterLocations.updateReporter(project.lists,location)"
                                         ng-disabled="project.definition.project_status === 'complete'">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -320,7 +323,8 @@
                                 <div class="input-field col s12 m4">
                                     <select materialize-select watch id="ngm-site_type_id-{{ $index }}"
                                         name="ngm-site_type_id-{{ $index }}" class="validate"
-                                        ng-model="location.site_type_id"
+																				ng-model="location.site_type_id"
+																				unknown-value="{{ ::location.site_type_name }}"
                                         ng-options="item.site_type_id as item.site_type_name for item in ngmClusterLocations.site_typeFilter"
                                         ng-change="ngmClusterLocations.updateSiteType(project.lists,location)"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -338,7 +342,8 @@
                                 <div class="input-field col s12 m4">
                                     <select materialize-select watch id="ngm-site-implementation-{{ $index }}"
                                         name="site_implementation-{{ $index }}" class="validate"
-                                        ng-model="location.site_implementation_id"
+																				ng-model="location.site_implementation_id"
+																				unknown-value="{{ ::location.site_implementation_name }}"
                                         ng-options="item.site_implementation_id as item.site_implementation_name for item in ngmClusterLocations.site_implementationFilter"
                                         ng-change="ngmClusterLocations.updateSiteImplementation(project.lists,location)"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -360,7 +365,8 @@
                                 <div class="input-field col s12 l3 m6">
                                     <select materialize-select watch id="ngm-username-{{ $index }}"
                                         name="username-{{ $index }}" class="validate" ng-model="location.username"
-                                        ng-options="item.username as item.username for item in project.lists.users"
+																				ng-options="item.username as item.username for item in project.lists.users"
+																				unknown-value="{{ ::location.username }}"
                                         ng-change="ngmClusterLocations.updateReporter(project.lists,location)"
                                         ng-disabled="project.definition.project_status === 'complete'">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -373,7 +379,8 @@
                                 <div class="input-field col s12 l3 m6">
                                     <select materialize-select watch id="ngm-site_type_id-{{ $index }}"
                                         name="ngm-site_type_id-{{ $index }}" class="validate"
-                                        ng-model="location.site_type_id"
+																				ng-model="location.site_type_id"
+																				unknown-value="{{ ::location.site_type_name }}"
                                         ng-options="item.site_type_id as item.site_type_name for item in ngmClusterLocations.site_typeFilter"
                                         ng-change="ngmClusterLocations.updateSiteType(project.lists,location)"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -391,7 +398,8 @@
                                 <div class="input-field col s12 l3 m6">
                                     <select materialize-select watch id="ngm-site-implementation-{{ $index }}"
                                         name="site_implementation-{{ $index }}" class="validate"
-                                        ng-model="location.site_implementation_id"
+																				ng-model="location.site_implementation_id"
+																				unknown-value="{{ ::location.site_implementation_name }}"
                                         ng-options="item.site_implementation_id as item.site_implementation_name for item in ngmClusterLocations.site_implementationFilter"
                                         ng-change="ngmClusterLocations.updateSiteImplementation(project.lists,location)"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -430,7 +438,8 @@
                                 <div class="input-field col s12 m6">
                                     <select materialize-select watch id="ngm-admin1pcode-{{ $index }}"
                                         name="ngm-admin1pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin1pcode"
+																				ng-model="location.admin1pcode"
+																				unknown-value="{{ ::location.admin1name }}"
                                         ng-options="item.admin1pcode as item.admin1name for item in project.lists.admin1 | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin1, 'admin1pcode', location); project.getAdminSites( 'admin1pcode', $index, $data, location ); project.adminOnChange( 'admin1pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin1pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -444,7 +453,8 @@
                                 <div class="input-field col s12 m6">
                                     <select materialize-select watch id="ngm-admin2pcode-{{ $index }}"
                                         name="ngm-admin2pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin2pcode"
+																				ng-model="location.admin2pcode"
+																				unknown-value="{{ ::location.admin2name }}"
                                         ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin2, 'admin2pcode', location); project.getAdminSites( 'admin2pcode', $index, $data, location ); project.adminOnChange( 'admin2pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin2pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin1pcode">
@@ -465,7 +475,8 @@
                                 <div class="input-field col s12 m4">
                                     <select materialize-select watch id="ngm-admin1pcode-{{ $index }}"
                                         name="ngm-admin1pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin1pcode"
+																				ng-model="location.admin1pcode"
+																				unknown-value="{{ ::location.admin1name }}"
                                         ng-options="item.admin1pcode as item.admin1name for item in project.lists.admin1 | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin1, 'admin1pcode', location); project.getAdminSites( 'admin1pcode', $index, $data, location ); project.adminOnChange( 'admin1pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin1pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -479,7 +490,8 @@
                                 <div class="input-field col s12 m4">
                                     <select materialize-select watch id="ngm-admin2pcode-{{ $index }}"
                                         name="ngm-admin2pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin2pcode"
+																				ng-model="location.admin2pcode"
+																				unknown-value="{{ ::location.admin2name }}"
                                         ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin2, 'admin2pcode', location); project.getAdminSites( 'admin2pcode', $index, $data, location ); project.adminOnChange( 'admin2pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin2pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin1pcode">
@@ -493,7 +505,8 @@
                                 <div class="input-field col s12 m4">
                                     <select materialize-select watch id="ngm-admin3pcode-{{ $index }}"
                                         name="ngm-admin3pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin3pcode"
+																				ng-model="location.admin3pcode"
+																				unknown-value="{{ ::location.admin3name }}"
                                         ng-options="item.admin3pcode as item.admin3name for item in ngmClusterLocations.admin3Select[ $index ]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin3, 'admin3pcode', location); project.getAdminSites( 'admin3pcode', $index, $data, location ); project.adminOnChange( 'admin3pcode', $index, $data, location )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin2pcode">
@@ -514,7 +527,8 @@
                                 <div class="input-field col s12 m3">
                                     <select materialize-select watch id="ngm-admin1pcode-{{ $index }}"
                                         name="ngm-admin1pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin1pcode"
+																				ng-model="location.admin1pcode"
+																				unknown-value="{{ ::location.admin1name }}"
                                         ng-options="item.admin1pcode as item.admin1name for item in project.lists.admin1 | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin1, 'admin1pcode', location); project.getAdminSites( 'admin1pcode', $index, $data, location ); project.adminOnChange( 'admin1pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin1pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -528,7 +542,8 @@
                                 <div class="input-field col s12 m3">
                                     <select materialize-select watch id="ngm-admin2pcode-{{ $index }}"
                                         name="ngm-admin2pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin2pcode"
+																				ng-model="location.admin2pcode"
+																				unknown-value="{{ ::location.admin2name }}"
                                         ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin2, 'admin2pcode', location); project.getAdminSites( 'admin2pcode', $index, $data, location ); project.adminOnChange( 'admin2pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin2pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin1pcode">
@@ -542,7 +557,8 @@
                                 <div class="input-field col s12 m3">
                                     <select materialize-select watch id="ngm-admin3pcode-{{ $index }}"
                                         name="ngm-admin3pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin3pcode"
+																				ng-model="location.admin3pcode"
+																				unknown-value="{{ ::location.admin3name }}"
                                         ng-options="item.admin3pcode as item.admin3name for item in ngmClusterLocations.admin3Select[ $index ]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin3, 'admin3pcode', location); project.getAdminSites( 'admin3pcode', $index, $data, location ); project.adminOnChange( 'admin3pcode', $index, $data, location )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin2pcode">
@@ -556,7 +572,8 @@
                                 <div class="input-field col s12 m3">
                                     <select materialize-select watch id="ngm-admin4pcode-{{ $index }}"
                                         name="ngm-admin4pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin4pcode"
+																				ng-model="location.admin4pcode"
+																				unknown-value="{{ ::location.admin4name }}"
                                         ng-options="item.admin4pcode as item.admin4name for item in ngmClusterLocations.admin4Select[ $index ]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin4, 'admin4pcode', location); project.getAdminSites( 'admin4pcode', $index, $data, location ); project.adminOnChange( 'admin4pcode', $index, $data, location )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin3pcode">
@@ -577,7 +594,8 @@
                                 <div class="input-field col s12 m2">
                                     <select materialize-select watch id="ngm-admin1pcode-{{ $index }}"
                                         name="ngm-admin1pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin1pcode"
+																				ng-model="location.admin1pcode"
+																				unknown-value="{{ ::location.admin1name }}"
                                         ng-options="item.admin1pcode as item.admin1name for item in project.lists.admin1 | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin1, 'admin1pcode', location); project.getAdminSites( 'admin1pcode', $index, $data, location ); project.adminOnChange( 'admin1pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin1pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete'">
@@ -591,7 +609,8 @@
                                 <div class="input-field col s12 m2">
                                     <select materialize-select watch id="ngm-admin2pcode-{{ $index }}"
                                         name="ngm-admin2pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin2pcode"
+																				ng-model="location.admin2pcode"
+																				unknown-value="{{ ::location.admin2name }}"
                                         ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin2, 'admin2pcode', location); project.getAdminSites( 'admin2pcode', $index, $data, location ); project.adminOnChange( 'admin2pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin2pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin1pcode">
@@ -605,7 +624,8 @@
                                 <div class="input-field col s12 m2">
                                     <select materialize-select watch id="ngm-admin3pcode-{{ $index }}"
                                         name="ngm-admin3pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin3pcode"
+																				ng-model="location.admin3pcode"
+																				unknown-value="{{ ::location.admin3name }}"
                                         ng-options="item.admin3pcode as item.admin3name for item in ngmClusterLocations.admin3Select[ $index ]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin3, 'admin3pcode', location); project.getAdminSites( 'admin3pcode', $index, $data, location ); project.adminOnChange( 'admin3pcode', $index, $data, location )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin2pcode">
@@ -619,7 +639,8 @@
                                 <div class="input-field col s12 m2">
                                     <select materialize-select watch id="ngm-admin4pcode-{{ $index }}"
                                         name="ngm-admin4pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin4pcode"
+																				ng-model="location.admin4pcode"
+																				unknown-value="{{ ::location.admin4name }}"
                                         ng-options="item.admin4pcode as item.admin4name for item in ngmClusterLocations.admin4Select[ $index ]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin4, 'admin4pcode', location); project.getAdminSites( 'admin4pcode', $index, $data, location ); project.adminOnChange( 'admin4pcode', $index, $data, location )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin3pcode">
@@ -633,7 +654,8 @@
                                 <div class="input-field col s12 m4">
                                     <select materialize-select watch id="ngm-admin5pcode-{{ $index }}"
                                         name="ngm-admin5pcode-{{ $index }}" class="validate"
-                                        ng-model="location.admin5pcode"
+																				ng-model="location.admin5pcode"
+																				unknown-value="{{ ::location.admin5name }}"
                                         ng-options="item.admin5pcode as item.admin5name for item in ngmClusterLocations.admin5Select[ $index ]"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin5, 'admin5pcode', location); project.getAdminSites( 'admin5pcode', $index, $data, location ); project.adminOnChange( 'admin5pcode', $index, $data, location )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin4pcode">
@@ -669,9 +691,9 @@
                                     <select materialize-select watch id="ngm-site_name-{{ $index }}"
                                         name="ngm-site_name-{{ $index }}" class="validate"
                                         ng-model="location.site_id"
-                                            
-                                            ng-options="item.site_id as item.site_name 
-                                                for item in ngmClusterLocations.adminSitesSelect[ $index ] | 
+
+                                            ng-options="item.site_id as item.site_name
+                                                for item in ngmClusterLocations.adminSitesSelect[ $index ] |
                                                 filter:{ site_type_id: location.site_type_id }"
 
                                             ng-change="ngmClusterLocations.updateAdminSite( location, $index );
@@ -686,7 +708,7 @@
 
                                 <div class="input-field col s12 m10" ng-if="location.site_list_select_id === 'no'">
                                     <input id="ngm-site_name-{{ $index }}" type="text" placeholder="Site Name"
-                                        ng-model="location.site_name" class="validate" 
+                                        ng-model="location.site_name" class="validate"
                                         ng-change="ngmClusterBeneficiaries.inputChange( 'ngm-site_name-{{ $index }}' )"
                                         required>
                                     <label for="ngm-site_name-{{ $index }}" class="active"
@@ -695,7 +717,7 @@
                                 <div class="input-field col s12 m10"
                                     ng-if="location.site_list_select_id !== 'no' && location.site_list_select_id !== 'yes'">
                                     <input id="ngm-site_name-{{ $index }}" type="text" placeholder="Site Name"
-                                        ng-model="location.site_name" class="validate" 
+                                        ng-model="location.site_name" class="validate"
                                         ng-change="ngmClusterBeneficiaries.inputChange( 'ngm-site_name-{{ $index }}' )"
                                         required>
                                     <label for="ngm-site_name-{{ $index }}" class="active"
@@ -707,14 +729,14 @@
                             <div class="row" ng-if="ngmClusterLocations.adminSitesSelect[ $index ].length < 1">
                                 <div class="input-field col s12 m12">
                                     <input id="ngm-site_name-{{ $index }}" type="text" placeholder="Site Name"
-                                        ng-model="location.site_name" class="validate" 
+                                        ng-model="location.site_name" class="validate"
                                         ng-change="ngmClusterBeneficiaries.inputChange( 'ngm-site_name-{{ $index }}' )"
                                         required>
                                     <label for="ngm-site_name-{{ $index }}" class="active"
                                         style="">{{'site_name'|translate}}*</label>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                     </div>
