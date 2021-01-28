@@ -574,7 +574,7 @@ angular.module( 'ngmReportHub' )
 			setLocationsForm: function( lists, locations ) {
 
 				// reset form array on setup
-				ngmClusterBeneficiaries.resetForm();
+				// ngmClusterBeneficiaries.resetForm();
 				// set form
 				angular.forEach( locations, function( location, location_index ){
 

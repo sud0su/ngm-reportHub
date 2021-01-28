@@ -83,7 +83,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 				$scope.paginated_target_locations = $scope.paginated_target_locations.reduce((p, c) => (c.id !== id && p.push(c), p), []);
 				// if grouping is active
 				if (($scope.project.definition.location_grouping_by) && $scope.project.definition.location_grouping_by !== 'custom') {
-					
+
 					var empty_groups =0
 					if ($scope.project.definition.location_grouping_by === 'admin1pcode'){
 						angular.forEach($scope.project.definition.location_groups, function (g, i) {
@@ -104,7 +104,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					if(empty_groups>0){
 						M.toast({ html: "Some Groups have no Locations because the Location has been Removed,</br>Please Save the Project to remove the Group", displayLength: 6000, classes: 'note' });
 					}
-					
+
 				}
 			});
 
@@ -280,6 +280,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					}
 					// set target beneficiaries order to match ui
 					$scope.project.definition.target_beneficiaries = $filter('orderBy')( $scope.project.definition.target_beneficiaries, 'createdAt' );
+
+					// reset form array on setup
+					ngmClusterBeneficiaries.resetForm();
+
 					// set org users
 					ngmClusterLists.setOrganizationUsersList( $scope.project.lists, config.project );
 					// set form on page load
@@ -846,7 +850,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 								l.location_group_name = l.admin2name;
 							});
 							M.toast({ html: 'Save the project to apply the changes', displayLength: 6000, classes: 'note' });
-							
+
 						}else{
 							// show modal
 							angular.forEach($scope.project.definition.target_locations, function (l, i) {
@@ -866,7 +870,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 							M.toast({ html: 'Save the project to apply the changes', displayLength: 6000, classes: 'note' });
 						}
-						
+
 					}else{
 						// add to target_locations
 						angular.forEach( $scope.project.definition.target_locations, function( l, i ){
@@ -881,7 +885,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 				addLocationGroupingsforNewLocation: function () {
 					if ($scope.project.definition.location_grouping_by) {
-						
+
 						if ($scope.project.definition.location_grouping_by === 'admin1pcode') {
 							angular.forEach($scope.project.definition.target_locations, function (location, i) {
 								// location group
@@ -889,7 +893,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 									location.location_group_id = location.admin1pcode;
 									location.location_group_type = location.admin1type_name;
 									location.location_group_name = location.admin1name;
-									
+
 									if ($scope.project.definition.location_groups.findIndex(group => group.location_group_id === location.admin1pcode)< 0) {
 										var new_group = {
 											location_group_id: location.admin1pcode,
@@ -899,13 +903,13 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 										$scope.project.definition.location_groups.push(new_group);
 									}
 								}
-								
+
 							});
-								
-							
+
+
 
 						} else if ($scope.project.definition.location_grouping_by === 'admin2pcode') {
-							angular.forEach($scope.project.definition.target_locations, function (location, i) {								
+							angular.forEach($scope.project.definition.target_locations, function (location, i) {
 								// location group
 								if (!location.id ) {
 										location.location_group_id = location.admin2pcode;
@@ -996,7 +1000,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					}
 					$scope.project.definition.location_groups.push(group)
 				},
-				
+
 				changeLocationModal:function(location){
 					$('#custom-location-group-modal').modal({ dismissible: false });
 					$('#custom-location-group-modal').modal('open');
@@ -1008,18 +1012,18 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						group.location_group_id = group.location_group_name.toLowerCase().split(' ').join('_') + '_' + $scope.project.user.username;
 					}
 					location.location_group_id = group.location_group_id
-					location.location_group_type = group.location_group_type 
-					location.location_group_name = group.location_group_name 
+					location.location_group_type = group.location_group_type
+					location.location_group_name = group.location_group_name
 				},
 
 				saveLocationGroupingCustom:function(){
 					if ($scope.project.validateLocationGroupingCustom()) {
 						M.toast({ html: 'Save the project to apply the changes', displayLength: 6000, classes: 'note' });
-					
-					
+
+
 					angular.forEach($scope.project.definition.location_groups, function (l, i) {
 						// location group
-						
+
 						if ( l.location_group_id === ''){
 							l.location_group_id = l.location_group_name.toLowerCase().split(' ').join('_')+'_'+$scope.project.user.username;
 						}
@@ -1044,17 +1048,17 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 									var id = "label[for='" + 'group-name-' + i + "']";
 									$(id).addClass('error');
 								}
-								
+
 							}
 						})
-						
+
 						if( count_missing_field >0){
 							valid = false;
 							// return true
 						}else{
 							valid = true;
 						}
-						
+
 					}
 					return valid
 				},

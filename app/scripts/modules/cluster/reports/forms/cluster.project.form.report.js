@@ -154,6 +154,10 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 					// sort locations
 					$scope.project.report.locations = $filter('orderBy')( $scope.project.report.locations, [ 'site_type_name','admin1name','admin2name','admin3name','admin4name','admin5name','site_name' ]);
+
+					// reset form array on setup
+					ngmClusterBeneficiaries.resetForm();
+
 					// set location / beneficiaries limits
 					$scope.project.setLocationsLimit( $scope.project.lists, $scope.project.report.locations );
 					// set beneficiaries form
