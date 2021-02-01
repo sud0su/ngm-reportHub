@@ -356,7 +356,7 @@
 									    				!project.definition.project_hrp_project">
 
 									<!-- beneficiary_type -->
-									<div class="input-field col s12">
+									<div class="input-field col s12" ng-if="!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
 										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}"
 															name="beneficiary_type_id-{{ $index }}"
 															class="validate"
@@ -372,6 +372,21 @@
 										</select>
 										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">{{ 'beneficiary' | translate }}</label>
 									</div>
+
+									<div class="input-field col s12" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
+										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
+											class="validate" ng-model="beneficiary.beneficiary_type_id"
+											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
+											ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ], 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
+																																																																	ngmClusterHelperCol.updateIndicatorObjective( project.definition.admin0pcode, beneficiary );
+																																																																	ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]"
+											ng-disabled="project.definition.project_status === 'complete' || !beneficiary.activity_description_id">
+											<option value="">{{ 'select' | translate }}</option>
+										</select>
+										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">{{ 'beneficiary'
+											| translate }} </label>
+									</div>
 								</div>
 
 								<!-- category_type_id -->
@@ -380,7 +395,7 @@
 									    				!project.definition.project_hrp_project" >
 
 									<!-- beneficiary_type -->
-									<div class="input-field col s12 m12 l6">
+									<div class="input-field col s12 m12 l6" ng-if="!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
 										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}"
 															name="beneficiary_type_id-{{ $index }}"
 															class="validate"
@@ -396,6 +411,21 @@
 											<option value="">{{ 'select' | translate }}</option>
 										</select>
 										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">{{ 'beneficiary' | translate }}</label>
+									</div>
+
+									<div class="input-field col s12 m12 l6" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
+										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
+											class="validate" ng-model="beneficiary.beneficiary_type_id"
+											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
+											ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ], 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
+													ngmClusterHelperCol.updateIndicatorObjective( project.definition.admin0pcode, beneficiary );
+													ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]"
+											ng-disabled="project.definition.project_status === 'complete' || !beneficiary.activity_description_id">
+											<option value="">{{ 'select' | translate }}</option>
+										</select>
+										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">{{ 'beneficiary'
+											| translate }} </label>
 									</div>
 
 									<!-- beneficiary_category -->
@@ -426,7 +456,7 @@
 
 
 									<!-- beneficiary_type -->
-									<div class="input-field col s12 m6">
+									<div class="input-field col s12 m6" ng-if="!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
 										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
 											class="validate" ng-model="beneficiary.beneficiary_type_id"
 											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
@@ -440,6 +470,20 @@
 										</select>
 										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active"
 											style="transform:translateY(-10%)">{{ 'beneficiary' | translate }}</label>
+									</div>
+
+									<div class="input-field col s12 m6" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
+										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
+											class="validate" ng-model="beneficiary.beneficiary_type_id"
+											unknown-value="{{ ::beneficiary.beneficiary_type_name }}" 
+											ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ], 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
+																ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]"
+											ng-disabled="project.definition.project_status === 'complete' || !beneficiary.activity_description_id">
+											<option value="">{{ 'select' | translate }}</option>
+										</select>
+										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">{{ 'beneficiary'
+											| translate }} </label>
 									</div>
 
 									<!-- HRP beneficiary -->
@@ -468,7 +512,7 @@
 																		(ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'hrp_beneficiary_type_id' ] || project.definition.admin0pcode !=='AF')">
 
 									<!-- beneficiary_type -->
-									<div class="input-field col s12">
+									<div class="input-field col s12" ng-if="!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
 										<select materialize-select  id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
 											class="validate" ng-model="beneficiary.beneficiary_type_id"
 											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
@@ -483,6 +527,20 @@
 										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active"
 											style="transform:translateY(-10%)">{{ 'beneficiary' | translate }}</label>
 									</div>
+
+									<div class="input-field col s12" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
+										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
+											class="validate" ng-model="beneficiary.beneficiary_type_id"
+											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
+											ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ], 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
+														ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]"
+											ng-disabled="project.definition.project_status === 'complete' || !beneficiary.activity_description_id">
+											<option value="">{{ 'select' | translate }}</option>
+										</select>
+										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">{{ 'beneficiary'
+											| translate }} </label>
+									</div>
 								</div>
 
 								<!-- category_type_id HRP project true -->
@@ -492,7 +550,7 @@
 														!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'hrp_beneficiary_type_id' ] && project.definition.admin0pcode ==='AF'">
 
 									<!-- beneficiary_type -->
-									<div class="input-field col s12 m4">
+									<div class="input-field col s12 m4" ng-if="!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
 										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
 											class="validate" ng-model="beneficiary.beneficiary_type_id" unknown-value="{{ ::beneficiary.beneficiary_type_name }}" ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
 																													ngmClusterHelperCol.updateIndicatorObjective( project.definition.admin0pcode, beneficiary );
@@ -508,6 +566,20 @@
 											style="transform:translateY(-10%)">{{ 'beneficiary' | translate }}</label>
 									</div>
 
+									<div class="input-field col s12 m4" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
+										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
+											class="validate" ng-model="beneficiary.beneficiary_type_id"
+											unknown-value="{{ ::beneficiary.beneficiary_type_name }}" 
+											ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ], 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
+													ngmClusterHelperCol.updateIndicatorObjective( project.definition.admin0pcode, beneficiary );
+													ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]"
+											ng-disabled="project.definition.project_status === 'complete' || !beneficiary.activity_description_id">
+											<option value="">{{ 'select' | translate }}</option>
+										</select>
+										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">{{ 'beneficiary'
+											| translate }} </label>
+									</div>
 									<!-- HRP beneficiary -->
 									<div class="input-field col s4">
 										<select materialize-select id="ngm-hrp-beneficiary_type_id-{{ $index }}" name="hrp-beneficiary_type_id-{{ $index }}"
@@ -548,7 +620,7 @@
 																						project.definition.project_hrp_project &&
 																						(ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'hrp_beneficiary_type_id' ] || project.definition.admin0pcode !=='AF')">
 									<!-- beneficiary_type -->
-									<div class="input-field col s12 m12 l6">
+									<div class="input-field col s12 m12 l6" ng-if="!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
 										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
 											class="validate" ng-model="beneficiary.beneficiary_type_id"
 											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
@@ -562,6 +634,20 @@
 										</select>
 										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active"
 											style="transform:translateY(-10%)">{{ 'beneficiary' | translate }}</label>
+									</div>
+
+									<div class="input-field col s12 m12 l6" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
+										<select materialize-select id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
+											class="validate" ng-model="beneficiary.beneficiary_type_id"
+											unknown-value="{{ ::beneficiary.beneficiary_type_name }}" ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ], 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
+																																															ngmClusterHelperCol.updateIndicatorObjective( project.definition.admin0pcode, beneficiary );
+																																															ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]"
+											ng-disabled="project.definition.project_status === 'complete' || !beneficiary.activity_description_id">
+											<option value="">{{ 'select' | translate }}</option>
+										</select>
+										<label for="ngm-beneficiary_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">{{ 'beneficiary'
+											| translate }} </label>
 									</div>
 
 									<!-- beneficiary_category -->
