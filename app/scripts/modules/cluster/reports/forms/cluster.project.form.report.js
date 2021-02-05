@@ -478,6 +478,13 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						}
 					}
 
+					if (beneficiary.beneficiary_type_name && ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['beneficiary_type_id']) {
+						selected_beneficiary_type = $filter('filter')(ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['beneficiary_type_id'], { beneficiary_type_name: beneficiary.beneficiary_type_name }, true);
+						if (selected_beneficiary_type.length) {
+							beneficiary.beneficiary_type_id = selected_beneficiary_type[0].beneficiary_type_id;
+						}
+					}
+
 					var temp_indicator_name='';
 					if (beneficiary.indicator_name) {
 						temp_indicator_name = beneficiary.indicator_name
