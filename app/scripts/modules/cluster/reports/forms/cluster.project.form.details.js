@@ -1936,11 +1936,13 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 														$scope.messageFromfile.project_detail_message[0].push(obj_focal);
 														$('#ngm-target_contact').css({ 'color': '#EE6E73' });
-														delete project_detail[0].name 
-														delete project_detail[0].username 
-														delete project_detail[0].position 
-														delete project_detail[0].phone 
-														delete project_detail[0].email 
+														// set it to user itself if focal point not in the list;
+														project_detail[0].name = $scope.project.user.name ; 
+														project_detail[0].username = $scope.project.user.username ; 
+														project_detail[0].position = $scope.project.user.position ; 
+														project_detail[0].phone = $scope.project.user.phone ; 
+														project_detail[0].email = $scope.project.user.email ; 
+
 													}else{
 														project_detail[0].name = selected_focal[0].name;
 														project_detail[0].username = selected_focal[0].username
