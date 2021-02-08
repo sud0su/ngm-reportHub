@@ -1361,7 +1361,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         $timeout(function () {
                             M.toast({ html: success_msg, displayLength: 6000, classes: 'success' });
                         },3000);
-                    }).then(function (err) {
+                    }).catch(function (err) {
                         M.toast({ html: 'Error', displayLength: 6000, classes: 'error' });
                         if (err.data.err){
                             M.toast({ html: err.data.err, displayLength: 6000, classes: 'error' });
