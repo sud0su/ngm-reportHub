@@ -143,6 +143,16 @@ angular.module( 'ngmReportHub' )
                 delete u.site_lng;
                 delete u.site_lat;
 
+        
+        // for old user that missing attribute organization name and type
+        if (!u.organization_name || !u.organization_type){
+           var orgList = ngmClusterLists.getOrganizations(u.admin0pcode);
+          var selected_org = orgList.length ? orgList.filter(org=>org.organization_tag === u.organization_tag):[];
+           if(selected_org.length){
+             u.organization_name = selected_org[0].organization_name;
+             u.organization_type = selected_org[0].organization_type;
+           }
+        };
         // create empty project
         var project = {
           project_status: 'new',
