@@ -1936,6 +1936,17 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 														$scope.messageFromfile.project_detail_message[0].push(obj_focal);
 														$('#ngm-target_contact').css({ 'color': '#EE6E73' });
+														delete project_detail[0].name 
+														delete project_detail[0].username 
+														delete project_detail[0].position 
+														delete project_detail[0].phone 
+														delete project_detail[0].email 
+													}else{
+														project_detail[0].name = selected_focal[0].name;
+														project_detail[0].username = selected_focal[0].username
+														project_detail[0].position = selected_focal[0].position
+														project_detail[0].phone = selected_focal[0].phone
+														project_detail[0].email = selected_focal[0].email
 													}
 												}
 												if ((typeof project_detail[0].activity_type_check !== 'undefined') && (project_detail[0].activity_type.length > 0) && (project_detail[0].project_donor_check) && (project_detail[0].project_donor.length > 0)) {
