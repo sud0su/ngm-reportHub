@@ -429,6 +429,8 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						$scope.project.definition.email = touser.email;
 						$scope.project.definition.position = touser.position;
 						$scope.project.definition.phone = touser.phone;
+
+						M.toast({ html: 'Please save the project to apply the changes...', displayLength: 4000, classes: 'note' });
 					}
 				},
 

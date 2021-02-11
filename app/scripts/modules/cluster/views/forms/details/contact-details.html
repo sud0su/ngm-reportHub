@@ -19,44 +19,26 @@
 
 						<div class="row">
 							<div class="col s12 card">
-								<div style="padding-top: 10px; padding-bottom: 25px; padding-left: 40px; ">
-									<table class="bordered " ng-class="{'responsive-table': windowWidth > 992 ||windowWidth < 450 }" ng-show="project.definition">
-										<thead>
-										<tr style="font-weight: 400">
-											<td></td>
-											<td>{{'project_focal_point' | translate}}</td>
-											<td ng-show="project.definition.project_status !== 'complete'">{{'edit' | translate}}</td>
-										</tr>
-									  </thead>
-										<tr>
-											<td>
-												<i class="material-icons" style="color: teal;">account_circle</i>
-											</td>
-											<td>
-												<!-- editable name -->
-												<span editable-select="project.definition.username" e-name="username" e-form="contactform" e-ng-options="item.username as [ item.name, item.username, item.position, item.phone, item.email ].join(' | ') for item in project.lists.users" e-required>
-                            {{ [ project.definition.name, project.definition.username, project.definition.position, project.definition.phone, project.definition.email ].join(' | ')  }}
-                          </span>
-											</td>
-
-											<td style="white-space: nowrap" ng-show="project.definition.project_status !== 'complete'">
-												<!-- form -->
-												<form editable-form name="contactform" ng-show="contactform.$visible" onaftersave="project.updateContactUser($data)" class="form-buttons form-inline" shown="inserted === project.definition">
-													<button title="Save" type="submit" class="btn-floating waves-effect waves-light save" ng-if="contactform.$visible">
-                              <i class="material-icons">save</i>
-                            </button>
-													<button type="button" ng-if="contactform.$visible" ng-disabled="contactform.$waiting" ng-click="contactform.$cancel();" class="btn-floating blue lighten-1 waves-effect waves-light" title="Cancel Edit">
-                              <i class="material-icons">clear</i>
-                            </button>
-												</form>
-												<div class="buttons" ng-if="!contactform.$visible">
-													<button class="btn-floating waves-effect waves-light" ng-click="contactform.$show();" title="Edit">
-                              <i class="material-icons">create</i>
-                            </button>
-												</div>
-											</td>
-										</tr>
-									</table>
+								<div style="padding-top: 10px; padding-bottom: 25px; padding-left: 40px; " ng-init="$contactEdit = false;">
+									<div class="col s1 m1 l1" style="margin-top: 25px;">
+										<i class="material-icons small" style="color: teal;padding-left: 40px;">account_circle</i>
+									</div>
+									<div class="input-field col s10 m10 l10">
+										<select materialize-select watch class="validate" id="ngm-project_budget_currency"
+											ng-model="project.definition.username"
+											ng-change="project.updateContactUser(project.definition);$contactEdit = false;"
+											ng-disabled="project.definition.project_status === 'complete' || (!$contactEdit && !project.newProject)"
+											ng-options="item.username as [ item.name, item.username, item.position, item.phone, item.email ].join(' | ') for item in project.lists.users" required>
+											<option value="" disabled selected>Select Focal Point</option>
+										</select>
+									</div>
+									<div class="col s1 m1 l1">
+										<div style="margin-top: 20px; margin-left: 20px;">
+											<button ng-show="!$contactEdit && !project.newProject" class="btn-floating waves-effect waves-light" ng-click="$contactEdit = true;" ng-disabled="project.definition.project_status === 'complete' " title="Edit">
+												<i class="material-icons">create</i>
+											</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
