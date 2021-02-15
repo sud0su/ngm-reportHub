@@ -1,5 +1,5 @@
 angular.module("ngm.materialize.select", [])
-        .directive("materializeSelect", ["$compile", "$timeout", function ($compile, $timeout) {
+				// watch, watch-model, watch-options="modelArray", searchable="string...", multiple
         .directive("materializeSelect", ["$compile", function ($compile) {
             return {
 								require: ['select'],
@@ -112,7 +112,16 @@ angular.module("ngm.materialize.select", [])
                                 }
                             });
 												}
-                        
+
+												// alternative to watch TODO: benchmark against
+												if ("watchOptions" in attrs && attrs.watchOptions) {
+													scope.$watchCollection(function () {
+														return scope.$eval(attrs.watchOptions);
+													}, function () {
+														initSelect();
+													});
+												}
+
                         if(attrs.ngDisabled) {
                             scope.$watch(attrs.ngDisabled, initSelect)
                         }
