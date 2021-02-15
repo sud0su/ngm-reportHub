@@ -1,5 +1,6 @@
 angular.module("ngm.materialize.select", [])
         .directive("materializeSelect", ["$compile", "$timeout", function ($compile, $timeout) {
+        .directive("materializeSelect", ["$compile", function ($compile) {
             return {
 								require: ['select'],
                 link: function (scope, element, attrs, ctrls) {
@@ -98,7 +99,7 @@ angular.module("ngm.materialize.select", [])
                                 scope.$watch(attrs.ngModel, initSelect);
                             }
 
-                        }
+												}
 
                         // if select values changed -- expensive
                         if ("watch" in attrs) {
@@ -106,10 +107,10 @@ angular.module("ngm.materialize.select", [])
                                 return element[0].innerHTML;
                             }, function (newValue, oldValue) {
                                 if (newValue !== oldValue) {
-                                    $timeout(initSelect);
+                                    initSelect();
                                 }
                             });
-                        }
+												}
                         
                         if(attrs.ngDisabled) {
                             scope.$watch(attrs.ngDisabled, initSelect)
