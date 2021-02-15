@@ -7,35 +7,8 @@ angular.module("ngm.materialize.select", [])
                     if (element.is("select")) {
 						//BugFix 139: In case of multiple enabled. Avoid the circular looping.
                         function initSelect(newVal, oldVal) {
-                            if (attrs.multiple) {
-                                if (oldVal !== undefined && newVal !== undefined) {
-                                    if (oldVal.length === newVal.length) {
-                                        return;
-                                    }
-                                }
-                                var activeUl = element.siblings("ul.active");
-                                if (newVal !== undefined && activeUl.length) { // If select is open
-                                    var selectedOptions = activeUl.children("li.active").length; // Number of selected elements
-                                    if (selectedOptions == newVal.length) {
-                                        return;
-                                    }
-                                }
-                            }
 
                             element.siblings(".caret").remove();
-                            // function fixActive () {         
-                            //     if (!attrs.multiple) {
-                            //         var value = element.val();
-                            //         var ul = element.siblings("ul");
-                            //         ul.find("li").each(function () {
-                            //             var that = $(this);
-                            //             if (that.text() === value) {
-                            //                 that.addClass("active");
-                            //             }
-                            //         });
-                            //     }
-														// }
-
 
 														// handle historical record view when select option list was updated
 
@@ -49,8 +22,7 @@ angular.module("ngm.materialize.select", [])
                             scope.$evalAsync(function () {
 
                                 // TODO: test that no bugs
-                                // element.material_select();
-                                element.formSelect();
+																element.formSelect();
 
 																// if searchable then prepend search
 																if (attrs.searchable) {
