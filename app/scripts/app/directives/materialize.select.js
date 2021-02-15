@@ -52,33 +52,59 @@ angular.module("ngm.materialize.select", [])
                                 // element.material_select();
                                 element.formSelect();
 
-                                // commented
-                                //Lines 301-311 fix Dogfalo/materialize/issues/901 and should be removed and the above uncommented whenever 901 is fixed
-                                // element.material_select(function () {
-                                //     if (!attrs.multiple) {
-                                //         element.siblings('input.select-dropdown').trigger('close');
-                                //     }
-                                //     fixActive();
-                                // });
-                                // var onMouseDown = function (e) {
-                                //     // preventing the default still allows the scroll, but blocks the blur.
-                                //     // We're inside the scrollbar if the clientX is >= the clientWidth.
-                                //     if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
-                                //         e.preventDefault();
-                                //     }
-                                // };
-                                // element.siblings('input.select-dropdown').off("mousedown.material_select_fix").on('mousedown.material_select_fix', onMouseDown);
+																// if searchable then prepend search
+																if (attrs.searchable) {
+																	addSearch();
+																}
 
-                                // fixActive();
+														});
 
-                                // element.siblings('input.select-dropdown').off("click.material_select_fix").on("click.material_select_fix", function () {
-                                //     $("input.select-dropdown").not(element.siblings("input.select-dropdown")).trigger("close");
-                                // });
-                            });
-                        }
+														// based on https://github.com/Dogfalo/materialize/issues/3096
+														// run when select initialized
+														function addSearch(){
+															const select = element[0].M_FormSelect;
+															const options = select.dropdownOptions.querySelectorAll('li');
 
+															// Add search box to dropdown
+															const placeholderText = attrs.searchable;
 
-                        // $timeout(initSelect);
+															const searchBox = document.createElement('div');
+															searchBox.style.padding = '6px 10px 0 10px';
+															searchBox.innerHTML = `<input type="text" placeholder="${placeholderText}"></input>`;
+															select.dropdownOptions.prepend(searchBox);
+
+															// Function to filter dropdown options
+															function filterOptions(event) {
+																const searchText = event.target.value.toLowerCase();
+
+																for (let i = 0; i < options.length; i++) {
+																	const value = options[i].textContent.toLowerCase();
+																	const display = value.indexOf(searchText) === -1 ? 'none' : 'block';
+																	options[i].style.display = display;
+																}
+
+																select.dropdown.recalculateDimensions();
+															}
+
+															// Function to give keyboard focus to the search input field
+															function focusSearchBox() {
+																searchBox.firstElementChild.focus({
+																	preventScroll: true
+																});
+															}
+
+															select.dropdown.options.autoFocus = false;
+
+															select.input.addEventListener('click', focusSearchBox);
+
+															// for (let i = 0; i < options.length; i++) {
+															// 	options[i].addEventListener('click', focusSearchBox);
+															// }
+
+															searchBox.addEventListener('keyup', filterOptions);
+														}
+												}
+
                         // run on current/next cycle $evalAsync
                         initSelect();
 
