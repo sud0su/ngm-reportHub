@@ -82,7 +82,8 @@ angular.module("ngm.materialize.select", [])
                         // run on current/next cycle $evalAsync
                         initSelect();
 
-                        if (attrs.ngModel) {
+												// run if model watch is set
+                        if (attrs.ngModel && attrs.hasOwnProperty('watchModel')) {
 
                             if (attrs.ngModel && !angular.isDefined(scope.$eval(attrs.ngModel))) {
                                 // This whole thing fixes that if initialized with undefined, then a ghost value option is inserted. If this thing wasn't done, then adding the 'watch' attribute could also fix it. #160
