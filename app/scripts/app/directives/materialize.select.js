@@ -1,40 +1,14 @@
 angular.module("ngm.materialize.select", [])
-        .directive("materializeSelect", ["$compile", "$timeout", function ($compile, $timeout) {
+				// watch, watch-model, watch-options="modelArray", searchable="string...", multiple
+        .directive("materializeSelect", ["$compile", function ($compile) {
             return {
 								require: ['select'],
                 link: function (scope, element, attrs, ctrls) {
                     if (element.is("select")) {
 						//BugFix 139: In case of multiple enabled. Avoid the circular looping.
                         function initSelect(newVal, oldVal) {
-                            if (attrs.multiple) {
-                                if (oldVal !== undefined && newVal !== undefined) {
-                                    if (oldVal.length === newVal.length) {
-                                        return;
-                                    }
-                                }
-                                var activeUl = element.siblings("ul.active");
-                                if (newVal !== undefined && activeUl.length) { // If select is open
-                                    var selectedOptions = activeUl.children("li.active").length; // Number of selected elements
-                                    if (selectedOptions == newVal.length) {
-                                        return;
-                                    }
-                                }
-                            }
 
                             element.siblings(".caret").remove();
-                            // function fixActive () {         
-                            //     if (!attrs.multiple) {
-                            //         var value = element.val();
-                            //         var ul = element.siblings("ul");
-                            //         ul.find("li").each(function () {
-                            //             var that = $(this);
-                            //             if (that.text() === value) {
-                            //                 that.addClass("active");
-                            //             }
-                            //         });
-                            //     }
-														// }
-
 
 														// handle historical record view when select option list was updated
 
@@ -48,40 +22,66 @@ angular.module("ngm.materialize.select", [])
                             scope.$evalAsync(function () {
 
                                 // TODO: test that no bugs
-                                // element.material_select();
-                                element.formSelect();
+																element.formSelect();
 
-                                // commented
-                                //Lines 301-311 fix Dogfalo/materialize/issues/901 and should be removed and the above uncommented whenever 901 is fixed
-                                // element.material_select(function () {
-                                //     if (!attrs.multiple) {
-                                //         element.siblings('input.select-dropdown').trigger('close');
-                                //     }
-                                //     fixActive();
-                                // });
-                                // var onMouseDown = function (e) {
-                                //     // preventing the default still allows the scroll, but blocks the blur.
-                                //     // We're inside the scrollbar if the clientX is >= the clientWidth.
-                                //     if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
-                                //         e.preventDefault();
-                                //     }
-                                // };
-                                // element.siblings('input.select-dropdown').off("mousedown.material_select_fix").on('mousedown.material_select_fix', onMouseDown);
+																// if searchable then prepend search
+																if (attrs.searchable) {
+																	addSearch();
+																}
 
-                                // fixActive();
+														});
 
-                                // element.siblings('input.select-dropdown').off("click.material_select_fix").on("click.material_select_fix", function () {
-                                //     $("input.select-dropdown").not(element.siblings("input.select-dropdown")).trigger("close");
-                                // });
-                            });
-                        }
+														// based on https://github.com/Dogfalo/materialize/issues/3096
+														// run when select initialized
+														function addSearch(){
+															const select = element[0].M_FormSelect;
+															const options = select.dropdownOptions.querySelectorAll('li');
 
+															// Add search box to dropdown
+															const placeholderText = attrs.searchable;
 
-                        // $timeout(initSelect);
+															const searchBox = document.createElement('div');
+															searchBox.style.padding = '6px 10px 0 10px';
+															searchBox.innerHTML = `<input type="text" placeholder="${placeholderText}"></input>`;
+															select.dropdownOptions.prepend(searchBox);
+
+															// Function to filter dropdown options
+															function filterOptions(event) {
+																const searchText = event.target.value.toLowerCase();
+
+																for (let i = 0; i < options.length; i++) {
+																	const value = options[i].textContent.toLowerCase();
+																	const display = value.indexOf(searchText) === -1 ? 'none' : 'block';
+																	options[i].style.display = display;
+																}
+
+																select.dropdown.recalculateDimensions();
+															}
+
+															// Function to give keyboard focus to the search input field
+															function focusSearchBox() {
+																searchBox.firstElementChild.focus({
+																	preventScroll: true
+																});
+															}
+
+															select.dropdown.options.autoFocus = false;
+
+															select.input.addEventListener('click', focusSearchBox);
+
+															// for (let i = 0; i < options.length; i++) {
+															// 	options[i].addEventListener('click', focusSearchBox);
+															// }
+
+															searchBox.addEventListener('keyup', filterOptions);
+														}
+												}
+
                         // run on current/next cycle $evalAsync
                         initSelect();
 
-                        if (attrs.ngModel) {
+												// run if model watch is set
+                        if (attrs.ngModel && attrs.hasOwnProperty('watchModel')) {
 
                             if (attrs.ngModel && !angular.isDefined(scope.$eval(attrs.ngModel))) {
                                 // This whole thing fixes that if initialized with undefined, then a ghost value option is inserted. If this thing wasn't done, then adding the 'watch' attribute could also fix it. #160
@@ -98,7 +98,7 @@ angular.module("ngm.materialize.select", [])
                                 scope.$watch(attrs.ngModel, initSelect);
                             }
 
-                        }
+												}
 
                         // if select values changed -- expensive
                         if ("watch" in attrs) {
@@ -106,11 +106,20 @@ angular.module("ngm.materialize.select", [])
                                 return element[0].innerHTML;
                             }, function (newValue, oldValue) {
                                 if (newValue !== oldValue) {
-                                    $timeout(initSelect);
+                                    initSelect();
                                 }
                             });
-                        }
-                        
+												}
+
+												// alternative to watch TODO: benchmark against
+												if ("watchOptions" in attrs && attrs.watchOptions) {
+													scope.$watchCollection(function () {
+														return scope.$eval(attrs.watchOptions);
+													}, function () {
+														initSelect();
+													});
+												}
+
                         if(attrs.ngDisabled) {
                             scope.$watch(attrs.ngDisabled, initSelect)
                         }
