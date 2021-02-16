@@ -1065,8 +1065,8 @@ angular.module( 'ngmReportHub' )
 					detail_type_id:'wtr_guard',
 					detail_type_name:'Water Guard Solution, 1.25% Sodium Hypochlorite (NaOCl) Solution, 250 mL (250ml Bottle)'
 				},{
-					detail_type_id:'aquatab',
-					detail_type_name:'Aquatab or Oasis, Sodium Dichloroisocyanurate (NaDCC) 67 mg Tablets (Pack of 50 Tablets)'
+					detail_type_id:'jerrycan_20l',
+					detail_type_name:'Jerrycan, 20 L, Non-collapsible'
 				},{
 					detail_type_id:'bath_soap',
 					detail_type_name:'Bathing Soap, 250 Grams'
