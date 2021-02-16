@@ -1,5 +1,5 @@
 angular.module("ngm.materialize.select", [])
-				// watch, watch-model, watch-options="modelArray", searchable="string...", multiple
+				// watch, watch-model, watch-options="modelArray", searchable="string...", multiple, placeholder="string" or placeholder
         .directive("materializeSelect", ["$compile", function ($compile) {
             return {
 								require: ['select'],
@@ -29,7 +29,17 @@ angular.module("ngm.materialize.select", [])
 																	addSearch();
 																}
 
+																if ("placeholder" in attrs) {
+																	setPlaceholder();
+																}
+
 														});
+
+														// set placeholder
+														// run when select initialized
+														function setPlaceholder() {
+															element[0].M_FormSelect.input.placeholder = attrs.placeholder ? attrs.placeholder : "-";
+														}
 
 														// based on https://github.com/Dogfalo/materialize/issues/3096
 														// run when select initialized
