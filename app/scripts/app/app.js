@@ -23,7 +23,7 @@ angular
 		'ngDropzone',
 		'ngCountTo',
 		'ngAria',
-		'ngMaterial',
+		// 'ngMaterial',
 		'highcharts-ng',
 		'leaflet-directive',
 		'xeditable',

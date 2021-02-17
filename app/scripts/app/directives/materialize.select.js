@@ -26,9 +26,7 @@ angular.module("ngm.materialize.select", [])
 
 																// if searchable then prepend search
 																if (attrs.searchable) {
-                                                                    setTimeout(() => {
                                                                         addSearch();
-                                                                    }, 200);
 																}
 
 																if ("placeholder" in attrs) {
