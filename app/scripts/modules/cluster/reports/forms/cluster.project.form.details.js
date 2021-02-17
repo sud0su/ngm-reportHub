@@ -2913,6 +2913,60 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					$location.path('/cluster/projects/details/new/' + $scope.project.definition.id);
 				},
 
+				initChips:function(){
+					
+					var array = $scope.project.lists.donors;
+					// map so array will be [{tag: project_donor_name}] and set it in new Obj
+					var mapped = array.map(item => ({ [item['project_donor_name']]: null }));
+					var newObj = Object.assign({}, ...mapped);
+
+					$scope.notInList = false;
+					chips = $scope.project.definition.project_donor?$scope.project.definition.project_donor.map(x => ({ tag: x['project_donor_name']})):false;
+					$('.chips-autocomplete').chips({
+						placeholder: 'Add Donor',
+						secondaryPlaceholder: 'Add Another Donor',
+						data: chips,
+						autocompleteOptions: {
+							data: newObj,
+							limit: Infinity,
+							minLength: 1
+						},
+						onChipAdd: function (e, ch) {
+							var l=e[0].M_Chips.chipsData.length
+							var tag=e[0].M_Chips.chipsData[l - 1]['tag']
+							var donor_index= $scope.project.lists.donors.findIndex(y => y.project_donor_name === (e[0].M_Chips.chipsData[l - 1]['tag']))
+							if(donor_index >-1){
+								$scope.notInList = false;
+								$scope.project.addChipsDonor(tag)
+							}else{
+								$scope.notInList = true;
+								var chipsIndex = e[0].M_Chips.chipsData.findIndex(x=>x.tag === tag);
+								$('.chips-autocomplete').chips('deleteChip',chipsIndex)
+							}
+						},
+						onChipDelete:function(e,ch){
+							if(!$scope.notInList){
+								$scope.project.removeChipDonor(e[0].M_Chips.chipsData.map(x => x.tag))
+							}
+						}
+					});
+				},
+				addChipsDonor:function(name){
+					selected = $filter('filter')($scope.project.lists.donors, {
+						project_donor_name: name })
+					$scope.project.definition.project_donor.push(selected[0])
+					$scope.project.afterSelectItem($scope.project.definition.project_donor)
+					$scope.$apply()
+				},
+				removeChipDonor:function(array){
+					var x =$scope.project.definition.project_donor.filter((x)=>{
+						return array.indexOf(x.project_donor_name) <0;
+					})
+					var index1 = $scope.project.definition.project_donor.findIndex(y => y.project_donor_name === x.project_donor_name )
+					$scope.project.definition.project_donor.splice(index1,1)
+					$scope.$apply()
+				},
+
 
 				/**** SAVE ****/
 

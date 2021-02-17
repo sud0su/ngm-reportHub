@@ -236,15 +236,15 @@
 									ng-click="project.addLocationByIndex( $index )" title="Clear Location">
 									<i class="material-icons">clear</i>
 								</button>
-								<button class="btn-floating" ng-class="{'rotate': detailLocation[$index]}"
+								<button class="btn-floating tooltip" title="{{ (detailLocation[$index]?'Minimize':'Click to Expand')|translate }}" 
 									ng-click="project.openCloseDetailLocation($index)">
-									<i class="material-icons">keyboard_arrow_down</i>
-									<md-tooltip md-direction="right" ng-if="detailLocation[$index]">
+									<i class="material-icons" ng-class="{'rotate-dropdown': detailLocation[$index]}">keyboard_arrow_down</i>
+									<!-- <md-tooltip md-direction="right" ng-if="detailLocation[$index]">
 										{{ 'Minimize'|translate }}
 									</md-tooltip>
 									<md-tooltip md-direction="right" ng-if="!detailLocation[$index]">
 										{{ 'Click to Expand'|translate }}
-									</md-tooltip>
+									</md-tooltip> -->
 								</button>
 								
 							</div>

@@ -232,17 +232,17 @@
 												title="Remove {{ warehouse.admin1name }} Warehouse {{ warehouse.site_name }}"
 												ng-click="report.removeLocationModal( $index )"><i class="material-icons">clear</i>
 											</button>
-											<button class="waves-effect waves-light btn-floating lighten-2 right"
-												title="Edit {{ warehouse.admin1name }} Warehouse {{ warehouse.site_name }}"
+											<button class="waves-effect waves-light btn-floating tooltip lighten-2 right"
+												title="{{ (detailWarehouse[$index]?'Minimize':'Click to Expand')|translate }}"
 												ng-disabled="disableButton"
 												ng-click="report.openDetailWareHouse($index)"
-												ng-class="{'rotate': detailWarehouse[$index]}"><i class="material-icons">keyboard_arrow_down</i>
-												<md-tooltip md-direction="right">
+												><i class="material-icons" ng-class="{'rotate-dropdown': detailWarehouse[$index]}">keyboard_arrow_down</i>
+												<!-- <md-tooltip md-direction="right">
 													{{ 'Minimize'|translate }}
 												</md-tooltip>
 												<md-tooltip md-direction="right">
 													{{ 'Click to Expand'|translate }}
-												</md-tooltip>
+												</md-tooltip> -->
 											</button>
 										</div>
 									</div>

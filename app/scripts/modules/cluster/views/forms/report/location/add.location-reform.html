@@ -254,7 +254,7 @@
                                         style="transform:translateY(-10%)">{{'implementation_level' | translate}}</label>
                                 </div>
 
-                                <div class="input-field col s12 l3 m6"
+                                <!-- <div class="input-field col s12 l3 m6"
                                     ng-if="project.definition.implementing_partners_checked">
 
                                     <md-select style="margin-top: 15px;" ng-model="ngmClusterLocations.new_location.implementing_partners"
@@ -267,7 +267,18 @@
                                     <label class="active" style="transform:translateY(-128%)"
                                         for="ngm-new_location-project-implementing_partners">Implementing
                                         Partners</label>
-                                </div>
+                                </div> -->
+
+
+                                <!-- IMPLEMENTING PARTNERS Not angular material-->
+                                
+                                    <div class="input-field col s12 l3 m6" ng-if="project.definition.implementing_partners_checked">
+                                        <select materialize-select placeholder="{{'not_set'|translate}}" ng-model="ngmClusterLocations.new_location.implementing_partners" multiple
+                                            ng-options="item as item.organization for item in project.definition.implementing_partners track by item.organization_tag"></select>
+                                        <label for="ngm-new_location-project-implementing_partners">Implementing
+                                        Partners</label>
+                                    </div>
+                                
 
 
                             </div>

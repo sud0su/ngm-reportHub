@@ -648,8 +648,8 @@
 									</label>
 								</p>
 							</div>
-							<div ng-show="project.definition.implementing_partners_checked">
-								<div class="input-field col s12 m6" style="margin-top:25px;">
+							<!-- <div ng-show="project.definition.implementing_partners_checked">
+								<div class="input-field col s12 m6" style="margin-top:65px;">
 
 									<md-select style="margin-top: 15px;"
 														 ng-model="project.definition.implementing_partners"
@@ -671,6 +671,14 @@
 									</md-select>
 									<label class="active" style="transform:translateY(-50%)" for="ngm-project-implementing_partners">{{'list_implementing_partners' | translate}}</label>
 								</div>
+							</div> -->
+							<!-- Using Materialize -->
+							<div class="input-field col s12 m6" style="margin-top: 3.7%;" ng-if="project.definition.implementing_partners_checked">
+								<select materialize-select searchable="Search Partner" placeholder="Not Set" ng-model="project.definition.implementing_partners" multiple
+									ng-options="item as item.organization for item in project.lists.organizations track by item.organization_tag">
+								</select>
+								<label for="ngm-project-implementing_partners">List Implementing
+									Partners</label>
 							</div>
 						</div>
 
@@ -688,8 +696,8 @@
 									</label>
 								</p>
 							</div>
-							<div ng-show="project.definition.programme_partners_checked">
-								<div class="input-field col s12 m6" style="margin-top:25px;">
+							<!-- <div ng-show="project.definition.programme_partners_checked">
+								<div class="input-field col s12 m6" style="margin-top:40px;">
 
 									<md-select style="margin-top: 15px;"
 														 ng-model="project.definition.programme_partners"
@@ -712,6 +720,13 @@
 									</md-select>
 									<label class="active" style="transform:translateY(-50%)" for="ngm-project-implementing_partners">{{'list_programme_partners' | translate}}</label>
 								</div>
+							</div> -->
+							<!-- Using Materialize -->
+							<div class="input-field col s12 m6" style="margin-top: 3.3%;" ng-if="project.definition.programme_partners_checked">
+								<select materialize-select searchable="Search Partner" placeholder="Not Set" ng-model="project.definition.programme_partners" multiple
+									ng-options="item as item.organization for item in project.lists.organizations track by item.organization_tag">
+								</select>
+								<label for="ngm-project-implementing_partners">{{'list_programme_partners' | translate}}</label>
 							</div>
 						</div>
 

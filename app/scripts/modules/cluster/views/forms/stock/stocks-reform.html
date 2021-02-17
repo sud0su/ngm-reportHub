@@ -29,15 +29,16 @@
                 ng-if="stock.id && detailStocks[$locationIndex][$stockIndex] && report.report.report_status !== 'complete'" ng-click="report.removeStock( $locationIndex, $stockIndex )" ng-disabled="!report.canEdit ">
                 <i class="material-icons">delete</i>
             </button>
-            <button id="toggle" class="btn-floating" ng-class="{'rotate': detailStocks[$locationIndex][$stockIndex]}"
+            <button id="toggle" class="btn-floating tooltip"
+            title="{{ (detailStocks[$locationIndex][$stockIndex]?'Minimize':'Click to Expand')|translate }}"
                 ng-click="report.openCloseRecord($locationIndex,$stockIndex)" ng-disabled="false">
-                <i class="material-icons">keyboard_arrow_down</i>
-                <md-tooltip md-direction="top" ng-if="detailStocks[$locationIndex][$stockIndex]">
+                <i class="material-icons" ng-class="{'rotate-dropdown': detailStocks[$locationIndex][$stockIndex]}">keyboard_arrow_down</i>
+                <!-- <md-tooltip md-direction="top" ng-if="detailStocks[$locationIndex][$stockIndex]">
                     {{ 'Minimize'|translate }}
                 </md-tooltip>
                 <md-tooltip md-direction="top" ng-if="!detailStocks[$locationIndex][$stockIndex]">
                     {{ 'Click to Expand'|translate }}
-                </md-tooltip>
+                </md-tooltip> -->
             </button>
         </div>
     </div>

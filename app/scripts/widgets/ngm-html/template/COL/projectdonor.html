@@ -1,4 +1,7 @@
- <div class="input-field col s12 m12" style="padding-bottom:10px;padding-left: 20px; padding-top:30px">
+ <style>
+	 .chip{background-color:#24a69a;color:#fff}
+ </style>
+ <!-- <div class="input-field col s12 m12" style="padding-bottom:10px;padding-left: 20px; padding-top:30px">
 									<label for="ngm-project_donor">{{'project_donor' | translate}} *</label>
 									<div class="padding-top-35"></div>
 									<md-contact-chips class="ngm-project_donor_select"
@@ -12,6 +15,11 @@
 									        secondary-placeholder="{{'add_another_donor'|translate}}"
 									        input-aria-label="Intended Recipients">
 									 </md-contact-chips>
+</div> -->
+
+<div class="input-field col s12 m12 l12" style="padding-bottom:10px;padding-left: 20px; padding-top:30px" ng-init="project.initChips()">
+	<label for="ngm-project_donor">{{'project_donor' | translate}} *</label>
+	<div class="chips chips-autocomplete"></div>
 </div>
 
 
