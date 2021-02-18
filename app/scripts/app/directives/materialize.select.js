@@ -8,8 +8,6 @@ angular.module("ngm.materialize.select", [])
 						//BugFix 139: In case of multiple enabled. Avoid the circular looping.
                         function initSelect(newVal, oldVal) {
 
-                            element.siblings(".caret").remove();
-
 														// handle historical record view when select option list was updated
 
 														// if (attrs.unknownValue && element.children('option:first[value="?"]').length) {
