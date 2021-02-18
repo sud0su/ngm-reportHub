@@ -141,16 +141,15 @@
 												title="Cancel Edit">
 								<i class="material-icons">clear</i>
 							</button>
-							<button class="btn-floating"
-									ng-class="{'rotate': detailBeneficiaries[$index]}"
-									ng-click="project.openCloseDetailBeneficiaries($index)">
-								<i class="material-icons">keyboard_arrow_down</i>
-								<md-tooltip md-direction="right" ng-if="detailBeneficiaries[$index]">
+							<button class="btn-floating tooltip"
+									ng-click="project.openCloseDetailBeneficiaries($index)" title="{{ (detailBeneficiaries[$index]?'Minimize':'Click to Expand')|translate }}">
+								<i class="material-icons" ng-class="{'rotate-dropdown': detailBeneficiaries[$index]}">keyboard_arrow_down</i>
+								<!-- <md-tooltip md-direction="right" ng-if="detailBeneficiaries[$index]">
 									{{ 'Minimize'|translate }}
 								</md-tooltip>
 								<md-tooltip md-direction="right" ng-if="!detailBeneficiaries[$index]">
 									{{ 'Click to Expand'|translate }}
-								</md-tooltip>
+								</md-tooltip> -->
 							</button>
 						</div>
 					</div>

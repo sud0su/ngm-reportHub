@@ -72,15 +72,15 @@
 									ng-disabled="!project.canEdit || project.isSaving">
 									<i class="material-icons">clear</i>
 								</button>
-								<button id="toggle" class="btn-floating" ng-class="{'rotate': detailFinancial[$index]}"
+								<button id="toggle" class="btn-floating tooltip" title="{{ (detailFinancial[$index]?'Minimize':'Click to Expand')|translate }}" 
 									ng-click="project.openCloseDetailFinancial($index)" ng-disabled="false">
-									<i class="material-icons">keyboard_arrow_down</i>
-									<md-tooltip md-direction="right">
+									<i class="material-icons" ng-class="{'rotate-dropdown': detailFinancial[$index]}">keyboard_arrow_down</i>
+									<!-- <md-tooltip md-direction="right">
 										{{ 'Minimize'|translate }}
 									</md-tooltip>
 									<md-tooltip md-direction="right">
 										{{ 'Click to Expand'|translate }}
-									</md-tooltip>
+									</md-tooltip> -->
 								</button>
 							</div>
 						</div>

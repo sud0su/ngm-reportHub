@@ -159,18 +159,18 @@
 				</button>
 				<button
 						id="toggle"
-						class="btn-floating"
-						ng-class="{'rotate': detailBeneficiaries[$locationIndex][$beneficiaryIndex]}"
+						class="btn-floating tooltip"
+						title="{{ (detailBeneficiaries[$locationIndex][$beneficiaryIndex]?'Minimize':'Click to Expand')|translate }}"
 						ng-click="project.openCloseDetailBeneficiaries($locationIndex,$beneficiaryIndex)"
 						ng-disabled="false"
 					 >
-					<i class="material-icons">keyboard_arrow_down</i>
-					<md-tooltip md-direction="right" ng-if="detailBeneficiaries[$locationIndex][$beneficiaryIndex]">
+					<i class="material-icons" ng-class="{'rotate-dropdown': detailBeneficiaries[$locationIndex][$beneficiaryIndex]}">keyboard_arrow_down</i>
+					<!-- <md-tooltip md-direction="right" ng-if="detailBeneficiaries[$locationIndex][$beneficiaryIndex]">
 						{{ 'Minimize'|translate }}
 					</md-tooltip>
 					<md-tooltip md-direction="right" ng-if="!detailBeneficiaries[$locationIndex][$beneficiaryIndex]">
 						{{ 'Click to Expand'|translate }}
-					</md-tooltip>
+					</md-tooltip> -->
 				</button>
 			</div>
 			</div>
@@ -377,7 +377,7 @@
 
 
 					<!-- IMPLEMENTING PARTNERS -->
-					<div class="row"
+					<!-- <div class="row"
 								ng-if="( project.definition.admin0pcode === 'AF' || project.definition.admin0pcode === 'ET' ) &&
 												( project.report.locations[ $locationIndex ].implementing_partners.length > 0 )">
 
@@ -388,6 +388,14 @@
 									{{ partner.organization }}</md-option>
 							</md-select>
 							<label class="active" style="transform:translateY(-100%)">Implementing Partners</label>
+						</div>
+					</div> -->
+
+					<!-- IMPLEMENTING PARTNERS Not angular material-->
+					<div class="row">
+						<div class="input-field col s12">
+							<select materialize-select ng-model="beneficiary.implementing_partners" placeholder="{{'not_set'|translate}}" multiple ng-options="item as item.organization for item in project.report.locations[ $locationIndex ].implementing_partners track by item.organization_tag"></select>
+								<label>Implementing Partners</label>
 						</div>
 					</div>
 

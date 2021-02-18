@@ -18,17 +18,17 @@
 			{{ dropzoneConfig.cardTitle }}
 			<div ng-if="dropzoneConfig.minimize.toggle" class="right">
 				<button
-					class="btn-floating"
-					ng-class="{'rotate': dropzoneConfig.minimize.open }"
+					class="btn-floating tooltip"
+					title="{{ (dropzoneConfig.minimize.open?'Minimize':'Click to Expand')|translate }}"
 					ng-click="dropzoneConfig.openCloseDropZone()"
 					ng-disabled="dropzoneConfig.minimize.disabled">
-					<i class="material-icons">keyboard_arrow_down</i>
-					<md-tooltip md-direction="right" ng-if="dropzoneConfig.minimize.open">
+					<i class="material-icons" ng-class="{'rotate-dropdown': dropzoneConfig.minimize.open }">keyboard_arrow_down</i>
+					<!-- <md-tooltip md-direction="right" ng-if="dropzoneConfig.minimize.open">
 						{{ 'Minimize'|translate }}
 					</md-tooltip>
 					<md-tooltip md-direction="right" ng-if="!dropzoneConfig.minimize.open">
 						{{ 'Click to Expand'|translate }}
-					</md-tooltip>
+					</md-tooltip> -->
 				</button>
 			</div>
 		</h5>

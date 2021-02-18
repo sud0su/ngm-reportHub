@@ -396,6 +396,40 @@ body.md-default-theme, body, html.md-default-theme, html {
 	box-shadow:0 -5px 11px 0 rgba(0, 0, 0, 0.18), 0 -4px 15px 0 rgba(0, 0, 0, 0.15);
 }
 
+/* Floating button rotate tooltip */
+.btn-floating.tooltip:hover{
+    overflow:visible;
+	box-shadow:0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+.btn-floating.tooltip:hover:after{
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    color: #fff;
+    /* content: 'TESSS' ; */
+    content: attr(title);
+    top:25%;
+    left: 125%;
+    padding: 8px 5px;
+    position: absolute;
+    z-index: 98;
+    width: 100px;
+    font-size: 0.7rem;
+    line-height: 5px;
+    text-transform: capitalize;
+    opacity: 0.9;
+}
+/* .btn-floating.rotate.tooltip:hover:after{
+    transform: rotate(180deg);
+    left: -275%;
+} */
+
+/* Floating button rotate tooltip */
+.rotate-dropdown{
+	transform:rotate(180deg);
+	transition: .25s ease-in-out;
+}
+
 @media only screen and (max-width: 992px){
 	table.responsive-table thead tr th::before {
 		content: "";

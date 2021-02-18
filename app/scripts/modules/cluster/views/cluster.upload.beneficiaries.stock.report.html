@@ -262,16 +262,15 @@
                                             ng-disabled="!upload.canEdit">
                                             <i class="material-icons">delete</i>
                                         </button>
-                                        <button id="toggle" class="btn-floating"
-                                            ng-class="{'rotate': detailBeneficiaries[$indexRecord]}"
+                                        <button id="toggle" class="btn-floating tooltip" title="{{ (detailBeneficiaries[$indexRecord]?'Minimize':'Click to Expand')|translate }}"
                                             ng-click="upload.openCloseRecord($indexRecord)" ng-disabled="false">
-                                            <i class="material-icons">keyboard_arrow_down</i>
-                                            <md-tooltip md-direction="top" ng-if="detailBeneficiaries[$indexRecord]">
+                                            <i class="material-icons" ng-class="{'rotate-dropdown': detailBeneficiaries[$indexRecord]}">keyboard_arrow_down</i>
+                                            <!-- <md-tooltip md-direction="top" ng-if="detailBeneficiaries[$indexRecord]">
                                                 {{ 'Minimize'|translate }}
                                             </md-tooltip>
                                             <md-tooltip md-direction="top" ng-if="!detailBeneficiaries[$indexRecord]">
                                                 {{ 'Click to Expand'|translate }}
-                                            </md-tooltip>
+                                            </md-tooltip> -->
                                         </button>
                                         <a id="toggle" class="btn-floating" ng-href="#/cluster/projects/report/{{item.project_id}}/{{item.report_id}}"
                                             ng-disabled="false" target="_blank">
@@ -1431,19 +1430,20 @@
                                             ng-disabled="!upload.canEdit ">
                                             <i class="material-icons">delete</i>
                                         </button>
-                                        <button id="toggle" class="btn-floating"
+                                        <button id="toggle" class="btn-floating tooltip"
                                             ng-class="{'rotate': detailStocks[$indexRecord]}"
                                             ng-click="upload.openCloseRecord($indexRecord)"
+                                            title="{{ (detailStocks[$indexRecord]?'Minimize':'Click to Expand')|translate }}"
                                             ng-disabled="false">
                                             <i class="material-icons">keyboard_arrow_down</i>
-                                            <md-tooltip md-direction="top"
+                                            <!-- <md-tooltip md-direction="top"
                                                 ng-if="detailStocks[$indexRecord]">
                                                 {{ 'Minimize'|translate }}
                                             </md-tooltip>
                                             <md-tooltip md-direction="top"
                                                 ng-if="!detailStocks[$indexRecord]">
                                                 {{ 'Click to Expand'|translate }}
-                                            </md-tooltip>
+                                            </md-tooltip> -->
                                         </button>
                                         <a id="toggle" class="btn-floating" ng-href="#/cluster/stocks/report/{{item.organization_id}}/{{item.report_id}}"
                                             ng-disabled="false" target="_blank">
