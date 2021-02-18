@@ -377,11 +377,11 @@
 
 
 					<!-- IMPLEMENTING PARTNERS -->
-					<!-- <div class="row"
+					<div class="row"
 								ng-if="( project.definition.admin0pcode === 'AF' || project.definition.admin0pcode === 'ET' ) &&
 												( project.report.locations[ $locationIndex ].implementing_partners.length > 0 )">
 
-						<div class="input-field col s12">
+						<!-- <div class="input-field col s12">
 							<md-select style="margin-top: 15px;" ng-model="beneficiary.implementing_partners" multiple
 								ng-model-options="{trackBy: '$value.organization'}" placeholder="{{'not_set'|translate}}">
 								<md-option ng-value="partner" ng-repeat="partner in project.report.locations[ $locationIndex ].implementing_partners">
@@ -392,7 +392,7 @@
 					</div> -->
 
 					<!-- IMPLEMENTING PARTNERS Not angular material-->
-					<div class="row">
+					<!-- <div class="row"> -->
 						<div class="input-field col s12">
 							<select materialize-select ng-model="beneficiary.implementing_partners" placeholder="{{'not_set'|translate}}" multiple ng-options="item as item.organization for item in project.report.locations[ $locationIndex ].implementing_partners track by item.organization_tag"></select>
 								<label>Implementing Partners</label>
