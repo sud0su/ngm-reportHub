@@ -1070,6 +1070,9 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'bath_soap',
 					detail_type_name:'Bathing Soap, 250 Grams'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
 				}],
 				hygiene_promotion_volunteers_kit_distribution:[{
 					detail_type_id:'hwshing_poster_eng',

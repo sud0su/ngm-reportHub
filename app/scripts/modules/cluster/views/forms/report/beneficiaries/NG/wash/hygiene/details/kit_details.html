@@ -51,10 +51,24 @@
 		  			</div>
 					</div>
 
+					<!-- detail -->
+					<div class="input-field col s12 m9 push-m2" ng-if="detail.detail_type_id==='other'" >
+						<input id="ngm-detail_type_name-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $kitIndex }}-{{ $index }}"
+										name="detail_type_name"
+										class="validate"
+										ng-model="detail.detail_type_name"
+										ng-change="ngmClusterHelperNgWash.inputChange( 'ngm-detail_type_name-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $kitIndex }}-{{ $index }}' )"
+										ng-disabled="project.report.report_status === 'complete' "
+										required>
+
+						<label for="ngm-detail_type_name-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $kitIndex }}-{{ $index }}"
+										class="active" >Kit Item Name</label>
+					</div>
+
 <script>
 	// init
-	setTimeout(function(){ 
-		// $( '.input-field select' ).material_select();  
+	setTimeout(function(){
+		// $( '.input-field select' ).material_select();
 		$('.input-field select').formSelect();
 	}, 400 );
 </script>
