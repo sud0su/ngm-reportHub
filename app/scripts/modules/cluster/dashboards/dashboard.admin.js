@@ -322,6 +322,17 @@ angular.module('ngmReportHub')
 					},{
 						type: 'csv',
 						color: 'blue lighten-2',
+						icon: 'location_on',
+						hover: 'Download Target Locations as CSV',
+						request: {
+							method: 'POST',
+							url: ngmAuth.LOCATION + '/api/cluster/admin/indicator',
+							data: angular.merge( $scope.dashboard.getRequest( 'target_locations', true ), { report: $scope.dashboard.cluster_id_filename + '_' + $scope.dashboard.report_type +'_target_locations_' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format( 'YYYY-MM-DDTHHmm' ), csv: true } )
+						},
+						metrics: $scope.dashboard.getMetrics( 'target_locations', 'csv' )
+					},{
+						type: 'csv',
+						color: 'blue lighten-2',
 						icon: 'assignment_late',
 						hover: $filter('translate')('download')+' ' + $scope.dashboard.report_type.charAt(0).toUpperCase() + $scope.dashboard.report_type.slice(1) + ' '+$filter('translate')('reports_todo')+',',
 						request: {
