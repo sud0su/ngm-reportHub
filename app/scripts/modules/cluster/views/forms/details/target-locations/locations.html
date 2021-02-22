@@ -44,6 +44,10 @@
 		border-bottom-color: #26a69a;
 		color: rgba(0, 0, 0, 0.87);
 	}
+
+.select-wrapper input.select-dropdown:disabled{
+	border-bottom: 0px dotted rgba(0, 0, 0, 0.26) !important;
+}
 </style>
 <!-- bind html -->
 <div class="row">
@@ -258,13 +262,19 @@
 							        	{{ project.showSiteName( $data, location ) }}
 							        </span>
 										</td>
-										<td ng-if="project.definition.implementing_partners_checked">
+										<!-- <td ng-if="project.definition.implementing_partners_checked">
 											<md-select ng-model="location.implementing_partners" multiple ng-model-options="{trackBy: '$value.organization'}" ng-disabled="!locationform.$visible"
 											 placeholder="{{'not_set'|translate}}">
 												<md-option ng-value="partner" ng-repeat="partner in project.definition.implementing_partners">{{ partner.organization }}</md-option>
 											</md-select>
+										</td> -->
+										<td ng-if="project.definition.implementing_partners_checked">
+											<div >
+												<select materialize-select watch ng-model="location.implementing_partners" placeholder="{{'not_set'|translate}}"
+													multiple
+													ng-options="item as item.organization for item in project.definition.implementing_partners track by item.organization_tag" ng-disabled="!locationform.$visible"></select>
+											</div>
 										</td>
-
 							      <td style="white-space: nowrap" ng-show="project.definition.project_status !== 'complete'" >
 							        <!-- form -->
 							        <form editable-form name="locationform" ng-show="locationform.$visible" onbeforesave="project.saveLocation()" class="form-buttons form-inline" shown="inserted == location">
