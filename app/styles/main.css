@@ -444,3 +444,6 @@ body.md-default-theme, body, html.md-default-theme, html {
     font-size: 9px;
 	}
 }
+
+/* Materializecss */
+.select-dropdown.dropdown-content li.hover { background-color: rgba(0,0,0,0.08); }
