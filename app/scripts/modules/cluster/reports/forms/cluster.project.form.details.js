@@ -2967,6 +2967,60 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					$scope.$apply()
 				},
 
+				// IF NEED CHECKED FOR SITE_NAME UNCOMENT THIS
+
+				// putSiteName: function (location, id) {
+				// 	id = "checkbox-optional-site-name-" + id;
+				// 	if (document.getElementById(id).checked) {
+				// 		location.site_name_checked = true;
+				// 	} else {
+				// 		location.site_name_checked = false;
+				// 		location.site_name ='';
+				// 	}
+				// },
+				// showSiteNameField: function (location) {
+				// 	if ($scope.project.definition.admin0pcode !== 'ET' && $scope.project.definition.admin0pcode !== 'NG') return true;
+				// 	return !location.site_name_checked ? false : true;
+				// },
+				// siteNameCheckbox:function(location){
+				// 	if (location.site_name && location.admin0pcode === 'ET'){
+				// 		location.site_name_checked = true;
+				// 	}
+				// 	if (location.site_name_checked){
+				// 		return true
+				// 	}
+				// 	return  false
+				// },
+				// optionalShowSiteName:function(location){
+				// 	if(location.admin0pcode === 'NG'){
+				// 		if(location.site_name){
+				// 			location.site_name_checked = true;
+				// 		}
+				// 		return true;
+				// 	}
+
+				// 	return false;
+
+				// },
+
+				// putSiteNameOldform(location, $data){
+				// 	if($data){
+				// 		location.site_name_checked = true;
+				// 	}else{
+				// 		location.site_name_checked = false;
+				// 		location.site_name ='';
+				// 		console.log(location)
+				// 	}
+				// },
+				// showSiteNameFieldOldform: function (location) {
+				// 	if ($scope.project.definition.admin0pcode !== 'NG') return true;
+				// 	return location.site_name_checked ? true : false;
+				// },
+
+				// <++++++++++++++++++++++++++++++++++++++++++++++++++++++++> 
+
+
+
 
 				/**** SAVE ****/
 

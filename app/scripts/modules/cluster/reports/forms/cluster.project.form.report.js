@@ -583,7 +583,9 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							title += target_location.admin1name + ', ' + target_location.admin2name;
 
 							// site_name
-							title += ', ' + target_location.site_name;
+							if (target_location.site_name !== null && target_location.site_name !==''){
+								title += ', ' + target_location.site_name;
+							}
 
 							break;
 
@@ -591,7 +593,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						case 'food_distribution_point':
 
 							// type + title
-							title += target_location.site_type_name + ' ' + target_location.site_name + ': ';
+							title += target_location.site_type_name + ' ' + (target_location.site_name !== null && target_location.site_name !== ''?(target_location.site_name + ': '):': ');
 
 							// admin1, admin2
 							title += target_location.admin1name + ', ' + target_location.admin2name + ', ' + target_location.admin3name;
@@ -610,7 +612,9 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							title += target_location.admin1name + ', ' + target_location.admin2name;
 
 							// site_name
-							title += ', ' + target_location.site_name;
+							if (target_location.site_name !== null && target_location.site_name !== '') {
+								title += ', ' + target_location.site_name;
+							}
 
 							break;
 
@@ -637,7 +641,9 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							}
 
 							// site_name
-							title += ', ' + target_location.site_name;
+							if (target_location.site_name !== null && target_location.site_name !== '') {
+								title += ', ' + target_location.site_name;
+							}
 
 							break;
 					}

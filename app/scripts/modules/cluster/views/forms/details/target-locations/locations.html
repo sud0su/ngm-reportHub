@@ -87,6 +87,7 @@
 							      <td ng-if="project.lists.admin5.length">{{ project.lists.admin5[0].admin5type_name }}</td>
 										<td ng-if="project.definition.admin0pcode !== 'COL'">{{'type' | translate}}</td>
 										<td ng-if="project.definition.admin0pcode === 'COL'">{{'site_type' | translate}}</td>
+										<!-- <td ng-if="project.definition.admin0pcode === 'NG'"> SiteName?</td> -->
 										<td ng-if="project.definition.admin0pcode !== 'AF' && project.definition.admin0pcode !== 'COL'">{{'from_list'|translate}}?</td>
 										<td>{{'site_name'|translate}}* </td>
 										<td ng-if="project.definition.implementing_partners_checked">{{'partner'|translate}}</td>
@@ -218,9 +219,23 @@
 							        </span>
 							      </td>
 
-							      <td ng-if="project.definition.admin0pcode !== 'AF' && project.definition.admin0pcode !== 'COL' ">
+								  <!-- <td ng-if="project.optionalShowSiteName(location)">
+									  <span e-placeholder="{{'select'|translate}}"
+							        				editable-select="location.site_name_checked"
+							        				e-name="site_name_checked"
+							        				e-form="locationform"
+							        				e-ng-options="(item?'Yes':'No') for item in [true, false]"
+							        				e-ng-change="project.putSiteNameOldform(location,$data)"
+							        				e-ng-disabled="">
+													{{location.site_name_checked?'Yes':'No'}}
+
+									  </span>
+								  </td> -->
+
+							      <td ng-if="project.definition.admin0pcode !== 'AF' && project.definition.admin0pcode !== 'COL'">
 							      	<!-- select from list -->
-							        <span e-placeholder="{{'select'|translate}}"
+							        <!-- <span ng-if="(project.showSiteNameField(location))"e-placeholder="{{'select'|translate}}" -->
+									<span e-placeholder="{{'select'|translate}}"
 							        				editable-select="location.site_list_select_id"
 							        				e-name="site_list_select_id"
 							        				e-form="locationform"
@@ -229,11 +244,15 @@
 							        				e-ng-disabled="location.site_list_select_disabled">
 							          {{ project.showListYesNo( $index, $data, location ) }}
 							        </span>
+									<!-- <span ng-if="!(project.showSiteNameField(location))">
+										No need to fill this 
+									</span> -->
 							      </td>
 
 							      <!-- select existing: drop down -->
 							      <td ng-if="location.site_list_select_id === 'yes'">
-							        <span e-placeholder="{{'select'|translate}}"
+							        <!-- <span ng-if="(project.showSiteNameField(location))" e-placeholder="{{'select'|translate}}" -->
+									<span e-placeholder="{{'select'|translate}}"
 							        			editable-select="location.site_id"
 							        			e-name="site_id"
 							        			e-form="locationform"
@@ -242,25 +261,36 @@
 							        			e-ng-disabled="!location.site_type_id">
 							          {{ project.showAdminSites( $index, $data, location ) }}
 							        </span>
+									<!-- <span ng-if="!(project.showSiteNameField(location))">
+										No need to fill this
+									</span> -->
 							      </td>
 
 							      <!-- select existing: free text  -->
 										 <td ng-if="location.site_list_select_id === 'no'">
-							        <span editable-text="location.site_name"
+							        <!-- <span ng-if="(project.showSiteNameField(location))" editable-text="location.site_name" -->
+									<span editable-text="location.site_name"
 							        				e-name="site_name"
 							        				e-form="locationform"
 							        				e-required>
 							        	{{ project.showSiteName( $data, location ) }}
 							        </span>
+									<!-- <span ng-if="!(project.showSiteNameField(location))">
+										No need to fill this
+									</span> -->
 							      </td>
 							      <!-- select existing: free text  -->
 										 <td ng-if="location.site_list_select_id !== 'no' && location.site_list_select_id !== 'yes'">
-							        <span editable-text="location.site_name"
+							        <!-- <span ng-if="(project.showSiteNameField(location))" editable-text="location.site_name" -->
+										<span editable-text="location.site_name"
 							        				e-name="site_name"
 							        				e-form="locationform"
 							        				e-required>
 							        	{{ project.showSiteName( $data, location ) }}
 							        </span>
+									<!-- <span ng-if="!(project.showSiteNameField(location))">
+										No need to fill this
+									</span> -->
 										</td>
 										<!-- <td ng-if="project.definition.implementing_partners_checked">
 											<md-select ng-model="location.implementing_partners" multiple ng-model-options="{trackBy: '$value.organization'}" ng-disabled="!locationform.$visible"

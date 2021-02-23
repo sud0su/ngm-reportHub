@@ -679,7 +679,22 @@
                             <!-- END -->
 
 
+                            <!-- option to use site_name or not -->
+                            <!-- <div class="row" ng-if="project.definition.admin0pcode === 'ET'">
+                                <div class="input-field col s12 m2" style="padding-left: 0;">
+                                    <p>
+                                        <label class="checkbox-label" for="checkbox-optional-site-name-{{$index}}">
+                                            <input type="checkbox" class="filled-in" id="checkbox-optional-site-name-{{$index}}"
+                                                ng-checked="project.siteNameCheckbox(location)" ng-click="project.putSiteName(location,$index)"
+                                                ng-disabled="project.definition.project_status === 'complete' || !project.canEdit" />
+                                            <span style="left: .75rem;">Site</span>
+                                        </label>
+                                    </p>
+                                </div>
+                            </div> -->
+
                             <!-- site name -->
+                            <!-- <div class="row" ng-if="(ngmClusterLocations.adminSitesSelect[ $index ].length > 0) && project.showSiteNameField(location)"> -->
                             <div class="row" ng-if="ngmClusterLocations.adminSitesSelect[ $index ].length > 0">
 
                                 <!-- select site list -->
@@ -736,14 +751,16 @@
                             </div>
 
                             <!-- site name -->
+                            <!-- <div class="row" ng-if="(ngmClusterLocations.adminSitesSelect[ $index ].length < 1) && project.showSiteNameField(location)"> -->
                             <div class="row" ng-if="ngmClusterLocations.adminSitesSelect[ $index ].length < 1">
                                 <div class="input-field col s12 m12">
                                     <input id="ngm-site_name-{{ $index }}" type="text" placeholder="Site Name"
                                         ng-model="location.site_name" class="validate"
                                         ng-change="ngmClusterBeneficiaries.inputChange( 'ngm-site_name-{{ $index }}' )"
                                         required>
-                                    <label for="ngm-site_name-{{ $index }}" class="active"
-                                        style="">{{'site_name'|translate}}*</label>
+                                    <!-- <label for="ngm-site_name-{{ $index }}" class="active"
+                                        style="">{{'site_name'|translate}}*</label> -->
+                                    <label for="ngm-site_name-{{ $index }}" class="active" style="">{{'site_name'|translate}}</label>
                                 </div>
                             </div>
 
