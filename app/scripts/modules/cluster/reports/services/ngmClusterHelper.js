@@ -420,6 +420,9 @@ angular.module( 'ngmReportHub' )
             // remove implementing partner in target location if implementing partner unchecked
             location.implementing_partners =[];
           }
+          if(location.admin0pcode === 'ET' && location.site_name === undefined){
+            location.site_name ='';
+          }
         });
 
         // return clean location

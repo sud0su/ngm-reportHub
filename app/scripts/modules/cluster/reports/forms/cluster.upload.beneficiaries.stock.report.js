@@ -867,7 +867,9 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             title += item.admin1name + ', ' + item.admin2name;
 
                             // site_name
-                            title += ', ' + item.site_name;
+                            if (item.site_name !== null && item.site_name !== '') {
+                                title += ', ' + item.site_name;
+                            }
 
                             break;
 
@@ -875,7 +877,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         case 'food_distribution_point':
 
                             // type + title
-                            title += item.site_type_name + ' ' + item.site_name + ': ';
+                            title += item.site_type_name + ' ' + (item.site_name !== null && item.site_name !== '' ? (item.site_name + ': ') : ': ');
 
                             // admin1, admin2
                             title += item.admin1name + ', ' + item.admin2name + ', ' + item.admin3name;
@@ -894,7 +896,9 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             title += item.admin1name + ', ' + item.admin2name;
 
                             // site_name
-                            title += ', ' + item.site_name;
+                            if (item.site_name !== null && item.site_name !== '') {
+                                title += ', ' + item.site_name;
+                            }
 
                             break;
 
@@ -921,7 +925,9 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                             }
 
                             // site_name
-                            title += ', ' + item.site_name;
+                            if (item.site_name !== null && item.site_name !== '') {
+                                title += ', ' + item.site_name;
+                            }
 
                             break;
                     }

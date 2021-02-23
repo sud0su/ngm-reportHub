@@ -35,8 +35,12 @@ angular.module( 'ngmReportHub' )
       // add new_location
       addNewLocation: function( project, new_location ){
         // create new beneficiaries holder
-        console.log( new_location );
+        // console.log( new_location );
         new_location.beneficiaries = [{}];
+        // for ET 
+        if (new_location.admin0pcode === 'ET' && new_location.site_name === undefined) {
+          new_location.site_name = '';
+        }
         project.report.locations.push( new_location );
         // reset new_location
         ngmClusterLocations.new_location = {};
@@ -92,6 +96,10 @@ angular.module( 'ngmReportHub' )
         // set createdAt
         inserted.createdAt = new Date().toISOString();
 
+        if (project.admin0pcode === 'ET') {
+          // inserted.site_name_checked = false;
+          inserted.site_name = '';
+        }
         // set targets
         return inserted;
       },

@@ -160,9 +160,17 @@ angular.module( 'ngmReportHub' )
 			target_locations_valid: function( project ){
 				var rowComplete = 0;
 				angular.forEach( project.target_locations, function( d, i ){
-					if ( d.admin1pcode && d.admin1name && d.admin2pcode && d.admin2name && d.site_name ){
-						rowComplete++;
-					}
+						if ( d.admin1pcode && d.admin1name && d.admin2pcode && d.admin2name){
+							if (d.admin0pcode === 'ET') {
+								rowComplete++;
+							}else{
+								if (d.site_name) {
+									rowComplete++;
+								}
+							}
+						}
+						
+					
 					// hack for eiewg
 					// if ( d.admin0pcode === 'AF' && d.cluster_id === 'eiewg' ) {
 					// 	if ( d.site_implementation_id && d.site_implementation_id === 'informal' && !d.site_hub_id ) {
@@ -260,12 +268,13 @@ angular.module( 'ngmReportHub' )
 				}
 				// console.log('targetlocation-complete02');
 				// console.log(complete);
-
-				if (!l.site_name) {
-					id = "label[for='" + 'ngm-site_name-' + i + "']";
-					$(id).addClass('error');
-					validation.divs.push(id);
-					complete = false;
+				if (l.admin0pcode !== 'ET'){
+					if (!l.site_name) {
+						id = "label[for='" + 'ngm-site_name-' + i + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
 				}
 				if (!l.username) {
 					id = "label[for='" + 'ngm-username-' + i + "']";
@@ -860,7 +869,7 @@ angular.module( 'ngmReportHub' )
 				var c = ngmClusterValidation.project_donor_valid( project );
 				var desc = ngmClusterValidation.projectDescription(project);
 				var d = ngmClusterValidation.targetBeneficiariesValidate(project,detailBeneficiaries);
-				var e = project.admin0pcode !== 'AF' ? ngmClusterValidation.target_locations_valid(project) : ngmClusterValidation.targetLocationsValidate(project,detailLocations);
+				var e = (project.admin0pcode !== 'AF' && project.admin0pcode !== 'ET')  ? ngmClusterValidation.target_locations_valid(project) : ngmClusterValidation.targetLocationsValidate(project,detailLocations);
 				var f = project.admin0pcode === 'AF' ? ngmClusterValidation.validateLocationGroupingCustom(project): true;
 				// locations invalid!
 				if ( !e ) {
@@ -3020,11 +3029,13 @@ angular.module( 'ngmReportHub' )
 					complete = false;
 				}
 
-				if (!l.site_name) {
-					id = "label[for='ngm-new_location-site_name']";
-					$(id).addClass('error');
-					validation.divs.push(id);
-					complete = false;
+				if (l.admin0pcode !== 'ET') {
+					if(!l.site_name){
+						id = "label[for='ngm-new_location-site_name']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
 				}
 				if (!l.username) {
 					id = "label[for='ngm-new_location-username']";
