@@ -161,7 +161,7 @@ angular.module( 'ngmReportHub' )
 				var rowComplete = 0;
 				angular.forEach( project.target_locations, function( d, i ){
 						if ( d.admin1pcode && d.admin1name && d.admin2pcode && d.admin2name){
-							if (d.admin0pcode === 'ET') {
+							if (d.admin0pcode === 'ET' || d.admin0pcode === 'NG') {
 								rowComplete++;
 							}else{
 								if (d.site_name) {
