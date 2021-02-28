@@ -9,7 +9,7 @@ angular.module( 'ngmReportHub' )
 	.factory( 'ngmClusterDetails', [ '$http', '$filter', '$timeout', 'ngmAuth', 'ngmClusterLists',
 							function( $http, $filter, $timeout, ngmAuth, ngmClusterLists ) {
 
-
+		const OTHER = 'other';
 		// beneficairy details
 		var ngmClusterDetails = {
 
@@ -24,22 +24,22 @@ angular.module( 'ngmReportHub' )
 				ngmClusterDetails.setForm( list, locations, timer )
 			},
 
-			// set input style 
+			// set input style
 			inputChange: function( label ){
 				$("label[for='" + label + "']").removeClass('error').addClass('active');
 			},
 
 			// update material_select
 			updateSelect: function(){
-				$timeout(function() { 
+				$timeout(function() {
 					// $( 'select' ).material_select();
 					$('select').formSelect();
 				}, 10 );
 			},
 
 			updateSelectById: function (id) {
-				$timeout(function () { 
-					$('#' + id + ' select').material_select(); 
+				$timeout(function () {
+					$('#' + id + ' select').material_select();
 					$('#' + id + ' select').formSelect();
 				}, 10);
 			},
@@ -93,12 +93,12 @@ angular.module( 'ngmReportHub' )
 
 			// add details
 			initDetails: function( list, $locationIndex, $beneficiaryIndex, beneficiary ) {
-				// add empty 
+				// add empty
 				if ( !beneficiary.details ) {
 					beneficiary.details = [];
-					beneficiary.details.push({ unit_type_quantity:0 });	
+					beneficiary.details.push({ unit_type_quantity:0 });
 				}
-				
+
 				// reset list
 				if ( beneficiary.details ) {
 					// set details form
@@ -107,10 +107,10 @@ angular.module( 'ngmReportHub' )
 					});
 				}
 			},
-			
+
 			// manages selections (removes selections from detials list for ET ESNFI partial_kits, kit_details)
 			setList: function( list, $locationIndex, $beneficiaryIndex, $index, unit_type_id, d_list ) {
-				
+
 				// list
 				var list;
 
@@ -127,17 +127,37 @@ angular.module( 'ngmReportHub' )
 				if ( !ngmClusterLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] ){
 					ngmClusterLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = [];
 				}
-				
+
 				// set list at index
 				ngmClusterLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = angular.copy( list );
 
+				// check other option TODO: refactor
+				if (list.filter(d => d.unit_type_id === OTHER).length) {
+					// remove duplicates
+					let uniqueItems = new Set();
+					ngmClusterLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = ngmClusterLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ].filter(item => {
+						let k = item['unit_type_id'];
+						if (k === OTHER) {
+							return uniqueItems.has(k) ? false : uniqueItems.add(k);
+						} else {
+							return true;
+						}
+					});
+
+					// filter other if reached max limit
+					let otherCount = d_list.filter(d => d.unit_type_id === OTHER).length;
+					if (otherCount && otherCount < list.filter(d => d.unit_type_id === OTHER).length) {
+						d_list = $filter( 'filter' )( d_list, { unit_type_id: '!' + OTHER } );
+					}
+				}
+
 				// remove current row from list filter
 				d_list = $filter( 'filter' )( d_list, { unit_type_id: '!' + unit_type_id } );
-				
+
 				// filter partial_kits
 				angular.forEach( d_list, function ( detail ) {
 					if ( detail.unit_type_id ) {
-						ngmClusterLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = 
+						ngmClusterLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] =
 							$filter( 'filter' )( ngmClusterLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ], { unit_type_id: '!' + detail.unit_type_id } );
 					}
 				});
@@ -149,9 +169,9 @@ angular.module( 'ngmReportHub' )
 
 			// add details
 			addDetail: function( list, $locationIndex, $beneficiaryIndex, beneficiary ) {
-				// add empty 
+				// add empty
 				if ( !beneficiary.details ) {
-					beneficiary.details = [];	
+					beneficiary.details = [];
 				}
 				beneficiary.details.push({ unit_type_quantity:0 });
 				// reset list

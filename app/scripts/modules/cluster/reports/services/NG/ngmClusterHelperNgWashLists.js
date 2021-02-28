@@ -6,16 +6,18 @@
  *
  */
 angular.module( 'ngmReportHub' )
-	.factory( 'ngmClusterHelperNgWashLists', 
+	.factory( 'ngmClusterHelperNgWashLists',
 			[ '$http',
 				'$filter',
 				'$timeout',
 				'ngmAuth', function( $http, $filter, $timeout, ngmAuth ) {
 
 		// definition
+		const OTHER = 'other';
+
 		var ngmClusterHelperNgWashLists = {
 
-			// 
+			//
 			details: [],
 
 			// lists
@@ -164,34 +166,34 @@ angular.module( 'ngmReportHub' )
 				ops_maintenance_details:[{
 					// handpump
 					detail_category_id: 'handpump',
-					detail_category_name: 'Handpump', 
+					detail_category_name: 'Handpump',
 					detail_type_id: 'plunger_pump',
-					detail_type_name: 'Plunger Pump' 
+					detail_type_name: 'Plunger Pump'
 				},{
 					detail_category_id: 'handpump',
-					detail_category_name: 'Handpump', 
+					detail_category_name: 'Handpump',
 					detail_type_id: 'handle',
-					detail_type_name: 'Handle' 
+					detail_type_name: 'Handle'
 				},{
 					detail_category_id: 'handpump',
-					detail_category_name: 'Handpump', 
+					detail_category_name: 'Handpump',
 					detail_type_id: 'axe',
-					detail_type_name: 'Axe' 
+					detail_type_name: 'Axe'
 				},{
 					detail_category_id: 'handpump',
-					detail_category_name: 'Handpump', 
+					detail_category_name: 'Handpump',
 					detail_type_id: 'riser_pipe',
-					detail_type_name: 'Riser Pipe' 
+					detail_type_name: 'Riser Pipe'
 				},{
 					detail_category_id: 'handpump',
-					detail_category_name: 'Handpump', 
+					detail_category_name: 'Handpump',
 					detail_type_id: 'standing_leg',
-					detail_type_name: 'Standing Leg of the Handle' 
+					detail_type_name: 'Standing Leg of the Handle'
 				},{
 					detail_category_id: 'handpump',
-					detail_category_name: 'Handpump', 
+					detail_category_name: 'Handpump',
 					detail_type_id: 'tank',
-					detail_type_name: 'Tank' 
+					detail_type_name: 'Tank'
 				},{
 					// solar system
 					detail_category_id: 'solar_system',
@@ -202,7 +204,7 @@ angular.module( 'ngmReportHub' )
 					detail_category_id: 'solar_system',
 					detail_category_name: 'Solar Systems',
 					detail_type_id:'rp_disconnector',
-					detail_type_name:'RP Disconnector'					
+					detail_type_name:'RP Disconnector'
 				},{
 					detail_category_id: 'solar_system',
 					detail_category_name: 'Solar Systems',
@@ -277,7 +279,7 @@ angular.module( 'ngmReportHub' )
 					detail_category_id: 'solar_system',
 					detail_category_name: 'Solar Systems',
 					detail_type_id:'plastic_reducer_blasting',
-					detail_type_name:'Plastic Reducer Blasting'	
+					detail_type_name:'Plastic Reducer Blasting'
 				},{
 					// generator systems
 					detail_category_id: 'generator_systems',
@@ -897,7 +899,7 @@ angular.module( 'ngmReportHub' )
 					detail_type_name: 'Informed they are Responsible to Ensure Excrement Outside of Latrine is Cleared'
 				},{
 					detail_type_id: 'snt_cmmttee_infrmd_rtatn',
-					detail_type_name: 'Informed of Rotation Schedule (for Rotational Committees)'					
+					detail_type_name: 'Informed of Rotation Schedule (for Rotational Committees)'
 				}],
 				sanitation_committee_kits:[{
 					detail_type_id: 'lqd_dtrgnt',
@@ -1050,6 +1052,12 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'reusable_sanit_pad',
 					detail_type_name:'Reusable Sanitary Pad Set (2 Holders, 3 Winged Pads, 2 Straight Pads)'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
 				}],
 				replenishment_hygiene_kit_distribution:[{
 					detail_type_id:'bath_soap',
@@ -1057,6 +1065,12 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'laundry_soap',
 					detail_type_name:'Laundry soap, 200 Grams'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
 				}],
 				cholera_kit_distribution:[{
 					detail_type_id:'ors',
@@ -1070,6 +1084,9 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'bath_soap',
 					detail_type_name:'Bathing Soap, 250 Grams'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
 				},{
 					detail_type_id:'other',
 					detail_type_name:'Other'
@@ -1095,6 +1112,12 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'hep_e_pstr_hndbills',
 					detail_type_name:'Hepatitis E Prevention Posters and Hand Bills'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
 				}],
 				post_distribution_monitoring:[{
 					detail_type_id:'hk_cultural_good',
@@ -1129,6 +1152,12 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'hk_security',
 					detail_type_name:'Security Concerns for Women and Children During Distribution'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
 				}],
 				cash_based_items:[{
 					detail_type_id:'water_vendor',
@@ -1182,7 +1211,7 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'babur',
 					detail_type_name:'Babur'
-				},{					
+				},{
 					detail_type_id:'bacama',
 					detail_type_name:'Bacama/Bachama'
 				},{
@@ -1398,28 +1427,47 @@ angular.module( 'ngmReportHub' )
       // manages selections (removes selections from detials list for ET ESNFI partial_kits, kit_details)
       getDetailList: function( list, $locationIndex, $beneficiaryIndex, $index, detail_type_id, b_detail_list ) {
 
-        // each beneficiary
+				// each beneficiary
         if ( !ngmClusterHelperNgWashLists.details[ $locationIndex ] ) {
           ngmClusterHelperNgWashLists.details[ $locationIndex ] = [];
         }
         if ( !ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ] ) {
           ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ] = [];
         }
-        
+
         // set list at index
         if ( !ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] ) {
-          ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = angular.copy( list );
+					ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = angular.copy( list );
+
+					if (list.filter(d => d.detail_type_id === OTHER).length) {
+						// remove duplicates
+						let uniqueItems = new Set();
+						ngmClusterHelperNgWashLists.details[$locationIndex][$beneficiaryIndex][$index] = ngmClusterHelperNgWashLists.details[$locationIndex][$beneficiaryIndex][$index].filter(item => {
+							let k = item['detail_type_id'];
+							if (k === OTHER) {
+								return uniqueItems.has(k) ? false : uniqueItems.add(k);
+							} else {
+								return true;
+							}
+						});
+					}
         }
 
+				// filter other if reached max limit
+				let otherCount = b_detail_list.filter(d => d.detail_type_id === OTHER).length;
+				if (otherCount && otherCount < list.filter(d => d.detail_type_id === OTHER).length) {
+					b_detail_list = $filter( 'filter' )( b_detail_list, { detail_type_id: '!' + OTHER } );
+				}
+
         // remove current selection
-        b_detail_list = $filter( 'filter' )( b_detail_list, { detail_type_id: '!' + detail_type_id } );
-        
+				b_detail_list = $filter( 'filter' )( b_detail_list, { detail_type_id: '!' + detail_type_id } );
+
         // filter partial_kits
         angular.forEach( b_detail_list, function ( detail ) {
           if ( detail.detail_type_id ) {
-            ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = $filter( 'filter' )( ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ], { detail_type_id: '!' + detail.detail_type_id } );
-          }
-        });
+							ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = $filter( 'filter' )( ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ], { detail_type_id: '!' + detail.detail_type_id } );
+					}
+				});
 
         // return
         return ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ];
@@ -1428,7 +1476,7 @@ angular.module( 'ngmReportHub' )
 
 			// remove duplicates in item ( json array ) based on value ( filterOn )
 			filterDuplicates: function( list, keyname ){
-      	
+
       	var keys = [];
       	var output = [];
 
@@ -1439,12 +1487,12 @@ angular.module( 'ngmReportHub' )
 					// if it's not already part of our keys array
 					if( keys.indexOf( key ) === -1 ) {
 						// add it to our keys array
-						keys.push( key ); 
+						keys.push( key );
 						// push this item to our final output array
 						output.push( item );
 					}
 				});
-				
+
 
 				// duplicates filtered
 				return output;
@@ -1452,7 +1500,7 @@ angular.module( 'ngmReportHub' )
 
 		}
 
-		// return 
+		// return
 		return ngmClusterHelperNgWashLists;
 
 	}]);
