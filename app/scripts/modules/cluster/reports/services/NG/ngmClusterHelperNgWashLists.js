@@ -13,6 +13,8 @@ angular.module( 'ngmReportHub' )
 				'ngmAuth', function( $http, $filter, $timeout, ngmAuth ) {
 
 		// definition
+		const OTHER = 'other';
+
 		var ngmClusterHelperNgWashLists = {
 
 			// 
@@ -1408,8 +1410,27 @@ angular.module( 'ngmReportHub' )
         
         // set list at index
         if ( !ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] ) {
-          ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = angular.copy( list );
+					ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ] = angular.copy( list );
+
+					if (list.filter(d => d.detail_type_id === OTHER).length) {
+						// remove duplicates
+						let uniqueItems = new Set();
+						ngmClusterHelperNgWashLists.details[$locationIndex][$beneficiaryIndex][$index] = ngmClusterHelperNgWashLists.details[$locationIndex][$beneficiaryIndex][$index].filter(item => {
+							let k = item['detail_type_id'];
+							if (k === OTHER) {
+								return uniqueItems.has(k) ? false : uniqueItems.add(k);
+							} else {
+								return true;
+							}
+						});
+					}
         }
+
+				// filter other if reached max limit
+				let otherCount = b_detail_list.filter(d => d.detail_type_id === OTHER).length;
+				if (otherCount && otherCount < list.filter(d => d.detail_type_id === OTHER).length) {
+					b_detail_list = $filter( 'filter' )( b_detail_list, { detail_type_id: '!' + OTHER } );
+				}
 
         // remove current selection
         b_detail_list = $filter( 'filter' )( b_detail_list, { detail_type_id: '!' + detail_type_id } );
