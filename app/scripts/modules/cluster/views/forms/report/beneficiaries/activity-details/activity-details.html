@@ -42,3 +42,17 @@
   				<i class="material-icons">clear</i>
   			</div>
 			</div>
+
+			<!-- unit_type_name -->
+			<div class="input-field col s12 m9 push-m2" ng-if="detail.unit_type_id==='other'" >
+				<input id="ngm-beneficiary_detail_unit_type_name-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $index }}"
+								name="unit_type_name"
+								class="validate"
+								ng-model="detail.unit_type_name"
+								ng-change="ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_detail_unit_type_name-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $index }}' )"
+								ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'"
+								required>
+
+				<label for="ngm-beneficiary_detail_unit_type_name-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $index }}"
+								class="active" >Item Name</label>
+			</div>
