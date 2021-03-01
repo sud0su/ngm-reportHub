@@ -6,13 +6,13 @@
 		      	<select materialize-select id="ngm-detail_type-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $promotionIndex }}{{ $kitIndex }}-{{ $index }}" 
 			      					name="detail_type_id"
 			      					class="validate"
-			      					ng-options="detail.detail_type_id as 
-			      												detail.detail_type_name for 
-			      												detail in 
-			      												ngmClusterHelperNgWashLists.getDetailList( ngmClusterHelperNgWashLists.lists[ beneficiary.activity_detail_id ], $locationIndex, $beneficiaryIndex, $index, detail.detail_type_id, promotion.details )"
-		      						ng-change="ngmClusterHelperNgWash.selectChange( detail, 
+			      					ng-options="detail.detail_type_id as
+			      												detail.detail_type_name for
+			      												detail in
+			      												ngmClusterHelperNgWashLists.getDetailList( ngmClusterHelperNgWashLists.lists[ beneficiary.activity_detail_id ], $locationIndex, $beneficiaryIndex, $index, detail.detail_type_id, kit.details )"
+		      						ng-change="ngmClusterHelperNgWash.selectChange( detail,
 		      																			beneficiary.activity_detail_id,
-		      																			'detail_type_id', 
+		      																			'detail_type_id',
 		      																			'detail_type_name',
 		      																			'ngm-detail_type-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $promotionIndex }}{{ $kitIndex }}-{{ $index }}' )"
 			      					ng-model="detail.detail_type_id"
