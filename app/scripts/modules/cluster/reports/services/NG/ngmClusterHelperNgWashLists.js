@@ -1152,12 +1152,6 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'hk_security',
 					detail_type_name:'Security Concerns for Women and Children During Distribution'
-				},{
-					detail_type_id:'other',
-					detail_type_name:'Other'
-				},{
-					detail_type_id:'other',
-					detail_type_name:'Other'
 				}],
 				cash_based_items:[{
 					detail_type_id:'water_vendor',
@@ -1454,9 +1448,11 @@ angular.module( 'ngmReportHub' )
         }
 
 				// filter other if reached max limit
-				let otherCount = b_detail_list.filter(d => d.detail_type_id === OTHER).length;
-				if (otherCount && otherCount < list.filter(d => d.detail_type_id === OTHER).length) {
-					b_detail_list = $filter( 'filter' )( b_detail_list, { detail_type_id: '!' + OTHER } );
+				if (b_detail_list) {
+					let otherCount = b_detail_list.filter(d => d.detail_type_id === OTHER).length;
+					if (otherCount && otherCount < list.filter(d => d.detail_type_id === OTHER).length) {
+						b_detail_list = $filter('filter')(b_detail_list, { detail_type_id: '!' + OTHER });
+					}
 				}
 
         // remove current selection
@@ -1473,6 +1469,13 @@ angular.module( 'ngmReportHub' )
         return ngmClusterHelperNgWashLists.details[ $locationIndex ][ $beneficiaryIndex ][ $index ];
 
       },
+
+			resetDetailList($locationIndex, $beneficiaryIndex) {
+				// arrays of arrays
+				if (ngmClusterHelperNgWashLists.details[$locationIndex] && ngmClusterHelperNgWashLists.details[$locationIndex][$beneficiaryIndex]) {
+					ngmClusterHelperNgWashLists.details[$locationIndex][$beneficiaryIndex] = [];
+				}
+			},
 
 			// remove duplicates in item ( json array ) based on value ( filterOn )
 			filterDuplicates: function( list, keyname ){
