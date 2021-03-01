@@ -144,10 +144,12 @@ angular.module( 'ngmReportHub' )
 						}
 					});
 
-					// filter other if reached max limit
-					let otherCount = d_list.filter(d => d.unit_type_id === OTHER).length;
-					if (otherCount && otherCount < list.filter(d => d.unit_type_id === OTHER).length) {
-						d_list = $filter( 'filter' )( d_list, { unit_type_id: '!' + OTHER } );
+					if (d_list) {
+						// filter other if reached max limit
+						let otherCount = d_list.filter(d => d.unit_type_id === OTHER).length;
+						if (otherCount && otherCount < list.filter(d => d.unit_type_id === OTHER).length) {
+							d_list = $filter( 'filter' )( d_list, { unit_type_id: '!' + OTHER } );
+						}
 					}
 				}
 
