@@ -161,7 +161,7 @@ angular.module( 'ngmReportHub' )
 				var rowComplete = 0;
 				angular.forEach( project.target_locations, function( d, i ){
 						if ( d.admin1pcode && d.admin1name && d.admin2pcode && d.admin2name){
-							if (d.admin0pcode === 'ET' || d.admin0pcode === 'NG') {
+							if (d.admin0pcode === 'ET') {
 								rowComplete++;
 							}else{
 								if (d.site_name) {
@@ -169,8 +169,8 @@ angular.module( 'ngmReportHub' )
 								}
 							}
 						}
-						
-					
+
+
 					// hack for eiewg
 					// if ( d.admin0pcode === 'AF' && d.cluster_id === 'eiewg' ) {
 					// 	if ( d.site_implementation_id && d.site_implementation_id === 'informal' && !d.site_hub_id ) {
