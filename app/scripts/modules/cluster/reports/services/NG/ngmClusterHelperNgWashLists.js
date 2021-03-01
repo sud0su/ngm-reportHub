@@ -1454,9 +1454,11 @@ angular.module( 'ngmReportHub' )
         }
 
 				// filter other if reached max limit
-				let otherCount = b_detail_list.filter(d => d.detail_type_id === OTHER).length;
-				if (otherCount && otherCount < list.filter(d => d.detail_type_id === OTHER).length) {
-					b_detail_list = $filter( 'filter' )( b_detail_list, { detail_type_id: '!' + OTHER } );
+				if (b_detail_list) {
+					let otherCount = b_detail_list.filter(d => d.detail_type_id === OTHER).length;
+					if (otherCount && otherCount < list.filter(d => d.detail_type_id === OTHER).length) {
+						b_detail_list = $filter('filter')(b_detail_list, { detail_type_id: '!' + OTHER });
+					}
 				}
 
         // remove current selection
