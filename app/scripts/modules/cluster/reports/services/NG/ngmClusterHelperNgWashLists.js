@@ -1152,12 +1152,6 @@ angular.module( 'ngmReportHub' )
 				},{
 					detail_type_id:'hk_security',
 					detail_type_name:'Security Concerns for Women and Children During Distribution'
-				},{
-					detail_type_id:'other',
-					detail_type_name:'Other'
-				},{
-					detail_type_id:'other',
-					detail_type_name:'Other'
 				}],
 				cash_based_items:[{
 					detail_type_id:'water_vendor',
