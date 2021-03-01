@@ -6,7 +6,7 @@
  *
  */
 angular.module( 'ngmReportHub' )
-	.factory( 'ngmClusterHelperNgWashKeys', 
+	.factory( 'ngmClusterHelperNgWashKeys',
 			[ '$http',
 				'$filter',
 				'$timeout',
@@ -17,7 +17,7 @@ angular.module( 'ngmReportHub' )
 
 			// activity keys
 			keys: {
-				
+
 				// WATER
 				// boreholes
 				'borehole_construction':{
@@ -83,9 +83,9 @@ angular.module( 'ngmReportHub' )
 						borehole_taps_ave_flow_rate_ltrs_minute: 0
 					}
 				},
-				
+
 				// reticulation
-				'reticulation_construction': { 
+				'reticulation_construction': {
 					template: 'reticulation.html',
 					association: 'water',
 					measurement: {
@@ -93,7 +93,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Taps Connected'
 					}
 				},
-				'reticulation_rehabilitation': { 
+				'reticulation_rehabilitation': {
 					template: 'reticulation.html',
 					association: 'water',
 					measurement: {
@@ -101,9 +101,9 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Taps Connected'
 					}
 				},
-				
+
 				// services
-				'water_trucking': { 
+				'water_trucking': {
 					template: 'service.html',
 					association: 'water',
 					measurement: {
@@ -111,7 +111,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'm3/Per Month'
 					}
 				},
-				'cash_for_water': { 
+				'cash_for_water': {
 					template: 'service.html',
 					association: 'water',
 					measurement: {
@@ -127,9 +127,9 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'm3/Per Month'
 					}
 				},
-				
+
 				// ops and maintenance
-				'fuel_provision_water': { 
+				'fuel_provision_water': {
 					template: 'maintenance.html',
 					association: 'water',
 					measurement: {
@@ -137,7 +137,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'm3/Per Month'
 					}
 				},
-				'washcoms_establishment_training': { 
+				'washcoms_establishment_training': {
 					template: 'maintenance.html',
 					association: 'water',
 					measurement: {
@@ -147,7 +147,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Training Sessions',
 					}
 				},
-				'operation_maintenance_monitoring': { 
+				'operation_maintenance_monitoring': {
 					template: 'maintenance.html',
 					association: 'water',
 					measurement: {
@@ -155,7 +155,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Monitoring Visits'
 					}
 				},
-				'maintenance_repair_kits_provision_to_washcoms': { 
+				'maintenance_repair_kits_provision_to_washcoms': {
 					template: 'maintenance.html',
 					association: 'water',
 					measurement: {
@@ -164,7 +164,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Kits Distributed'
 					}
 				},
-				'maintenance_repair_replacement_water_systems': { 
+				'maintenance_repair_replacement_water_systems': {
 					template: 'maintenance.html',
 					association: 'water',
 					measurement: {
@@ -176,7 +176,7 @@ angular.module( 'ngmReportHub' )
 
 				// SANITATION
 				// latrines construction
-				'latrine_construction_hh': { 
+				'latrine_construction_hh': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -184,7 +184,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: ' HH Latrines'
 					}
 				},
-				'latrine_construction_vip': { 
+				'latrine_construction_vip': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -200,7 +200,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'VIP Latrines'
 					}
 				},
-				'latrine_construction_emergency': { 
+				'latrine_construction_emergency': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -217,7 +217,7 @@ angular.module( 'ngmReportHub' )
 					}
 				},
 				// latrine rehabilitation
-				'latrine_rehabilitation_hh': { 
+				'latrine_rehabilitation_hh': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -225,7 +225,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: ' HH Latrines'
 					}
 				},
-				'latrine_rehabilitation_vip': { 
+				'latrine_rehabilitation_vip': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -241,7 +241,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'VIP Latrines'
 					}
 				},
-				'latrine_rehabilitation_emergency': { 
+				'latrine_rehabilitation_emergency': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -258,7 +258,7 @@ angular.module( 'ngmReportHub' )
 					}
 				},
 				// cleaning and desludging
-				'latrine_cleaning_disinfection_vip': { 
+				'latrine_cleaning_disinfection_vip': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -270,7 +270,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: ' VIP Latrines'
 					}
 				},
-				'latrine_cleaning_disinfection_emergency': { 
+				'latrine_cleaning_disinfection_emergency': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -283,7 +283,7 @@ angular.module( 'ngmReportHub' )
 					}
 				},
 				// desludging
-				'latrine_desludging_manual': { 
+				'latrine_desludging_manual': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -294,7 +294,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Manual'
 					}
 				},
-				'latrine_desludging_mechanical': { 
+				'latrine_desludging_mechanical': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -302,7 +302,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Mechanical'
 					}
 				},
-				'latrine_sludge_dumping_site': { 
+				'latrine_sludge_dumping_site': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -311,7 +311,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Sites Prepared'
 					}
 				},
-				'latrine_monitoring': { 
+				'latrine_monitoring': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -337,7 +337,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'VIP Latrines'
 					}
 				},
-				'latrine_gender_marking_emergency': { 
+				'latrine_gender_marking_emergency': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -353,7 +353,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Emergency Latrines'
 					}
 				},
-				'latrine_lock_installation_vip': { 
+				'latrine_lock_installation_vip': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -369,7 +369,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'VIP Latrines'
 					}
 				},
-				'latrine_lock_installation_emergency': { 
+				'latrine_lock_installation_emergency': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -385,7 +385,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Emergency Latrines'
 					}
 				},
-				'hand_washing_stations_installation': { 
+				'hand_washing_stations_installation': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -393,7 +393,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Installed'
 					}
 				},
-				'hand_washing_stations_refilled': { 
+				'hand_washing_stations_refilled': {
 					template: 'latrines.html',
 					association: 'sanitation',
 					measurement: {
@@ -567,7 +567,7 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'Monitoring Visits',
 						details: [{ quantity: 0 }]
 					}
-				},				
+				},
 				// waste management
 				'cleaning_campaigns': {
 					template: 'waste.html',
@@ -738,6 +738,15 @@ angular.module( 'ngmReportHub' )
 					}
 				},
 				'cholera_kit_distribution': {
+					template: 'kits.html',
+					association: 'hygiene',
+					measurement:{
+						quantity_measurement_id: 'kits_distributed',
+						quantity_measurement_name: 'Kits Distributed',
+						details: [{ quantity: 0 }]
+					}
+				},
+				'covid19_kit_distribution': {
 					template: 'kits.html',
 					association: 'hygiene',
 					measurement:{
@@ -928,7 +937,7 @@ angular.module( 'ngmReportHub' )
 
 		}
 
-		// return 
+		// return
 		return ngmClusterHelperNgWashKeys;
 
 	}]);

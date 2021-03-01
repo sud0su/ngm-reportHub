@@ -1091,6 +1091,37 @@ angular.module( 'ngmReportHub' )
 					detail_type_id:'other',
 					detail_type_name:'Other'
 				}],
+				covid19_kit_distribution:[{
+					detail_type_id:'sodium_hypochlorite_1500ml',
+					detail_type_name:'Sodium Hypochlorite (Jik) 1.5 Liters'
+				},{
+					detail_type_id:'covid19_flyer',
+					detail_type_name:'Flyer with COVID Messages and Cleaning and Disinfection Instructions'
+				},{
+					detail_type_id:'laundry_powder_170gm',
+					detail_type_name:'Laundry Powder, 170 Grams'
+				},{
+					detail_type_id:'kettle',
+					detail_type_name:'Kettle with Lid'
+				},{
+					detail_type_id:'washing_soap_250gm',
+					detail_type_name:'250 grams Washing Soap, 250 Grams'
+				},{
+					detail_type_id:'jerrycan_20l',
+					detail_type_name:'20L Jerrycan, Rigid & Non-collapsible, Food Grade Plastic, Screw Cap 50mm'
+				},{
+					detail_type_id:'bucket_20l',
+					detail_type_name:'Plastic Bucket with Lid, 20L'
+				},{
+					detail_type_id:'reusable_cloth_1500mm',
+					detail_type_name:'Reusable Cloth Mask/Material for Making Masks (1.5m)'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
+				},{
+					detail_type_id:'other',
+					detail_type_name:'Other'
+				}],
 				hygiene_promotion_volunteers_kit_distribution:[{
 					detail_type_id:'hwshing_poster_eng',
 					detail_type_name:'Hand Washing Poster (English)'
