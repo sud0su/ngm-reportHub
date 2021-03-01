@@ -1470,6 +1470,13 @@ angular.module( 'ngmReportHub' )
 
       },
 
+			resetDetailList($locationIndex, $beneficiaryIndex) {
+				// arrays of arrays
+				if (ngmClusterHelperNgWashLists.details[$locationIndex] && ngmClusterHelperNgWashLists.details[$locationIndex][$beneficiaryIndex]) {
+					ngmClusterHelperNgWashLists.details[$locationIndex][$beneficiaryIndex] = [];
+				}
+			},
+
 			// remove duplicates in item ( json array ) based on value ( filterOn )
 			filterDuplicates: function( list, keyname ){
 
