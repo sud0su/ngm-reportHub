@@ -130,7 +130,8 @@
             <div ng-if="report.organization.admin0pcode === 'ET'" ng-init="!stock.implementing_partners ? stock.implementing_partners=[] : false" class="input-field col s12 m6 l4">
                 <select materialize-select watch id="ngm-implementing_partner-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-implementing_partner-{{$locationIndex}}-{{$stockIndex}}" class="validate"
-                    ng-options="item.organization_tag as item.organization for item in report.lists.organizations"
+										ng-options="item.organization_tag as item.organization for item in report.lists.organizations"
+										searchable="Search Partner"
                     ng-model="stock.implementing_partners[0].organization_tag"
                     ng-change="report.updateNameStockImplementingPartnerDonor(report.lists.organizations,'implementing_partners','organization_tag','organization',stock,$locationIndex, $stockIndex);report.inputChange('ngm-implementing_partner-{{$locationIndex}}-{{$stockIndex}}')"
                     ng-disabled="report.report.report_status === 'complete'">
@@ -145,7 +146,8 @@
             <div ng-if="report.organization.admin0pcode === 'ET'" ng-init="!stock.donors ? stock.donors=[] : false" class="input-field col s12 m6 l4">
                 <select materialize-select watch id="ngm-donor-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-donor-{{$locationIndex}}-{{$stockIndex}}" class="validate"
-                    ng-options="item.project_donor_id as item.project_donor_name for item in report.lists.donors"
+										ng-options="item.project_donor_id as item.project_donor_name for item in report.lists.donors"
+										searchable="Search Donor"
                     ng-model="stock.donors[0].donor_id"
                     ng-change="report.updateNameStockImplementingPartnerDonor(report.lists.donors,'donors','donor_id','donor_name',stock,$locationIndex, $stockIndex);report.inputChange('ngm-donor-{{$locationIndex}}-{{$stockIndex}}')"
                     ng-disabled="report.report.report_status === 'complete'">
