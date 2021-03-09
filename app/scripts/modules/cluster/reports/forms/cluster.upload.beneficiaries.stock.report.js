@@ -261,7 +261,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                                 $('#upload-file-report').modal('close');
                                                 drop_zone.removeAllFiles(true);
                                                 $scope.upload.setMessageFromFile($scope.messageFromfile, $scope.type)
-                                                M.toast({ html: 'Error', displayLength: 4000, classes: 'error' });
+                                                M.toast({ html: 'Error ' + (err ? err.data.err : ''), displayLength: 4000, classes: 'error' });
                                                 $("#upload_file").attr("disabled", true);
                                                 $("#delete_file").attr("disabled", true);
                                                 $("#switch_btn_file").attr("disabled", false);
@@ -420,7 +420,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                                     $('#upload-file-report').modal('close');
                                                     drop_zone.removeAllFiles(true);
                                                     $scope.upload.setMessageFromFile($scope.messageFromfile, $scope.type)
-                                                    M.toast({ html: 'Error', displayLength: 4000, classes: 'error' });
+                                                    M.toast({ html: 'Error ' + (err ? err.data.err : ''), displayLength: 4000, classes: 'error' });
                                                     $("#upload_file").attr("disabled", true);
                                                     $("#delete_file").attr("disabled", true);
                                                     $("#switch_btn_file").attr("disabled", false);
@@ -655,7 +655,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                                     $('#upload-file-report').modal('close');
                                     drop_zone.removeAllFiles(true);
                                     $scope.upload.setMessageFromFile($scope.messageFromfile, $scope.type)
-                                    M.toast({ html: 'Error', displayLength: 4000, classes: 'error' });
+                                    M.toast({ html: 'Error ' + (err?err.data.err:''), displayLength: 4000, classes: 'error' });
                                     $("#upload_file").attr("disabled", true);
                                     $("#delete_file").attr("disabled", true);
                                     $("#switch_btn_file").attr("disabled", false);
