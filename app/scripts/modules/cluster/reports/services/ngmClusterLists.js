@@ -724,7 +724,8 @@ angular.module( 'ngmReportHub' )
 						cluster: 'Food Security'
 					},{
 						cluster_id: 'health',
-						cluster: 'Health'
+						cluster: 'Health',
+						registration: false
 					},{
 						cluster_id: 'nutrition',
 						cluster: 'Nutrition'
