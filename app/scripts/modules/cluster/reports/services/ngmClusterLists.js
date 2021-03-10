@@ -8482,44 +8482,44 @@ angular.module( 'ngmReportHub' )
 
 							cluster_id: [ 'protection' ],
 							beneficiary_type_id: 'idp_conflict_natural_disaster',
-							beneficiary_type_name: 'Internally Displaced in 2021 (Conflict or Natural Disaster)',
+							beneficiary_type_name: 'Internally Displaced (Conflict or Natural Disaster)',
 							year: 2021
 						},{
 							cluster_id: [ 'protection' ],
 							beneficiary_type_id: 'shock_affected_non_displaced_conflict_natural_disaster',
-							beneficiary_type_name: 'Shock-Affected Non-Displaced in 2021 (Conflict or Natural Disaster)',
+							beneficiary_type_name: 'Shock-Affected Non-Displaced (Conflict or Natural Disaster)',
 							year: 2021
 						// not active
 						// },{
 						// 	cluster_id: [ 'protection' ],
 						// 	beneficiary_type_id: 'returnees_return_place',
-						// 	beneficiary_type_name: 'Returnees in 2020 - in their place of return',
-						// 	year: 2020
+						// 	beneficiary_type_name: 'Returnees - in their place of return',
+						// 	year: 2021
 						// },{
 						// 	cluster_id: [ 'protection' ],
 						// 	beneficiary_type_id: 'returnees_border_encashment',
-						// 	beneficiary_type_name: 'Returnees in 2020 - at border or in encashment centres',
-						// 	year: 2020
+						// 	beneficiary_type_name: 'Returnees - at border or in encashment centres',
+						// 	year: 2021
 						// },{
 						},{
 							cluster_id: [ 'protection' ],
 							beneficiary_type_id: 'undocumented_returnees_border_encashment',
-							beneficiary_type_name: 'Undocumented Returnees in 2021 - at border or in encashment centres',
+							beneficiary_type_name: 'Undocumented Returnees - at border or in encashment centres',
 							year: 2021
 						},{
 							cluster_id: [ 'protection' ],
 							beneficiary_type_id: 'undocumented_returnees_return_place',
-							beneficiary_type_name: 'Undocumented Returnees in 2021 - in their place of return',
+							beneficiary_type_name: 'Undocumented Returnees - in their place of return',
 							year: 2021
 						},{
 							cluster_id: [ 'protection' ],
 							beneficiary_type_id: 'refugee_returnees_border_encashment',
-							beneficiary_type_name: 'Refugee Returnees in 2021 - at border or in encashment centres',
+							beneficiary_type_name: 'Refugee Returnees - at border or in encashment centres',
 							year: 2021
 						},{
 							cluster_id: [ 'protection' ],
 							beneficiary_type_id: 'refugee_returnees_return_place',
-							beneficiary_type_name: 'Refugee Returnees in 2021 - in their place of return',
+							beneficiary_type_name: 'Refugee Returnees - in their place of return',
 							year: 2021
 						},{
 							cluster_id: [ 'protection' ],
