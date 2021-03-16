@@ -395,7 +395,7 @@
 					<!-- IMPLEMENTING PARTNERS Not angular material-->
 					<!-- <div class="row"> -->
 						<div class="input-field col s12">
-							<select materialize-select ng-model="beneficiary.implementing_partners" placeholder="{{'not_set'|translate}}" multiple ng-options="item as item.organization for item in project.report.locations[ $locationIndex ].implementing_partners track by item.organization_tag"></select>
+							<select materialize-select ng-model="beneficiary.implementing_partners" placeholder="{{'not_set'|translate}}" multiple ng-options="item as item.organization for item in project.report.locations[ $locationIndex ].implementing_partners track by item.organization_tag" ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'"></select>
 								<label>Implementing Partners</label>
 						</div>
 					</div>

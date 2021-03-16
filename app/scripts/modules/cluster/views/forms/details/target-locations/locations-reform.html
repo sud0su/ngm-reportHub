@@ -432,7 +432,7 @@
 
                                 <div class="input-field col s12 l3 m6" ng-if="project.definition.implementing_partners_checked">
                                     <select materialize-select watch ng-model="location.implementing_partners" placeholder="{{'not_set'|translate}}" multiple
-                                        ng-options="item as item.organization for item in project.definition.implementing_partners track by item.organization_tag"></select>
+                                        ng-options="item as item.organization for item in project.definition.implementing_partners track by item.organization_tag" ng-disabled="project.definition.project_status === 'complete'"></select>
                                     <label class="active" style="transform:translateY(-10%)" for="ngm-project-implementing_partners">Implementing
                                         Partners</label>
                                 </div>

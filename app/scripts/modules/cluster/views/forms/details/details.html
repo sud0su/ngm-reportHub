@@ -675,7 +675,7 @@
 							<!-- Using Materialize -->
 							<div class="input-field col s12 m6" style="margin-top: 3.7%;" ng-if="project.definition.implementing_partners_checked">
 								<select materialize-select searchable="Search Partner" placeholder="Not Set" ng-model="project.definition.implementing_partners" multiple
-									ng-options="item as item.organization for item in project.lists.organizations track by item.organization_tag">
+									ng-options="item as item.organization for item in project.lists.organizations track by item.organization_tag" ng-disabled="project.definition.project_status === 'complete' || !project.canEdit">
 								</select>
 								<label for="ngm-project-implementing_partners">List Implementing
 									Partners</label>
@@ -724,7 +724,7 @@
 							<!-- Using Materialize -->
 							<div class="input-field col s12 m6" style="margin-top: 3.3%;" ng-if="project.definition.programme_partners_checked">
 								<select materialize-select searchable="Search Partner" placeholder="Not Set" ng-model="project.definition.programme_partners" multiple
-									ng-options="item as item.organization for item in project.lists.organizations track by item.organization_tag">
+									ng-options="item as item.organization for item in project.lists.organizations track by item.organization_tag" ng-disabled="project.definition.project_status === 'complete' || !project.canEdit">
 								</select>
 								<label for="ngm-project-implementing_partners">{{'list_programme_partners' | translate}}</label>
 							</div>

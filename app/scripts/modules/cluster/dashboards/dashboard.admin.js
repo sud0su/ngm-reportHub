@@ -802,7 +802,7 @@ angular.module('ngmReportHub')
 								'param': 'admin0pcode',
 								'active': 'cd',
 								'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-								'href': '/desk/#/cluster/5w/afro/cd'
+								'href': '/desk/#/cluster/admin/afro/cd'
 							}, {
 								'title': 'Ethiopia',
 								'param': 'admin0pcode',
@@ -884,7 +884,7 @@ angular.module('ngmReportHub')
 								'param': 'admin0pcode',
 								'active': 'cd',
 								'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-								'href': '/desk/#/cluster/5w/afro/cd'
+								'href': '/desk/#/cluster/admin/afro/cd'
 							},{
 								'title': 'Ethiopia',
 								'param': 'admin0pcode',
