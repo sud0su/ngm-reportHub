@@ -400,39 +400,42 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 				addMoreItems: function(){
 					$scope.start = $scope.end;
 					$scope.end += $scope.count;
-					var paginated = $scope.project.definition.target_locations.slice($scope.start, $scope.end);
-					setTimeout(function(){
-						paginated.forEach(function (loc, index) {
-							$scope.paginated_target_locations.push(loc);
-						});
-					},100);
+					if ($scope.paginated_target_locations.length < $scope.project.definition.target_locations.length){
+						var paginated = $scope.project.definition.target_locations.slice($scope.start, $scope.end);
+						setTimeout(function(){
+							paginated.forEach(function (loc, index) {
+								$scope.paginated_target_locations.push(loc);
+							});
+						},100);
+					}
 					// Control loading notification
 					$scope.isLoading = $scope.end >= $scope.project.definition.target_locations.length - 1 ? false : true;
 				},
 				addMoreItemsTargetLocation: function () {
-					$scope.start = $scope.end;
-					$scope.end += $scope.count;
-					
-					var paginated = $scope.project.definition.target_locations.slice($scope.start, $scope.end);
-					setTimeout(function () {
-						paginated.forEach(function (loc, index) {
-							$scope.paginated_target_locations.push(loc);
-						});
-						
-					}, 100);
+					if ($scope.paginated_target_locations.length < $scope.project.definition.target_locations.length) {
+						$scope.start = $scope.end;
+						$scope.end += $scope.count;
+						var paginated = $scope.project.definition.target_locations.slice($scope.start, $scope.end);
+						setTimeout(function () {
+							paginated.forEach(function (loc, index) {
+								$scope.paginated_target_locations.push(loc);
+							});
+						}, 100);
+					}
 					// Control loading notification
 					$scope.isLoading = $scope.end >= $scope.project.definition.target_locations.length - 1 ? false : true;
 				},
 				addMoreItemsTargetBeneficiaries: function () {
-					$scope.start_beneficiaries = $scope.end_beneficiaries;
-					$scope.end_beneficiaries += $scope.count_beneficiaries;
-					var paginated_beneficiaries = $scope.project.definition.target_beneficiaries.slice($scope.start_beneficiaries, $scope.end_beneficiaries);
-					setTimeout(function () {
-						paginated_beneficiaries.forEach(function (loc, index) {
-							$scope.paginated_target_beneficiaries.push(loc);
-						});
-						
-					}, 100);
+					if ($scope.paginated_target_beneficiaries.length < $scope.project.definition.target_beneficiaries.length) {
+						$scope.start_beneficiaries = $scope.end_beneficiaries;
+						$scope.end_beneficiaries += $scope.count_beneficiaries;
+						var paginated_beneficiaries = $scope.project.definition.target_beneficiaries.slice($scope.start_beneficiaries, $scope.end_beneficiaries);
+						setTimeout(function () {
+							paginated_beneficiaries.forEach(function (loc, index) {
+								$scope.paginated_target_beneficiaries.push(loc);
+							});
+						}, 100);
+					}
 					// Control loading notification
 					$scope.isLoadingBeneficiaries = $scope.end_beneficiaries >= $scope.project.definition.target_beneficiaries.length - 1 ? false : true;
 				},
