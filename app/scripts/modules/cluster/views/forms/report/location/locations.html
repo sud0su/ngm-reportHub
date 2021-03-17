@@ -155,7 +155,7 @@
 						</nav>
 					</div>
 				</li>
-				<li class="collection-item avatar">
+				<li class="collection-item avatar" infinite-scroll='project.addMoreMonthlyLocation()' infinite-scroll-distance='1'>
 				
 					<!-- form -->
 
@@ -199,9 +199,8 @@
 						</div>
 
 						<!-- scroll -->
-						<div id = "{{ $locationIndex=$index; idl = 'ngm-' + $index }}" class="row" ng-repeat="location in project.report.locations | 
-															filter:{ location_group_id: project.location_group } | 
-															limitTo: project.location_limit track by $index">
+						<div id = "{{ $locationIndex=$index; idl = 'ngm-' + $index }}" class="row" ng-repeat="location in paginated_monthly_locations | 
+															filter:{ location_group_id: project.location_group } track by $index">
 
 							<div class="row">
 								<!-- location title -->
@@ -271,7 +270,7 @@
 									ng-if="((project.definition.admin0pcode === 'ET' && 
 													project.definition.cluster_id === 'esnfi') || project.definition.admin0pcode === 'AF')  &&
 													project.definition.project_status !== 'complete' &&
-													project.report.report_status !== 'complete'">
+													project.report.report_status !== 'complete' && !isLoadingMonthlyLocation">
 							<button id="report_add_new_location"
 								class="btn"
 								style="background-color: #2196F3;"

@@ -102,6 +102,14 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 			// page scrolled
 			$scope._top_scrolled = 0
+			// Infinity Scroll
+			//Infinite scroll implementation for monthlylocations
+			const MONTHLY_LOCATION_COUNT = 3;
+			$scope.countMonthlyLocation = MONTHLY_LOCATION_COUNT;
+			$scope.startMonthlyLocation= 0;
+			$scope.endMonthlyLocation = MONTHLY_LOCATION_COUNT;
+			$scope.paginated_monthly_locations = [],
+			$scope.isLoadingMonthlyLocation = false; 
 			// project
 			$scope.project = {
 
@@ -159,7 +167,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					ngmClusterBeneficiaries.resetForm();
 
 					// set location / beneficiaries limits
-					$scope.project.setLocationsLimit( $scope.project.lists, $scope.project.report.locations );
+					// $scope.project.setLocationsLimit( $scope.project.lists, $scope.project.report.locations );
 					// set beneficiaries form
 					ngmClusterBeneficiaries.setLocationsForm( $scope.project.lists, $scope.project.report.locations );
 
@@ -196,6 +204,9 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						// 	})
 						// }
 					})
+
+					// Set limited amount of locations
+					$scope.paginated_monthly_locations = $scope.project.report.locations.slice($scope.startMonthlyLocation, $scope.endMonthlyLocation);
 				},
 
 				// sets title for each location / activity
@@ -1842,14 +1853,31 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					var result = ngmClusterValidation.validateAddNewLocationMonthlyReport(ngmClusterLocations.new_location)
 					if (result.complete){
 						ngmClusterLocations.addNewLocation($scope.project, ngmClusterLocations.new_location);
-						$scope.project.incrementLocationLimitByOneAutoSelect()
+						// $scope.project.incrementLocationLimitByOneAutoSelect()
 						$scope.project.addLocationGroupingsforNewLocation()
+						// add to paginated location
+						var lengthLocation = $scope.project.report.locations.length
+						$scope.paginated_monthly_locations.push($scope.project.report.locations[lengthLocation-1]);
+						$scope.detailBeneficiaries[lengthLocation-1] = [];
+						$scope.detailBeneficiaries[lengthLocation-1][0] = true;
 					}else{
 						var elements = result.divs
 						// $(elements[0]).animatescroll();
 						$(elements[0]).scrollHere();
 					};
 
+				},
+				addMoreMonthlyLocation: function () {
+					$scope.startMonthlyLocation = $scope.endMonthlyLocation;
+					$scope.endMonthlyLocation += $scope.countMonthlyLocation;
+					var paginated = $scope.project.report.locations.slice($scope.startMonthlyLocation, $scope.endMonthlyLocation);
+					setTimeout(function () {
+						paginated.forEach(function (loc, index) {
+							$scope.paginated_monthly_locations.push(loc);
+						});
+					}, 100);
+					// Control loading notification
+					$scope.isLoadingMonthlyLocation = $scope.endMonthlyLocation >= $scope.project.report.locations.length - 1 ? false : true;
 				},
 				// save
 				save: function( complete, display_modal, email_alert ){
