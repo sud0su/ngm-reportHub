@@ -1872,11 +1872,9 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						$scope.startMonthlyLocation = $scope.endMonthlyLocation;
 						$scope.endMonthlyLocation += $scope.countMonthlyLocation;
 						var paginated = $scope.project.report.locations.slice($scope.startMonthlyLocation, $scope.endMonthlyLocation);
-						setTimeout(function () {
-							paginated.forEach(function (loc, index) {
-								$scope.paginated_monthly_locations.push(loc);
-							});
-						}, 100);
+						paginated.forEach(function (loc, index) {
+							$scope.paginated_monthly_locations.push(loc);
+						});
 					}
 					// Control loading notification
 					$scope.isLoadingMonthlyLocation = $scope.endMonthlyLocation >= $scope.project.report.locations.length - 1 ? false : true;
