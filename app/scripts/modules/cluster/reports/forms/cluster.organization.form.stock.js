@@ -64,7 +64,9 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
         canEdit: ngmAuth.canDo( 'EDIT', { adminRpcode: config.organization.adminRpcode, admin0pcode:config.organization.admin0pcode, cluster_id: ngmUser.get().cluster_id, organization_tag:config.organization.organization_tag } ),
 
         // lists
-        lists: ngmClusterLists.getStockLists(config.organization.admin0pcode),
+        // lists: ngmClusterLists.getStockLists(config.organization.admin0pcode),
+        // its base on report or organization?
+        lists: ngmClusterLists.getStockLists(config.report),
 
         text_input: '',
         messageWarning: '',
@@ -121,6 +123,9 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
             }
 
           })
+
+
+         console.log(config.report,config.organization)
 
 
 

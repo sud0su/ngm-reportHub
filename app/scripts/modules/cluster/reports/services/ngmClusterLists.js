@@ -121,7 +121,9 @@ angular.module( 'ngmReportHub' )
 				}
 			},
 
-			getStockLists: function (admin0pcode) {
+			getStockLists: function (org) {
+				var admin0pcode = org.admin0pcode;
+					cluster_id = org.cluster_id; 
 				return {
 					clusters: ngmClusterLists.getClusters(admin0pcode).filter(cluster => cluster.filter !== false && cluster.registration !== false),
 					units: ngmClusterLists.getUnits(admin0pcode),
@@ -177,7 +179,7 @@ angular.module( 'ngmReportHub' )
 						stock_item_purpose_name: 'Operational',
 					}],
 					stock_targeted_groups: ngmClusterLists.getStockTargetedGroups(),
-					donors: ngmClusterLists.getDonors(admin0pcode, ''),
+					donors: ngmClusterLists.getDonors(admin0pcode, cluster_id),
 					organizations: ngmClusterLists.getOrganizations(admin0pcode),
 					types: [{ stock_type_id: 'stock', stock_type_name: 'Stock' }, { stock_type_id: 'pipeline', stock_type_name: 'Pipeline' }]
 				};
@@ -4020,8 +4022,15 @@ angular.module( 'ngmReportHub' )
 				// get from list
 					// this list needs to be updated at the db to iclude admin0pcode as string (like activities)
 					// hack for NG has been put in place, so much to do, so little time (horrible, I know!)
-				donors = $filter( 'filter' )( ngmLists.getObject( 'lists' ).donorsList,
-													{ cluster_id: cluster_id }, true );
+				// old filter
+				// donors = $filter( 'filter' )( ngmLists.getObject( 'lists' ).donorsList,
+				// 									{ cluster_id: cluster_id }, true );
+
+				// new filter
+				donors = $filter('filter')(ngmLists.getObject('lists').donorsList, function(donor){
+					return donor.cluster_id === cluster_id || donor.cluster_id === 'all';
+				},true);
+				
 
 				// if no list use default
 				// if ( !donors.length ) {
