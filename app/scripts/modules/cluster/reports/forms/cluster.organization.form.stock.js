@@ -64,9 +64,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
         canEdit: ngmAuth.canDo( 'EDIT', { adminRpcode: config.organization.adminRpcode, admin0pcode:config.organization.admin0pcode, cluster_id: ngmUser.get().cluster_id, organization_tag:config.organization.organization_tag } ),
 
         // lists
-        // lists: ngmClusterLists.getStockLists(config.organization.admin0pcode),
-        // its base on report or organization?
-        lists: ngmClusterLists.getStockLists(config.report),
+        lists: ngmClusterLists.getStockLists(config.organization.admin0pcode),
 
         text_input: '',
         messageWarning: '',
@@ -125,7 +123,6 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
           })
 
 
-         console.log(config.report,config.organization)
 
 
 
@@ -178,6 +175,8 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
           }
 
           $scope.detailStocks[$parent][$scope.report.report.stocklocations[$parent].stocks.length - 1]= true;
+
+          $scope.report.updateListDonors($scope.inserted);
         },
         addStockFromFile: function ($parent, stock,$indexFile){
          var insert = {
@@ -346,6 +345,9 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
           }
 
           return selected.length ? selected[0].project_donor_name : '-';
+        },
+        updateListDonors:function(stock){
+          $scope.report.lists.donors = ngmClusterLists.getDonors(stock.admin0pcode,stock.cluster_id);
         },
         showImplementingPartner: function ($data, $stock) {
           selected = [];

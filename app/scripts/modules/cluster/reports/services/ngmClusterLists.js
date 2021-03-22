@@ -121,9 +121,8 @@ angular.module( 'ngmReportHub' )
 				}
 			},
 
-			getStockLists: function (org) {
-				var admin0pcode = org.admin0pcode;
-					cluster_id = org.cluster_id; 
+			getStockLists: function (admin0pcode) {
+				 
 				return {
 					clusters: ngmClusterLists.getClusters(admin0pcode).filter(cluster => cluster.filter !== false && cluster.registration !== false),
 					units: ngmClusterLists.getUnits(admin0pcode),
@@ -179,7 +178,7 @@ angular.module( 'ngmReportHub' )
 						stock_item_purpose_name: 'Operational',
 					}],
 					stock_targeted_groups: ngmClusterLists.getStockTargetedGroups(),
-					donors: ngmClusterLists.getDonors(admin0pcode, cluster_id),
+					donors: ngmClusterLists.getDonors(admin0pcode, ''),
 					organizations: ngmClusterLists.getOrganizations(admin0pcode),
 					types: [{ stock_type_id: 'stock', stock_type_name: 'Stock' }, { stock_type_id: 'pipeline', stock_type_name: 'Pipeline' }]
 				};
@@ -4027,8 +4026,11 @@ angular.module( 'ngmReportHub' )
 				// 									{ cluster_id: cluster_id }, true );
 
 				// new filter
-				donors = $filter('filter')(ngmLists.getObject('lists').donorsList, function(donor){
-					return donor.cluster_id === cluster_id || donor.cluster_id === 'all';
+				
+				donors = cluster_id === '' ? $filter('filter')(ngmLists.getObject('lists').donorsList, function (donor) {
+					return (donor.admin0pcode === 'ALL') || (donor.admin0pcode === admin0pcode);
+				}, true) : $filter('filter')(ngmLists.getObject('lists').donorsList, function(donor){
+					return (donor.admin0pcode === 'ALL' && donor.cluster_id === cluster_id) || donor.cluster_id === cluster_id || donor.cluster_id === 'all';
 				},true);
 				
 

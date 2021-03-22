@@ -49,7 +49,7 @@
                 <select materialize-select watch id="ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}" class="validate"
                     ng-options="c.cluster_id as c.cluster for c in report.lists.clusters" ng-model="stock.cluster_id"
-                    ng-change="report.updateNameStock(report.lists.clusters,'cluster_id','cluster',stock,$locationIndex, $stockIndex);report.inputChange('ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}')" 
+                    ng-change="report.updateNameStock(report.lists.clusters,'cluster_id','cluster',stock,$locationIndex, $stockIndex);report.inputChange('ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}');report.updateListDonors(stock)" 
                     ng-disabled="report.report.report_status === 'complete'"
                     required>
                     <option value="">{{ 'select' | translate }}</option>
