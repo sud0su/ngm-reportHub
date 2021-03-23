@@ -267,7 +267,7 @@
 
 								<!-- site_type_id -->
 								<div class="input-field col s12 m6">
-									<select materialize-select id="ngm-site_type_id-{{ $index }}"
+									<select materialize-select watch id="ngm-site_type_id-{{ $index }}"
 														name="site_type_id-{{ $index }}"
 														class="validate"
 														ng-model="location.site_type_id"
@@ -283,7 +283,7 @@
 
 								<!-- reporter -->
 								<div class="input-field col s12 m6">
-									<select materialize-select id="ngm-username-{{ $index }}"
+									<select materialize-select watch id="ngm-username-{{ $index }}"
 														name="username-{{ $index }}"
 														class="validate"
 														ng-model="location.username"
@@ -304,7 +304,7 @@
 
 								<!-- food_distribution_point -->
 								<div class="input-field col s12">
-									<select materialize-select id="ngm-site_id-{{ $index }}"
+									<select materialize-select watch id="ngm-site_id-{{ $index }}"
 														name="ngm-site_id-{{ $index }}"
 														class="validate"
 														ng-model="location.site_id"
@@ -342,7 +342,7 @@
 
 								<!-- admin1 -->
 								<div class="input-field col s12 m6">
-									<select materialize-select id="ngm-admin1-{{ $index }}"
+									<select materialize-select watch id="ngm-admin1-{{ $index }}"
 														name="ngm-admin1-{{ $index }}"
 														class="validate"
 														ng-model="location.admin1pcode"
@@ -381,7 +381,7 @@
 
 								<!-- admin1 -->
 								<div class="input-field col s12 m4">
-									<select materialize-select id="ngm-admin1-{{ $index }}"
+									<select materialize-select watch id="ngm-admin1-{{ $index }}"
 														name="ngm-admin1-{{ $index }}"
 														class="validate"
 														ng-model="location.admin1pcode"
@@ -429,7 +429,7 @@
 
 								<!-- admin1 -->
 								<div class="input-field col s12 m4">
-									<select materialize-select id="ngm-admin1-{{ $index }}"
+									<select materialize-select watch id="ngm-admin1-{{ $index }}"
 														name="ngm-admin1-{{ $index }}"
 														class="validate"
 														ng-model="location.admin1pcode"
@@ -498,12 +498,12 @@
 
 									<!-- site_name -->
 									<div class="input-field col s12">
-										<select materialize-select id="ngm-site_id-{{ $index }}"
+										<select materialize-select watch id="ngm-site_id-{{ $index }}"
 															name="ngm-site_id-{{ $index }}"
 															class="validate"
 															ng-model="location.site_id"
 															ng-options="item.site_id as item.site_name for item in ngmCbLocations.adminSites_filter[ $index ]"
-															ng-change="ngmCbLocations.updateLocation( project, $index, project.lists.adminSites, 'site_id', location );"
+															ng-change="ngmCbLocations.updateLocation( project, $index, ngmCbLocations.adminSites_filter[ $index ], 'site_id', location );"
 															ng-disabled="project.definition.project_status === 'complete'"
 															required>
 											<option value="">{{ 'select' | translate }}</option>
