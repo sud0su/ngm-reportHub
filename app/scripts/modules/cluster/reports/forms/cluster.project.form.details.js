@@ -666,6 +666,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					$scope.project.definition.target_beneficiaries.push( beneficiary );
 					// add beneficiary to paginated array
 					$scope.paginated_target_beneficiaries.push(beneficiary);
+					// updated $scope.end_beneficiaires
+					if ($scope.end_beneficiaries === $scope.project.definition.target_beneficiaries.length) {
+						$scope.end_beneficiaries += $scope.count_beneficiaries
+					}
 					// open card panel form of new add beneficiaries
 					$scope.detailBeneficiaries[$scope.project.definition.target_beneficiaries.length - 1] = true;
 					// set form display for new rows
@@ -718,9 +722,13 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 					$scope.project.definition.target_beneficiaries.push(beneficiary);
 					// add beneficiary to paginated array
-					if ($scope.paginated_target_beneficiaries.length < BENEFICIARY_COUNT * 2) {
-						$scope.paginated_target_beneficiaries.push(beneficiary);
+					
+					$scope.paginated_target_beneficiaries.push(beneficiary);
+					// updated $scope.end_beneficiaires
+					if ($scope.end_beneficiaries === $scope.project.definition.target_beneficiaries.length) {
+						$scope.end_beneficiaries += $scope.count_beneficiaries
 					}
+					
 					// Open card panel detail beneficiaries form
 					$scope.detailBeneficiaries[$scope.project.definition.target_beneficiaries.length - 1] = true;
 					// set form display for new rows
@@ -1181,6 +1189,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 					// add location to paginated array
 					$scope.paginated_target_locations.push($scope.inserted);
+					// updated $scope.end
+					if($scope.end === $scope.project.definition.target_locations.length){
+						$scope.end += $scope.count
+					}
 					// open card panel form of new add beneficiaries
 					$scope.detailLocation[$scope.project.definition.target_locations.length - 1] = true;
 					// autoset location groupings
@@ -1230,9 +1242,12 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					location = angular.merge({},$scope.inserted,location);
 					$scope.project.definition.target_locations.push(location);
 					// add location to paginated array
-					if ($scope.paginated_target_locations.length< LOCATION_COUNT *2){
-						$scope.paginated_target_locations.push(location);
+					
+					$scope.paginated_target_locations.push(location);
+					if ($scope.end === $scope.project.definition.target_locations.length) {
+						$scope.end += $scope.count
 					}
+					
 					// open card panel form of new add beneficiaries
 					$scope.detailLocation[$scope.project.definition.target_locations.length - 1] = true;
 					// autoset location groupings

@@ -1858,6 +1858,10 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						// add to paginated location
 						var lengthLocation = $scope.project.report.locations.length
 						$scope.paginated_monthly_locations.push($scope.project.report.locations[lengthLocation-1]);
+						// updated $scope.endMonthly location
+						if ($scope.endMonthlyLocation === $scope.project.report.locations.length) {
+							$scope.endMonthlyLocation += $scope.countMonthlyLocation;
+						}
 						$scope.detailBeneficiaries[lengthLocation-1] = [];
 						$scope.detailBeneficiaries[lengthLocation-1][0] = true;
 					}else{
