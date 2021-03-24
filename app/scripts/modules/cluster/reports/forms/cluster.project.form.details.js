@@ -436,6 +436,16 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					// Control loading notification
 					$scope.isLoadingBeneficiaries = $scope.end_beneficiaries >= $scope.project.definition.target_beneficiaries.length - 1 ? false : true;
 				},
+				updatePaginatedPageCount:function(end,original_array,count){
+					// end => $scope.end, $scope.end_beneficiaries
+					// original array is array that paginated =>$scope.project.definition.target_locations,$scope.project.definition.target_beneficiaries
+					// count => $scope.count, $scope.count_beneficiaries
+					if (end === original_array.length) {
+
+						end += count
+					}
+					return end;
+				},
 				// cofirm exit if changes
 				modalConfirm: function( modal ){
 					if( modal === 'summary-modal' ) {
@@ -667,9 +677,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					// add beneficiary to paginated array
 					$scope.paginated_target_beneficiaries.push(beneficiary);
 					// updated $scope.end_beneficiaires
-					if ($scope.end_beneficiaries === $scope.project.definition.target_beneficiaries.length) {
-						$scope.end_beneficiaries += $scope.count_beneficiaries
-					}
+					$scope.end_beneficiaries = $scope.project.updatePaginatedPageCount($scope.end_beneficiaries, $scope.project.definition.target_beneficiaries, $scope.count_beneficiaries)
+					// if ($scope.end_beneficiaries === $scope.project.definition.target_beneficiaries.length) {
+					// 	$scope.end_beneficiaries += $scope.count_beneficiaries
+					// }
 					// open card panel form of new add beneficiaries
 					$scope.detailBeneficiaries[$scope.project.definition.target_beneficiaries.length - 1] = true;
 					// set form display for new rows
@@ -725,9 +736,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					
 					$scope.paginated_target_beneficiaries.push(beneficiary);
 					// updated $scope.end_beneficiaires
-					if ($scope.end_beneficiaries === $scope.project.definition.target_beneficiaries.length) {
-						$scope.end_beneficiaries += $scope.count_beneficiaries
-					}
+					$scope.end_beneficiaries = $scope.project.updatePaginatedPageCount($scope.end_beneficiaries, $scope.project.definition.target_beneficiaries, $scope.count_beneficiaries)
+					// if ($scope.end_beneficiaries === $scope.project.definition.target_beneficiaries.length) {
+					// 	$scope.end_beneficiaries += $scope.count_beneficiaries
+					// }
 					
 					// Open card panel detail beneficiaries form
 					$scope.detailBeneficiaries[$scope.project.definition.target_beneficiaries.length - 1] = true;
@@ -1190,9 +1202,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					// add location to paginated array
 					$scope.paginated_target_locations.push($scope.inserted);
 					// updated $scope.end
-					if($scope.end === $scope.project.definition.target_locations.length){
-						$scope.end += $scope.count
-					}
+					$scope.end = $scope.project.updatePaginatedPageCount($scope.end, $scope.project.definition.target_locations, $scope.count)
+					// if($scope.end === $scope.project.definition.target_locations.length){
+					// 	$scope.end += $scope.count
+					// }
 					// open card panel form of new add beneficiaries
 					$scope.detailLocation[$scope.project.definition.target_locations.length - 1] = true;
 					// autoset location groupings
@@ -1244,9 +1257,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					// add location to paginated array
 					
 					$scope.paginated_target_locations.push(location);
-					if ($scope.end === $scope.project.definition.target_locations.length) {
-						$scope.end += $scope.count
-					}
+					$scope.end = $scope.project.updatePaginatedPageCount($scope.end, $scope.project.definition.target_locations, $scope.count)
+					// if ($scope.end === $scope.project.definition.target_locations.length) {
+					// 	$scope.end += $scope.count
+					// }
 					
 					// open card panel form of new add beneficiaries
 					$scope.detailLocation[$scope.project.definition.target_locations.length - 1] = true;

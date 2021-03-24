@@ -1859,9 +1859,10 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						var lengthLocation = $scope.project.report.locations.length
 						$scope.paginated_monthly_locations.push($scope.project.report.locations[lengthLocation-1]);
 						// updated $scope.endMonthly location
-						if ($scope.endMonthlyLocation === $scope.project.report.locations.length) {
-							$scope.endMonthlyLocation += $scope.countMonthlyLocation;
-						}
+						$scope.endMonthlyLocation = $scope.project.updatePaginatedPageCount($scope.endMonthlyLocation, $scope.project.report.locations, $scope.countMonthlyLocation);
+						// if ($scope.endMonthlyLocation === $scope.project.report.locations.length) {
+						// 	$scope.endMonthlyLocation += $scope.countMonthlyLocation;
+						// }
 						$scope.detailBeneficiaries[lengthLocation-1] = [];
 						$scope.detailBeneficiaries[lengthLocation-1][0] = true;
 					}else{
@@ -1882,6 +1883,16 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					}
 					// Control loading notification
 					$scope.isLoadingMonthlyLocation = $scope.endMonthlyLocation >= $scope.project.report.locations.length - 1 ? false : true;
+				},
+				updatePaginatedPageCount: function (end, original_array, count) {
+					// end => $scope.end, $scope.end_beneficiaries
+					// original array is array that paginated =>$scope.project.definition.target_locations,$scope.project.definition.target_beneficiaries
+					// count => $scope.count, $scope.count_beneficiaries
+					if (end === original_array.length) {
+
+						end += count
+					}
+					return end;
 				},
 				// save
 				save: function( complete, display_modal, email_alert ){
