@@ -20,7 +20,7 @@
     <tr ng-repeat-start="stock in report.report.stocklocations[$locationIndex].stocks track by $index" ng-init="$stockIndex = $index">
       <td>
         <!-- editable activity_type from report -->
-        <span e-placeholder="{{'select'|translate}}" editable-select="stock.cluster_id" e-name="cluster_id" e-form="rowform" e-ng-change="report.updateListDonors(stock)" e-ng-options="item.cluster_id as item.cluster for item in report.lists.clusters">
+        <span e-placeholder="{{'select'|translate}}" editable-select="stock.cluster_id" e-name="cluster_id" e-form="rowform" e-ng-change="report.updateListDonors(stock,$locationIndex, $index)" e-ng-options="item.cluster_id as item.cluster for item in report.lists.clusters">
           {{ report.showStockCluster($data, stock) }}
         </span>
 			</td>
@@ -66,8 +66,8 @@
       <!-- Donor -->
       <td ng-if="report.organization.admin0pcode === 'ET'">
         <span e-placeholder="{{'select'|translate}}" editable-select="stock.donors[0].donor_id" e-name="project_donor_id"
-          e-form="rowform" e-ng-options="item.project_donor_id as item.project_donor_name for item in report.lists.donors">
-          {{ report.showDonor($data, stock) }}
+          e-form="rowform" e-ng-options="item.project_donor_id as item.project_donor_name for item in report.lists.stockDonors[$locationIndex][$index]">
+          {{ report.showDonor($data, stock,$locationIndex, $index) }}
         </span>
       </td>
       <td>

@@ -4034,7 +4034,7 @@ angular.module( 'ngmReportHub' )
 				},true);
 				
 
-				// if no list use default
+				// if no list use default 54 record
 				// if ( !donors.length ) {
 				// 	donors = [
 				// 		{ project_donor_id: 'australia', project_donor_name:'Australia'},
@@ -4095,6 +4095,7 @@ angular.module( 'ngmReportHub' )
 				// }
 
 				// // temp TODO move to api
+				// record 56
 				// if ( admin0pcode === 'ET' ) {
 				// 	donors = [
 				// 		{ project_donor_id: 'australia', project_donor_name:'Australia'},
@@ -4157,6 +4158,7 @@ angular.module( 'ngmReportHub' )
 				// }
 				// // include for NG
 				// if ( admin0pcode === 'NG' ) {
+				// record 53 ng edu
 				// 	if( cluster_id === 'education' ){
 				// 		donors = [
 				// 			{project_donor_id: "adb",project_donor_name: "African Development Bank"},
@@ -4214,6 +4216,7 @@ angular.module( 'ngmReportHub' )
 				// 			{project_donor_id: "wb",project_donor_name: "World Bank"}
 				// 	];
 				// 	} else if(cluster_id === 'child_protection'){
+				//  record 56
 				// 		donors = [
 				// 			{ project_donor_id: "aant", "project_donor_name": "Allen and Nesta Trust" },
 				// 			{ project_donor_id: "aics", "project_donor_name": "Agenzia Italiana Per La Cooperazione Allo Sviluppo" },
@@ -4273,6 +4276,7 @@ angular.module( 'ngmReportHub' )
 				// 			{ project_donor_id: "yipdi", "project_donor_name": "Youth Integrated for Positive Development Initiative" }
 				// 		];
 				// 	} else if(cluster_id === 'gbv'){
+				// record 53
 				// 		donors = [
 				// 			{ project_donor_id: "african_development_bank", project_donor_name: "African Development Bank" },
 				// 			{ project_donor_id: "aid_for_africa", project_donor_name: "Aid For Africa" },
@@ -4329,6 +4333,7 @@ angular.module( 'ngmReportHub' )
 				// 			{ project_donor_id: "world_bank", project_donor_name: "World Bank" }
 				// 		   ]
 				// 	} else {
+				//  record 48
 				// 		donors = [
 				// 			{ project_donor_id: "africa_development_bank", project_donor_name:"African Development Bank" },
 				// 			{ project_donor_id: "australian_high_commission", project_donor_name:"Australian High Commission" },
@@ -4386,6 +4391,7 @@ angular.module( 'ngmReportHub' )
 
 				// // if no list use default
 				// if ( admin0pcode === 'SO' ) {
+				// record 41
 				// 	// before 2021
 				// 	// donors = [
 				// 	// 	{ project_donor_id: 'australia', project_donor_name:'Australia'},
@@ -4432,6 +4438,7 @@ angular.module( 'ngmReportHub' )
 				// 	// ];
 
 				// 	// after 2021
+				// record 22
 				// 	donors = [
 				// 		{
 				// 			"project_donor_id": "canada",
@@ -4525,7 +4532,7 @@ angular.module( 'ngmReportHub' )
 				// }
 
 				// if(admin0pcode === 'COL'){
-
+				// record 103
 				// 	donors = [
 				// 			{
 				// 				"project_donor_id": "acción_contra_el_hambre",
