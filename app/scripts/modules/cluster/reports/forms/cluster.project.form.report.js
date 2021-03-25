@@ -1782,7 +1782,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									location.location_group_id = location.admin1pcode;
 									location.location_group_type = location.admin1type_name;
 									location.location_group_name = location.admin1name;
-									location.beneficiaries =[];
+									// location.beneficiaries =[];
 
 									if ($scope.project.definition.location_groups.findIndex(group => group.location_group_id === location.admin1pcode) < 0) {
 
@@ -1797,7 +1797,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 								}
 
 							});
-							saveLocation();
+							// saveLocation();
 
 
 						} else if ($scope.project.definition.location_grouping_by === 'admin2pcode') {
@@ -1808,7 +1808,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									location.location_group_id = location.admin2pcode;
 									location.location_group_type = location.admin2type_name;
 									location.location_group_name = location.admin2name;
-									location.beneficiaries = [];
+									// location.beneficiaries = [];
 
 									if ($scope.project.definition.location_groups.findIndex(group => group.location_group_id === location.admin2pcode) < 0) {
 										var new_group = {
@@ -1822,7 +1822,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 								}
 							});
 
-							saveLocation();
+							// saveLocation();
 
 						} else {
 							// show modal
@@ -1833,11 +1833,11 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									location.location_group_id = 'default_custom_group_' + $scope.project.user.username;
 									location.location_group_type = 'Custom';
 									location.location_group_name = 'Default Custom';
-									location.beneficiaries = [];
+									// location.beneficiaries = []; 
 								}
 							});
 
-							saveLocation();
+							// saveLocation();
 
 						}
 
@@ -1854,6 +1854,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					if (result.complete){
 						ngmClusterLocations.addNewLocation($scope.project, ngmClusterLocations.new_location);
 						// $scope.project.incrementLocationLimitByOneAutoSelect()
+
 						$scope.project.addLocationGroupingsforNewLocation()
 						// add to paginated location
 						var lengthLocation = $scope.project.report.locations.length
@@ -1947,6 +1948,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 							// sort locations
 							$scope.project.report.locations = $filter('orderBy')( $scope.project.report.locations, [ 'site_type_name','admin1name','admin2name','admin3name','admin4name','admin5name','site_name' ]);
+							$scope.paginated_monthly_locations = $scope.project.report.locations;
 
 							$scope.project.isSaving = false;
 
