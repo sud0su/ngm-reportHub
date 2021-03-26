@@ -4027,11 +4027,11 @@ angular.module( 'ngmReportHub' )
 
 				// new filter
 				
-				donors = cluster_id === '' ? $filter('filter')(ngmLists.getObject('lists').donorsList, function (donor) {
-					return (donor.admin0pcode === 'ALL') || (donor.admin0pcode === admin0pcode);
-				}, true) : $filter('filter')(ngmLists.getObject('lists').donorsList, function(donor){
-					return (donor.admin0pcode === 'ALL' && donor.cluster_id === cluster_id) || donor.cluster_id === cluster_id || donor.cluster_id === 'all';
-				},true);
+				// donors = cluster_id === '' ? $filter('filter')(ngmLists.getObject('lists').donorsList, function (donor) {
+				// 	return (donor.admin0pcode === 'ALL') || (donor.admin0pcode === admin0pcode);
+				// }, true) : $filter('filter')(ngmLists.getObject('lists').donorsList, function(donor){
+				// 	return (donor.admin0pcode === 'ALL' && donor.cluster_id === cluster_id) || donor.cluster_id === cluster_id || donor.cluster_id === 'all';
+				// },true);
 				
 
 				// if no list use default 54 record
@@ -4953,12 +4953,46 @@ angular.module( 'ngmReportHub' )
 				//  }
 
 
+				//  FIlter by 4 rule;
+				donors = ngmLists.getObject('lists').donorsList;
+				var filterAdmin0 = admin0pcode ? admin0pcode : 'ALL';
+				var filterCluster = cluster_id ? cluster_id : 'all';
+
+				// function to run filter
+				function checkavailable(Admin0, Cluster) {
+					var donor_array = donors.filter( function (d) {
+				    return d.admin0pcode === Admin0 && d.cluster_id === Cluster
+				  });
+				  return donor_array
+				};
+
+				// set sequence checking
+				if(filterAdmin0 !== 'ALL'){
+				  var sequnce_check = filterCluster !== 'all' ? [filterAdmin0 + ':' + filterCluster, filterAdmin0 + ':' + 'all', 'ALL:' + filterCluster, 'ALL:all'] : [filterAdmin0 + ':' + 'all', 'ALL:all']
+				}else{
+				  var sequnce_check = filterCluster !== 'all' ? ['ALL:' + filterCluster, 'ALL:all']:['ALL:all']
+				};
+
+				var donors_filter = [];
+				// running sequence check
+				for (i in sequnce_check) {
+				  var filter = sequnce_check[i].split(':');
+				  var filtered=[];
+				  filtered = checkavailable(filter[0], filter[1])
+				  if(filtered.length){
+				    donors_filter = filtered;
+				    break;
+				  };
+
+				};
 
 
 				// add other
-				donors.push( { project_donor_id: 'other', project_donor_name: 'Other' } );
+				// donors.push( { project_donor_id: 'other', project_donor_name: 'Other' } );
 
-				return donors;
+				// return donors;
+				donors_filter.push({ project_donor_id: 'other', project_donor_name: 'Other' });
+				return donors_filter;
 			},
 
 
