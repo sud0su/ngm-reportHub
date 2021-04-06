@@ -292,23 +292,25 @@ angular.module('ngmReportHub')
 				getDownloads: function(){
 
 					// downloads
-					var downloads = [{
-							type: 'pdf',
-							color: 'blue',
-							icon: 'picture_as_pdf',
-							hover: $filter('translate')('download_admin_as_pdf'),
-							request: {
-								method: 'POST',
-								url: ngmAuth.LOCATION + '/api/print',
-								data: {
-									report: $scope.dashboard.report_file_name,
-									printUrl: $location.absUrl(),
-									downloadUrl: ngmAuth.LOCATION + '/report/',
-									user: $scope.dashboard.user,
-								}
-							},
-							metrics: $scope.dashboard.getMetrics( 'print', 'pdf' )
-					},{
+					var downloads = [
+					// {
+					// 		type: 'pdf',
+					// 		color: 'blue',
+					// 		icon: 'picture_as_pdf',
+					// 		hover: $filter('translate')('download_admin_as_pdf'),
+					// 		request: {
+					// 			method: 'POST',
+					// 			url: ngmAuth.LOCATION + '/api/print',
+					// 			data: {
+					// 				report: $scope.dashboard.report_file_name,
+					// 				printUrl: $location.absUrl(),
+					// 				downloadUrl: ngmAuth.LOCATION + '/report/',
+					// 				user: $scope.dashboard.user,
+					// 			}
+					// 		},
+					// 		metrics: $scope.dashboard.getMetrics( 'print', 'pdf' )
+					// },
+					{
 						type: 'csv',
 						color: 'blue lighten-2',
 						icon: 'assignment',
