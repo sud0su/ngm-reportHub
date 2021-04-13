@@ -108,6 +108,11 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 				}
 			});
 
+			// remove target beneficiary from paginated array
+			$rootScope.$on('remove_beneficiary',function(evt,id){
+				$scope.paginated_target_beneficiaries = $scope.paginated_target_beneficiaries.reduce((p,b)=>(b.id !== id && p.push(b),p),[]);
+			})
+
 			//ngmClusterHelperCol
 
 			$scope.ngmClusterHelperCol = function(funct, data){
@@ -120,12 +125,20 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 			$scope.inputString = false;
 
 			//Infinite scroll implementation for locations
-			const LOCATION_COUNT = 10;
+			const LOCATION_COUNT = 5;
 			$scope.count = LOCATION_COUNT;
 			$scope.start = 0;
 			$scope.end = LOCATION_COUNT;
 			$scope.paginated_target_locations= [],
 			$scope.isLoading = false;
+
+			// infinite scroll for beneficiaries
+			const BENEFICIARY_COUNT = 5;
+			$scope.count_beneficiaries = BENEFICIARY_COUNT;
+			$scope.start_beneficiaries = 0;
+			$scope.end_beneficiaries = BENEFICIARY_COUNT;
+			$scope.paginated_target_beneficiaries= [],
+			$scope.isLoadingBeneficiaries = false;
 
 			// project
 			$scope.project = {
@@ -294,7 +307,11 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					// set form inputs
 					ngmCbLocations.setLocationsForm( $scope.project, $scope.project.definition.target_locations );
 					// Set limited amount of locations
+					// sort target_location by createdAd
+					$scope.project.definition.target_locations = $scope.project.definition.target_locations.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0));
 					$scope.paginated_target_locations = $scope.project.definition.target_locations.slice($scope.start, $scope.end);
+					$scope.project.definition.target_beneficiaries = $scope.project.definition.target_beneficiaries.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0));
+					$scope.paginated_target_beneficiaries = $scope.project.definition.target_beneficiaries.slice($scope.start_beneficiaries, $scope.end_beneficiaries);
 					// set admin1,2,3,4,5 && site_type && site_implementation
 					ngmClusterLocations.setLocationAdminSelect($scope.project, $scope.project.definition.target_locations);
 					// documents uploads
@@ -383,14 +400,51 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 				addMoreItems: function(){
 					$scope.start = $scope.end;
 					$scope.end += $scope.count;
-					var paginated = $scope.project.definition.target_locations.slice($scope.start, $scope.end);
-					setTimeout(function(){
+					if ($scope.paginated_target_locations.length < $scope.project.definition.target_locations.length){
+						var paginated = $scope.project.definition.target_locations.slice($scope.start, $scope.end);
 						paginated.forEach(function (loc, index) {
 							$scope.paginated_target_locations.push(loc);
 						});
-					},100);
+					}
 					// Control loading notification
 					$scope.isLoading = $scope.end >= $scope.project.definition.target_locations.length - 1 ? false : true;
+				},
+				addMoreItemsTargetLocation: function () {
+					if ($scope.paginated_target_locations.length < $scope.project.definition.target_locations.length) {
+						$scope.start = $scope.end;
+						$scope.end += $scope.count;
+						var paginated = $scope.project.definition.target_locations.slice($scope.start, $scope.end);
+						
+						paginated.forEach(function (loc, index) {
+							$scope.paginated_target_locations.push(loc);
+						});
+					}
+					// Control loading notification
+					$scope.isLoading = $scope.end >= $scope.project.definition.target_locations.length - 1 ? false : true;
+				},
+				addMoreItemsTargetBeneficiaries: function () {
+					if ($scope.paginated_target_beneficiaries.length < $scope.project.definition.target_beneficiaries.length) {
+						$scope.start_beneficiaries = $scope.end_beneficiaries;
+						$scope.end_beneficiaries += $scope.count_beneficiaries;
+						var paginated_beneficiaries = $scope.project.definition.target_beneficiaries.slice($scope.start_beneficiaries, $scope.end_beneficiaries);
+						
+						paginated_beneficiaries.forEach(function (loc, index) {
+							$scope.paginated_target_beneficiaries.push(loc);
+						});
+						
+					}
+					// Control loading notification
+					$scope.isLoadingBeneficiaries = $scope.end_beneficiaries >= $scope.project.definition.target_beneficiaries.length - 1 ? false : true;
+				},
+				updatePaginatedPageCount:function(end,original_array,count){
+					// end => $scope.end, $scope.end_beneficiaries
+					// original array is array that paginated =>$scope.project.definition.target_locations,$scope.project.definition.target_beneficiaries
+					// count => $scope.count, $scope.count_beneficiaries
+					if (end === original_array.length) {
+
+						end += count
+					}
+					return end;
 				},
 				// cofirm exit if changes
 				modalConfirm: function( modal ){
@@ -620,6 +674,13 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					// set beneficiaries
 					var beneficiary = ngmClusterBeneficiaries.addBeneficiary( $scope.project, $scope.project.definition.target_beneficiaries );
 					$scope.project.definition.target_beneficiaries.push( beneficiary );
+					// add beneficiary to paginated array
+					$scope.paginated_target_beneficiaries.push(beneficiary);
+					// updated $scope.end_beneficiaires
+					$scope.end_beneficiaries = $scope.project.updatePaginatedPageCount($scope.end_beneficiaries, $scope.project.definition.target_beneficiaries, $scope.count_beneficiaries)
+					// if ($scope.end_beneficiaries === $scope.project.definition.target_beneficiaries.length) {
+					// 	$scope.end_beneficiaries += $scope.count_beneficiaries
+					// }
 					// open card panel form of new add beneficiaries
 					$scope.detailBeneficiaries[$scope.project.definition.target_beneficiaries.length - 1] = true;
 					// set form display for new rows
@@ -671,6 +732,15 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					beneficiary = angular.merge({}, beneficiary_default, beneficiary)
 
 					$scope.project.definition.target_beneficiaries.push(beneficiary);
+					// add beneficiary to paginated array
+					
+					$scope.paginated_target_beneficiaries.push(beneficiary);
+					// updated $scope.end_beneficiaires
+					$scope.end_beneficiaries = $scope.project.updatePaginatedPageCount($scope.end_beneficiaries, $scope.project.definition.target_beneficiaries, $scope.count_beneficiaries)
+					// if ($scope.end_beneficiaries === $scope.project.definition.target_beneficiaries.length) {
+					// 	$scope.end_beneficiaries += $scope.count_beneficiaries
+					// }
+					
 					// Open card panel detail beneficiaries form
 					$scope.detailBeneficiaries[$scope.project.definition.target_beneficiaries.length - 1] = true;
 					// set form display for new rows
@@ -1131,6 +1201,11 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 					// add location to paginated array
 					$scope.paginated_target_locations.push($scope.inserted);
+					// updated $scope.end
+					$scope.end = $scope.project.updatePaginatedPageCount($scope.end, $scope.project.definition.target_locations, $scope.count)
+					// if($scope.end === $scope.project.definition.target_locations.length){
+					// 	$scope.end += $scope.count
+					// }
 					// open card panel form of new add beneficiaries
 					$scope.detailLocation[$scope.project.definition.target_locations.length - 1] = true;
 					// autoset location groupings
@@ -1179,6 +1254,14 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					$scope.inserted = ngmClusterLocations.addLocation($scope.project.definition, []);
 					location = angular.merge({},$scope.inserted,location);
 					$scope.project.definition.target_locations.push(location);
+					// add location to paginated array
+					
+					$scope.paginated_target_locations.push(location);
+					$scope.end = $scope.project.updatePaginatedPageCount($scope.end, $scope.project.definition.target_locations, $scope.count)
+					// if ($scope.end === $scope.project.definition.target_locations.length) {
+					// 	$scope.end += $scope.count
+					// }
+					
 					// open card panel form of new add beneficiaries
 					$scope.detailLocation[$scope.project.definition.target_locations.length - 1] = true;
 					// autoset location groupings
@@ -1404,18 +1487,22 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						ngmClusterBeneficiaries.form[ 0 ].splice( $index, 1 );
 
 						// Cancel edit for paginated array
-						$scope.paginated_target_locations.splice($index, 1);
+						// $scope.paginated_target_locations.splice($index, 1);
 						if ( key === 'target_beneficiaries' ) {
 							$timeout(function(){
 								// Materialize.toast( $filter('translate')('target_beneficiary_removed'), 4000, 'success' );
 								M.toast({ html: $filter('translate')('target_beneficiary_removed'), displayLength: 4000, classes: 'success' });
 							}, 400 );
+							// Cancel edit for paginated array
+							$scope.paginated_target_beneficiaries.splice($index, 1);
 						}
 						if (  key === 'target_locations'  ) {
 							$timeout(function(){
 								// Materialize.toast( $filter('translate')('project_location_removed'), 4000, 'success' );
 								M.toast({ html: $filter('translate')('project_location_removed'), displayLength: 4000, classes: 'success' });
 							}, 400 );
+							// Cancel edit for paginated array
+							$scope.paginated_target_locations.splice($index, 1);
 						}
 					} else {
 						locationform.$cancel();

@@ -65,7 +65,7 @@
 				<li class="collection-item avatar">
 
 					<!-- header -->
-					<div class="row">
+					<div class="row" infinite-scroll='project.addMoreItemsTargetBeneficiaries()' infinite-scroll-distance='1'>
 						<div class="col s12 left">
 							<p id="ngm-target_beneficiaries" style="padding:10px;">
 								{{'enter_the_target_beneficiaries_of_your_project_in_the_form_below' | translate}};
@@ -74,7 +74,7 @@
 					</div>
 
 					<!-- for target_beneficiaries -->
-					<div ng-repeat="beneficiary in project.definition.target_beneficiaries | orderBy:'createdAt' | filterBeneficiary:project.filter" ng-class="{'add-padding': !detailBeneficiaries[$index]}">
+					<div ng-repeat="beneficiary in paginated_target_beneficiaries | orderBy:'createdAt' | filterBeneficiary:project.filter" ng-class="{'add-padding': !detailBeneficiaries[$index]}">
 
 						<!-- title -->
 						<!-- <div style="position: absolute;">
@@ -1550,7 +1550,7 @@
 					</div>
 
 					<!-- buttons -->
-					<div class="row">
+					<div class="row" ng-if="!isLoadingBeneficiaries">
 
 						<!-- default -->
 						<button class="btn"

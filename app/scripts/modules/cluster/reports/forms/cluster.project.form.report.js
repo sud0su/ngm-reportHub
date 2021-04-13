@@ -102,6 +102,14 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 			// page scrolled
 			$scope._top_scrolled = 0
+			// Infinity Scroll
+			//Infinite scroll implementation for monthlylocations
+			const MONTHLY_LOCATION_COUNT = 3;
+			$scope.countMonthlyLocation = MONTHLY_LOCATION_COUNT;
+			$scope.startMonthlyLocation= 0;
+			$scope.endMonthlyLocation = MONTHLY_LOCATION_COUNT;
+			$scope.paginated_monthly_locations = [],
+			$scope.isLoadingMonthlyLocation = false; 
 			// project
 			$scope.project = {
 
@@ -159,7 +167,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					ngmClusterBeneficiaries.resetForm();
 
 					// set location / beneficiaries limits
-					$scope.project.setLocationsLimit( $scope.project.lists, $scope.project.report.locations );
+					// $scope.project.setLocationsLimit( $scope.project.lists, $scope.project.report.locations );
 					// set beneficiaries form
 					ngmClusterBeneficiaries.setLocationsForm( $scope.project.lists, $scope.project.report.locations );
 
@@ -196,6 +204,9 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						// 	})
 						// }
 					})
+
+					// Set limited amount of locations
+					$scope.paginated_monthly_locations = $scope.project.report.locations.slice($scope.startMonthlyLocation, $scope.endMonthlyLocation);
 				},
 
 				// sets title for each location / activity
@@ -1771,7 +1782,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									location.location_group_id = location.admin1pcode;
 									location.location_group_type = location.admin1type_name;
 									location.location_group_name = location.admin1name;
-									location.beneficiaries =[];
+									// location.beneficiaries =[];
 
 									if ($scope.project.definition.location_groups.findIndex(group => group.location_group_id === location.admin1pcode) < 0) {
 
@@ -1786,7 +1797,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 								}
 
 							});
-							saveLocation();
+							// saveLocation();
 
 
 						} else if ($scope.project.definition.location_grouping_by === 'admin2pcode') {
@@ -1797,7 +1808,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									location.location_group_id = location.admin2pcode;
 									location.location_group_type = location.admin2type_name;
 									location.location_group_name = location.admin2name;
-									location.beneficiaries = [];
+									// location.beneficiaries = [];
 
 									if ($scope.project.definition.location_groups.findIndex(group => group.location_group_id === location.admin2pcode) < 0) {
 										var new_group = {
@@ -1811,7 +1822,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 								}
 							});
 
-							saveLocation();
+							// saveLocation();
 
 						} else {
 							// show modal
@@ -1822,11 +1833,11 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									location.location_group_id = 'default_custom_group_' + $scope.project.user.username;
 									location.location_group_type = 'Custom';
 									location.location_group_name = 'Default Custom';
-									location.beneficiaries = [];
+									// location.beneficiaries = []; 
 								}
 							});
 
-							saveLocation();
+							// saveLocation();
 
 						}
 
@@ -1842,14 +1853,47 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					var result = ngmClusterValidation.validateAddNewLocationMonthlyReport(ngmClusterLocations.new_location)
 					if (result.complete){
 						ngmClusterLocations.addNewLocation($scope.project, ngmClusterLocations.new_location);
-						$scope.project.incrementLocationLimitByOneAutoSelect()
+						// $scope.project.incrementLocationLimitByOneAutoSelect()
+
 						$scope.project.addLocationGroupingsforNewLocation()
+						// add to paginated location
+						var lengthLocation = $scope.project.report.locations.length
+						$scope.paginated_monthly_locations.push($scope.project.report.locations[lengthLocation-1]);
+						// updated $scope.endMonthly location
+						$scope.endMonthlyLocation = $scope.project.updatePaginatedPageCount($scope.endMonthlyLocation, $scope.project.report.locations, $scope.countMonthlyLocation);
+						// if ($scope.endMonthlyLocation === $scope.project.report.locations.length) {
+						// 	$scope.endMonthlyLocation += $scope.countMonthlyLocation;
+						// }
+						$scope.detailBeneficiaries[lengthLocation-1] = [];
+						$scope.detailBeneficiaries[lengthLocation-1][0] = true;
 					}else{
 						var elements = result.divs
 						// $(elements[0]).animatescroll();
 						$(elements[0]).scrollHere();
 					};
 
+				},
+				addMoreMonthlyLocation: function () {
+					if ($scope.paginated_monthly_locations.length < $scope.project.report.locations.length){
+						$scope.startMonthlyLocation = $scope.endMonthlyLocation;
+						$scope.endMonthlyLocation += $scope.countMonthlyLocation;
+						var paginated = $scope.project.report.locations.slice($scope.startMonthlyLocation, $scope.endMonthlyLocation);
+						paginated.forEach(function (loc, index) {
+							$scope.paginated_monthly_locations.push(loc);
+						});
+					}
+					// Control loading notification
+					$scope.isLoadingMonthlyLocation = $scope.endMonthlyLocation >= $scope.project.report.locations.length - 1 ? false : true;
+				},
+				updatePaginatedPageCount: function (end, original_array, count) {
+					// end => $scope.end, $scope.end_beneficiaries
+					// original array is array that paginated =>$scope.project.definition.target_locations,$scope.project.definition.target_beneficiaries
+					// count => $scope.count, $scope.count_beneficiaries
+					if (end === original_array.length) {
+
+						end += count
+					}
+					return end;
 				},
 				// save
 				save: function( complete, display_modal, email_alert ){
@@ -1904,6 +1948,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 							// sort locations
 							$scope.project.report.locations = $filter('orderBy')( $scope.project.report.locations, [ 'site_type_name','admin1name','admin2name','admin3name','admin4name','admin5name','site_name' ]);
+							$scope.paginated_monthly_locations = $scope.project.report.locations;
 
 							$scope.project.isSaving = false;
 

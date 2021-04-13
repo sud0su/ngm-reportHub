@@ -73,8 +73,8 @@ angular.module( 'ngmReportHub' )
 			}
 		}
 	}])
-	.factory( 'ngmClusterBeneficiaries', [ '$http', '$filter', '$timeout', 'ngmAuth', 'ngmClusterLists', 'ngmClusterVulnerablePopulations', 'ngmClusterDetails', 'ngmClusterHelperNgWash',
-							function( $http, $filter, $timeout, ngmAuth, ngmClusterLists, ngmClusterVulnerablePopulations, ngmClusterDetails, ngmClusterHelperNgWash ) {
+	.factory('ngmClusterBeneficiaries', ['$http', '$filter', '$timeout', '$rootScope', 'ngmAuth', 'ngmClusterLists', 'ngmClusterVulnerablePopulations', 'ngmClusterDetails', 'ngmClusterHelperNgWash',
+							function( $http, $filter, $timeout, $rootScope, ngmAuth, ngmClusterLists, ngmClusterVulnerablePopulations, ngmClusterDetails, ngmClusterHelperNgWash ) {
 
 		// beneficairies
 		var ngmClusterBeneficiaries = {
@@ -729,6 +729,8 @@ angular.module( 'ngmReportHub' )
 				}).then( function( result ) {
 					// Materialize.toast( $filter('translate')('target_beneficiary_removed'), 4000, 'success' );
 					M.toast({ html: $filter('translate')('target_beneficiary_removed'), displayLength: 4000, classes: 'success' });
+					// Broadcast event to notify listeners that a target benefiiary has been removed
+					$rootScope.$broadcast('remove_beneficiary', id);
 				}).catch( function( err ) {
 					// Materialize.toast( 'Error!', 4000, 'error' );
 					M.toast({ html: 'Error!', displayLength: 4000, classes: 'error' });
