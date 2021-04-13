@@ -1174,7 +1174,7 @@
 					<div class="row" ng-if="ngmClusterBeneficiaries.form[ $locationIndex ][ $beneficiaryIndex ][ 'mpc_transfer_category_id' ] && ngmClusterBeneficiaries.form[ $locationIndex ][ $beneficiaryIndex ][ 'mpc_grant_type_id' ]">
 									<!-- transfer per household/individual -->
 									<div class="input-field col s12 m6 l6">
-										<select materialize-select id="ngm-transfer_category_id-{{ $locationIndex }}-{{$beneficiaryIndex}}"
+										<select materialize-select watch-model id="ngm-transfer_category_id-{{ $locationIndex }}-{{$beneficiaryIndex}}"
 															name="transfer_category_id-{{ $locationIndex }}-{{$beneficiaryIndex}}"
 															class="validate"
 															ng-model="beneficiary.transfer_category_id"
@@ -1189,7 +1189,7 @@
 									</div>
 									<!-- Unconditional, Restricted -->
 									<div class="input-field col s12 m6 l6">
-										<select materialize-select id="ngm-grant_type_id-{{ $locationIndex }}-{{$beneficiaryIndex}}"
+										<select materialize-select watch-model id="ngm-grant_type_id-{{ $locationIndex }}-{{$beneficiaryIndex}}"
 															name="grant_type_id-{{ $locationIndex }}-{{$beneficiaryIndex}}"
 															class="validate"
 															ng-model="beneficiary.grant_type_id"
