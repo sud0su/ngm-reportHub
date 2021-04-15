@@ -135,7 +135,6 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
 
           })
 
-          console.log($scope.report.lists.stockDonors)
 
 
 
