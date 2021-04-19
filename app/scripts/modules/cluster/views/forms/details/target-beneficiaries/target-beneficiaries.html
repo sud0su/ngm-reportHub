@@ -863,6 +863,7 @@
 									</div>
 								</div>
 
+								<!-- If mpc_transfer_category_id and 'mpc_grant_type_id' is exist -->
 								<div class="row" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_transfer_category_id' ] && ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_grant_type_id' ]">
 									<!-- transfer per household/individual -->
 									<div class="input-field col s12 m6 l6">
@@ -890,6 +891,37 @@
 															ngmClusterBeneficiaries.updateTotalTransferedAmount(beneficiary)"
 															ng-options="a.grant_type_id as a.grant_type_name for a in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_grant_type_id' ]"
 															ng-disabled="project.definition.project_status === 'complete' || ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_grant_type_id' ].length < 2">
+											<option value="">{{ 'select' | translate }}</option>
+										</select>
+										<label for="ngm-grant_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">Grant Type</label>
+									</div>
+								</div>
+
+								<!-- If one of mpc_transfer_category_id and 'mpc_grant_type_id' is not exist -->
+								<div class="row"
+									ng-if="!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_transfer_category_id' ] || !ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_grant_type_id' ]">
+									<!-- transfer per household/individual -->
+									<div ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_transfer_category_id' ]" class="input-field col s12 m12 l12">
+										<select materialize-select watch-model id="ngm-transfer_category_id-{{ $index }}"
+											name="transfer_category_id-{{ $index }}" class="validate" ng-model="beneficiary.transfer_category_id"
+											ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_transfer_category_id' ], 'transfer_category_id', 'transfer_category_name', beneficiary );
+																							ngmClusterBeneficiaries.inputChange( 'ngm-transfer_category_id-{{ $index }}' );
+																							ngmClusterBeneficiaries.updateTotalTransferedAmount(beneficiary)"
+											ng-options="a.transfer_category_id as a.transfer_category_name for a in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_transfer_category_id' ]"
+											ng-disabled="project.definition.project_status === 'complete' || ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_transfer_category_id' ].length < 2">
+											<option value="">{{ 'select' | translate }}</option>
+										</select>
+										<label for="ngm-transfer_category_id-{{ $index }}" class="active" style="transform:translateY(-10%)">Transfer
+											Type</label>
+									</div>
+									<!-- Unconditional, Restricted -->
+									<div ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_grant_type_id' ]" class="input-field col s12 m12 l12">
+										<select materialize-select watch-model id="ngm-grant_type_id-{{ $index }}" name="grant_type_id-{{ $index }}"
+											class="validate" ng-model="beneficiary.grant_type_id" ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_grant_type_id' ], 'grant_type_id', 'grant_type_name', beneficiary );
+																							ngmClusterBeneficiaries.inputChange( 'ngm-grant_type_id-{{ $index }}' );
+																							ngmClusterBeneficiaries.updateTotalTransferedAmount(beneficiary)"
+											ng-options="a.grant_type_id as a.grant_type_name for a in ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_grant_type_id' ]"
+											ng-disabled="project.definition.project_status === 'complete' || ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_grant_type_id' ].length < 2">
 											<option value="">{{ 'select' | translate }}</option>
 										</select>
 										<label for="ngm-grant_type_id-{{ $index }}" class="active" style="transform:translateY(-10%)">Grant Type</label>
