@@ -375,7 +375,7 @@
                                             <select materialize-select watch id="ngm-activity_detail_id-{{ $indexRecord }}" name="activity_detail_id-{{ $indexRecord }}"
                                                 class="validate" ng-model="item.activity_detail_id" ng-options="a_d.activity_detail_id as a_d.activity_detail_name for
                                     																					a_d in beneficiariesList[$indexRecord].activity_details |
-                                    																					filterActiveDetails:item" ng-change="ngmClusterBeneficiaries.updateName( beneficiariesList[$indexRecord].activity_descriptions, 'activity_detail_id', 'activity_detail_name', item );
+                                    																					filterActiveDetails:item track by a_d.activity_detail_id" ng-change="ngmClusterBeneficiaries.updateName( beneficiariesList[$indexRecord].activity_descriptions, 'activity_detail_id', 'activity_detail_name', item );
                                     																				ngmClusterBeneficiaries.setBeneficiaries( upload, 'detail', 0, $indexRecord, item );
                                     																				ngmClusterBeneficiaries.inputChange( 'ngm-activity_detail_id-{{ $indexRecord }}' );"
                                                 ng-disabled="item.project_status === 'complete' || !item.activity_type_id" required>
