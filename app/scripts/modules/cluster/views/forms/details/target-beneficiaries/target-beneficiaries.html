@@ -298,7 +298,7 @@
 														unknown-value="{{ ::beneficiary.activity_detail_name }}"
 														ng-options="a_d.activity_detail_id as a_d.activity_detail_name for
 																					a_d in project.lists.activity_details |
-																					filterActiveDetails:beneficiary"
+																					filterActiveDetails:beneficiary track by a_d.activity_detail_id"
 														ng-change="ngmClusterBeneficiaries.updateName( project.lists.activity_details, 'activity_detail_id', 'activity_detail_name', beneficiary );
 																				ngmClusterBeneficiaries.setBeneficiaries( project, 'detail', 0, $index, beneficiary );
 																				ngmClusterBeneficiaries.inputChange( 'ngm-activity_detail_id-{{ $index }}' );"
