@@ -122,7 +122,6 @@ angular.module( 'ngmReportHub' )
 			},
 
 			getStockLists: function (admin0pcode) {
-				 
 				return {
 					clusters: ngmClusterLists.getClusters(admin0pcode).filter(cluster => cluster.filter !== false && cluster.registration !== false),
 					units: ngmClusterLists.getUnits(admin0pcode),
@@ -235,14 +234,9 @@ angular.module( 'ngmReportHub' )
 					},
 
 					// donors list
-					// getDonors: {
-					// 	method: 'GET',
-					// 	url: ngmAuth.LOCATION + '/api/cluster/list/donors'
-					// },
-
 					getDonors: {
 						method: 'GET',
-						url: ngmAuth.LOCATION + '/api/cluster/list/donorsnew?admin0pcode=' + user.admin0pcode
+						url: ngmAuth.LOCATION + '/api/cluster/list/donors'
 					},
 
 					// indicators list
@@ -4021,978 +4015,927 @@ angular.module( 'ngmReportHub' )
 				// get from list
 					// this list needs to be updated at the db to iclude admin0pcode as string (like activities)
 					// hack for NG has been put in place, so much to do, so little time (horrible, I know!)
-				// old filter
-				// donors = $filter( 'filter' )( ngmLists.getObject( 'lists' ).donorsList,
-				// 									{ cluster_id: cluster_id }, true );
+				donors = $filter( 'filter' )( ngmLists.getObject( 'lists' ).donorsList,
+													{ cluster_id: cluster_id }, true );
 
-				// new filter
-				
-				// donors = cluster_id === '' ? $filter('filter')(ngmLists.getObject('lists').donorsList, function (donor) {
-				// 	return (donor.admin0pcode === 'ALL') || (donor.admin0pcode === admin0pcode);
-				// }, true) : $filter('filter')(ngmLists.getObject('lists').donorsList, function(donor){
-				// 	return (donor.admin0pcode === 'ALL' && donor.cluster_id === cluster_id) || donor.cluster_id === cluster_id || donor.cluster_id === 'all';
-				// },true);
-				
+				// if no list use default
+				if ( !donors.length ) {
+					donors = [
+						{ project_donor_id: 'australia', project_donor_name:'Australia'},
+						{ project_donor_id: 'aus_aid', project_donor_name:'AusAid'},
+						{ project_donor_id: 'bmz', project_donor_name:'BMZ'},
+						{ project_donor_id: 'brac', project_donor_name:'BRAC'},
+						{ project_donor_id: 'canada',  project_donor_name:'Canada'},
+						{ project_donor_id: 'care',  project_donor_name:'Care'},
+						{ project_donor_id: 'caritas_germany', project_donor_name: 'Caritas Germany' },
+						{ project_donor_id: 'cerf', project_donor_name: 'CERF' },
+						{ project_donor_id: 'chf', project_donor_name: 'CHF' },
+						{ project_donor_id: 'cida', project_donor_name: 'CIDA' },
+						{ project_donor_id: 'czech_aid', project_donor_name: 'Czech Aid' },
+						{ project_donor_id: 'czech_mofa', project_donor_name: 'Czech MOFA' },
+						{ project_donor_id: 'danida', project_donor_name:'Danida'},
+						{ project_donor_id: 'denmark', project_donor_name:'Denmark'},
+						{ project_donor_id: 'dfid', project_donor_name: 'DFID' },
+						{ project_donor_id: 'disaster_emergency_committee_dec', project_donor_name: 'Disaster Emergency Committee (DEC)' },
+						{ project_donor_id: 'echo', project_donor_name: 'ECHO' },
+						{ project_donor_id: 'ehf', project_donor_name: 'EHF' },
+						{ project_donor_id: 'european_union', project_donor_name: 'European Union' },
+						{ project_donor_id: 'fao', project_donor_name:'FAO' },
+						{ project_donor_id: 'finland', project_donor_name:'Finland' },
+						{ project_donor_id: 'france', project_donor_name:'France' },
+						{ project_donor_id: 'global_fund', project_donor_name: 'Global Fund' },
+						{ project_donor_id: 'german_foreign_ministry', project_donor_name: 'German Foreign Ministry' },
+						{ project_donor_id: 'icrc', project_donor_name: 'ICRC' },
+						{ project_donor_id: 'ifrc', project_donor_name: 'IFRC' },
+						{ project_donor_id: 'iom', project_donor_name: 'IOM' },
+						{ project_donor_id: 'irish_aid', project_donor_name: 'IrishAid' },
+						{ project_donor_id: 'italy', project_donor_name: 'Italy' },
+						{ project_donor_id: 'jica', project_donor_name: 'JICA' },
+						{ project_donor_id: 'johanniter', project_donor_name: 'Johanniter' },
+						{ project_donor_id: 'khalifa_bin_zayed_al_nahyan_charity_foundation', project_donor_name: 'Khalifa bin Zayed Al Nahyan Charity Foundation' },
+						{ project_donor_id: 'mukti', project_donor_name: 'Mukti' },
+						{ project_donor_id: 'netherlands', project_donor_name: 'Netherlands' },
+						{ project_donor_id: 'norway', project_donor_name: 'Norway' },
+						{ project_donor_id: 'ocha', project_donor_name: 'OCHA' },
+						{ project_donor_id: 'oxfam', project_donor_name: 'Oxfam' },
+						{ project_donor_id: 'qatar_red_crescent', project_donor_name: 'Qatar Red Crescent' },
+						{ project_donor_id: 'republic_of_korea', project_donor_name: 'Republic of Korea' },
+						{ project_donor_id: 'sdc', project_donor_name: 'SDC' },
+						{ project_donor_id: 'sida', project_donor_name: 'SIDA' },
+						{ project_donor_id: 'solidar_suisse', project_donor_name: 'Solidar Suisse' },
+						{ project_donor_id: 'start_network_global_humanitarian_assistance', project_donor_name: 'Start Network Global Humanitarian Assistance' },
+						{ project_donor_id: 'sweden', project_donor_name: 'Sweden' },
+						{ project_donor_id: 'switzerland', project_donor_name: 'Switzerland' },
+						{ project_donor_id: 'turkish_red_crescent', project_donor_name: 'Turkish Red Crescent' },
+						{ project_donor_id: 'usaid', project_donor_name: 'USAID' },
+						{ project_donor_id: 'unfpa', project_donor_name: 'UNFPA' },
+						{ project_donor_id: 'unhcr', project_donor_name: 'UNHCR' },
+						{ project_donor_id: 'unicef', project_donor_name: 'UNICEF' },
+						{ project_donor_id: 'unwomen', project_donor_name: 'UNWOMEN' },
+						{ project_donor_id: 'wfp', project_donor_name: 'WFP' },
+						{ project_donor_id: 'who', project_donor_name: 'WHO' },
+						{ project_donor_id: 'world_bank', project_donor_name: 'World Bank' }
+					];
+				}
 
-				// if no list use default 54 record
-				// if ( !donors.length ) {
-				// 	donors = [
-				// 		{ project_donor_id: 'australia', project_donor_name:'Australia'},
-				// 		{ project_donor_id: 'aus_aid', project_donor_name:'AusAid'},
-				// 		{ project_donor_id: 'bmz', project_donor_name:'BMZ'},
-				// 		{ project_donor_id: 'brac', project_donor_name:'BRAC'},
-				// 		{ project_donor_id: 'canada',  project_donor_name:'Canada'},
-				// 		{ project_donor_id: 'care',  project_donor_name:'Care'},
-				// 		{ project_donor_id: 'caritas_germany', project_donor_name: 'Caritas Germany' },
-				// 		{ project_donor_id: 'cerf', project_donor_name: 'CERF' },
-				// 		{ project_donor_id: 'chf', project_donor_name: 'CHF' },
-				// 		{ project_donor_id: 'cida', project_donor_name: 'CIDA' },
-				// 		{ project_donor_id: 'czech_aid', project_donor_name: 'Czech Aid' },
-				// 		{ project_donor_id: 'czech_mofa', project_donor_name: 'Czech MOFA' },
-				// 		{ project_donor_id: 'danida', project_donor_name:'Danida'},
-				// 		{ project_donor_id: 'denmark', project_donor_name:'Denmark'},
-				// 		{ project_donor_id: 'dfid', project_donor_name: 'DFID' },
-				// 		{ project_donor_id: 'disaster_emergency_committee_dec', project_donor_name: 'Disaster Emergency Committee (DEC)' },
-				// 		{ project_donor_id: 'echo', project_donor_name: 'ECHO' },
-				// 		{ project_donor_id: 'ehf', project_donor_name: 'EHF' },
-				// 		{ project_donor_id: 'european_union', project_donor_name: 'European Union' },
-				// 		{ project_donor_id: 'fao', project_donor_name:'FAO' },
-				// 		{ project_donor_id: 'finland', project_donor_name:'Finland' },
-				// 		{ project_donor_id: 'france', project_donor_name:'France' },
-				// 		{ project_donor_id: 'global_fund', project_donor_name: 'Global Fund' },
-				// 		{ project_donor_id: 'german_foreign_ministry', project_donor_name: 'German Foreign Ministry' },
-				// 		{ project_donor_id: 'icrc', project_donor_name: 'ICRC' },
-				// 		{ project_donor_id: 'ifrc', project_donor_name: 'IFRC' },
-				// 		{ project_donor_id: 'iom', project_donor_name: 'IOM' },
-				// 		{ project_donor_id: 'irish_aid', project_donor_name: 'IrishAid' },
-				// 		{ project_donor_id: 'italy', project_donor_name: 'Italy' },
-				// 		{ project_donor_id: 'jica', project_donor_name: 'JICA' },
-				// 		{ project_donor_id: 'johanniter', project_donor_name: 'Johanniter' },
-				// 		{ project_donor_id: 'khalifa_bin_zayed_al_nahyan_charity_foundation', project_donor_name: 'Khalifa bin Zayed Al Nahyan Charity Foundation' },
-				// 		{ project_donor_id: 'mukti', project_donor_name: 'Mukti' },
-				// 		{ project_donor_id: 'netherlands', project_donor_name: 'Netherlands' },
-				// 		{ project_donor_id: 'norway', project_donor_name: 'Norway' },
-				// 		{ project_donor_id: 'ocha', project_donor_name: 'OCHA' },
-				// 		{ project_donor_id: 'oxfam', project_donor_name: 'Oxfam' },
-				// 		{ project_donor_id: 'qatar_red_crescent', project_donor_name: 'Qatar Red Crescent' },
-				// 		{ project_donor_id: 'republic_of_korea', project_donor_name: 'Republic of Korea' },
-				// 		{ project_donor_id: 'sdc', project_donor_name: 'SDC' },
-				// 		{ project_donor_id: 'sida', project_donor_name: 'SIDA' },
-				// 		{ project_donor_id: 'solidar_suisse', project_donor_name: 'Solidar Suisse' },
-				// 		{ project_donor_id: 'start_network_global_humanitarian_assistance', project_donor_name: 'Start Network Global Humanitarian Assistance' },
-				// 		{ project_donor_id: 'sweden', project_donor_name: 'Sweden' },
-				// 		{ project_donor_id: 'switzerland', project_donor_name: 'Switzerland' },
-				// 		{ project_donor_id: 'turkish_red_crescent', project_donor_name: 'Turkish Red Crescent' },
-				// 		{ project_donor_id: 'usaid', project_donor_name: 'USAID' },
-				// 		{ project_donor_id: 'unfpa', project_donor_name: 'UNFPA' },
-				// 		{ project_donor_id: 'unhcr', project_donor_name: 'UNHCR' },
-				// 		{ project_donor_id: 'unicef', project_donor_name: 'UNICEF' },
-				// 		{ project_donor_id: 'unwomen', project_donor_name: 'UNWOMEN' },
-				// 		{ project_donor_id: 'wfp', project_donor_name: 'WFP' },
-				// 		{ project_donor_id: 'who', project_donor_name: 'WHO' },
-				// 		{ project_donor_id: 'world_bank', project_donor_name: 'World Bank' }
-				// 	];
-				// }
-
-				// // temp TODO move to api
-				// record 56
-				// if ( admin0pcode === 'ET' ) {
-				// 	donors = [
-				// 		{ project_donor_id: 'australia', project_donor_name:'Australia'},
-				// 		{ project_donor_id: 'aus_aid', project_donor_name:'AusAid'},
-				// 		{ project_donor_id: 'bmz', project_donor_name:'BMZ'},
-				// 		{ project_donor_id: 'brac', project_donor_name:'BRAC'},
-				// 		{ project_donor_id: 'canada',  project_donor_name:'Canada'},
-				// 		{ project_donor_id: 'care',  project_donor_name:'Care'},
-				// 		{ project_donor_id: 'caritas_germany', project_donor_name: 'Caritas Germany' },
-				// 		{ project_donor_id: 'cerf', project_donor_name: 'CERF' },
-				// 		{ project_donor_id: 'chf', project_donor_name: 'CHF' },
-				// 		{ project_donor_id: 'cida', project_donor_name: 'CIDA' },
-				// 		{ project_donor_id: 'czech_aid', project_donor_name: 'Czech Aid' },
-				// 		{ project_donor_id: 'czech_mofa', project_donor_name: 'Czech MOFA' },
-				// 		{ project_donor_id: 'danida', project_donor_name:'Danida'},
-				// 		{ project_donor_id: 'denmark', project_donor_name:'Denmark'},
-				// 		{ project_donor_id: 'dfid', project_donor_name: 'DFID' },
-				// 		{ project_donor_id: 'disaster_emergency_committee_dec', project_donor_name: 'Disaster Emergency Committee (DEC)' },
-				// 		{ project_donor_id: 'echo', project_donor_name: 'ECHO' },
-				// 		{ project_donor_id: 'ehf', project_donor_name: 'EHF' },
-				// 		{ project_donor_id: 'ercs', project_donor_name: 'ERCS' },
-				// 		{ project_donor_id: 'european_union', project_donor_name: 'European Union' },
-				// 		{ project_donor_id: 'fao', project_donor_name:'FAO' },
-				// 		{ project_donor_id: 'finland', project_donor_name:'Finland' },
-				// 		{ project_donor_id: 'france', project_donor_name:'France' },
-				// 		{ project_donor_id: 'german_foreign_ministry', project_donor_name: 'German Foreign Ministry' },
-				// 		{ project_donor_id: 'global_fund', project_donor_name: 'Global Fund' },
-				// 		{ project_donor_id: 'government_of_ethiopia', project_donor_name: 'Government of Ethiopia' },
-				// 		{ project_donor_id: 'icrc', project_donor_name: 'ICRC' },
-				// 		{ project_donor_id: 'ifrc', project_donor_name: 'IFRC' },
-				// 		{ project_donor_id: 'iom', project_donor_name: 'IOM' },
-				// 		{ project_donor_id: 'irish_aid', project_donor_name: 'IrishAid' },
-				// 		{ project_donor_id: 'italy', project_donor_name: 'Italy' },
-				// 		{ project_donor_id: 'jica', project_donor_name: 'JICA' },
-				// 		{ project_donor_id: 'johanniter', project_donor_name: 'Johanniter' },
-				// 		{ project_donor_id: 'khalifa_bin_zayed_al_nahyan_charity_foundation', project_donor_name: 'Khalifa bin Zayed Al Nahyan Charity Foundation' },
-				// 		{ project_donor_id: 'mukti', project_donor_name: 'Mukti' },
-				// 		{ project_donor_id: 'netherlands', project_donor_name: 'Netherlands' },
-				// 		{ project_donor_id: 'norway', project_donor_name: 'Norway' },
-				// 		{ project_donor_id: 'ocha', project_donor_name: 'OCHA' },
-				// 		{ project_donor_id: 'oxfam', project_donor_name: 'Oxfam' },
-				// 		{ project_donor_id: 'qatar_red_crescent', project_donor_name: 'Qatar Red Crescent' },
-				// 		{ project_donor_id: 'republic_of_korea', project_donor_name: 'Republic of Korea' },
-				// 		{ project_donor_id: 'sdc', project_donor_name: 'SDC' },
-				// 		{ project_donor_id: 'sida', project_donor_name: 'SIDA' },
-				// 		{ project_donor_id: 'solidar_suisse', project_donor_name: 'Solidar Suisse' },
-				// 		{ project_donor_id: 'start_network_global_humanitarian_assistance', project_donor_name: 'Start Network Global Humanitarian Assistance' },
-				// 		{ project_donor_id: 'sweden', project_donor_name: 'Sweden' },
-				// 		{ project_donor_id: 'switzerland', project_donor_name: 'Switzerland' },
-				// 		{ project_donor_id: 'turkish_red_crescent', project_donor_name: 'Turkish Red Crescent' },
-				// 		{ project_donor_id: 'usaid', project_donor_name: 'USAID' },
-				// 		{ project_donor_id: 'unfpa', project_donor_name: 'UNFPA' },
-				// 		{ project_donor_id: 'unhcr', project_donor_name: 'UNHCR' },
-				// 		{ project_donor_id: 'unicef', project_donor_name: 'UNICEF' },
-				// 		{ project_donor_id: 'unwomen', project_donor_name: 'UNWOMEN' },
-				// 		{ project_donor_id: 'wfp', project_donor_name: 'WFP' },
-				// 		{ project_donor_id: 'who', project_donor_name: 'WHO' },
-				// 		{ project_donor_id: 'world_bank', project_donor_name: 'World Bank' },
-				// 	];
-				// }
-				// // include for NG
-				// if ( admin0pcode === 'NG' ) {
-				// record 53 ng edu
-				// 	if( cluster_id === 'education' ){
-				// 		donors = [
-				// 			{project_donor_id: "adb",project_donor_name: "African Development Bank"},
-				// 			{project_donor_id: "austrialian_hc",project_donor_name: "Australian High Commission"},
-				// 			{project_donor_id: "british_hc",project_donor_name: "British High Commission"},
-				// 			{project_donor_id: "cerf",project_donor_name: "Central Emergency Response Fund"},
-				// 			{project_donor_id: "danida",project_donor_name: "Danish International Development Agency"},
-				// 			{project_donor_id: "dfid",project_donor_name: "Department for International Development"},
-				// 			{project_donor_id: "giz",project_donor_name: "Deutsche Gesellschaft für Internationale Zusammenarbeit"},
-				// 			{project_donor_id: "drf",project_donor_name: "Disability Rights Fund"},
-				// 			{project_donor_id: "ecw",project_donor_name: "Education Cannot Wait"},
-				// 			{project_donor_id: "e_belgium",project_donor_name: "Embassy of Belgium"},
-				// 			{project_donor_id: "e_china",project_donor_name: "Embassy of China"},
-				// 			{project_donor_id: "e_denmark",project_donor_name: "Embassy of Denmark"},
-				// 			{project_donor_id: "e_finland",project_donor_name: "Embassy of Finland"},
-				// 			{project_donor_id: "e_france",project_donor_name: "Embassy of France"},
-				// 			{project_donor_id: "e_germany",project_donor_name: "Embassy of Germany"},
-				// 			{project_donor_id: "e_ireland",project_donor_name: "Embassy of Ireland"},
-				// 			{project_donor_id: "e_israel",project_donor_name: "Embassy of Israel"},
-				// 			{project_donor_id: "e_poland",project_donor_name: "Embassy of Poland"},
-				// 			{project_donor_id: "e_sweden",project_donor_name: "Embassy of Sweden"},
-				// 			{project_donor_id: "e_switzerland",project_donor_name: "Embassy of Switzerland"},
-				// 			{project_donor_id: "e_netherlands",project_donor_name: "Embassy of the Kingdom of Netherlands"},
-				// 			{project_donor_id: "echo",project_donor_name: "European Community Humanitarian aid Office"},
-				// 			{project_donor_id: "eu",project_donor_name: "European Union"},
-				// 			{project_donor_id: "fgn",project_donor_name: "Federal Government of Nigeria"},
-				// 			{project_donor_id: "gf",project_donor_name: "Gates Foundation"},
-				// 			{project_donor_id: "gffo",project_donor_name: "Germany Federal Foreign Office"},
-				// 			{project_donor_id: "gac",project_donor_name: "Global Affairs Canada"},
-				// 			{project_donor_id: "gfo",project_donor_name: "Global Fund Observer"},
-				// 			{project_donor_id: "hc_canada",project_donor_name: "High Commission of Canada"},
-				// 			{project_donor_id: "irishaid",project_donor_name: "Irish Aid"},
-				// 			{project_donor_id: "aics",project_donor_name: "Italian Agency for Cooperation and Development"},
-				// 			{project_donor_id: "jica",project_donor_name: "Japan International Cooperation Agency"},
-				// 			{project_donor_id: "e_japan",project_donor_name: "Japaneese Embassy"},
-				// 			{project_donor_id: "kfw",project_donor_name: "Kreditanstalt für Wiederaufbau (KfW)"},
-				// 			{project_donor_id: "luxembourg",project_donor_name: "Luxembourg Government"},
-				// 			{project_donor_id: "mf",project_donor_name: "Malala Fund"},
-				// 			{project_donor_id: "nhf",project_donor_name: "Nigeria Humanitarian Fund"},
-				// 			{project_donor_id: "ng",project_donor_name: "Nigerian Government"},
-				// 			{project_donor_id: "normfa",project_donor_name: "Norwegian Ministry of Foreign Affairs"},
-				// 			{project_donor_id: "norad",project_donor_name: "Norweigian Agency for Development Cooperation"},
-				// 			{project_donor_id: "ofda",project_donor_name: "Office of US Disaster Assistance"},
-				// 			{project_donor_id: "pri",project_donor_name: "Private Individual"},
-				// 			{project_donor_id: "pro",project_donor_name: "Private Organization"},
-				// 			{project_donor_id: "e_norway",project_donor_name: "Royal Norwegian Embassy"},
-				// 			{project_donor_id: "sf",project_donor_name: "Self-Funding"},
-				// 			{project_donor_id: "sida",project_donor_name: "Swedish International Development Agency"},
-				// 			{project_donor_id: "e_swiss",project_donor_name: "Swiss Embassy"},
-				// 			{project_donor_id: "ss",project_donor_name: "Swiss Solidarity"},
-				// 			{project_donor_id: "unicef",project_donor_name: "United Nations Children's Fund"},
-				// 			{project_donor_id: "usaid",project_donor_name: "United States Agency for International Development"},
-				// 			{project_donor_id: "us_embassy",project_donor_name: "United States of America"},
-				// 			{project_donor_id: "vsf",project_donor_name: "Victims Support Fund"},
-				// 			{project_donor_id: "wb",project_donor_name: "World Bank"}
-				// 	];
-				// 	} else if(cluster_id === 'child_protection'){
-				//  record 56
-				// 		donors = [
-				// 			{ project_donor_id: "aant", "project_donor_name": "Allen and Nesta Trust" },
-				// 			{ project_donor_id: "aics", "project_donor_name": "Agenzia Italiana Per La Cooperazione Allo Sviluppo" },
-				// 			{ project_donor_id: "ca", "project_donor_name": "Christian Aid" },
-				// 			{ project_donor_id: "cerf", "project_donor_name": "Central Emergency Response Fund" },
-				// 			{ project_donor_id: "cf", "project_donor_name": "Catena Foundation" },
-				// 			{ project_donor_id: "coopi", "project_donor_name": "Cooperatione Internazionale" },
-				// 			{ project_donor_id: "ddg_drc", "project_donor_name": "DDG/DRC" },
-				// 			{ project_donor_id: "dfid", "project_donor_name": "Department for International Development" },
-				// 			{ project_donor_id: "drf", "project_donor_name": "Deutsch Relief Fund" },
-				// 			{ project_donor_id: "echo", "project_donor_name": "European Civil Protection and Humanitarian Aid Operations" },
-				// 			{ project_donor_id: "eu", "project_donor_name": "European Union" },
-				// 			{ project_donor_id: "eu _tf", "project_donor_name": "EU Trust Fund" },
-				// 			{ project_donor_id: "eu_unwomen", "project_donor_name": "EU/ UNWOMEN" },
-				// 			{ project_donor_id: "evac", "project_donor_name": "End Violence Against Children Fund" },
-				// 			{ project_donor_id: "fco", "project_donor_name": "Foreign Commonwealth Office " },
-				// 			{ project_donor_id: "fhi360", "project_donor_name": "FHI 360" },
-				// 			{ project_donor_id: "fmwasd_abuja", "project_donor_name": "Federal Ministry of Women Affairs" },
-				// 			{ project_donor_id: "fn_unicef", "project_donor_name": "French Natcom for UNICEF" },
-				// 			{ project_donor_id: "gc", "project_donor_name": "GC: UNICEF Regular resources " },
-				// 			{ project_donor_id: "gffc", "project_donor_name": "German Federal Foreign Office" },
-				// 			{ project_donor_id: "goa", "project_donor_name": "Government of Australia" },
-				// 			{ project_donor_id: "gob", "project_donor_name": "Government of Belgium" },
-				// 			{ project_donor_id: "goc", "project_donor_name": "Government of Canada" },
-				// 			{ project_donor_id: "gof", "project_donor_name": "Government of France" },
-				// 			{ project_donor_id: "goi", "project_donor_name": "Government of Italy" },
-				// 			{ project_donor_id: "goj", "project_donor_name": "Government of Japan" },
-				// 			{ project_donor_id: "gon", "project_donor_name": "Government of Norway" },
-				// 			{ project_donor_id: "gos", "project_donor_name": "Government of Spain" },
-				// 			{ project_donor_id: "gouk", "project_donor_name": "Government of United Kingdom" },
-				// 			{ project_donor_id: "gsf", "project_donor_name": "Grow Strong Foundation" },
-				// 			{ project_donor_id: "gthrf", "project_donor_name": "Global Thematic Humanitarian Response Fund" },
-				// 			{ project_donor_id: "hnf", "project_donor_name": "Nigeria Humanitarian Fund" },
-				// 			{ project_donor_id: "ia", "project_donor_name": "Irish Aid" },
-				// 			{ project_donor_id: "icco", "project_donor_name": "Interchurch Organisation for development Cooperation" },
-				// 			{ project_donor_id: "iom", "project_donor_name": "International Organization for Migration" },
-				// 			{ project_donor_id: "irc", "project_donor_name": "International Rescue Committee" },
-				// 			{ project_donor_id: "labdi", "project_donor_name": "Life At Best Development Initiative" },
-				// 			{ project_donor_id: "mag", "project_donor_name": "Mines Advisory Group International" },
-				// 			{ project_donor_id: "njr", "project_donor_name": "Nigeria Joint Response (NJR)5 Consortium" },
-				// 			{ project_donor_id: "ofda", "project_donor_name": "Office of US Foreign Disaster Assistance " },
-				// 			{ project_donor_id: "pi", "project_donor_name": "Plan International" },
-				// 			{ project_donor_id: "rohi", "project_donor_name": "Restoration of Hope Initiative" },
-				// 			{ project_donor_id: "sci", "project_donor_name": "Save the Children" },
-				// 			{ project_donor_id: "scuk", "project_donor_name": "Street Child UK" },
-				// 			{ project_donor_id: "sdc", "project_donor_name": "Swiss Agency for Development and Cooperation" },
-				// 			{ project_donor_id: "sida", "project_donor_name": "Swedish International Development Cooperation" },
-				// 			{ project_donor_id: "srf", "project_donor_name": "Swift Relief Foundation" },
-				// 			{ project_donor_id: "ss", "project_donor_name": "SWISS Solidarity" },
-				// 			{ project_donor_id: "tdh", "project_donor_name": "Terre des Hommes" },
-				// 			{ project_donor_id: "tpo", "project_donor_name": "Transcultural Psychosocial Organization" },
-				// 			{ project_donor_id: "undp", "project_donor_name": "United Nations Development Programme" },
-				// 			{ project_donor_id: "unicef", "project_donor_name": "United Nations Children's Fund" },
-				// 			{ project_donor_id: "unmas", "project_donor_name": "United Nations Mine Action Services" },
-				// 			{ project_donor_id: "us_nat_unicef", "project_donor_name": "US Natcom for UNICEF" },
-				// 			{ project_donor_id: "vsf", "project_donor_name": "Victim Support Fund" },
-				// 			{ project_donor_id: "yipdi", "project_donor_name": "Youth Integrated for Positive Development Initiative" }
-				// 		];
-				// 	} else if(cluster_id === 'gbv'){
-				// record 53
-				// 		donors = [
-				// 			{ project_donor_id: "african_development_bank", project_donor_name: "African Development Bank" },
-				// 			{ project_donor_id: "aid_for_africa", project_donor_name: "Aid For Africa" },
-				// 			{ project_donor_id: "australian_high_commission", project_donor_name: "Australian High Commission" },
-				// 			{ project_donor_id: "british_high_commission", project_donor_name: "British High Commission" },
-				// 			{ project_donor_id: "central_emergency_response_fund", project_donor_name: "Central Emergency Response Fund" },
-				// 			{ project_donor_id: "church_of_the_brethren", project_donor_name: "Church of the Brethren" },
-				// 			{ project_donor_id: "conflict_stability_and_security_fund", project_donor_name: "Conflict, Stability and Security Fund" },
-				// 			{ project_donor_id: "danish_international_development_agency", project_donor_name: "Danish International Development Agency" },
-				// 			{ project_donor_id: "department_for_international_development", project_donor_name: "Department for International Development" },
-				// 			{ project_donor_id: "disability_rights_fund", project_donor_name: "Disability Rights Fund" },
-				// 			{ project_donor_id: "dutch_relief_alliance", project_donor_name: "Dutch Relief Alliance" },
-				// 			{ project_donor_id: "dutch_government", project_donor_name: "Dutch Government" },
-				// 			{ project_donor_id: "elma_relief_foundation", project_donor_name: "ELMA Relief Foundation" },
-				// 			{ project_donor_id: "embassy_of_denmark", project_donor_name: "Embassy of Denmark" },
-				// 			{ project_donor_id: "embassy_of_finland", project_donor_name: "Embassy of Finland" },
-				// 			{ project_donor_id: "embassy_of_france", project_donor_name: "Embassy of France" },
-				// 			{ project_donor_id: "embassy_of_israel", project_donor_name: "Embassy of Israel" },
-				// 			{ project_donor_id: "embassy_of_poland", project_donor_name: "Embassy of Poland" },
-				// 			{ project_donor_id: "embassy_of_sweden", project_donor_name: "Embassy of Sweden" },
-				// 			{ project_donor_id: "embassy_of_switzerland", project_donor_name: "Embassy of Switzerland" },
-				// 			{ project_donor_id: "embassy_of_the_kingdom_of_netherlands", project_donor_name: "Embassy of the Kingdom of Netherlands" },
-				// 			{ project_donor_id: "european_commission", project_donor_name: "European Commission" },
-				// 			{ project_donor_id: "european_civil_protection_and_humanitarian_aid_operations", project_donor_name: "European Civil Protection and Humanitarian Aid Operations" },
-				// 			{ project_donor_id: "european_union", project_donor_name: "European Union" },
-				// 			{ project_donor_id: "german_federal_foreign_office", project_donor_name: "German Federal Foreign Office" },
-				// 			{ project_donor_id: "german_federal_ministry_for_economic_coorperation_and_development", project_donor_name: "German Federal Ministry for Economic Coorperation and Development" },
-				// 			{ project_donor_id: "global_affairs_canada", project_donor_name: "Global Affairs Canada" },
-				// 			{ project_donor_id: "global_fund_for_women", project_donor_name: "Global Fund for Women" },
-				// 			{ project_donor_id: "global_fund_observer", project_donor_name: "Global Fund Observer" },
-				// 			{ project_donor_id: "government_of_japan", project_donor_name: "Government of Japan" },
-				// 			{ project_donor_id: "government_of_norway", project_donor_name: "Government of Norway" },
-				// 			{ project_donor_id: "high_commission_of_canada", project_donor_name: "High Commission of Canada" },
-				// 			{ project_donor_id: "international_civil_society_action_network", project_donor_name: "international Civil Society Action Network" },
-				// 			{ project_donor_id: "italian_ministry_of_interior_–_department_for_civil_liberties_and_immigration", project_donor_name: "Italian Ministry of Interior – Department for Civil Liberties and Immigration" },
-				// 			{ project_donor_id: "irish_aid", project_donor_name: "Irish Aid" },
-				// 			{ project_donor_id: "japan_international_cooperation_agency", project_donor_name: "Japan International Cooperation Agency" },
-				// 			{ project_donor_id: "japaneese_embassy", project_donor_name: "Japaneese Embassy" },
-				// 			{ project_donor_id: "korea_international_cooperation_agency", project_donor_name: "Korea International Cooperation Agency" },
-				// 			{ project_donor_id: "leger_foundation", project_donor_name: "Leger Foundation" },
-				// 			{ project_donor_id: "netherlands_refugee_foundation", project_donor_name: "Netherlands Refugee Foundation" },
-				// 			{ project_donor_id: "nigerian_humanitarian_fund", project_donor_name: "Nigerian Humanitarian Fund" },
-				// 			{ project_donor_id: "njr", project_donor_name: "NJR" },
-				// 			{ project_donor_id: "office_of_us_foreign_disaster_assistance_", project_donor_name: "Office of US Foreign Disaster Assistance " },
-				// 			{ project_donor_id: "plan_international_canada", project_donor_name: "Plan International Canada" },
-				// 			{ project_donor_id: "royal_norwegian_embassy", project_donor_name: "Royal Norwegian Embassy" },
-				// 			{ project_donor_id: "sdc", project_donor_name: "SDC" },
-				// 			{ project_donor_id: "swedish_international_development_cooperation_agency", project_donor_name: "Swedish International Development Cooperation Agency" },
-				// 			{ project_donor_id: "swiss_embassy", project_donor_name: "Swiss Embassy" },
-				// 			{ project_donor_id: "trust_africa", project_donor_name: "Trust Africa" },
-				// 			{ project_donor_id: "uk_government", project_donor_name: "UK Government" },
-				// 			{ project_donor_id: "united_states_institute_of_peace", project_donor_name: "United States Institute of Peace" },
-				// 			{ project_donor_id: "united_states_agency_for_international_development", project_donor_name: "United States Agency for International Development" },
-				// 			{ project_donor_id: "world_bank", project_donor_name: "World Bank" }
-				// 		   ]
-				// 	} else {
-				//  record 48
-				// 		donors = [
-				// 			{ project_donor_id: "africa_development_bank", project_donor_name:"African Development Bank" },
-				// 			{ project_donor_id: "australian_high_commission", project_donor_name:"Australian High Commission" },
-				// 			{ project_donor_id: "british_high_commission", project_donor_name:"British High Commission" },
-				// 			{ project_donor_id: "central_emergency_response_fund", project_donor_name:"Central Emergency Response Fund" },
-				// 			{ project_donor_id: "cjk", project_donor_name:"CJK" },
-				// 			{ project_donor_id: "danish_international_development_agency", project_donor_name:"Danish International Development Agency" },
-				// 			{ project_donor_id: "ukaid", project_donor_name:"Department for International Development (UKAID)" },
-				// 			{ project_donor_id: "dgd_belgium_fund", project_donor_name:"DGD Belgium Fund" },
-				// 			{ project_donor_id: "disability_rights_fund", project_donor_name:"Disability Rights Fund" },
-				// 			{ project_donor_id: "dutch_cooperating_aid_agencies", project_donor_name:"Dutch Cooperating Aid Agencies" },
-				// 			{ project_donor_id: "dutch_relief_alliance", project_donor_name:"Dutch Relief Alliance" },
-				// 			{ project_donor_id: "embassy_denmark", project_donor_name:"Embassy of Denmark" },
-				// 			{ project_donor_id: "embassy_finland", project_donor_name:"Embassy of Finland" },
-				// 			{ project_donor_id: "embassy_france", project_donor_name:"Embassy of France" },
-				// 			{ project_donor_id: "embassy_israel", project_donor_name:"Embassy of Israel" },
-				// 			{ project_donor_id: "embassy_japan", project_donor_name:"Embassy of Japan" },
-				// 			{ project_donor_id: "embassy_poland", project_donor_name:"Embassy of Poland" },
-				// 			{ project_donor_id: "embassy_sweden", project_donor_name:"Embassy of Sweden" },
-				// 			{ project_donor_id: "embassy_switzerland", project_donor_name:"Embassy of Switzerland" },
-				// 			{ project_donor_id: "embassy_kingdom_of_netherlands", project_donor_name:"Embassy of the Kingdom of Netherlands" },
-				// 			{ project_donor_id: "europe_aid", project_donor_name:"EuropeAid" },
-				// 			{ project_donor_id: "european_commission", project_donor_name:"European Commission" },
-				// 			{ project_donor_id: "european_commissioner_for_humanitarian_aid_and_civil_protection", project_donor_name:"European Commissioner for Humanitarian Aid and Civil Protection (ECHO)" },
-				// 			{ project_donor_id: "european_union", project_donor_name:"European Union" },
-				// 			{ project_donor_id: "french_ministry_of_foreign_affairs", project_donor_name:"French Ministry of Foreign Affairs" },
-				// 			{ project_donor_id: "german_federal_foreign_office", project_donor_name:"German Federal Foreign Office" },
-				// 			{ project_donor_id: "global_affairs_canada", project_donor_name:"Global Affairs Canada" },
-				// 			{ project_donor_id: "global_fund", project_donor_name:"Global Fund" },
-				// 			{ project_donor_id: "global_fund_for_women", project_donor_name:"Global Fund for Women" },
-				// 			{ project_donor_id: "global_fund_observer", project_donor_name:"Global Fund Observer" },
-				// 			{ project_donor_id: "high_comission_of_canda", project_donor_name:"High Commission of Canada" },
-				// 			{ project_donor_id: "irish_aid", project_donor_name:"Irish Aid" },
-				// 			{ project_donor_id: "italian_agency_for_cooperation_and_development", project_donor_name:"Italian Agency for Cooperation and Development" },
-				// 			{ project_donor_id: "japan_international_cooperation_agency", project_donor_name:"Japan International Cooperation Agency" },
-				// 			{ project_donor_id: "letsai", project_donor_name:"LETSAI" },
-				// 			{ project_donor_id: "nigerian_humanitarian_fund", project_donor_name:"Nigerian Humanitarian Fund" },
-				// 			{ project_donor_id: "norwegian_ministry_of_foreign_affairs", project_donor_name:"Norwegian Ministry of Foreign Affairs" },
-				// 			{ project_donor_id: "office_of_us_disaster_assistance", project_donor_name:"Office of US Disaster Assistance" },
-				// 			{ project_donor_id: "plan_international_candaa", project_donor_name:"Plan International Canada" },
-				// 			{ project_donor_id: "private_donor", project_donor_name:"Private Donor" },
-				// 			{ project_donor_id: "royal_norwegian_embassy", project_donor_name:"Royal Norwegian Embassy" },
-				// 			{ project_donor_id: "sv", project_donor_name:"SV" },
-				// 			{ project_donor_id: "swedish_international_development_cooperation_agency", project_donor_name:"Swedish International Development Cooperation Agency" },
-				// 			{ project_donor_id: "swiss_embassy", project_donor_name:"Swiss Embassy" },
-				// 			{ project_donor_id: "swiss_solidarity", project_donor_name:"Swiss Solidarity" },
-				// 			{ project_donor_id: "united_nations_childrens_fund", project_donor_name:"United Nations Children's Fund" },
-				// 			{ project_donor_id: "usaid", project_donor_name:"United States Agency for International Development" },
-				// 			{ project_donor_id: "us_ofda", project_donor_name:"United States Office of Foreign Disaster Assistance" }]
-				// 	}
+				// temp TODO move to api
+				if ( admin0pcode === 'ET' ) {
+					donors = [
+						{ project_donor_id: 'australia', project_donor_name:'Australia'},
+						{ project_donor_id: 'aus_aid', project_donor_name:'AusAid'},
+						{ project_donor_id: 'bmz', project_donor_name:'BMZ'},
+						{ project_donor_id: 'brac', project_donor_name:'BRAC'},
+						{ project_donor_id: 'canada',  project_donor_name:'Canada'},
+						{ project_donor_id: 'care',  project_donor_name:'Care'},
+						{ project_donor_id: 'caritas_germany', project_donor_name: 'Caritas Germany' },
+						{ project_donor_id: 'cerf', project_donor_name: 'CERF' },
+						{ project_donor_id: 'chf', project_donor_name: 'CHF' },
+						{ project_donor_id: 'cida', project_donor_name: 'CIDA' },
+						{ project_donor_id: 'czech_aid', project_donor_name: 'Czech Aid' },
+						{ project_donor_id: 'czech_mofa', project_donor_name: 'Czech MOFA' },
+						{ project_donor_id: 'danida', project_donor_name:'Danida'},
+						{ project_donor_id: 'denmark', project_donor_name:'Denmark'},
+						{ project_donor_id: 'dfid', project_donor_name: 'DFID' },
+						{ project_donor_id: 'disaster_emergency_committee_dec', project_donor_name: 'Disaster Emergency Committee (DEC)' },
+						{ project_donor_id: 'echo', project_donor_name: 'ECHO' },
+						{ project_donor_id: 'ehf', project_donor_name: 'EHF' },
+						{ project_donor_id: 'ercs', project_donor_name: 'ERCS' },
+						{ project_donor_id: 'european_union', project_donor_name: 'European Union' },
+						{ project_donor_id: 'fao', project_donor_name:'FAO' },
+						{ project_donor_id: 'finland', project_donor_name:'Finland' },
+						{ project_donor_id: 'france', project_donor_name:'France' },
+						{ project_donor_id: 'german_foreign_ministry', project_donor_name: 'German Foreign Ministry' },
+						{ project_donor_id: 'global_fund', project_donor_name: 'Global Fund' },
+						{ project_donor_id: 'government_of_ethiopia', project_donor_name: 'Government of Ethiopia' },
+						{ project_donor_id: 'icrc', project_donor_name: 'ICRC' },
+						{ project_donor_id: 'ifrc', project_donor_name: 'IFRC' },
+						{ project_donor_id: 'iom', project_donor_name: 'IOM' },
+						{ project_donor_id: 'irish_aid', project_donor_name: 'IrishAid' },
+						{ project_donor_id: 'italy', project_donor_name: 'Italy' },
+						{ project_donor_id: 'jica', project_donor_name: 'JICA' },
+						{ project_donor_id: 'johanniter', project_donor_name: 'Johanniter' },
+						{ project_donor_id: 'khalifa_bin_zayed_al_nahyan_charity_foundation', project_donor_name: 'Khalifa bin Zayed Al Nahyan Charity Foundation' },
+						{ project_donor_id: 'mukti', project_donor_name: 'Mukti' },
+						{ project_donor_id: 'netherlands', project_donor_name: 'Netherlands' },
+						{ project_donor_id: 'norway', project_donor_name: 'Norway' },
+						{ project_donor_id: 'ocha', project_donor_name: 'OCHA' },
+						{ project_donor_id: 'oxfam', project_donor_name: 'Oxfam' },
+						{ project_donor_id: 'qatar_red_crescent', project_donor_name: 'Qatar Red Crescent' },
+						{ project_donor_id: 'republic_of_korea', project_donor_name: 'Republic of Korea' },
+						{ project_donor_id: 'sdc', project_donor_name: 'SDC' },
+						{ project_donor_id: 'sida', project_donor_name: 'SIDA' },
+						{ project_donor_id: 'solidar_suisse', project_donor_name: 'Solidar Suisse' },
+						{ project_donor_id: 'start_network_global_humanitarian_assistance', project_donor_name: 'Start Network Global Humanitarian Assistance' },
+						{ project_donor_id: 'sweden', project_donor_name: 'Sweden' },
+						{ project_donor_id: 'switzerland', project_donor_name: 'Switzerland' },
+						{ project_donor_id: 'turkish_red_crescent', project_donor_name: 'Turkish Red Crescent' },
+						{ project_donor_id: 'usaid', project_donor_name: 'USAID' },
+						{ project_donor_id: 'unfpa', project_donor_name: 'UNFPA' },
+						{ project_donor_id: 'unhcr', project_donor_name: 'UNHCR' },
+						{ project_donor_id: 'unicef', project_donor_name: 'UNICEF' },
+						{ project_donor_id: 'unwomen', project_donor_name: 'UNWOMEN' },
+						{ project_donor_id: 'wfp', project_donor_name: 'WFP' },
+						{ project_donor_id: 'who', project_donor_name: 'WHO' },
+						{ project_donor_id: 'world_bank', project_donor_name: 'World Bank' },
+					];
+				}
+				// include for NG
+				if ( admin0pcode === 'NG' ) {
+					if( cluster_id === 'education' ){
+						donors = [
+							{project_donor_id: "adb",project_donor_name: "African Development Bank"},
+							{project_donor_id: "austrialian_hc",project_donor_name: "Australian High Commission"},
+							{project_donor_id: "british_hc",project_donor_name: "British High Commission"},
+							{project_donor_id: "cerf",project_donor_name: "Central Emergency Response Fund"},
+							{project_donor_id: "danida",project_donor_name: "Danish International Development Agency"},
+							{project_donor_id: "dfid",project_donor_name: "Department for International Development"},
+							{project_donor_id: "giz",project_donor_name: "Deutsche Gesellschaft für Internationale Zusammenarbeit"},
+							{project_donor_id: "drf",project_donor_name: "Disability Rights Fund"},
+							{project_donor_id: "ecw",project_donor_name: "Education Cannot Wait"},
+							{project_donor_id: "e_belgium",project_donor_name: "Embassy of Belgium"},
+							{project_donor_id: "e_china",project_donor_name: "Embassy of China"},
+							{project_donor_id: "e_denmark",project_donor_name: "Embassy of Denmark"},
+							{project_donor_id: "e_finland",project_donor_name: "Embassy of Finland"},
+							{project_donor_id: "e_france",project_donor_name: "Embassy of France"},
+							{project_donor_id: "e_germany",project_donor_name: "Embassy of Germany"},
+							{project_donor_id: "e_ireland",project_donor_name: "Embassy of Ireland"},
+							{project_donor_id: "e_israel",project_donor_name: "Embassy of Israel"},
+							{project_donor_id: "e_poland",project_donor_name: "Embassy of Poland"},
+							{project_donor_id: "e_sweden",project_donor_name: "Embassy of Sweden"},
+							{project_donor_id: "e_switzerland",project_donor_name: "Embassy of Switzerland"},
+							{project_donor_id: "e_netherlands",project_donor_name: "Embassy of the Kingdom of Netherlands"},
+							{project_donor_id: "echo",project_donor_name: "European Community Humanitarian aid Office"},
+							{project_donor_id: "eu",project_donor_name: "European Union"},
+							{project_donor_id: "fgn",project_donor_name: "Federal Government of Nigeria"},
+							{project_donor_id: "gf",project_donor_name: "Gates Foundation"},
+							{project_donor_id: "gffo",project_donor_name: "Germany Federal Foreign Office"},
+							{project_donor_id: "gac",project_donor_name: "Global Affairs Canada"},
+							{project_donor_id: "gfo",project_donor_name: "Global Fund Observer"},
+							{project_donor_id: "hc_canada",project_donor_name: "High Commission of Canada"},
+							{project_donor_id: "irishaid",project_donor_name: "Irish Aid"},
+							{project_donor_id: "aics",project_donor_name: "Italian Agency for Cooperation and Development"},
+							{project_donor_id: "jica",project_donor_name: "Japan International Cooperation Agency"},
+							{project_donor_id: "e_japan",project_donor_name: "Japaneese Embassy"},
+							{project_donor_id: "kfw",project_donor_name: "Kreditanstalt für Wiederaufbau (KfW)"},
+							{project_donor_id: "luxembourg",project_donor_name: "Luxembourg Government"},
+							{project_donor_id: "mf",project_donor_name: "Malala Fund"},
+							{project_donor_id: "nhf",project_donor_name: "Nigeria Humanitarian Fund"},
+							{project_donor_id: "ng",project_donor_name: "Nigerian Government"},
+							{project_donor_id: "normfa",project_donor_name: "Norwegian Ministry of Foreign Affairs"},
+							{project_donor_id: "norad",project_donor_name: "Norweigian Agency for Development Cooperation"},
+							{project_donor_id: "ofda",project_donor_name: "Office of US Disaster Assistance"},
+							{project_donor_id: "pri",project_donor_name: "Private Individual"},
+							{project_donor_id: "pro",project_donor_name: "Private Organization"},
+							{project_donor_id: "e_norway",project_donor_name: "Royal Norwegian Embassy"},
+							{project_donor_id: "sf",project_donor_name: "Self-Funding"},
+							{project_donor_id: "sida",project_donor_name: "Swedish International Development Agency"},
+							{project_donor_id: "e_swiss",project_donor_name: "Swiss Embassy"},
+							{project_donor_id: "ss",project_donor_name: "Swiss Solidarity"},
+							{project_donor_id: "unicef",project_donor_name: "United Nations Children's Fund"},
+							{project_donor_id: "usaid",project_donor_name: "United States Agency for International Development"},
+							{project_donor_id: "us_embassy",project_donor_name: "United States of America"},
+							{project_donor_id: "vsf",project_donor_name: "Victims Support Fund"},
+							{project_donor_id: "wb",project_donor_name: "World Bank"}
+					];
+					} else if(cluster_id === 'child_protection'){
+						donors = [
+							{ project_donor_id: "aant", "project_donor_name": "Allen and Nesta Trust" },
+							{ project_donor_id: "aics", "project_donor_name": "Agenzia Italiana Per La Cooperazione Allo Sviluppo" },
+							{ project_donor_id: "ca", "project_donor_name": "Christian Aid" },
+							{ project_donor_id: "cerf", "project_donor_name": "Central Emergency Response Fund" },
+							{ project_donor_id: "cf", "project_donor_name": "Catena Foundation" },
+							{ project_donor_id: "coopi", "project_donor_name": "Cooperatione Internazionale" },
+							{ project_donor_id: "ddg_drc", "project_donor_name": "DDG/DRC" },
+							{ project_donor_id: "dfid", "project_donor_name": "Department for International Development" },
+							{ project_donor_id: "drf", "project_donor_name": "Deutsch Relief Fund" },
+							{ project_donor_id: "echo", "project_donor_name": "European Civil Protection and Humanitarian Aid Operations" },
+							{ project_donor_id: "eu", "project_donor_name": "European Union" },
+							{ project_donor_id: "eu _tf", "project_donor_name": "EU Trust Fund" },
+							{ project_donor_id: "eu_unwomen", "project_donor_name": "EU/ UNWOMEN" },
+							{ project_donor_id: "evac", "project_donor_name": "End Violence Against Children Fund" },
+							{ project_donor_id: "fco", "project_donor_name": "Foreign Commonwealth Office " },
+							{ project_donor_id: "fhi360", "project_donor_name": "FHI 360" },
+							{ project_donor_id: "fmwasd_abuja", "project_donor_name": "Federal Ministry of Women Affairs" },
+							{ project_donor_id: "fn_unicef", "project_donor_name": "French Natcom for UNICEF" },
+							{ project_donor_id: "gc", "project_donor_name": "GC: UNICEF Regular resources " },
+							{ project_donor_id: "gffc", "project_donor_name": "German Federal Foreign Office" },
+							{ project_donor_id: "goa", "project_donor_name": "Government of Australia" },
+							{ project_donor_id: "gob", "project_donor_name": "Government of Belgium" },
+							{ project_donor_id: "goc", "project_donor_name": "Government of Canada" },
+							{ project_donor_id: "gof", "project_donor_name": "Government of France" },
+							{ project_donor_id: "goi", "project_donor_name": "Government of Italy" },
+							{ project_donor_id: "goj", "project_donor_name": "Government of Japan" },
+							{ project_donor_id: "gon", "project_donor_name": "Government of Norway" },
+							{ project_donor_id: "gos", "project_donor_name": "Government of Spain" },
+							{ project_donor_id: "gouk", "project_donor_name": "Government of United Kingdom" },
+							{ project_donor_id: "gsf", "project_donor_name": "Grow Strong Foundation" },
+							{ project_donor_id: "gthrf", "project_donor_name": "Global Thematic Humanitarian Response Fund" },
+							{ project_donor_id: "hnf", "project_donor_name": "Nigeria Humanitarian Fund" },
+							{ project_donor_id: "ia", "project_donor_name": "Irish Aid" },
+							{ project_donor_id: "icco", "project_donor_name": "Interchurch Organisation for development Cooperation" },
+							{ project_donor_id: "iom", "project_donor_name": "International Organization for Migration" },
+							{ project_donor_id: "irc", "project_donor_name": "International Rescue Committee" },
+							{ project_donor_id: "labdi", "project_donor_name": "Life At Best Development Initiative" },
+							{ project_donor_id: "mag", "project_donor_name": "Mines Advisory Group International" },
+							{ project_donor_id: "njr", "project_donor_name": "Nigeria Joint Response (NJR)5 Consortium" },
+							{ project_donor_id: "ofda", "project_donor_name": "Office of US Foreign Disaster Assistance " },
+							{ project_donor_id: "pi", "project_donor_name": "Plan International" },
+							{ project_donor_id: "rohi", "project_donor_name": "Restoration of Hope Initiative" },
+							{ project_donor_id: "sci", "project_donor_name": "Save the Children" },
+							{ project_donor_id: "scuk", "project_donor_name": "Street Child UK" },
+							{ project_donor_id: "sdc", "project_donor_name": "Swiss Agency for Development and Cooperation" },
+							{ project_donor_id: "sida", "project_donor_name": "Swedish International Development Cooperation" },
+							{ project_donor_id: "srf", "project_donor_name": "Swift Relief Foundation" },
+							{ project_donor_id: "ss", "project_donor_name": "SWISS Solidarity" },
+							{ project_donor_id: "tdh", "project_donor_name": "Terre des Hommes" },
+							{ project_donor_id: "tpo", "project_donor_name": "Transcultural Psychosocial Organization" },
+							{ project_donor_id: "undp", "project_donor_name": "United Nations Development Programme" },
+							{ project_donor_id: "unicef", "project_donor_name": "United Nations Children's Fund" },
+							{ project_donor_id: "unmas", "project_donor_name": "United Nations Mine Action Services" },
+							{ project_donor_id: "us_nat_unicef", "project_donor_name": "US Natcom for UNICEF" },
+							{ project_donor_id: "vsf", "project_donor_name": "Victim Support Fund" },
+							{ project_donor_id: "yipdi", "project_donor_name": "Youth Integrated for Positive Development Initiative" }
+						];
+					} else if(cluster_id === 'gbv'){
+						donors = [
+							{ project_donor_id: "african_development_bank", project_donor_name: "African Development Bank" },
+							{ project_donor_id: "aid_for_africa", project_donor_name: "Aid For Africa" },
+							{ project_donor_id: "australian_high_commission", project_donor_name: "Australian High Commission" },
+							{ project_donor_id: "british_high_commission", project_donor_name: "British High Commission" },
+							{ project_donor_id: "central_emergency_response_fund", project_donor_name: "Central Emergency Response Fund" },
+							{ project_donor_id: "church_of_the_brethren", project_donor_name: "Church of the Brethren" },
+							{ project_donor_id: "conflict_stability_and_security_fund", project_donor_name: "Conflict, Stability and Security Fund" },
+							{ project_donor_id: "danish_international_development_agency", project_donor_name: "Danish International Development Agency" },
+							{ project_donor_id: "department_for_international_development", project_donor_name: "Department for International Development" },
+							{ project_donor_id: "disability_rights_fund", project_donor_name: "Disability Rights Fund" },
+							{ project_donor_id: "dutch_relief_alliance", project_donor_name: "Dutch Relief Alliance" },
+							{ project_donor_id: "dutch_government", project_donor_name: "Dutch Government" },
+							{ project_donor_id: "elma_relief_foundation", project_donor_name: "ELMA Relief Foundation" },
+							{ project_donor_id: "embassy_of_denmark", project_donor_name: "Embassy of Denmark" },
+							{ project_donor_id: "embassy_of_finland", project_donor_name: "Embassy of Finland" },
+							{ project_donor_id: "embassy_of_france", project_donor_name: "Embassy of France" },
+							{ project_donor_id: "embassy_of_israel", project_donor_name: "Embassy of Israel" },
+							{ project_donor_id: "embassy_of_poland", project_donor_name: "Embassy of Poland" },
+							{ project_donor_id: "embassy_of_sweden", project_donor_name: "Embassy of Sweden" },
+							{ project_donor_id: "embassy_of_switzerland", project_donor_name: "Embassy of Switzerland" },
+							{ project_donor_id: "embassy_of_the_kingdom_of_netherlands", project_donor_name: "Embassy of the Kingdom of Netherlands" },
+							{ project_donor_id: "european_commission", project_donor_name: "European Commission" },
+							{ project_donor_id: "european_civil_protection_and_humanitarian_aid_operations", project_donor_name: "European Civil Protection and Humanitarian Aid Operations" },
+							{ project_donor_id: "european_union", project_donor_name: "European Union" },
+							{ project_donor_id: "german_federal_foreign_office", project_donor_name: "German Federal Foreign Office" },
+							{ project_donor_id: "german_federal_ministry_for_economic_coorperation_and_development", project_donor_name: "German Federal Ministry for Economic Coorperation and Development" },
+							{ project_donor_id: "global_affairs_canada", project_donor_name: "Global Affairs Canada" },
+							{ project_donor_id: "global_fund_for_women", project_donor_name: "Global Fund for Women" },
+							{ project_donor_id: "global_fund_observer", project_donor_name: "Global Fund Observer" },
+							{ project_donor_id: "government_of_japan", project_donor_name: "Government of Japan" },
+							{ project_donor_id: "government_of_norway", project_donor_name: "Government of Norway" },
+							{ project_donor_id: "high_commission_of_canada", project_donor_name: "High Commission of Canada" },
+							{ project_donor_id: "international_civil_society_action_network", project_donor_name: "international Civil Society Action Network" },
+							{ project_donor_id: "italian_ministry_of_interior_–_department_for_civil_liberties_and_immigration", project_donor_name: "Italian Ministry of Interior – Department for Civil Liberties and Immigration" },
+							{ project_donor_id: "irish_aid", project_donor_name: "Irish Aid" },
+							{ project_donor_id: "japan_international_cooperation_agency", project_donor_name: "Japan International Cooperation Agency" },
+							{ project_donor_id: "japaneese_embassy", project_donor_name: "Japaneese Embassy" },
+							{ project_donor_id: "korea_international_cooperation_agency", project_donor_name: "Korea International Cooperation Agency" },
+							{ project_donor_id: "leger_foundation", project_donor_name: "Leger Foundation" },
+							{ project_donor_id: "netherlands_refugee_foundation", project_donor_name: "Netherlands Refugee Foundation" },
+							{ project_donor_id: "nigerian_humanitarian_fund", project_donor_name: "Nigerian Humanitarian Fund" },
+							{ project_donor_id: "njr", project_donor_name: "NJR" },
+							{ project_donor_id: "office_of_us_foreign_disaster_assistance_", project_donor_name: "Office of US Foreign Disaster Assistance " },
+							{ project_donor_id: "plan_international_canada", project_donor_name: "Plan International Canada" },
+							{ project_donor_id: "royal_norwegian_embassy", project_donor_name: "Royal Norwegian Embassy" },
+							{ project_donor_id: "sdc", project_donor_name: "SDC" },
+							{ project_donor_id: "swedish_international_development_cooperation_agency", project_donor_name: "Swedish International Development Cooperation Agency" },
+							{ project_donor_id: "swiss_embassy", project_donor_name: "Swiss Embassy" },
+							{ project_donor_id: "trust_africa", project_donor_name: "Trust Africa" },
+							{ project_donor_id: "uk_government", project_donor_name: "UK Government" },
+							{ project_donor_id: "united_states_institute_of_peace", project_donor_name: "United States Institute of Peace" },
+							{ project_donor_id: "united_states_agency_for_international_development", project_donor_name: "United States Agency for International Development" },
+							{ project_donor_id: "world_bank", project_donor_name: "World Bank" }
+						   ]
+					} else {
+						donors = [
+							{ project_donor_id: "africa_development_bank", project_donor_name:"African Development Bank" },
+							{ project_donor_id: "australian_high_commission", project_donor_name:"Australian High Commission" },
+							{ project_donor_id: "british_high_commission", project_donor_name:"British High Commission" },
+							{ project_donor_id: "central_emergency_response_fund", project_donor_name:"Central Emergency Response Fund" },
+							{ project_donor_id: "cjk", project_donor_name:"CJK" },
+							{ project_donor_id: "danish_international_development_agency", project_donor_name:"Danish International Development Agency" },
+							{ project_donor_id: "ukaid", project_donor_name:"Department for International Development (UKAID)" },
+							{ project_donor_id: "dgd_belgium_fund", project_donor_name:"DGD Belgium Fund" },
+							{ project_donor_id: "disability_rights_fund", project_donor_name:"Disability Rights Fund" },
+							{ project_donor_id: "dutch_cooperating_aid_agencies", project_donor_name:"Dutch Cooperating Aid Agencies" },
+							{ project_donor_id: "dutch_relief_alliance", project_donor_name:"Dutch Relief Alliance" },
+							{ project_donor_id: "embassy_denmark", project_donor_name:"Embassy of Denmark" },
+							{ project_donor_id: "embassy_finland", project_donor_name:"Embassy of Finland" },
+							{ project_donor_id: "embassy_france", project_donor_name:"Embassy of France" },
+							{ project_donor_id: "embassy_israel", project_donor_name:"Embassy of Israel" },
+							{ project_donor_id: "embassy_japan", project_donor_name:"Embassy of Japan" },
+							{ project_donor_id: "embassy_poland", project_donor_name:"Embassy of Poland" },
+							{ project_donor_id: "embassy_sweden", project_donor_name:"Embassy of Sweden" },
+							{ project_donor_id: "embassy_switzerland", project_donor_name:"Embassy of Switzerland" },
+							{ project_donor_id: "embassy_kingdom_of_netherlands", project_donor_name:"Embassy of the Kingdom of Netherlands" },
+							{ project_donor_id: "europe_aid", project_donor_name:"EuropeAid" },
+							{ project_donor_id: "european_commission", project_donor_name:"European Commission" },
+							{ project_donor_id: "european_commissioner_for_humanitarian_aid_and_civil_protection", project_donor_name:"European Commissioner for Humanitarian Aid and Civil Protection (ECHO)" },
+							{ project_donor_id: "european_union", project_donor_name:"European Union" },
+							{ project_donor_id: "french_ministry_of_foreign_affairs", project_donor_name:"French Ministry of Foreign Affairs" },
+							{ project_donor_id: "german_federal_foreign_office", project_donor_name:"German Federal Foreign Office" },
+							{ project_donor_id: "global_affairs_canada", project_donor_name:"Global Affairs Canada" },
+							{ project_donor_id: "global_fund", project_donor_name:"Global Fund" },
+							{ project_donor_id: "global_fund_for_women", project_donor_name:"Global Fund for Women" },
+							{ project_donor_id: "global_fund_observer", project_donor_name:"Global Fund Observer" },
+							{ project_donor_id: "high_comission_of_canda", project_donor_name:"High Commission of Canada" },
+							{ project_donor_id: "irish_aid", project_donor_name:"Irish Aid" },
+							{ project_donor_id: "italian_agency_for_cooperation_and_development", project_donor_name:"Italian Agency for Cooperation and Development" },
+							{ project_donor_id: "japan_international_cooperation_agency", project_donor_name:"Japan International Cooperation Agency" },
+							{ project_donor_id: "letsai", project_donor_name:"LETSAI" },
+							{ project_donor_id: "nigerian_humanitarian_fund", project_donor_name:"Nigerian Humanitarian Fund" },
+							{ project_donor_id: "norwegian_ministry_of_foreign_affairs", project_donor_name:"Norwegian Ministry of Foreign Affairs" },
+							{ project_donor_id: "office_of_us_disaster_assistance", project_donor_name:"Office of US Disaster Assistance" },
+							{ project_donor_id: "plan_international_candaa", project_donor_name:"Plan International Canada" },
+							{ project_donor_id: "private_donor", project_donor_name:"Private Donor" },
+							{ project_donor_id: "royal_norwegian_embassy", project_donor_name:"Royal Norwegian Embassy" },
+							{ project_donor_id: "sv", project_donor_name:"SV" },
+							{ project_donor_id: "swedish_international_development_cooperation_agency", project_donor_name:"Swedish International Development Cooperation Agency" },
+							{ project_donor_id: "swiss_embassy", project_donor_name:"Swiss Embassy" },
+							{ project_donor_id: "swiss_solidarity", project_donor_name:"Swiss Solidarity" },
+							{ project_donor_id: "united_nations_childrens_fund", project_donor_name:"United Nations Children's Fund" },
+							{ project_donor_id: "usaid", project_donor_name:"United States Agency for International Development" },
+							{ project_donor_id: "us_ofda", project_donor_name:"United States Office of Foreign Disaster Assistance" }]
+					}
 
 
 
-				// }
+				}
 
-				// // if no list use default
-				// if ( admin0pcode === 'SO' ) {
-				// record 41
-				// 	// before 2021
-				// 	// donors = [
-				// 	// 	{ project_donor_id: 'australia', project_donor_name:'Australia'},
-				// 	// 	{ project_donor_id: 'aus_aid', project_donor_name:'AusAid'},
-				// 	// 	{ project_donor_id: 'bmz', project_donor_name:'BMZ'},
-				// 	// 	{ project_donor_id: 'canada',  project_donor_name:'Canada'},
-				// 	// 	{ project_donor_id: 'caritas_germany', project_donor_name: 'Caritas Germany' },
-				// 	// 	{ project_donor_id: 'cerf', project_donor_name: 'CERF' },
-				// 	// 	{ project_donor_id: 'cida', project_donor_name: 'CIDA' },
-				// 	// 	{ project_donor_id: 'czech_aid', project_donor_name: 'Czech Aid' },
-				// 	// 	{ project_donor_id: 'czech_mofa', project_donor_name: 'Czech MOFA' },
-				// 	// 	{ project_donor_id: 'danida', project_donor_name:'Danida'},
-				// 	// 	{ project_donor_id: 'denmark', project_donor_name:'Denmark'},
-				// 	// 	{ project_donor_id: 'dfid', project_donor_name: 'DFID' },
-				// 	// 	{ project_donor_id: 'echo', project_donor_name: 'ECHO' },
-				// 	// 	{ project_donor_id: 'european_union', project_donor_name: 'European Union' },
-				// 	// 	{ project_donor_id: 'finland', project_donor_name:'Finland' },
-				// 	// 	{ project_donor_id: 'france', project_donor_name:'France' },
-				// 	// 	{ project_donor_id: 'global_fund', project_donor_name: 'Global Fund' },
-				// 	// 	{ project_donor_id: 'german_foreign_ministry', project_donor_name: 'German Foreign Ministry' },
-				// 	// 	{ project_donor_id: 'icrc', project_donor_name: 'ICRC' },
-				// 	// 	{ project_donor_id: 'ifrc', project_donor_name: 'IFRC' },
-				// 	// 	{ project_donor_id: 'irish_aid', project_donor_name: 'IrishAid' },
-				// 	// 	{ project_donor_id: 'italy', project_donor_name: 'Italy' },
-				// 	// 	{ project_donor_id: 'jica', project_donor_name: 'JICA' },
-				// 	// 	{ project_donor_id: 'johanniter', project_donor_name: 'Johanniter' },
-				// 	// 	{ project_donor_id: 'khalifa_bin_zayed_al_nahyan_charity_foundation', project_donor_name: 'Khalifa bin Zayed Al Nahyan Charity Foundation' },
-				// 	// 	{ project_donor_id: 'netherlands', project_donor_name: 'Netherlands' },
-				// 	// 	{ project_donor_id: 'norway', project_donor_name: 'Norway' },
-				// 	// 	{ project_donor_id: 'qatar_red_crescent', project_donor_name: 'Qatar Red Crescent' },
-				// 	// 	{ project_donor_id: 'republic_of_korea', project_donor_name: 'Republic of Korea' },
-				// 	// 	{ project_donor_id: 'sdc', project_donor_name: 'SDC' },
-				// 	// 	{ project_donor_id: 'shf', project_donor_name: 'SHF' },
-				// 	// 	{ project_donor_id: 'sida', project_donor_name: 'SIDA' },
-				// 	// 	{ project_donor_id: 'start_network_global_humanitarian_assistance', project_donor_name: 'Start Network Global Humanitarian Assistance' },
-				// 	// 	{ project_donor_id: 'sweden', project_donor_name: 'Sweden' },
-				// 	// 	{ project_donor_id: 'switzerland', project_donor_name: 'Switzerland' },
-				// 	// 	{ project_donor_id: 'usaid', project_donor_name: 'USAID' },
-				// 	// 	{ project_donor_id: 'unhcr', project_donor_name: 'UNHCR' },
-				// 	// 	{ project_donor_id: 'unicef', project_donor_name: 'UNICEF' },
-				// 	// 	{ project_donor_id: 'wfp', project_donor_name: 'WFP' },
-				// 	// 	{ project_donor_id: 'who', project_donor_name: 'WHO' },
-				// 	// 	{ project_donor_id: 'world_bank', project_donor_name: 'Worldbank' }
-				// 	// ];
+				// if no list use default
+				if ( admin0pcode === 'SO' ) {
+					// before 2021
+					// donors = [
+					// 	{ project_donor_id: 'australia', project_donor_name:'Australia'},
+					// 	{ project_donor_id: 'aus_aid', project_donor_name:'AusAid'},
+					// 	{ project_donor_id: 'bmz', project_donor_name:'BMZ'},
+					// 	{ project_donor_id: 'canada',  project_donor_name:'Canada'},
+					// 	{ project_donor_id: 'caritas_germany', project_donor_name: 'Caritas Germany' },
+					// 	{ project_donor_id: 'cerf', project_donor_name: 'CERF' },
+					// 	{ project_donor_id: 'cida', project_donor_name: 'CIDA' },
+					// 	{ project_donor_id: 'czech_aid', project_donor_name: 'Czech Aid' },
+					// 	{ project_donor_id: 'czech_mofa', project_donor_name: 'Czech MOFA' },
+					// 	{ project_donor_id: 'danida', project_donor_name:'Danida'},
+					// 	{ project_donor_id: 'denmark', project_donor_name:'Denmark'},
+					// 	{ project_donor_id: 'dfid', project_donor_name: 'DFID' },
+					// 	{ project_donor_id: 'echo', project_donor_name: 'ECHO' },
+					// 	{ project_donor_id: 'european_union', project_donor_name: 'European Union' },
+					// 	{ project_donor_id: 'finland', project_donor_name:'Finland' },
+					// 	{ project_donor_id: 'france', project_donor_name:'France' },
+					// 	{ project_donor_id: 'global_fund', project_donor_name: 'Global Fund' },
+					// 	{ project_donor_id: 'german_foreign_ministry', project_donor_name: 'German Foreign Ministry' },
+					// 	{ project_donor_id: 'icrc', project_donor_name: 'ICRC' },
+					// 	{ project_donor_id: 'ifrc', project_donor_name: 'IFRC' },
+					// 	{ project_donor_id: 'irish_aid', project_donor_name: 'IrishAid' },
+					// 	{ project_donor_id: 'italy', project_donor_name: 'Italy' },
+					// 	{ project_donor_id: 'jica', project_donor_name: 'JICA' },
+					// 	{ project_donor_id: 'johanniter', project_donor_name: 'Johanniter' },
+					// 	{ project_donor_id: 'khalifa_bin_zayed_al_nahyan_charity_foundation', project_donor_name: 'Khalifa bin Zayed Al Nahyan Charity Foundation' },
+					// 	{ project_donor_id: 'netherlands', project_donor_name: 'Netherlands' },
+					// 	{ project_donor_id: 'norway', project_donor_name: 'Norway' },
+					// 	{ project_donor_id: 'qatar_red_crescent', project_donor_name: 'Qatar Red Crescent' },
+					// 	{ project_donor_id: 'republic_of_korea', project_donor_name: 'Republic of Korea' },
+					// 	{ project_donor_id: 'sdc', project_donor_name: 'SDC' },
+					// 	{ project_donor_id: 'shf', project_donor_name: 'SHF' },
+					// 	{ project_donor_id: 'sida', project_donor_name: 'SIDA' },
+					// 	{ project_donor_id: 'start_network_global_humanitarian_assistance', project_donor_name: 'Start Network Global Humanitarian Assistance' },
+					// 	{ project_donor_id: 'sweden', project_donor_name: 'Sweden' },
+					// 	{ project_donor_id: 'switzerland', project_donor_name: 'Switzerland' },
+					// 	{ project_donor_id: 'usaid', project_donor_name: 'USAID' },
+					// 	{ project_donor_id: 'unhcr', project_donor_name: 'UNHCR' },
+					// 	{ project_donor_id: 'unicef', project_donor_name: 'UNICEF' },
+					// 	{ project_donor_id: 'wfp', project_donor_name: 'WFP' },
+					// 	{ project_donor_id: 'who', project_donor_name: 'WHO' },
+					// 	{ project_donor_id: 'world_bank', project_donor_name: 'Worldbank' }
+					// ];
 
-				// 	// after 2021
-				// record 22
-				// 	donors = [
-				// 		{
-				// 			"project_donor_id": "canada",
-				// 			"project_donor_name": "Canada"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "cerf",
-				// 			"project_donor_name": "CERF"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "dfid",
-				// 			"project_donor_name": "DFID"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "echo",
-				// 			"project_donor_name": "ECHO"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "european_union",
-				// 			"project_donor_name": "European Union"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "finland",
-				// 			"project_donor_name": "Finland"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "global_fund",
-				// 			"project_donor_name": "Global Fund"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "german_foreign_ministry",
-				// 			"project_donor_name": "German Foreign Ministry"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "icrc",
-				// 			"project_donor_name": "ICRC"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "ifrc",
-				// 			"project_donor_name": "IFRC"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "irish_aid",
-				// 			"project_donor_name": "IrishAid"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "italy",
-				// 			"project_donor_name": "Italy"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "netherlands",
-				// 			"project_donor_name": "Netherlands"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "qatar_red_crescent",
-				// 			"project_donor_name": "Qatar Red Crescent"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "sdc",
-				// 			"project_donor_name": "SDC"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "shf",
-				// 			"project_donor_name": "SHF"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "sida",
-				// 			"project_donor_name": "SIDA"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "usaid",
-				// 			"project_donor_name": "USAID"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "unicef",
-				// 			"project_donor_name": "UNICEF"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "wfp",
-				// 			"project_donor_name": "WFP"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "who",
-				// 			"project_donor_name": "WHO"
-				// 		},
-				// 		{
-				// 			"project_donor_id": "world_bank",
-				// 			"project_donor_name": "Worldbank"
-				// 		}
-				// 	];
-				// }
+					// after 2021
+					donors = [
+						{
+							"project_donor_id": "canada",
+							"project_donor_name": "Canada"
+						},
+						{
+							"project_donor_id": "cerf",
+							"project_donor_name": "CERF"
+						},
+						{
+							"project_donor_id": "dfid",
+							"project_donor_name": "DFID"
+						},
+						{
+							"project_donor_id": "echo",
+							"project_donor_name": "ECHO"
+						},
+						{
+							"project_donor_id": "european_union",
+							"project_donor_name": "European Union"
+						},
+						{
+							"project_donor_id": "finland",
+							"project_donor_name": "Finland"
+						},
+						{
+							"project_donor_id": "global_fund",
+							"project_donor_name": "Global Fund"
+						},
+						{
+							"project_donor_id": "german_foreign_ministry",
+							"project_donor_name": "German Foreign Ministry"
+						},
+						{
+							"project_donor_id": "icrc",
+							"project_donor_name": "ICRC"
+						},
+						{
+							"project_donor_id": "ifrc",
+							"project_donor_name": "IFRC"
+						},
+						{
+							"project_donor_id": "irish_aid",
+							"project_donor_name": "IrishAid"
+						},
+						{
+							"project_donor_id": "italy",
+							"project_donor_name": "Italy"
+						},
+						{
+							"project_donor_id": "netherlands",
+							"project_donor_name": "Netherlands"
+						},
+						{
+							"project_donor_id": "qatar_red_crescent",
+							"project_donor_name": "Qatar Red Crescent"
+						},
+						{
+							"project_donor_id": "sdc",
+							"project_donor_name": "SDC"
+						},
+						{
+							"project_donor_id": "shf",
+							"project_donor_name": "SHF"
+						},
+						{
+							"project_donor_id": "sida",
+							"project_donor_name": "SIDA"
+						},
+						{
+							"project_donor_id": "usaid",
+							"project_donor_name": "USAID"
+						},
+						{
+							"project_donor_id": "unicef",
+							"project_donor_name": "UNICEF"
+						},
+						{
+							"project_donor_id": "wfp",
+							"project_donor_name": "WFP"
+						},
+						{
+							"project_donor_id": "who",
+							"project_donor_name": "WHO"
+						},
+						{
+							"project_donor_id": "world_bank",
+							"project_donor_name": "Worldbank"
+						}
+					];
+				}
 
-				// if(admin0pcode === 'COL'){
-				// record 103
-				// 	donors = [
-				// 			{
-				// 				"project_donor_id": "acción_contra_el_hambre",
-				// 				"project_donor_name": "Acción contra el Hambre"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "agencia_canadiense_para_el_desarrollo_internacional",
-				// 				"project_donor_name": "Agencia Canadiense para el Desarrollo Internacional"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "agencia_de_estados_unidos_para_el_desarrollo_internacional",
-				// 				"project_donor_name": "Agencia de Estados Unidos para el Desarrollo Internacional"
-				// 			},
-				// 			{
-				// 				"project_donor_id":"agencia_de_cooperacion_internacional_de_corea_koica",
-				// 				"project_donor_name":"Agencia de Cooperación Internacional de Corea (KOICA)"
-				// 			},
-				// 			{
-				// 				"project_donor_id":"agencia_de_restablecimiento_y_estandarización",
-				// 				"project_donor_name":"Agencia de Restablecimiento y Estandarización"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "agencia_española_de_cooperación_internacional",
-				// 				"project_donor_name": "Agencia Española de Cooperación Internacional"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "agencia_noruega_de_cooperación_para_el_desarrollo",
-				// 				"project_donor_name": "Agencia Noruega de Cooperación para el Desarrollo"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "agencia_para_la_reincorporación_y_l_normalización_arn",
-				// 				"project_donor_name": "Agencia para la Reincorporación y la Normalización (ARN)"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "agencia_sueca_internacional_de_cooperación_al_desarrollo",
-				// 				"project_donor_name": "Agencia Sueca Internacional de Cooperación Al Desarrollo"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "agencia_suiza_para_el_desarrollo_y_la_cooperación",
-				// 				"project_donor_name": "Agencia Suiza para el Desarrollo y La Cooperación"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "alcaldía_de_cali",
-				// 				"project_donor_name": "Alcaldía de Cali"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "alto_comisionado_de_las_naciones_unidas_para_los_refugiados",
-				// 				"project_donor_name": "Alto Comisionado de las Naciones Unidas para los Refugiados"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "asociación­_nacional_de_ayuda_solidaria",
-				// 				"project_donor_name": "Asociación Nacional de Ayuda Solidaria"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "banco_interamericano_de_desarrollo",
-				// 				"project_donor_name": "Banco Interamericano de Desarrollo"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "buró_de_población_refugiados_y_migración",
-				// 				"project_donor_name": "Buró de Población, Refugiados y Migración"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "cáritas_suiza",
-				// 				"project_donor_name": "Cáritas Suiza"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "central_emergency_respond_fund",
-				// 				"project_donor_name": "Central Emergency Respond Fund"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "centro_nacional_de_referencia_sobre_la_violencia",
-				// 				"project_donor_name": "Centro Nacional de Referencia Sobre La Violencia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "centros_para_el_control_y_la_prevención_de_enfermedades_cdc",
-				// 				"project_donor_name": "Centros para el control y la prevención de enfermedades (CDC)"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "comité_internacional_de_la_cruz_roja",
-				// 				"project_donor_name": "Comité Internacional de la Cruz Roja"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "corporación_andina_de_fomento",
-				// 				"project_donor_name": "Corporación Andina de Fomento"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "country_based_pooled_funds",
-				// 				"project_donor_name": "Country based Pooled Funds"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "cruz_roja_alemana",
-				// 				"project_donor_name": "Cruz Roja Alemana"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "cruz_roja_colombiana",
-				// 				"project_donor_name": "Cruz Roja Colombiana"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "cruz_roja_colombiana_seccional_antioquia",
-				// 				"project_donor_name": "Cruz Roja Colombiana Seccional Antioquia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "cruz_roja_ecuatoriana",
-				// 				"project_donor_name": "Cruz Roja Ecuatoriana"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "cruz_roja_noruega",
-				// 				"project_donor_name": "Cruz Roja Noruega"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "delegación_unión_europea_en_colombia",
-				// 				"project_donor_name": "DELEGACIÓN DE LA UNIÓN EUROPEA EN COLOMBIA"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "departamento_de_estado_de_los_estados_unidos",
-				// 				"project_donor_name": "Departamento de Estado de los Estados Unidos"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "departamento_para_la_prosperidad_social",
-				// 				"project_donor_name": "Departamento para la Prosperidad Social"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "dutch_relief_alliance",
-				// 				"project_donor_name": "Dutch Relief Alliance"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "diakonie_katastrophenhilfe_apoyo_en_emergencias",
-				// 				"project_donor_name": "Diakonie Katastrophenhilfe Apoyo en Emergencias"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "el_fondo_mundial",
-				// 				"project_donor_name": "El Fondo Mundial"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "embajada_de_alemania_en_colombia",
-				// 				"project_donor_name": "Embajada de Alemania en Colombia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "embajada_de_canadá",
-				// 				"project_donor_name": "Embajada de Canadá"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "embajada_de_españa_en_colombia",
-				// 				"project_donor_name": "Embajada de España en Colombia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "embajada_de_estados_unidos_en_colombia",
-				// 				"project_donor_name": "Embajada de Estados Unidos en Colombia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "embajada_de_holanda_del_reino_de_los_paises_bajos_en_colombia",
-				// 				"project_donor_name": "Embajada de Holanda / del Reino de los Paises Bajos en Colombia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "embajada_de_hungría",
-				// 				"project_donor_name": "Embajada de Hungría"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "embajada_de_noruega_en_colombia",
-				// 				"project_donor_name": "Embajada de Noruega en Colombia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fondation_medicor",
-				// 				"project_donor_name": "Fondation Medicor"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fondo_de_construccion_de_paz_de_naciones_unidas_pbf",
-				// 				"project_donor_name": "Fondo de Construcción de Paz de Naciones Unidas (PBF)"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fondo_de_las_naciones_unidas_para_la_infancia",
-				// 				"project_donor_name": "Fondo de las Naciones Unidas para la Infancia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fondo_de_población_de_las_naciones_unidas",
-				// 				"project_donor_name": "Fondo de Población de las Naciones Unidas"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fondo_fiduciario_de_asociados_multiples",
-				// 				"project_donor_name": "Fondo Fiduciario de Asociados Multiples"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fondo_fiduciario_de_la_union_europea_eu_trust_fond",
-				// 				"project_donor_name": "Fondo Fiduciario de la Unión Europea (EU Trust fond)"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fondo_multidonante_de_las_naciones_unidas_para_el_posconflicto",
-				// 				"project_donor_name": "Fondo Multidonante de las Naciones Unidas para el Posconflicto"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fundación_bolívar_davivienda",
-				// 				"project_donor_name": "Fundación Bolívar Davivienda"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fundación_éxito",
-				// 				"project_donor_name": "Fundación Éxito"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "fundacion_plan",
-				// 				"project_donor_name": "Fundacion Plan"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "german_federal_foreign_office",
-				// 				"project_donor_name": "German Federal Foreign Office"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "glaxosmithkline",
-				// 				"project_donor_name": "Glaxosmithkline"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "global_affairs_canada",
-				// 				"project_donor_name": "Global Affairs Canada"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "global_links",
-				// 				"project_donor_name": "Global Links"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobernación_de_antioquia",
-				// 				"project_donor_name": "Gobernación de Antioquia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobernación_de_cundinamarca",
-				// 				"project_donor_name": "Gobernación de Cundinamarca"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobernación_de_nariño",
-				// 				"project_donor_name": "Gobernación de Nariño"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobierno_alemán",
-				// 				"project_donor_name": "Gobierno Alemán"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobierno_de_francia",
-				// 				"project_donor_name": "Gobierno de Francia"
-				// 			},
-				// 			 {
-				// 				"project_donor_id": "gobierno_de_irlanda",
-				// 				"project_donor_name": "Gobierno de Irlanda"
-				// 			},
-				// 			 {
-				// 				"project_donor_id": "gobierno_de_portugal",
-				// 				"project_donor_name": "Gobierno de Portugal"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobierno_del_reino_de_dinamarca",
-				// 				"project_donor_name": "Gobierno del Reino de Dinamarca"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobierno_de_japón",
-				// 				"project_donor_name": "Gobierno de Japón"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobierno_del_reino_de_noruega",
-				// 				"project_donor_name": "Gobierno del Reino de Noruega"
-				// 			},
+				if(admin0pcode === 'COL'){
 
-				// 			 {
-				// 				"project_donor_id": "gobierno_del_reino_de_suecia",
-				// 				"project_donor_name": "Gobierno del Reino de Suecia"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobierno_del_reino_de_los_paises_bajos_holanda",
-				// 				"project_donor_name": "Gobierno del Reino de los Países Bajos (Holanda)"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobierno_del_reino_unido",
-				// 				"project_donor_name": "Gobierno del Reino Unido"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "gobierno_vasco",
-				// 				"project_donor_name": "Gobierno Vasco"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "grand_challenges_canada",
-				// 				"project_donor_name": "Grand Challenges Canada"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "inditex",
-				// 				"project_donor_name": "Inditex"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "instituto_colombiano_de_bienestar_familiar",
-				// 				"project_donor_name": "Instituto Colombiano de Bienestar Familiar"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "instituto_nacional_de_salud",
-				// 				"project_donor_name": "Instituto Nacional de Salud"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "instituto_nacional_de_vigilancia_de_medicamentos_y_alimentos",
-				// 				"project_donor_name": "Instituto Nacional de Vigilancia de Medicamentos y Alimentos"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "jurisdicción_especial_para_la_paz_jep",
-				// 				"project_donor_name": "Jurisdicción Especial para la Paz (JEP)"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "kinder_mission",
-				// 				"project_donor_name": "Kinder Mission"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "management_systems_international",
-				// 				"project_donor_name": "Management Systems International"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "médicos_sin_fronteras_españa",
-				// 				"project_donor_name": "Médicos Sin Fronteras España"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "ministerio_de_educación_nacional",
-				// 				"project_donor_name": "Ministerio de Educación Nacional"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "ministerio_del_interior",
-				// 				"project_donor_name": "Ministerio del Interior"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "ministerio_de_protección_social",
-				// 				"project_donor_name": "Ministerio de Protección Social"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "ministerio_de_salud_y_protección_social",
-				// 				"project_donor_name": "Ministerio de Salud y Protección Social"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "ministerio_de_trabajo",
-				// 				"project_donor_name": "Ministerio de Trabajo"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "office_of_us_foreign_disaster_assistance",
-				// 				"project_donor_name": "OFFICE OF U.S. FOREIGN DISASTER ASSISTANCE"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "oficina_de_ayuda_humanitaria_de_la _comision_europea",
-				// 				"project_donor_name": "Oficina de Ayuda Humanitaria de la Comision Europea"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "oficina_de_las_naciones_unidas_para_la_coordinación_de_asuntos_humanitarios",
-				// 				"project_donor_name": "Oficina de las Naciones Unidas para la Coordinación de Asuntos Humanitarios"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "oficina_de_naciones_unidas_para_la_coordinación_de_asuntos_humanitarios",
-				// 				"project_donor_name": "Oficina de Naciones Unidas para la Coordinación de Asuntos Humanitarios"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "organización_internacional_para_las_migraciones",
-				// 				"project_donor_name": "Organización Internacional para las Migraciones"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "organización_panamericana_de_salud_organización_mundial_de_salud",
-				// 				"project_donor_name": "Organización Panamericana de Salud / Organización Mundial de Salud"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "panamerican_health_and_education_foundation",
-				// 				"project_donor_name": "Panamerican Health And Education Foundation"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "patrulla_aérea_civil_colombiana",
-				// 				"project_donor_name": "Patrulla Aérea Civil Colombiana"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "plan_internacional",
-				// 				"project_donor_name": "Plan Internacional"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "programa_conjunto_de_las_naciones_unidos_sobre_el_ vih/sida",
-				// 				"project_donor_name": "Programa Conjunto de las Naciones Unidos Sobre el Vih/sida"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "programa_de_naciones_unidas_para_el_desarrollo",
-				// 				"project_donor_name": "Programa de Naciones Unidas para el Desarrollo"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "programa_de_transformación_productiva",
-				// 				"project_donor_name": "Programa de Transformación Productiva"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "programa_mundial_de_alimentos",
-				// 				"project_donor_name": "Programa Mundial de Alimentos"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "reckitt_benckiser",
-				// 				"project_donor_name": "Reckitt Benckiser"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "secretaría_distrital_de_salud",
-				// 				"project_donor_name": "Secretaría Distrital de Salud"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "un_habitat",
-				// 				"project_donor_name": "UN Habitat"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "unidad_para_la_atencion_y_reparacion_integral_a_las_victimas",
-				// 				"project_donor_name": "Unidad para la Atención y Reparación Integral a las Víctimas"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "united_nations_international_childrens_emergency_fund",
-				// 				"project_donor_name": "United Nations International Children's Emergency Fund"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "united_nations_voluntary_fund_for_victims_of_torture",
-				// 				"project_donor_name": "United Nations Voluntary Fund For Victims Of Torture"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "united_states_agency_international_development",
-				// 				"project_donor_name": "United States Agency International Development"
-				// 			},
-				// 			{
-				// 				"project_donor_id": "united_way_worldwide",
-				// 				"project_donor_name": "United Way Worldwide"
-				// 			}
-				// 	 ]
+					donors = [
+							{
+								"project_donor_id": "acción_contra_el_hambre",
+								"project_donor_name": "Acción contra el Hambre"
+							},
+							{
+								"project_donor_id": "agencia_canadiense_para_el_desarrollo_internacional",
+								"project_donor_name": "Agencia Canadiense para el Desarrollo Internacional"
+							},
+							{
+								"project_donor_id": "agencia_de_estados_unidos_para_el_desarrollo_internacional",
+								"project_donor_name": "Agencia de Estados Unidos para el Desarrollo Internacional"
+							},
+							{
+								"project_donor_id":"agencia_de_cooperacion_internacional_de_corea_koica",
+								"project_donor_name":"Agencia de Cooperación Internacional de Corea (KOICA)"
+							},
+							{
+								"project_donor_id":"agencia_de_restablecimiento_y_estandarización",
+								"project_donor_name":"Agencia de Restablecimiento y Estandarización"
+							},
+							{
+								"project_donor_id": "agencia_española_de_cooperación_internacional",
+								"project_donor_name": "Agencia Española de Cooperación Internacional"
+							},
+							{
+								"project_donor_id": "agencia_noruega_de_cooperación_para_el_desarrollo",
+								"project_donor_name": "Agencia Noruega de Cooperación para el Desarrollo"
+							},
+							{
+								"project_donor_id": "agencia_para_la_reincorporación_y_l_normalización_arn",
+								"project_donor_name": "Agencia para la Reincorporación y la Normalización (ARN)"
+							},
+							{
+								"project_donor_id": "agencia_sueca_internacional_de_cooperación_al_desarrollo",
+								"project_donor_name": "Agencia Sueca Internacional de Cooperación Al Desarrollo"
+							},
+							{
+								"project_donor_id": "agencia_suiza_para_el_desarrollo_y_la_cooperación",
+								"project_donor_name": "Agencia Suiza para el Desarrollo y La Cooperación"
+							},
+							{
+								"project_donor_id": "alcaldía_de_cali",
+								"project_donor_name": "Alcaldía de Cali"
+							},
+							{
+								"project_donor_id": "alto_comisionado_de_las_naciones_unidas_para_los_refugiados",
+								"project_donor_name": "Alto Comisionado de las Naciones Unidas para los Refugiados"
+							},
+							{
+								"project_donor_id": "asociación­_nacional_de_ayuda_solidaria",
+								"project_donor_name": "Asociación Nacional de Ayuda Solidaria"
+							},
+							{
+								"project_donor_id": "banco_interamericano_de_desarrollo",
+								"project_donor_name": "Banco Interamericano de Desarrollo"
+							},
+							{
+								"project_donor_id": "buró_de_población_refugiados_y_migración",
+								"project_donor_name": "Buró de Población, Refugiados y Migración"
+							},
+							{
+								"project_donor_id": "cáritas_suiza",
+								"project_donor_name": "Cáritas Suiza"
+							},
+							{
+								"project_donor_id": "central_emergency_respond_fund",
+								"project_donor_name": "Central Emergency Respond Fund"
+							},
+							{
+								"project_donor_id": "centro_nacional_de_referencia_sobre_la_violencia",
+								"project_donor_name": "Centro Nacional de Referencia Sobre La Violencia"
+							},
+							{
+								"project_donor_id": "centros_para_el_control_y_la_prevención_de_enfermedades_cdc",
+								"project_donor_name": "Centros para el control y la prevención de enfermedades (CDC)"
+							},
+							{
+								"project_donor_id": "comité_internacional_de_la_cruz_roja",
+								"project_donor_name": "Comité Internacional de la Cruz Roja"
+							},
+							{
+								"project_donor_id": "corporación_andina_de_fomento",
+								"project_donor_name": "Corporación Andina de Fomento"
+							},
+							{
+								"project_donor_id": "country_based_pooled_funds",
+								"project_donor_name": "Country based Pooled Funds"
+							},
+							{
+								"project_donor_id": "cruz_roja_alemana",
+								"project_donor_name": "Cruz Roja Alemana"
+							},
+							{
+								"project_donor_id": "cruz_roja_colombiana",
+								"project_donor_name": "Cruz Roja Colombiana"
+							},
+							{
+								"project_donor_id": "cruz_roja_colombiana_seccional_antioquia",
+								"project_donor_name": "Cruz Roja Colombiana Seccional Antioquia"
+							},
+							{
+								"project_donor_id": "cruz_roja_ecuatoriana",
+								"project_donor_name": "Cruz Roja Ecuatoriana"
+							},
+							{
+								"project_donor_id": "cruz_roja_noruega",
+								"project_donor_name": "Cruz Roja Noruega"
+							},
+							{
+								"project_donor_id": "delegación_unión_europea_en_colombia",
+								"project_donor_name": "DELEGACIÓN DE LA UNIÓN EUROPEA EN COLOMBIA"
+							},
+							{
+								"project_donor_id": "departamento_de_estado_de_los_estados_unidos",
+								"project_donor_name": "Departamento de Estado de los Estados Unidos"
+							},
+							{
+								"project_donor_id": "departamento_para_la_prosperidad_social",
+								"project_donor_name": "Departamento para la Prosperidad Social"
+							},
+							{
+								"project_donor_id": "dutch_relief_alliance",
+								"project_donor_name": "Dutch Relief Alliance"
+							},
+							{
+								"project_donor_id": "diakonie_katastrophenhilfe_apoyo_en_emergencias",
+								"project_donor_name": "Diakonie Katastrophenhilfe Apoyo en Emergencias"
+							},
+							{
+								"project_donor_id": "el_fondo_mundial",
+								"project_donor_name": "El Fondo Mundial"
+							},
+							{
+								"project_donor_id": "embajada_de_alemania_en_colombia",
+								"project_donor_name": "Embajada de Alemania en Colombia"
+							},
+							{
+								"project_donor_id": "embajada_de_canadá",
+								"project_donor_name": "Embajada de Canadá"
+							},
+							{
+								"project_donor_id": "embajada_de_españa_en_colombia",
+								"project_donor_name": "Embajada de España en Colombia"
+							},
+							{
+								"project_donor_id": "embajada_de_estados_unidos_en_colombia",
+								"project_donor_name": "Embajada de Estados Unidos en Colombia"
+							},
+							{
+								"project_donor_id": "embajada_de_holanda_del_reino_de_los_paises_bajos_en_colombia",
+								"project_donor_name": "Embajada de Holanda / del Reino de los Paises Bajos en Colombia"
+							},
+							{
+								"project_donor_id": "embajada_de_hungría",
+								"project_donor_name": "Embajada de Hungría"
+							},
+							{
+								"project_donor_id": "embajada_de_noruega_en_colombia",
+								"project_donor_name": "Embajada de Noruega en Colombia"
+							},
+							{
+								"project_donor_id": "fondation_medicor",
+								"project_donor_name": "Fondation Medicor"
+							},
+							{
+								"project_donor_id": "fondo_de_construccion_de_paz_de_naciones_unidas_pbf",
+								"project_donor_name": "Fondo de Construcción de Paz de Naciones Unidas (PBF)"
+							},
+							{
+								"project_donor_id": "fondo_de_las_naciones_unidas_para_la_infancia",
+								"project_donor_name": "Fondo de las Naciones Unidas para la Infancia"
+							},
+							{
+								"project_donor_id": "fondo_de_población_de_las_naciones_unidas",
+								"project_donor_name": "Fondo de Población de las Naciones Unidas"
+							},
+							{
+								"project_donor_id": "fondo_fiduciario_de_asociados_multiples",
+								"project_donor_name": "Fondo Fiduciario de Asociados Multiples"
+							},
+							{
+								"project_donor_id": "fondo_fiduciario_de_la_union_europea_eu_trust_fond",
+								"project_donor_name": "Fondo Fiduciario de la Unión Europea (EU Trust fond)"
+							},
+							{
+								"project_donor_id": "fondo_multidonante_de_las_naciones_unidas_para_el_posconflicto",
+								"project_donor_name": "Fondo Multidonante de las Naciones Unidas para el Posconflicto"
+							},
+							{
+								"project_donor_id": "fundación_bolívar_davivienda",
+								"project_donor_name": "Fundación Bolívar Davivienda"
+							},
+							{
+								"project_donor_id": "fundación_éxito",
+								"project_donor_name": "Fundación Éxito"
+							},
+							{
+								"project_donor_id": "fundacion_plan",
+								"project_donor_name": "Fundacion Plan"
+							},
+							{
+								"project_donor_id": "german_federal_foreign_office",
+								"project_donor_name": "German Federal Foreign Office"
+							},
+							{
+								"project_donor_id": "glaxosmithkline",
+								"project_donor_name": "Glaxosmithkline"
+							},
+							{
+								"project_donor_id": "global_affairs_canada",
+								"project_donor_name": "Global Affairs Canada"
+							},
+							{
+								"project_donor_id": "global_links",
+								"project_donor_name": "Global Links"
+							},
+							{
+								"project_donor_id": "gobernación_de_antioquia",
+								"project_donor_name": "Gobernación de Antioquia"
+							},
+							{
+								"project_donor_id": "gobernación_de_cundinamarca",
+								"project_donor_name": "Gobernación de Cundinamarca"
+							},
+							{
+								"project_donor_id": "gobernación_de_nariño",
+								"project_donor_name": "Gobernación de Nariño"
+							},
+							{
+								"project_donor_id": "gobierno_alemán",
+								"project_donor_name": "Gobierno Alemán"
+							},
+							{
+								"project_donor_id": "gobierno_de_francia",
+								"project_donor_name": "Gobierno de Francia"
+							},
+							 {
+								"project_donor_id": "gobierno_de_irlanda",
+								"project_donor_name": "Gobierno de Irlanda"
+							},
+							 {
+								"project_donor_id": "gobierno_de_portugal",
+								"project_donor_name": "Gobierno de Portugal"
+							},
+							{
+								"project_donor_id": "gobierno_del_reino_de_dinamarca",
+								"project_donor_name": "Gobierno del Reino de Dinamarca"
+							},
+							{
+								"project_donor_id": "gobierno_de_japón",
+								"project_donor_name": "Gobierno de Japón"
+							},
+							{
+								"project_donor_id": "gobierno_del_reino_de_noruega",
+								"project_donor_name": "Gobierno del Reino de Noruega"
+							},
+
+							 {
+								"project_donor_id": "gobierno_del_reino_de_suecia",
+								"project_donor_name": "Gobierno del Reino de Suecia"
+							},
+							{
+								"project_donor_id": "gobierno_del_reino_de_los_paises_bajos_holanda",
+								"project_donor_name": "Gobierno del Reino de los Países Bajos (Holanda)"
+							},
+							{
+								"project_donor_id": "gobierno_del_reino_unido",
+								"project_donor_name": "Gobierno del Reino Unido"
+							},
+							{
+								"project_donor_id": "gobierno_vasco",
+								"project_donor_name": "Gobierno Vasco"
+							},
+							{
+								"project_donor_id": "grand_challenges_canada",
+								"project_donor_name": "Grand Challenges Canada"
+							},
+							{
+								"project_donor_id": "inditex",
+								"project_donor_name": "Inditex"
+							},
+							{
+								"project_donor_id": "instituto_colombiano_de_bienestar_familiar",
+								"project_donor_name": "Instituto Colombiano de Bienestar Familiar"
+							},
+							{
+								"project_donor_id": "instituto_nacional_de_salud",
+								"project_donor_name": "Instituto Nacional de Salud"
+							},
+							{
+								"project_donor_id": "instituto_nacional_de_vigilancia_de_medicamentos_y_alimentos",
+								"project_donor_name": "Instituto Nacional de Vigilancia de Medicamentos y Alimentos"
+							},
+							{
+								"project_donor_id": "jurisdicción_especial_para_la_paz_jep",
+								"project_donor_name": "Jurisdicción Especial para la Paz (JEP)"
+							},
+							{
+								"project_donor_id": "kinder_mission",
+								"project_donor_name": "Kinder Mission"
+							},
+							{
+								"project_donor_id": "management_systems_international",
+								"project_donor_name": "Management Systems International"
+							},
+							{
+								"project_donor_id": "médicos_sin_fronteras_españa",
+								"project_donor_name": "Médicos Sin Fronteras España"
+							},
+							{
+								"project_donor_id": "ministerio_de_educación_nacional",
+								"project_donor_name": "Ministerio de Educación Nacional"
+							},
+							{
+								"project_donor_id": "ministerio_del_interior",
+								"project_donor_name": "Ministerio del Interior"
+							},
+							{
+								"project_donor_id": "ministerio_de_protección_social",
+								"project_donor_name": "Ministerio de Protección Social"
+							},
+							{
+								"project_donor_id": "ministerio_de_salud_y_protección_social",
+								"project_donor_name": "Ministerio de Salud y Protección Social"
+							},
+							{
+								"project_donor_id": "ministerio_de_trabajo",
+								"project_donor_name": "Ministerio de Trabajo"
+							},
+							{
+								"project_donor_id": "office_of_us_foreign_disaster_assistance",
+								"project_donor_name": "OFFICE OF U.S. FOREIGN DISASTER ASSISTANCE"
+							},
+							{
+								"project_donor_id": "oficina_de_ayuda_humanitaria_de_la _comision_europea",
+								"project_donor_name": "Oficina de Ayuda Humanitaria de la Comision Europea"
+							},
+							{
+								"project_donor_id": "oficina_de_las_naciones_unidas_para_la_coordinación_de_asuntos_humanitarios",
+								"project_donor_name": "Oficina de las Naciones Unidas para la Coordinación de Asuntos Humanitarios"
+							},
+							{
+								"project_donor_id": "oficina_de_naciones_unidas_para_la_coordinación_de_asuntos_humanitarios",
+								"project_donor_name": "Oficina de Naciones Unidas para la Coordinación de Asuntos Humanitarios"
+							},
+							{
+								"project_donor_id": "organización_internacional_para_las_migraciones",
+								"project_donor_name": "Organización Internacional para las Migraciones"
+							},
+							{
+								"project_donor_id": "organización_panamericana_de_salud_organización_mundial_de_salud",
+								"project_donor_name": "Organización Panamericana de Salud / Organización Mundial de Salud"
+							},
+							{
+								"project_donor_id": "panamerican_health_and_education_foundation",
+								"project_donor_name": "Panamerican Health And Education Foundation"
+							},
+							{
+								"project_donor_id": "patrulla_aérea_civil_colombiana",
+								"project_donor_name": "Patrulla Aérea Civil Colombiana"
+							},
+							{
+								"project_donor_id": "plan_internacional",
+								"project_donor_name": "Plan Internacional"
+							},
+							{
+								"project_donor_id": "programa_conjunto_de_las_naciones_unidos_sobre_el_ vih/sida",
+								"project_donor_name": "Programa Conjunto de las Naciones Unidos Sobre el Vih/sida"
+							},
+							{
+								"project_donor_id": "programa_de_naciones_unidas_para_el_desarrollo",
+								"project_donor_name": "Programa de Naciones Unidas para el Desarrollo"
+							},
+							{
+								"project_donor_id": "programa_de_transformación_productiva",
+								"project_donor_name": "Programa de Transformación Productiva"
+							},
+							{
+								"project_donor_id": "programa_mundial_de_alimentos",
+								"project_donor_name": "Programa Mundial de Alimentos"
+							},
+							{
+								"project_donor_id": "reckitt_benckiser",
+								"project_donor_name": "Reckitt Benckiser"
+							},
+							{
+								"project_donor_id": "secretaría_distrital_de_salud",
+								"project_donor_name": "Secretaría Distrital de Salud"
+							},
+							{
+								"project_donor_id": "un_habitat",
+								"project_donor_name": "UN Habitat"
+							},
+							{
+								"project_donor_id": "unidad_para_la_atencion_y_reparacion_integral_a_las_victimas",
+								"project_donor_name": "Unidad para la Atención y Reparación Integral a las Víctimas"
+							},
+							{
+								"project_donor_id": "united_nations_international_childrens_emergency_fund",
+								"project_donor_name": "United Nations International Children's Emergency Fund"
+							},
+							{
+								"project_donor_id": "united_nations_voluntary_fund_for_victims_of_torture",
+								"project_donor_name": "United Nations Voluntary Fund For Victims Of Torture"
+							},
+							{
+								"project_donor_id": "united_states_agency_international_development",
+								"project_donor_name": "United States Agency International Development"
+							},
+							{
+								"project_donor_id": "united_way_worldwide",
+								"project_donor_name": "United Way Worldwide"
+							}
+					 ]
 
 
-				//  }
+				 }
 
 
-				//  FIlter by 4 rule;
-				donors = ngmLists.getObject('lists').donorsList;
-				var filterAdmin0 = admin0pcode ? admin0pcode : 'ALL';
-				var filterCluster = cluster_id ? cluster_id : 'all';
-
-				// function to run filter
-				function checkavailable(Admin0, Cluster) {
-					var donor_array = donors.filter( function (d) {
-				    return d.admin0pcode === Admin0 && d.cluster_id === Cluster
-				  });
-				  return donor_array
-				};
-
-				// set sequence checking
-				if(filterAdmin0 !== 'ALL'){
-				  var sequnce_check = filterCluster !== 'all' ? [filterAdmin0 + ':' + filterCluster, filterAdmin0 + ':' + 'all', 'ALL:' + filterCluster, 'ALL:all'] : [filterAdmin0 + ':' + 'all', 'ALL:all']
-				}else{
-				  var sequnce_check = filterCluster !== 'all' ? ['ALL:' + filterCluster, 'ALL:all']:['ALL:all']
-				};
-
-				var donors_filter = [];
-				// running sequence check
-				for (i in sequnce_check) {
-				  var filter = sequnce_check[i].split(':');
-				  var filtered=[];
-				  filtered = checkavailable(filter[0], filter[1])
-				  if(filtered.length){
-				    donors_filter = filtered;
-				    break;
-				  };
-
-				};
 
 
 				// add other
-				// donors.push( { project_donor_id: 'other', project_donor_name: 'Other' } );
+				donors.push( { project_donor_id: 'other', project_donor_name: 'Other' } );
 
-				// return donors;
-				donors_filter.push({ project_donor_id: 'other', project_donor_name: 'Other' });
-				return donors_filter;
+				return donors;
 			},
 
 
