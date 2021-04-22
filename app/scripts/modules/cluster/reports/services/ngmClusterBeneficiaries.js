@@ -682,11 +682,14 @@ angular.module( 'ngmReportHub' )
  					ngmClusterBeneficiaries.form[$parent][$index].display = ngmClusterBeneficiaries.showFormInputs( beneficiary, ngmClusterBeneficiaries.form[$parent][$index] );
 				}
 
-				if (ngmClusterBeneficiaries.form[$parent][$index] && ngmClusterBeneficiaries.form[$parent][$index]['mpc_transfer_category_id'] && ngmClusterBeneficiaries.form[$parent][$index]['mpc_grant_type_id']){
+				if (ngmClusterBeneficiaries.form[$parent][$index] && ngmClusterBeneficiaries.form[$parent][$index]['mpc_transfer_category_id'] ){
 					//set default value for 'mpc_transfer_category_id' 'mpc_grant_type_id'
 					// ngmClusterBeneficiaries.setDefaultValueBeneficiary($parent, $index, 'mpc_transfer_category_id', beneficiary, 'transfer_category_id', 'transfer_category_name');
 					// ngmClusterBeneficiaries.setDefaultValueBeneficiary($parent, $index, 'mpc_grant_type_id', beneficiary, 'grant_type_id', 'grant_type_name');
 					ngmClusterBeneficiaries.setDefaultValueBeneficiary(ngmClusterBeneficiaries.form[$parent][$index]['mpc_transfer_category_id'], beneficiary, 'transfer_category_id', 'transfer_category_name');
+				}
+
+				if (ngmClusterBeneficiaries.form[$parent][$index] && ngmClusterBeneficiaries.form[$parent][$index]['mpc_grant_type_id']) {
 					ngmClusterBeneficiaries.setDefaultValueBeneficiary(ngmClusterBeneficiaries.form[$parent][$index]['mpc_grant_type_id'], beneficiary, 'grant_type_id', 'grant_type_name');
 				}
 
