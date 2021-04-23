@@ -13,8 +13,27 @@ angular
 		// https://medium.com/swlh/improving-angular-performance-with-1-line-of-code-a1fb814a6476#.ufea9sjt1
 		$compileProvider.debugInfoEnabled(false)
 
+		var droughtResolves = {
+			// lists: [ 'ngmClusterLists', function( ngmClusterLists ) {
+			// 	return ngmClusterLists.areListsFetched();
+			// }],
+			db: ['ngmLocalDB', function (ngmLocalDB) {
+				return ngmLocalDB.isVirtualDBLoaded;
+			}]
+		};
+
+		var droughtRouteProvider = angular.extend({}, $routeProvider, {
+			when: function (path, route) {
+				route.resolve = (route.resolve) ? route.resolve : {};
+				angular.extend(route.resolve, droughtResolves);
+				$routeProvider.when(path, route);
+				return this;
+			}
+		});
+
 		// app routes with access rights
-		$routeProvider
+		// $routeProvider
+		droughtRouteProvider
 			
 			// /response page could have cards for each country response
 			.when( '/response', {
