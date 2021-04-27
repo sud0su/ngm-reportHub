@@ -4,15 +4,14 @@
  * # ngmDroughtHelper
  */
 angular.module('ngmReportHub')
-	.factory('ngmDroughtHelper', ['$location', '$q', '$http', '$filter', '$timeout', 'ngmAuth', 'ngmClusterLists', function ($location, $q, $http, $filter, $timeout, ngmAuth, ngmClusterLists) {
-
+	.factory('ngmDroughtHelper', ['$location', '$q', '$http', '$filter', '$timeout', 'ngmAuth', 'ngmClusterLists', 'ngmLists', function ($location, $q, $http, $filter, $timeout, ngmAuth, ngmClusterLists, ngmLists) {
 		var dashboard = {
 
 			// admin1 ( with admin0 filter from API )
-			admin1: localStorage.getObject('lists').admin1List.filter(function (row) { return !row.inactive }),
+			admin1: ngmLists.getObject('lists').admin1List.filter(function (row) { return !row.inactive }),
 
 			// admin2 ( with admin0 filter from API )
-			admin2: localStorage.getObject('lists').admin2List.filter(function (row) { return !row.inactive }),
+			admin2: ngmLists.getObject('lists').admin2List.filter(function (row) { return !row.inactive }),
 
 		};
 
