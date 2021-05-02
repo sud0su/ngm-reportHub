@@ -976,7 +976,7 @@
                                         																					ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'units' ] &&
                                         																					!ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'mpc_transfer_type_id' ]">
                                             <!-- unit_type_id -->
-                                            <div class="input-field col s12 m12 l6">
+                                            <div ng-if="!ngmClusterBeneficiaries.checkSeparationUnitTypeInKind(ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ])" class="input-field col s12 m12 l6">
                                                 <select materialize-select id="ngm-unit_type_id-{{ $indexRecord }}" name="unit_type_id-{{ $indexRecord }}" class="validate"
                                                     ng-model="item.unit_type_id" ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ], 'unit_type_id', 'unit_type_name', item );
                                         															ngmClusterBeneficiaries.inputChange( 'ngm-unit_type_id-{{ $indexRecord }}' )" ng-options="a.unit_type_id as a.unit_type_name for a in
@@ -987,6 +987,18 @@
                                                 <label for="ngm-unit_type_id-{{ $indexRecord }}" class="active"
                                                     style="transform:translateY(-10%)">{{ 'units' | translate }}</label>
                                             </div>
+                                            <div ng-if="ngmClusterBeneficiaries.checkSeparationUnitTypeInKind(ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ])" class="input-field col s12 m12 l6">
+                                                <select materialize-select id="ngm-unit_type_id-{{ $indexRecord }}" name="unit_type_id-{{ $indexRecord }}"
+                                                    class="validate" ng-model="item.unit_type_id"
+                                                    ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ], 'unit_type_id', 'unit_type_name', item );
+                                                                                    															ngmClusterBeneficiaries.inputChange( 'ngm-unit_type_id-{{ $indexRecord }}' )"
+                                                    ng-options="a.unit_type_id as a.unit_type_name for a in
+                                                                                    																							ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ] | filter: (item.mpc_delivery_type_id === 'in-kind' ? {mpc_delivery_type_id : 'in-kind'} : { mpc_delivery_type_id : '!in-kind'})"
+                                                    ng-disabled="item.project_status === 'complete' || !item.beneficiary_type_id">
+                                                    <option value="">{{ 'select' | translate }}</option>
+                                                </select>
+                                                <label for="ngm-unit_type_id-{{ $indexRecord }}" class="active" style="transform:translateY(-10%)">{{ 'units' |
+                                                    translate }}</label>
                                             <!-- amount -->
                                             <div class="input-field col s12 m12 l6">
                                                 <input id="ngm-units-{{ $indexRecord }}" name="ngm-units-{{ $indexRecord }}" type="number" class="validate" min="0"
@@ -1003,7 +1015,7 @@
                                         </div>
 
                                         <!-- UNITS -->
-                                        <div class="row" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ] &&
+                                        <div ng-if="!ngmClusterBeneficiaries.checkSeparationUnitTypeInKind(ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ])" class="row" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ] &&
                                         																					ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'units' ] &&
                                         																					ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'mpc_transfer_type_id' ]">
                                             <!-- unit_type_id -->
@@ -1017,6 +1029,19 @@
                                                 </select>
                                                 <label for="ngm-unit_type_id-{{ $indexRecord }}" class="active"
                                                     style="transform:translateY(-10%)">{{ 'units' | translate }}</label>
+                                            </div>
+                                            <div ng-if="ngmClusterBeneficiaries.checkSeparationUnitTypeInKind(ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ])" class="input-field col s12 m4">
+                                                <select materialize-select id="ngm-unit_type_id-{{ $indexRecord }}" name="unit_type_id-{{ $indexRecord }}"
+                                                    class="validate" ng-model="item.unit_type_id"
+                                                    ng-change="ngmClusterBeneficiaries.updateName( ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ], 'unit_type_id', 'unit_type_name', item );
+                                                                                    															ngmClusterBeneficiaries.inputChange( 'ngm-unit_type_id-{{ $indexRecord }}' )"
+                                                    ng-options="a.unit_type_id as a.unit_type_name for a in
+                                                                                    																							ngmClusterBeneficiaries.form[ 0 ][ $indexRecord ][ 'unit_type_id' ] | filter: (item.mpc_delivery_type_id === 'in-kind' ? {mpc_delivery_type_id : 'in-kind'} : { mpc_delivery_type_id : '!in-kind'})"
+                                                    ng-disabled="item.project_status === 'complete' || !item.beneficiary_type_id">
+                                                    <option value="">{{ 'select' | translate }}</option>
+                                                </select>
+                                                <label for="ngm-unit_type_id-{{ $indexRecord }}" class="active" style="transform:translateY(-10%)">{{ 'units' |
+                                                    translate }}</label>
                                             </div>
                                             <!-- amount -->
                                             <div class="input-field col s12 m4">
