@@ -596,6 +596,17 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 				// strategic objectives
 				setStrategicObjectives: function( cluster_id ) {
+					listYear = (Object.keys($scope.project.lists.strategic_objectives))
+					listId = Object.keys($scope.project.definition.strategic_objectives_check)
+					// set false check if not in year
+					angular.forEach(listId, function (e) {
+						splitKey = e.split(':')
+						listYear.indexOf(splitKey[1])
+						if ((listYear.indexOf(splitKey[1]) < 0)) {
+							$scope.project.definition.strategic_objectives_check[e] = false;
+						}
+					})
+
 					$scope.project.definition.strategic_objectives =
 									ngmClusterHelperAf.setStrategicObjectives( $scope.project.definition, $scope.project.lists, cluster_id );
 				},
@@ -1516,6 +1527,18 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 				// compile cluster activities
 				compileInterClusterActivities: function(){
 					$timeout(function() {
+						if ($scope.project.definition.strategic_objectives_check) {
+							listYear = (Object.keys($scope.project.lists.strategic_objectives))
+							listId = Object.keys($scope.project.definition.strategic_objectives_check)
+							// set false check if not in year
+							angular.forEach(listId, function (e) {
+								splitKey = e.split(':')
+								listYear.indexOf(splitKey[1])
+								if ((listYear.indexOf(splitKey[1]) < 0)) {
+									$scope.project.definition.strategic_objectives_check[e] = false;
+								}
+							});
+						}
 					    ngmClusterHelper.compileInterClusterActivities( $scope.project.definition, $scope.project.lists );
 					    // when new inter cluster added set new list of site_type && site_implementation
 					    ngmClusterLocations.setSiteTypeAndImplementationSelect($scope.project);
