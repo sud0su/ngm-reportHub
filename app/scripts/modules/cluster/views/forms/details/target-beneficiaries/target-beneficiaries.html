@@ -166,10 +166,15 @@
 					<div ng-if="detailBeneficiaries[$index] && project.definition.admin0pcode === 'AF' &&
 												ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_delivery_type_id' ] &&
 												!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_package_type_id' ]">
-						<div class="row" style="padding: 15px 0px 0px 20px;">
+						<div ng-if="beneficiary.activity_detail_id !== 'individual_protection_assistance_in_kind'" class="row" style="padding: 15px 0px 0px 20px;">
 							<p><i class="material-icons left" style="color: #e57373">info</i></p>
-							<p style="color: #e57373">
+							<p ng-if="beneficiary.activity_detail_id !== 'individual_protection_assistance_cash' && beneficiary.activity_detail_id !== 'individual_protection_assistance_in_kind'"style="color: #e57373">
 								<span style="font-weight:400">{{'transfer_amount_value'|translate}}:</span> {{'please_enter_the_amount_per' | translate}} <span style="font-weight:400">{{'household_hh' | translate}}</span> per <span style="font-weight:400">{{'transfer' | translate}}</span>
+							</p>
+							<p ng-if="beneficiary.activity_detail_id === 'individual_protection_assistance_cash'" style="color: #e57373">
+								<span style="font-weight:400">{{'transfer_amount_value'|translate}}:</span> {{'please_enter_the_amount_per' |
+								translate}} <span style="font-weight:400">INDIVIDUAL</span> per <span
+									style="font-weight:400">{{'transfer' | translate}}</span>
 							</p>
 							<p style="color: #e57373">
 								<span style="font-weight:400">{{'number_of_transfers'|translate}}:</span> {{'please_enter_the' |translate}} <span style="font-weight:400">TOTAL</span> {{'number_of_planned_transfer_for_the'|translate}} <span style="font-weight:400">{{'entire' | translate}}</span> {{'project' | translate}}
@@ -1595,7 +1600,7 @@
 
 
 								<!-- Total Amount Transfered -->
-								<div class="row" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_delivery_type_id' ]">
+								<div class="row" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'mpc_delivery_type_id' ] && (beneficiary.activity_detail_id !== 'individual_protection_assistance_cash' && beneficiary.activity_detail_id !== 'individual_protection_assistance_in_kind')">
 
 									<!--total amount transfered -->
 									<div class="input-field col s12 m12 l12 ">
