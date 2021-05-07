@@ -206,9 +206,13 @@
 									>
 									<i class="material-icons small right">move_to_inbox</i>{{'my_admin' | translate}}</a>
 							</li>
-							<li style="position: relative;border-bottom: 1px solid #f1f1f1">
+							<li ng-if="ngm.getUser().admin0pcode.toLowerCase() !== 'af'" style="position: relative;border-bottom: 1px solid #f1f1f1">
 								<a href="#/cluster/projects/list" >
 									<i class="material-icons small right">zoom_in</i>{{'my_projects' | translate}}</a>
+							</li>
+							<li ng-if="ngm.getUser().admin0pcode.toLowerCase() === 'af'" style="position: relative;border-bottom: 1px solid #f1f1f1">
+								<a href="#/cluster/projects/list">
+									<i class="material-icons small right">zoom_in</i>MY ACTIVITY</a>
 							</li>
 							<li style="position: relative;border-bottom: 1px solid #f1f1f1">
 								<a href="#/cluster/stocks" >
@@ -688,9 +692,13 @@
 											<a href="#/cluster/admin/{{ ngm.getUser().adminRpcode | lowercase }}/{{ ngm.getUser().admin0pcode | lowercase }}" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
 												<i class="material-icons small right">move_to_inbox</i>{{'my_admin' | translate}}</a>
 										</li>
-										<li style="position: relative;border-bottom: 1px solid #f1f1f1">
+										<li ng-if="ngm.getUser().admin0pcode.toLowerCase() !== 'af'" style="position: relative;border-bottom: 1px solid #f1f1f1">
 											<a href="#/cluster/projects/list" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
 												<i class="material-icons small right">zoom_in</i>{{'my_projects' | translate}}</a>
+										</li>
+										<li ng-if="ngm.getUser().admin0pcode.toLowerCase() === 'af'"style="position: relative;border-bottom: 1px solid #f1f1f1">
+											<a href="#/cluster/projects/list" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
+												<i class="material-icons small right">zoom_in</i>MY ACTIVITY</a>
 										</li>
 										<li style="position: relative;border-bottom: 1px solid #f1f1f1">
 											<a href="#/cluster/stocks" ng-click="ngm.toggleNavigationMenu();ngm.openHome= !ngm.openHome;">
