@@ -86,7 +86,7 @@
                 <label for="ngm-country-id" class="active" style="transform:translateY(-10%)"> Country</label>
             </div> -->
             <div class="input-field col s12 m12">
-                <select materialize-select id="ngm-org-type" name="ngm-org-type" class="validate"
+                <select materialize-select watch-options="master.type_org" id="ngm-org-type" name="ngm-org-type" class="validate"
                     ng-options="country.organization_type as country.organization_type for country in master.type_org"
                     ng-model="addOrganizationAtribute.organization_type" ng-disabled="" 
                     ng-change="master.changeListCountry(addOrganizationAtribute)"
@@ -174,7 +174,7 @@
                 <label for="ngm-country-id" class="active" style="transform:translateY(-10%)"> Country</label>
             </div> -->
             <div class="input-field col s12 m12">
-                <select materialize-select id="ngm-org-type" name="ngm-org-type" class="validate"
+                <select materialize-select watch-model watch-options="master.type_org" id="ngm-org-type" name="ngm-org-type" class="validate"
                     ng-options="country.organization_type as country.organization_type for country in master.type_org"
                     ng-model="master.editedOrg.organization_type" ng-disabled=""
                     ng-change="master.changeListCountry(master.editedOrg)" 
