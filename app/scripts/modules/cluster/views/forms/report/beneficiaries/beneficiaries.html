@@ -1006,7 +1006,7 @@
 										id="{{s.response_id}}-{{$locationIndex}}-{{$beneficiaryIndex}}"
 										ng-checked="ngmClusterBeneficiaries.checkSpecific(s.response_id,beneficiary,ngmClusterBeneficiaries.form[ $locationIndex ][ $beneficiaryIndex ]['response'])"
 										ng-click="ngmClusterBeneficiaries.setSpecific(($locationIndex+'-'+$beneficiaryIndex),s.response_id,beneficiary,ngmClusterBeneficiaries.form[ $locationIndex ][ $beneficiaryIndex ]['response'])"
-										ng-disabled="project.definition.project_status === 'complete' || !project.canEdit || project.report.report_status === 'complete'" />
+										ng-disabled="project.definition.project_status === 'complete' || !project.canEdit || project.report.report_status === 'complete' || ( s.response_id === 'covid_19' && beneficiary.cluster_id ==='esnfi' && project.definition.admin0pcode === 'ET')" />
 										<span style="left: .75rem;">{{s.response_name}}</span>
 									</label>
 								</p>
