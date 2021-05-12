@@ -746,7 +746,7 @@
                                                             <input type="checkbox" class="filled-in" id="{{s.response_id}}-{{$indexRecord}}"
                                                                 ng-checked="ngmClusterBeneficiaries.checkSpecific(s.response_id,item,list_response)"
                                                                 ng-click="ngmClusterBeneficiaries.setSpecific($indexRecord,s.response_id,item,list_response)"
-                                                                ng-disabled="item.project_status === 'complete' || ( s.response_id === 'covid_19' && item.cluster_id ==='esnfi' && item.admin0pcode === 'ET')" />
+                                                                ng-disabled="item.project_status === 'complete'" />
                                                             <span style="left: .75rem;">{{s.response_name}}</span>
                                                         </label>
                                                     </p>
