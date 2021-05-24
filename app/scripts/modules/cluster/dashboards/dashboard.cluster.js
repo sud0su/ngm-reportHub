@@ -211,24 +211,26 @@ angular.module('ngmReportHub')
 				// downloads
 				getDownloads: function(){
 
-					var downloads = [{
-						id: 'cluster_dashboard_pdf',
-						type: 'pdf',
-						color: 'blue',
-						icon: 'picture_as_pdf',
-						hover: $filter('translate')('download_dashboard_as_pdf'),
-						request: {
-							method: 'POST',
-							url: ngmAuth.LOCATION + '/api/print',
-							data: {
-								report:  $scope.dashboard.cluster_id + '_cluster_dashboard-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format( 'YYYY-MM-DDTHHmm' ),
-								printUrl: $location.absUrl(),
-								downloadUrl: ngmAuth.LOCATION + '/report/',
-								user: $scope.dashboard.user,
-							}
-						},
-						metrics: $scope.dashboard.getMetrics( 'cluster_dashboard_pdf', 'pdf' )
-					},{
+					var downloads = [
+					// {
+					// 	id: 'cluster_dashboard_pdf',
+					// 	type: 'pdf',
+					// 	color: 'blue',
+					// 	icon: 'picture_as_pdf',
+					// 	hover: $filter('translate')('download_dashboard_as_pdf'),
+					// 	request: {
+					// 		method: 'POST',
+					// 		url: ngmAuth.LOCATION + '/api/print',
+					// 		data: {
+					// 			report:  $scope.dashboard.cluster_id + '_cluster_dashboard-from-' + $scope.dashboard.startDate + '-to-' + $scope.dashboard.endDate + '-extracted-' + moment().format( 'YYYY-MM-DDTHHmm' ),
+					// 			printUrl: $location.absUrl(),
+					// 			downloadUrl: ngmAuth.LOCATION + '/report/',
+					// 			user: $scope.dashboard.user,
+					// 		}
+					// 	},
+					// 	metrics: $scope.dashboard.getMetrics( 'cluster_dashboard_pdf', 'pdf' )
+					// },
+					{
 						type: 'csv',
 						color: 'blue lighten-2',
 						icon: 'call',
