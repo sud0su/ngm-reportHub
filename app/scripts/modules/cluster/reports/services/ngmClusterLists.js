@@ -8413,15 +8413,22 @@ angular.module( 'ngmReportHub' )
 						// 	description: 'Afghan Returnees (Undocumented)'
 						// },
 
+						// {
+
+						// 	// ESNFI v2
+
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'conflict_idp_2020',
+						// 	beneficiary_type_name: 'Conflict IDPs (displaced in 2020)',
+						// 	description: 'Conflict IDPs (displaced in 2020)',
+						// 	year: 2020
+						// },
 						{
-
-							// ESNFI v2
-
 							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'conflict_idp_2020',
+							beneficiary_type_id: 'conflict_idp_2021',
 							beneficiary_type_name: 'Conflict IDPs (displaced in 2020)',
-							description: 'Conflict IDPs (displaced in 2020)',
-							year: 2020
+							description: 'Conflict IDPs (displaced in 2021)',
+							year: 2021
 						},{
 							cluster_id: [ 'esnfi' ],
 							beneficiary_type_id: 'natural_disaster_idp_2020',
