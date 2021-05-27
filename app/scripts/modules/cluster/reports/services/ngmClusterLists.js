@@ -8431,7 +8431,7 @@ angular.module( 'ngmReportHub' )
 						{
 							cluster_id: [ 'esnfi' ],
 							beneficiary_type_id: 'conflict_idp_2021',
-							beneficiary_type_name: 'Conflict IDPs (displaced in 2020)',
+							beneficiary_type_name: 'Conflict IDPs (displaced in 2021)',
 							description: 'Conflict IDPs (displaced in 2021)',
 							year: 2021
 						},{
