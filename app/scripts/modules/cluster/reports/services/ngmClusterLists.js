@@ -895,6 +895,11 @@ angular.module( 'ngmReportHub' )
 					activities = ngmClusterLists.filterDuplicates( activitiesList, filterDuplicates );
 				}
 
+				// sort A-Z
+				if (activities && activities.length){
+					var attribute = filterDuplicates[0].replace('_id','_name')
+					activities = $filter('orderBy')(activities, attribute);
+				}
 				// return
 				return activities;
 
@@ -8582,6 +8587,11 @@ angular.module( 'ngmReportHub' )
 
 				}
 
+
+				// sort A-Z
+				if (beneficiaries && beneficiaries.length) {
+					beneficiaries = $filter('orderBy')(beneficiaries, 'beneficiary_type_name');
+				}
 				// filter by cluster beneficiaries here
 				return beneficiaries;
 
@@ -8670,6 +8680,12 @@ angular.module( 'ngmReportHub' )
 						}];
 					}
 				}
+
+				// sort A-Z
+				if (beneficiary_categories && beneficiary_categories.length) {
+					beneficiary_categories = $filter('orderBy')(beneficiary_categories, 'beneficiary_category_name');
+				}
+
 				return beneficiary_categories;
 
 			},
@@ -9687,7 +9703,15 @@ angular.module( 'ngmReportHub' )
 				} else {
 					var beneficiaries = { all: [] }
 				}
-				return beneficiaries[year] ? beneficiaries[year]: beneficiaries['all'];
+				// return beneficiaries[year] ? beneficiaries[year]: beneficiaries['all'];
+				var hrp_beneficiaries = beneficiaries[year] ? beneficiaries[year] : beneficiaries['all'];
+
+				if (hrp_beneficiaries && hrp_beneficiaries.length) {
+					hrp_beneficiaries = $filter('orderBy')(hrp_beneficiaries, 'hrp_beneficiary_type_name');
+				}
+
+				return hrp_beneficiaries;
+
 			},
 			// Project Details
 			getProjectDetails: function(admin0pcode){
