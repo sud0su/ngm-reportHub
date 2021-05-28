@@ -815,7 +815,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 				// validate form ( ng wash )
 				validateBeneficiariesDetailsForm: function( complete, display_modal ){
-					if (ngmClusterValidation.validateBeneficiaries($scope.project.report.locations, $scope.detailBeneficiaries, $scope.project.definition.admin0pcode, $scope.project.definition.project_hrp_project) ){
+					if (ngmClusterValidation.validateBeneficiaries($scope.project.report.locations, $scope.detailBeneficiaries, $scope.project.definition.admin0pcode, $scope.project.definition.project_hrp_project) && $scope.project.checkActiveAllActivities()){
 						if ( complete ) {
 							// $( '#complete-modal' ).openModal( { dismissible: false } );
 							$('#complete-modal').modal({ dismissible: false });
@@ -869,7 +869,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 						var brows = 0;
 						var info = $filter('translate')('save_to_apply_changes');
-
+						
 						// data returned?
 						angular.forEach( prev_report.locations, function(l){
 							brows += l.beneficiaries.length;
@@ -886,6 +886,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 								var msg = $filter( 'translate' )( 'no_previous_report' );
 										typ = 'success';
 							}
+
 
 							// deactive false
 							$scope.addBeneficiaryDisable = false;
@@ -908,6 +909,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							// send message
 							// Materialize.toast( msg, 4000, typ );
 							M.toast({ html: msg, displayLength: 4000, classes: typ });
+
 
 							var current_report = angular.copy( $scope.project.report );
 							if (current_report.locations) {
@@ -935,11 +937,12 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 								// forEach beneficiaries
 								angular.forEach( location.beneficiaries, function( b ){
-									angular.merge( b, current_report );
-									delete b.id;
-									delete b.createdAt;
-									delete b.updatedAt;
-									delete b.report_submitted;
+										angular.merge( b, current_report );
+										delete b.id;
+										delete b.createdAt;
+										delete b.updatedAt;
+										delete b.report_submitted;
+
 								});
 
 							});
@@ -986,6 +989,57 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						return $scope.deactivedCopybutton;
 					}
 
+				},
+
+				// check Copied Beneficiaries
+				checkActiveActivities:function(b){
+					var active =true;
+					if (!b.id && b.activity_type_id && b.activity_description_id ){
+						var isActivityStillExist =[];
+						var forfilter ={};
+						if(b.activity_type_id){
+							forfilter.activity_type_id = b.activity_type_id;
+							isActivityStillExist = $filter('filter')($scope.project.definition.activity_type, forfilter, true)
+						}
+						if(b.activity_description_id){
+							forfilter.activity_description_id = b.activity_description_id;
+							isActivityStillExist = $filter('filter')($scope.project.lists.activity_descriptions, forfilter, true);
+						}
+						if(b.activity_detail_id){
+							forfilter.activity_detail_id = b.activity_detail_id;
+							isActivityStillExist = $filter('filter')($scope.project.lists.activity_details, forfilter, true);
+						}
+						if(b.indicator_id){
+							forfilter.indicator_id = b.indicator_id;
+							isActivityStillExist = $filter('filter')($scope.project.lists.activity_indicators, forfilter, true);
+						}
+						if (!isActivityStillExist.length){
+							active = false;
+						}
+					}
+					return active
+				},
+				checkActiveAllActivities:function(){
+					var active = true;
+					var count =0;
+					var scrollDiv;
+					angular.forEach($scope.project.report.locations, function (l, i) {
+						angular.forEach(l.beneficiaries, function (b, j) {
+							if(l.beneficiaries.length){
+								if(!$scope.project.checkActiveActivities(b)){
+									count = count +1;
+									scrollDiv = $('#need_tochange-'+i+'-'+j);
+								};
+							}
+						})
+					})
+					if(count>0){
+						active = false;
+						scrollDiv.scrollHere();
+						M.toast({ html: "There's some activities need to be changed!", displayLength: 10000, classes: 'error' });
+					}
+
+					return active
 				},
 
 				setTokenUpload: function () {
