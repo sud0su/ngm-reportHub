@@ -579,13 +579,15 @@ angular.module('ngmReportHub')
 									});
 									angular.forEach(act, function (a, i) {
 										var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, a.activity_type_id, 'all', $scope.dashboard.organization_tag, $scope.dashboard.admin1pcode, $scope.dashboard.admin2pcode);
-										activityRows.push({
-											'title': a.activity_type_name,
-											'param': 'activity_type_id',
-											'active': a.activity_type_id,
-											'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
-											'href': '/desk/#' + path
-										});
+										if (activityRows.findIndex(x => x.active === a.activity_type_id) < 0) {
+											activityRows.push({
+												'title': a.activity_type_name,
+												'param': 'activity_type_id',
+												'active': a.activity_type_id,
+												'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
+												'href': '/desk/#' + path
+											});
+										}
 									});
 
 									$scope.model.menu.push({
