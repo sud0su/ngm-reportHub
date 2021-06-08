@@ -4089,6 +4089,9 @@ angular.module( 'ngmReportHub' )
 						{ project_donor_id: 'australia', project_donor_name:'Australia'},
 						{ project_donor_id: 'aus_aid', project_donor_name:'AusAid'},
 						{ project_donor_id: 'bmz', project_donor_name:'BMZ'},
+						// new not yet added on googlesheet donor.csv
+						{ project_donor_id: 'bha', project_donor_name: 'BHA' },
+						//
 						{ project_donor_id: 'brac', project_donor_name:'BRAC'},
 						{ project_donor_id: 'canada',  project_donor_name:'Canada'},
 						{ project_donor_id: 'care',  project_donor_name:'Care'},
