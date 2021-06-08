@@ -90,7 +90,7 @@
             <div class="input-field col s12 m6 l4">
                 <select materialize-select watch id="ngm-stock_item_type-{{$locationIndex}}-{{$stockIndex}}" name="ngm-stock_item_type-{{$locationIndex}}-{{$stockIndex}}"
                     class="validate"
-                    ng-options="s.stock_item_type as s.stock_item_name for s in report.lists.stocks | filter: { cluster_id: stock.cluster_id, admin0pcode: stock.admin0pcode}"
+                    ng-options="s.stock_item_type as s.stock_item_name for s in report.lists.stocks | filter: { cluster_id: stock.cluster_id, admin0pcode: stock.admin0pcode} | orderBy:'stock_item_name'"
                     ng-model="stock.stock_item_type"
                     ng-change="report.updateNameStock(report.lists.stocks,'stock_item_type','stock_item_name',stock,$locationIndex, $stockIndex);report.inputChange('ngm-stock_item_type-{{$locationIndex}}-{{$stockIndex}}')"
                     ng-disabled="!stock.cluster_id || report.report.report_status === 'complete'">
