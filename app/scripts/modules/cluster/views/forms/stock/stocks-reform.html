@@ -49,7 +49,7 @@
                 <select materialize-select watch id="ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}" class="validate"
                     ng-options="c.cluster_id as c.cluster for c in report.lists.clusters" ng-model="stock.cluster_id"
-                    ng-change="report.updateNameStock(report.lists.clusters,'cluster_id','cluster',stock,$locationIndex, $stockIndex);report.inputChange('ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}')" 
+                    ng-change="report.updateNameStock(report.lists.clusters,'cluster_id','cluster',stock,$locationIndex, $stockIndex);report.inputChange('ngm-stocks_cluster_id-{{$locationIndex}}-{{$stockIndex}}');report.updateListDonors(stock,$locationIndex, $stockIndex)" 
                     ng-disabled="report.report.report_status === 'complete'"
                     required>
                     <option value="">{{ 'select' | translate }}</option>
@@ -146,10 +146,10 @@
             <div ng-if="report.organization.admin0pcode === 'ET'" ng-init="!stock.donors ? stock.donors=[] : false" class="input-field col s12 m6 l4">
                 <select materialize-select watch id="ngm-donor-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-donor-{{$locationIndex}}-{{$stockIndex}}" class="validate"
-										ng-options="item.project_donor_id as item.project_donor_name for item in report.lists.donors"
+										ng-options="item.project_donor_id as item.project_donor_name for item in report.lists.stockDonors[$locationIndex][$stockIndex]"
 										searchable="Search Donor"
                     ng-model="stock.donors[0].donor_id"
-                    ng-change="report.updateNameStockImplementingPartnerDonor(report.lists.donors,'donors','donor_id','donor_name',stock,$locationIndex, $stockIndex);report.inputChange('ngm-donor-{{$locationIndex}}-{{$stockIndex}}')"
+                    ng-change="report.updateNameStockImplementingPartnerDonor(report.lists.stockDonors[$locationIndex][$stockIndex],'donors','donor_id','donor_name',stock,$locationIndex, $stockIndex);report.inputChange('ngm-donor-{{$locationIndex}}-{{$stockIndex}}')"
                     ng-disabled="report.report.report_status === 'complete'">
                     <!-- <option value="">{{ 'select' | translate }}</option> -->
                     <option value="">-</option>
