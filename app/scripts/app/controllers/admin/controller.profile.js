@@ -177,7 +177,13 @@ angular.module('ngmReportHub')
 
 			// get use
 			ngmData
-				.get( { method: 'GET', url: ngmAuth.LOCATION + '/api/getUserByUsername?username=' + $scope.dashboard.username } )
+				.get({
+					method: 'GET',
+					url: ngmAuth.LOCATION + '/api/getUserByUsername',
+					params: {
+						username: $scope.dashboard.username
+					}
+				} )
 				.then( function( user ){
 					// load with user profile
 					$scope.dashboard.init( user );
