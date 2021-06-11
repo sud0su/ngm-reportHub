@@ -590,7 +590,13 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 					if ( $scope.panel.user && $scope.panel.user.admin0pcode && $scope.panel.user.cluster_id && $scope.panel.user.organization_name ) {
 						// not R&R Chapter
 						if ( $scope.panel.user.cluster_id !== 'rnr_chapter' ) {
-							disabled = false;
+							var cek_attr_organization = $filter('filter')($scope.panel.organizations, { organization: $scope.panel.user.organization }, true);
+							if (cek_attr_organization.length) {
+								if (cek_attr_organization[0].organization === $scope.panel.user.organization) {
+
+									disabled = false;
+								}
+							}
 						} else {
 							if ( $scope.panel.user.organization === 'UNHCR' || $scope.panel.user.organization === 'IOM' ) {
 								disabled = false;
