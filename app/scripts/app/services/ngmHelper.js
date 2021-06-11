@@ -191,7 +191,8 @@ angular.module( 'ngmReportHub' )
 					subtitle:'@',
 					model: '=',
 					onSelect:'&',
-					disabled:'='
+					disabled:'=',
+					helpertext:'@'
 				},
 				link:function(scope,elem,attrs){
 					scope.handleSelection=function(selectedItem){
