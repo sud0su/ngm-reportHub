@@ -364,7 +364,9 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 					$scope.panel.btnDisabled = true;
 
 					// cluster
-					var cluster = $filter('filter')( $scope.panel.clusters.active, { cluster_id: $scope.panel.user.cluster_id } )[0].cluster;
+					// var cluster = $filter('filter')( $scope.panel.clusters.active, { cluster_id: $scope.panel.user.cluster_id } )[0].cluster;
+					var cluster_filter = $filter('filter')($scope.panel.clusters.active, { cluster_id: $scope.panel.user.cluster_id });
+					var cluster = cluster_filter.length ? cluster_filter[0].cluster: "";
 
 					// merge adminRegion
 					$scope.panel.user = angular.merge( {}, $scope.panel.user,
@@ -392,6 +394,10 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 						// Materialize.toast( msg, 6000, msg );
 						$timeout(function(){
 							M.toast({ html: 'Update Error', displayLength: 6000, classes: 'error' });
+							if(cluster === ''){
+								M.toast({ html: 'Please change your sector! Sector is not active in '+ $scope.panel.user.admin0name, displayLength: 6000, classes: 'error' });
+							}
+							$scope.panel.btnDisabled = false;
 						},300)
 					}else{
 						// register
@@ -791,7 +797,7 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 						field="Organization";
 						valid = false;
 					}
-					if(!user.cluster_id){
+					if(!user.cluster_id || !user.cluster){
 						$('label[for=' + 'ngm-cluster' + ']').addClass('error');
 						scrollDiv = $('#ngm-cluster');
 						field="Sector";
