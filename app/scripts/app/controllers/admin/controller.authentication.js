@@ -364,7 +364,9 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 					$scope.panel.btnDisabled = true;
 
 					// cluster
-					var cluster = $filter('filter')( $scope.panel.clusters.active, { cluster_id: $scope.panel.user.cluster_id } )[0].cluster;
+					// var cluster = $filter('filter')( $scope.panel.clusters.active, { cluster_id: $scope.panel.user.cluster_id } )[0].cluster;
+					var cluster_filter = $filter('filter')($scope.panel.clusters.active, { cluster_id: $scope.panel.user.cluster_id });
+					var cluster = cluster_filter.length ? cluster_filter[0].cluster: "";
 
 					// merge adminRegion
 					$scope.panel.user = angular.merge( {}, $scope.panel.user,
@@ -388,55 +390,70 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 					if (config.user.cluster_id !== $scope.panel.user.cluster_id){
 						clusterUpdatedTo = $scope.panel.user.cluster;
 					}
-					// register
-					ngmAuth
-						.updateProfile({ user: $scope.panel.user }).then(function( result ) {
-
-							// db error!
-							if( result.data.err || result.data.summary ){
-								var msg = result.data.msg ? result.data.msg : 'error!';
-								// Materialize.toast( msg, 6000, msg );
-								M.toast({ html: msg, displayLength: 6000, classes: 'error' });
+					if(!$scope.panel.validateUpdateProfile($scope.panel.user)){
+						// Materialize.toast( msg, 6000, msg );
+						$timeout(function(){
+							M.toast({ html: 'Update Error', displayLength: 6000, classes: 'error' });
+							if(cluster === ''){
+								M.toast({ html: 'Please change your sector! Sector is not active in '+ $scope.panel.user.admin0name, displayLength: 6000, classes: 'error' });
 							}
-
-							// success
-							if ( result.data.success ){
-								// set user and localStorage (if updating own profile)
-								if ( $scope.panel.user.username === ngmUser.get().username ) {
-									$scope.panel.user = angular.merge( {}, $scope.panel.user, result.data.user );
-									ngmUser.set( $scope.panel.user );
+							$scope.panel.btnDisabled = false;
+						},300)
+					}else{
+						// register
+						ngmAuth
+							.updateProfile({ user: $scope.panel.user }).then(function( result ) {
+	
+								// db error!
+								if( result.data.err || result.data.summary ){
+									var msg = result.data.msg ? result.data.msg : 'error!';
+									// Materialize.toast( msg, 6000, msg );
+									M.toast({ html: msg, displayLength: 6000, classes: 'error' });
 								}
-								// success message
-
-								$timeout( function(){
-
-									//
-									if (config.user.organization_tag !== $scope.panel.user.organization_tag){
-										// Materialize.toast('Organization changed to ' + orgUpdatedTo, 6000, 'success');
-										M.toast({ html: 'Organization changed to ' + orgUpdatedTo, displayLength: 6000, classes: 'success' });
+	
+								// success
+								if ( result.data.success ){
+									// set user and localStorage (if updating own profile)
+									if ( $scope.panel.user.id === ngmUser.get().id ) {
+										$scope.panel.user = angular.merge( {}, $scope.panel.user, result.data.user );
+										ngmUser.set( $scope.panel.user );
 									}
-									if (config.user.cluster_id !== $scope.panel.user.cluster_id){
-										// Materialize.toast('Cluster changed to ' + clusterUpdatedTo, 6000, 'success');
-										M.toast({ html: 'Cluster changed to ' + clusterUpdatedTo, displayLength: 6000, classes: 'success' });
-									}
-									// Materialize.toast( $filter('translate')('success')+' '+$filter('translate')('profile_updated'), 6000, 'success' );
-									M.toast({ html: $filter('translate')('success') + ' ' + $filter('translate')('profile_updated'), displayLength: 6000, classes: 'success' });
-
-									// activate btn
-									$scope.panel.btnDisabled = false;
-
-									// redirect to team view and page refresh
-									if ( reload ) {
-										var path = ( ngmUser.get().organization === 'iMMAP' && ( ngmUser.get().admin0pcode === 'CD' || ngmUser.get().admin0pcode === 'ET' ) ) ? '/immap/team' : '/team';
-										if ($rootScope.teamPreviouseUrl) {
-											  path = $rootScope.teamPreviouseUrl.split('#')[1];
+									// success message
+	
+									$timeout( function(){
+	
+										//
+										if (config.user.organization_tag !== $scope.panel.user.organization_tag){
+											// Materialize.toast('Organization changed to ' + orgUpdatedTo, 6000, 'success');
+											M.toast({ html: 'Organization changed to ' + orgUpdatedTo, displayLength: 6000, classes: 'success' });
 										}
-										$location.path( path );
-									}
-								}, 200 );
-							}
-
-						});
+										if (config.user.cluster_id !== $scope.panel.user.cluster_id){
+											// Materialize.toast('Cluster changed to ' + clusterUpdatedTo, 6000, 'success');
+											M.toast({ html: 'Cluster changed to ' + clusterUpdatedTo, displayLength: 6000, classes: 'success' });
+										}
+										// Materialize.toast( $filter('translate')('success')+' '+$filter('translate')('profile_updated'), 6000, 'success' );
+										M.toast({ html: $filter('translate')('success') + ' ' + $filter('translate')('profile_updated'), displayLength: 6000, classes: 'success' });
+	
+										// activate btn
+										$scope.panel.btnDisabled = false;
+	
+										// redirect to team view and page refresh
+										if ( reload ) {
+											var path = ( ngmUser.get().organization === 'iMMAP' && ( ngmUser.get().admin0pcode === 'CD' || ngmUser.get().admin0pcode === 'ET' ) ) ? '/immap/team' : '/team';
+											if ($rootScope.teamPreviouseUrl) {
+												  path = $rootScope.teamPreviouseUrl.split('#')[1];
+											}
+											$location.path( path );
+										}else{
+											if ($scope.panel.user.id === ngmUser.get().id) {
+												$location.path('/profile/' + $scope.panel.user.username);
+											}
+										}
+									}, 200 );
+								}
+	
+							});
+					}
 				},
 
 				// register fn
@@ -769,6 +786,49 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 					};
 					
 					return access;
+				},
+				validateUpdateProfile:function(user){
+					var scrollDiv;
+					var valid = true;
+					var field = '';
+					if(!user.organization_tag){
+						$('label[for=' + 'ngm-organization' + ']').addClass('error');
+						scrollDiv = $('#ngm-organization');
+						field="Organization";
+						valid = false;
+					}
+					if(!user.cluster_id || !user.cluster){
+						$('label[for=' + 'ngm-cluster' + ']').addClass('error');
+						scrollDiv = $('#ngm-cluster');
+						field="Sector";
+						valid = false;
+					}
+					if(!user.username){
+						$('label[for=' + 'ngm-username' + ']').addClass('error');
+						scrollDiv = $('#ngm-username');
+						field ="Username";
+						valid = false;
+					}
+					if(!user.name){
+						$('label[for=' + 'ngm-fullname' + ']').addClass('error');
+						scrollDiv = $('#ngm-username');
+						field= "Fullname"
+						valid = false;
+					}
+					if(!user.email){
+						$('label[for=' + 'ngm-email' + ']').addClass('error');
+						scrollDiv = $('#ngm-email');
+						field = "Email"
+						valid = false;
+
+					}
+					if(!valid){
+						scrollDiv.scrollHere();
+						$timeout(function(){
+							M.toast({ html: field+' is Missing!', displayLength: 6000, classes: 'error' });
+						},300)
+					}
+					return valid
 				}
 
 			}
