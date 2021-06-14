@@ -191,7 +191,7 @@ form {
 								 {{'select_organization' | translate}}
 								<option value="">{{'select_organization' | translate}}</option>
 							</select>
-							<label for="ngm-cluster">Organization</label>
+							<label for="ngm-organization">Organization</label>
 						</div>
 					</div>
 					<div class="row">
@@ -200,7 +200,7 @@ form {
 							<select class="validate" id="ngm-cluster" ng-options="cluster.cluster_id as cluster.cluster for cluster in panel.clusters.active"
 							 ng-model="panel.user.cluster_id" ng-disabled="panel.updateClusterUser">
 								{{'select_sector'| translate}}
-								<option value="">{{'select_sector' | translate}}</option>
+								<option value="" disabled selected>{{'select_sector' | translate}}</option>
 							</select>
 							<label for="ngm-cluster">Sector</label>
 						</div>

@@ -167,6 +167,72 @@ angular.module('ngmReportHub')
 
 				// assign to ngm app scope
 				$scope.dashboard.ngm.dashboard = $scope.model;
+			},
+			notfound:function(user){
+
+				var model_for_notfound_user = {
+					name: 'dashboard_profile_notfound_user',
+					header: {
+						div: {
+							'class': 'col s12 m12 l12 report-header',
+							style: 'border-bottom: 3px ' + $scope.dashboard.ngm.style.defaultPrimaryColor + ' solid;'
+						},
+						title: {
+							'class': 'col s12 m12 l12 report-title report-title',
+							style: 'color: ' + $scope.dashboard.ngm.style.defaultPrimaryColor,
+							title: $filter('translate')('profile') + ' | ' + $scope.dashboard.username
+
+						},
+						subtitle: {
+							'class': 'col s12 m12 l12 report-subtitle',
+							html: true,
+							title: 'User Not Found',
+						}
+					},
+					rows: [{
+						columns: [{
+							styleClass: 's12 m12 l12',
+							widgets: [{
+								type: 'html',
+								card: 'white grey-text text-darken-2',
+								style: 'padding: 20px;',
+								config: {
+									html: $scope.dashboard.getHeaderHtml()
+								}
+							}]
+						}]
+					}, {
+						columns: [{
+							styleClass: 's12 m12 l12',
+							widgets: [{
+								type: 'html',
+								card: 'white grey-text text-darken-2',
+								style: 'padding: 20px;',
+								config: {
+									username: $scope.dashboard.username,
+									templateUrl: '/scripts/app/views/authentication/profile-not-found.html',
+								}
+							}]
+						}]
+						}, {
+							columns: [{
+								styleClass: 's12 m12 l12',
+								widgets: [{
+									type: 'html',
+									card: 'card-panel',
+									style: 'padding:0px; height: 90px; padding-top:10px;',
+									config: {
+										html: $scope.dashboard.ngm.footer
+									}
+								}]
+							}]
+						}]
+				}
+
+				$scope.model = model_for_notfound_user;
+				// assign to ngm app scope
+				$scope.dashboard.ngm.dashboard = $scope.model;
+
 			}
 
 		}
@@ -186,7 +252,11 @@ angular.module('ngmReportHub')
 				} )
 				.then( function( user ){
 					// load with user profile
-					$scope.dashboard.init( user );
+					if (typeof user === 'object' && user !== undefined ){
+						$scope.dashboard.init( user );
+					}else{
+						$scope.dashboard.notfound(user);
+					}
 			});
 
 		} else {
