@@ -4992,6 +4992,11 @@ angular.module( 'ngmReportHub' )
 
 				// return donors;
 				// return donors;
+
+				// Sort A-Z
+				if (donors_filter.length){
+					donors_filter = $filter('orderBy')(donors_filter, 'project_donor_name');
+				}
 				donors_filter.push({ project_donor_id: 'other', project_donor_name: 'Other' });
 				return donors_filter;
 			},
