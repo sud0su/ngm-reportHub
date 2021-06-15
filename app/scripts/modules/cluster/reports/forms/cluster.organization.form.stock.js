@@ -77,6 +77,8 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
         init: function(){
           $scope.report.report.stocklocations = $filter('orderBy')( $scope.report.report.stocklocations, [ 'admin1name','admin2name','admin3name','admin4name','admin5name','site_name' ]);
           // set open close details stock
+
+          $scope.report.lists.stockDonors = [];
           angular.forEach($scope.report.report.stocklocations,function(e,i){
             $scope.report.detailItem[i] = $scope.report.report.stocklocations[i].stocks.length ?
               new Array($scope.report.report.stocklocations[i].stocks.length).fill(false) : new Array(0).fill(false);
@@ -117,6 +119,15 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
 
                   })
                 }
+                // set stockDonor for each record
+
+                if (!$scope.report.lists.stockDonors[i]) {
+                  $scope.report.lists.stockDonors[i] = []
+                }
+                if (!$scope.report.lists.stockDonors[i][j]) {
+                  $scope.report.lists.stockDonors[i][j] = []
+                }
+                $scope.report.updateListDonors(stock, i, j);
               })
             }
 
@@ -173,6 +184,8 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
           }
 
           $scope.detailStocks[$parent][$scope.report.report.stocklocations[$parent].stocks.length - 1]= true;
+
+          $scope.report.updateListDonors($scope.inserted, $parent, $scope.report.report.stocklocations[$parent].stocks.length - 1);
         },
         addStockFromFile: function ($parent, stock,$indexFile){
          var insert = {
@@ -313,9 +326,9 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
 					}
 					return selected.length ? selected[0].stock_targeted_groups_name : '-';
 				},
-        showDonor:function($data,$stock){
+        showDonor:function($data, $stock, $locationIndex, $index){
           selected = [];
-          if (!$stock.donors) {
+          if (!$stock.donors || !$stock.donors.length) {
             $stock.donors = [{ donor_id: '' }]
           }
           // $stock.project_donor_id = $data;
@@ -334,7 +347,9 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
           // }
           $stock.donors[0].donor_id = $data;
           if ($stock.donors[0].donor_id) {
-            selected = $filter('filter')($scope.report.lists.donors, { project_donor_id: $stock.project_donor_id }, true);
+            // selected = $filter('filter')($scope.report.lists.donors, { project_donor_id: $stock.project_donor_id }, true);
+
+            selected = $filter('filter')($scope.report.lists.stockDonors[$locationIndex][$index], { project_donor_id: $stock.project_donor_id }, true);
             if (selected.length) {
               $stock.donors[0].donor_name = selected[0].project_donor_name;
             }
@@ -342,9 +357,16 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
 
           return selected.length ? selected[0].project_donor_name : '-';
         },
+        updateListDonors: function (stock, $locationIndex, $stockIndex) {
+          // $scope.report.lists.donors = ngmClusterLists.getDonors(stock.admin0pcode,stock.cluster_id);
+          if (!$scope.report.lists.stockDonors[$locationIndex]) {
+            $scope.report.lists.stockDonors[$locationIndex] = []
+          }
+          $scope.report.lists.stockDonors[$locationIndex][$stockIndex] = ngmClusterLists.getDonors(stock.admin0pcode, stock.cluster_id);
+        },
         showImplementingPartner: function ($data, $stock) {
           selected = [];
-          if (!$stock.implementing_partners){
+          if (!$stock.implementing_partners || !$stock.implementing_partners.length){
             $stock.implementing_partners = [{ organization_tag:''}]
           }
           // $stock.organization_tag = $data;
