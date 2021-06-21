@@ -393,8 +393,6 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 									&& $scope.project.lists.project_details && $scope.project.lists.project_details.length < 1) {
 						$scope.project.lists.project_details = angular.copy($scope.project.definition.project_details);
 					}
-
-
 				},
 				// Push objects, in chunk of 10s to the location array to make rendering easy
 				addMoreItems: function(){

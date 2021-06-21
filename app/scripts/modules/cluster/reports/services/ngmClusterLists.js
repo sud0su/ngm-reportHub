@@ -57,7 +57,7 @@ angular.module( 'ngmReportHub' )
 					projectActivityTypes: ngmClusterLists.getProjectActivityTypes( project ),
 					strategic_objectives: ngmClusterLists.getStrategicObjectives( project.admin0pcode, moment( project.project_start_date ).year(), moment( project.project_end_date ).year() ),
 					category_types: ngmClusterLists.getCategoryTypes(),
-					beneficiary_types: ngmClusterLists.getBeneficiaries( moment( project.project_end_date ).year(), project.admin0pcode, project.cluster_id ),
+					beneficiary_types: ngmClusterLists.getBeneficiaries(moment(project.project_end_date).year(), project.admin0pcode, project.cluster_id, start_date, end_date),
 					beneficiary_categories: ngmClusterLists.getBeneficiariesCategories(project.admin0pcode, project.cluster_id),
 					hrp_beneficiary_types: ngmClusterLists.getHrpBeneficiaries(project.admin0pcode, moment(project.project_end_date).year()),
 					// location_groups: ngmClusterLists.getLocationGroups(),
@@ -261,6 +261,12 @@ angular.module( 'ngmReportHub' )
 					getOrganizations:{
 						method: 'GET',
 						url: ngmAuth.LOCATION + '/api/list/organizations'
+					},
+
+					// beneficiarytypes
+					getBeneficiaryTypes: {
+						method: 'GET',
+						url: ngmAuth.LOCATION + '/api/cluster/list/beneficiarytypes?admin0pcode=' + user.admin0pcode
 					}
 
 				}
@@ -280,7 +286,8 @@ angular.module( 'ngmReportHub' )
 						donorsList: [],
 						indicatorsList: [],
 						stockItemsList: [],
-						organizationsList: []
+						organizationsList: [],
+						beneficiaryTypeList:[]
 					};
 
 					// storage
@@ -308,6 +315,18 @@ angular.module( 'ngmReportHub' )
 								requests.getDonors = getDonorsAll;
 							}
 							
+
+
+
+
+
+							if (max_role === 'SUPERADMIN') {
+								var getBeneficiaryTypesAll = {
+									method: 'GET',
+									url: ngmAuth.LOCATION + '/api/cluster/list/beneficiarytypes'
+								}
+								requests.getBeneficiaryTypes = getBeneficiaryTypesAll;
+							}
 						}
 					}
 					// send request
@@ -323,6 +342,7 @@ angular.module( 'ngmReportHub' )
 						$http( requests.getIndicators ),
 						$http( requests.getStockItems ),
 						$http( requests.getOrganizations),
+						$http(requests.getBeneficiaryTypes)
 
 						 ] ).then( function( results ){
 
@@ -339,6 +359,7 @@ angular.module( 'ngmReportHub' )
 								indicatorsList: results[8].data,
 								stockItemsList: results[9].data,
 								organizationsList: results[10].data,
+								beneficiaryTypeList: results[11].data
 
 							};
 							// storage
@@ -5794,2691 +5815,2691 @@ angular.module( 'ngmReportHub' )
 			},
 
 			// return ocha beneficiaries
-			getBeneficiaries: function( year, admin0pcode, cluster_id ) {
+			getBeneficiaries: function( year, admin0pcode, cluster_id ,start,end ) {
 				//Helper function to exclude some sectors from all sectors
-				function excludeSectors(exSectors){
-					var clone =  Object.assign([], ngmClusterLists.all_sectors);
-					exSectors.forEach(function(exSector){
-						var index = clone.indexOf(exSector);
-						if (index > -1) {
-							clone.splice(index, 1);
-						}
-					});
-					return clone;
-				}
-				// default
-				var beneficiaries = [{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idps',
-						beneficiary_type_name: 'IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'drought_idps',
-						beneficiary_type_name: 'Drought IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'flood_idps',
-						beneficiary_type_name: 'Flood IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'natural_disaster_idps',
-						beneficiary_type_name: 'Natural Disaster IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'conflict_idps',
-						beneficiary_type_name: 'Conflict IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'refugees',
-						beneficiary_type_name: 'Refugees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'returnees',
-						beneficiary_type_name: 'Returnees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'host_communities',
-						beneficiary_type_name: 'Host Communities'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'stakeholders',
-						beneficiary_type_name: 'Stakeholders'
-					}];
-
-				// 2016
-				if ( year === 2016 ) {
-					beneficiaries = [{
-						cluster_id: [ 'esnfi', 'health', 'wash', 'protection' ],
-						beneficiary_type_id: 'conflict_displaced',
-						beneficiary_type_name: 'Conflict IDPs'
-					},{
-						cluster_id: [ 'esnfi', 'health', 'wash' ],
-						beneficiary_type_id: 'health_affected_conflict',
-						beneficiary_type_name: 'Health Affected by Conflict'
-					},{
-						cluster_id: [ 'esnfi', 'health', 'wash', 'protection' ],
-						beneficiary_type_id: 'natural_disaster_affected',
-						beneficiary_type_name: 'Natural Disaster IDPs'
-					},{
-						cluster_id: [ 'esnfi', 'wash', 'protection' ],
-						beneficiary_type_id: 'protracted_idps',
-						beneficiary_type_name: 'Protracted IDPs'
-					},{
-						cluster_id: [ 'esnfi', 'health', 'wash', 'protection' ],
-						beneficiary_type_id: 'refugees_returnees',
-						beneficiary_type_name: 'Refugees & Returnees'
-					},{
-						cluster_id: [ 'esnfi', 'health', 'wash' ],
-						beneficiary_type_id: 'white_area_population',
-						beneficiary_type_name: 'White Area Population'
-					}];
-
-					// filter by cluster beneficiaries here
-					beneficiaries = $filter( 'filter' )( beneficiaries, { cluster_id: cluster_id } );
-				}
-
-				if (  admin0pcode === 'CB' ) {
-					// default
-					beneficiaries = [{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'refugees',
-						beneficiary_type_name: 'Refugees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'host_communities',
-						beneficiary_type_name: 'Host Communities'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_wash_education,
-						beneficiary_type_id: 'government_officials',
-						beneficiary_type_name: 'Government Officials'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_wash_education,
-						beneficiary_type_id: 'humanitarian_workers',
-						beneficiary_type_name: 'Humanitarian Workers'
-					},{
-						cluster_id: [ 'fss' ],
-						beneficiary_type_id: 'private_sector',
-						beneficiary_type_name: 'Private Sector'
-					},{
-						cluster_id: [ 'fss' ],
-						beneficiary_type_id: 'service_provider',
-						beneficiary_type_name: 'Service Provider'
-					}];
-				}
-
-				// admin COL
-
-				if (  admin0pcode === 'COL' ) {
-					// default
-					var beneficiaries = [
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'afectados_por_deslizamientos',
-						beneficiary_type_name: 'Afectados por deslizamientos'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'afectados_por_inundaciones',
-						beneficiary_type_name: 'Afectados por inundaciones'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'afectados_por_otro_tipo_de_desastres_naturales',
-						beneficiary_type_name: 'Afectados por otro tipo de desastres naturales'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'afectados_por_sequias',
-						beneficiary_type_name: 'Afectados por sequias'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'afectados_por_vendavales',
-						beneficiary_type_name: 'Afectados por vendavales'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'host_communities',
-						beneficiary_type_name: 'Comunidades receptoras'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'lideres_lideresas_sociales_amenazados',
-						beneficiary_type_name: 'Líderes / lideresas sociales amenazados'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'migrantes',
-						beneficiary_type_name: 'Migrantes'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'mujeres_lactantes_gestantes',
-						beneficiary_type_name: 'Mujeres lactantes / gestantes'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'personas_confinadas',
-						beneficiary_type_name: 'Personas confinadas'
-					}
-					,
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'personas_desplazadas_internamente',
-						beneficiary_type_name: 'Personas desplazadas internamente (individual)'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'personas_desplazadas_internamente',
-						beneficiary_type_name: 'Personas desplazadas internamente (masivo)'
-					},
-
-
-					 {
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'poblacion_con_doble_afectacion_conflicto_y_desastres',
-						beneficiary_type_name: 'Población con doble afectación (conflicto y desastres)'
-					},
-
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'poblacion_con_multiples_afectaciones',
-						beneficiary_type_name: 'Población con múltiples afectaciones'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'poblacion_en_situacion_de_discapacidad',
-						beneficiary_type_name: 'Población en situación de discapacidad'
-
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'poblacion_lgbttti',
-						beneficiary_type_name: 'Población LGBTTTI'
-
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'poblacion_vulnerable',
-						beneficiary_type_name: 'Población vulnerable'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'refugees',
-						beneficiary_type_name: 'Refugiados'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'returnees',
-						beneficiary_type_name: 'Retornados'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'solicitantes_de_asilo',
-						beneficiary_type_name: 'Solicitantes de asilo'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'victimas_de_aei',
-						beneficiary_type_name: 'Víctimas de AEI'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'sex_crimes_victims',
-						beneficiary_type_name: 'Víctimas de Delitos Sexuales'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'victimas_del_conflicto_armado_en_general',
-						beneficiary_type_name: 'Víctimas del conflicto armado en general'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'victimas_de_map',
-						beneficiary_type_name: 'Víctimas de MAP'
-					},
-
-					 {
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'victimas_de_map_muse_aei_en_general',
-						beneficiary_type_name: 'Víctimas de MAP / MUSE / AEI en general'
-					},
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'victimas_de_muse',
-						beneficiary_type_name: 'Víctimas de MUSE'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'victimas_de_otras_violencias_basadas_en_genero',
-						beneficiary_type_name: 'Víctimas de otras violencias basadas en género'
-					},
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'victimas_de_reclutamiento_forzado',
-						beneficiary_type_name: 'Víctimas de reclutamiento forzado'
-					},
-
-
-					{
-						cluster_id: ngmClusterLists.all_sectors_col,
-						beneficiary_type_id: 'otros',
-						beneficiary_type_name: 'Otros'
-					}
-
-
-					];
-
-				}
-
-				// admin SS
-				if ( admin0pcode === 'SS' ) {
-					// beneficiaries
-					beneficiaries = [{
-							cluster_id: ngmClusterLists.all_sectors,
-							beneficiary_type_id: 'idps',
-							beneficiary_type_name: 'IDPs'
-						},{
-							cluster_id: ngmClusterLists.all_sectors,
-							beneficiary_type_id: 'refugees',
-							beneficiary_type_name: 'Refugees'
-						},{
-							cluster_id: ngmClusterLists.all_sectors,
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: ngmClusterLists.all_sectors,
-							beneficiary_type_id: 'otherwise_affected',
-							beneficiary_type_name: 'Otherwise Affected'
-						}];
-				}
-
-				// admin SO
-				if ( admin0pcode === 'SO' ) {
-
-					// beneficiaries
-					beneficiaries = [{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idps',
-						beneficiary_type_name: 'IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'drought_idps',
-						beneficiary_type_name: 'Drought IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'flood_idps',
-						beneficiary_type_name: 'Flood IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'conflict_idps',
-						beneficiary_type_name: 'Conflict IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'refugees',
-						beneficiary_type_name: 'Refugees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'returnees',
-						beneficiary_type_name: 'Returnees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'host_communities',
-						beneficiary_type_name: 'Host Communities'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'health_care_workers',
-						beneficiary_type_name: 'Health Care Workers'
-					}];
-				}
-
-				//admin NG
-				if( admin0pcode === 'NG' ){
-					beneficiaries = [{
-						cluster_id: excludeSectors(['child_protection']),
-						beneficiary_type_id: 'idps',
-						beneficiary_type_name: 'IDPs'
-					},{
-						cluster_id: excludeSectors(['education','child_protection', 'gbv']),
-						beneficiary_type_id: 'drought_idps',
-						beneficiary_type_name: 'Drought IDPs'
-					},{
-						cluster_id: excludeSectors(['education','child_protection', 'gbv']),
-						beneficiary_type_id: 'flood_idps',
-						beneficiary_type_name: 'Flood IDPs'
-					},{
-						cluster_id: excludeSectors(['education','child_protection', 'gbv']),
-						beneficiary_type_id: 'natural_disaster_idps',
-						beneficiary_type_name: 'Natural Disaster IDPs'
-					},{
-						cluster_id: excludeSectors(['education','child_protection', 'gbv']),
-						beneficiary_type_id: 'conflict_idps',
-						beneficiary_type_name: 'Conflict IDPs'
-					},{
-						cluster_id: excludeSectors(['education','child_protection', 'gbv']),
-						beneficiary_type_id: 'refugees',
-						beneficiary_type_name: 'Refugees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'returnees',
-						beneficiary_type_name: 'Returnees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'host_communities',
-						beneficiary_type_name: 'Host Communities'
-					},{
-						cluster_id: excludeSectors(['education','child_protection']),
-						beneficiary_type_id: 'stakeholders',
-						beneficiary_type_name: 'Stakeholders'
-					},{
-						cluster_id: excludeSectors(['education','wash','gbv']),
-						beneficiary_type_id: 'idps_in_host_communities',
-						beneficiary_type_name: 'IDPs in Host Communities'
-					},{
-						cluster_id: excludeSectors(['education','wash', 'gbv']),
-						beneficiary_type_id: 'idps_in_camps',
-						beneficiary_type_name: 'IDPs in Camps'
-					}
-				]
-				}
-
-				// PHL
-				if ( admin0pcode === 'PHL' ) {
-					beneficiaries = [{
-							cluster_id: ngmClusterLists.all_sectors,
-							beneficiary_type_id: 'general_population',
-							beneficiary_type_name: 'General Population'
-						},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'host_communities',
-						beneficiary_type_name: 'Host Communities'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'stakeholders',
-						beneficiary_type_name: 'Stakeholders'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idps',
-						beneficiary_type_name: 'IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idp_drought',
-						beneficiary_type_name: 'Drought Affected IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idp_flood',
-						beneficiary_type_name: 'Flood Affected IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idp_natural_disaster',
-						beneficiary_type_name: 'Natural Disaster IDPs'
-					}];
-				}
-
-				// admin ET
-				if ( admin0pcode === 'ET' ) {
-
-					// all_sectors_minus_esnfi
-
-					// beneficiaries
-					beneficiaries = [{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'idps',
-						beneficiary_type_name: 'IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idp_conflict',
-						beneficiary_type_name: 'Conflict IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idp_drought',
-						beneficiary_type_name: 'Drought Affected IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'idp_flood',
-						beneficiary_type_name: 'Flood Affected IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'idp_natural_disaster',
-						beneficiary_type_name: 'Natural Disaster IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'idp_returnee',
-						beneficiary_type_name: 'Returnee IDPs'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'returnees',
-						beneficiary_type_name: 'Returnees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'returnees_not_home',
-						beneficiary_type_name: 'Returnees (not home)'
-					},{
-						cluster_id: ngmClusterLists.all_sectors,
-						beneficiary_type_id: 'returnees_home',
-						beneficiary_type_name: 'Returnees (who went home)'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'refugees',
-						beneficiary_type_name: 'Refugees'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'health_workers',
-						beneficiary_type_name: 'Health Workers'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'social_workers',
-						beneficiary_type_name: 'Social Workers'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'host_communities',
-						beneficiary_type_name: 'Host Communities'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'conflict_affected',
-						beneficiary_type_name: 'Conflict Affected'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'idp_natural_affected',
-						beneficiary_type_name: 'Natural Disaster Affected'
-					},{
-						cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
-						beneficiary_type_id: 'vulnerable_groups',
-						beneficiary_type_name: 'Vulnerable Groups'
-					}];
-
-				} else if ( admin0pcode === 'AF' ) {
-					// #TODO put it on config
-
-					// ocha beneficiaries list
-					if (year === 2017){
-
-							beneficiaries = [{
-
-								// Conflict Affected / Conflict IDPs
-
-								// CAT A) conflict affected / conflict idps
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'conflict_affected',
-								beneficiary_type_name: 'Conflict Affected'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs'
-							},{
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs (Recent)'
-							},{
-							//   cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
-							//   category_type_id: [ 'category_a' ],
-							//   beneficiary_type_id: 'idp_conflict_natural_disaster',
-							//   beneficiary_type_name: 'Conflict IDPs + Natural Disaster IDPs'
-							// },{
-								// CAT B) conflict affected / conflict idps
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'conflict_affected',
-								beneficiary_type_name: 'Conflict Affected'
-							},{
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs (Recent)'
-							},{
-							//   cluster_id: [ 'wash' ],
-							//   category_type_id: [ 'category_b' ],
-							//   beneficiary_type_id: 'idp_conflict_natural_disaster',
-							//   beneficiary_type_name: 'Conflict IDPs + Natural Disaster IDPs'
-							// },{
-								// CAT C) conflict affected / conflict idps
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'protection',  ],
-								category_type_id: [ 'category_c' ],
-								beneficiary_type_id: 'conflict_affected',
-								beneficiary_type_name: 'Conflict Affected'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'protection',  ],
-								category_type_id: [ 'category_c' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs'
-							},{
-							//   cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'protection',  ],
-							//   category_type_id: [ 'category_c' ],
-							//   beneficiary_type_id: 'idp_conflict_natural_disaster',
-							//   beneficiary_type_name: 'Conflict IDPs + Natural Disaster IDPs'
-							// },{
-								// CAT D) conflict affected / conflict idps
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'conflict_affected',
-								beneficiary_type_name: 'Conflict Affected'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs'
-							},{
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs (Recent)'
-							},{
-							//   cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
-							//   category_type_id: [ 'category_d' ],
-							//   beneficiary_type_id: 'idp_conflict_natural_disaster',
-							//   beneficiary_type_name: 'Conflict IDPs + Natural Disaster IDPs'
-							// },{
-
-
-								// Natural Disaster
-
-								// CAT A) Natural Disaster
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'idp_natural_disaster',
-								beneficiary_type_name: 'Natural Disaster IDPs'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'natural_disaster_affected',
-								beneficiary_type_name: 'Natural Disaster Affected'
-							},{
-								// CAT B) Natural Disaster
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'idp_natural_disaster',
-								beneficiary_type_name: 'Natural Disaster IDPs'
-							},{
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'natural_disaster_affected',
-								beneficiary_type_name: 'Natural Disaster Affected'
-							},{
-								// CAT C) Natural Disaster
-								cluster_id: [ 'esnfi' ],
-								category_type_id: [ 'category_c' ],
-								beneficiary_type_id: 'idp_natural_disaster',
-								beneficiary_type_name: 'Natural Disaster IDPs'
-							},{
-								cluster_id: [ 'esnfi' ],
-								category_type_id: [ 'category_c' ],
-								beneficiary_type_id: 'natural_disaster_affected',
-								beneficiary_type_name: 'Natural Disaster Affected'
-							},{
-								// CAT D) Natural Disaster
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'idp_natural_disaster',
-								beneficiary_type_name: 'Natural Disaster IDPs'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'natural_disaster_affected',
-								beneficiary_type_name: 'Natural Disaster Affected'
-							},{
-
-
-								// FSAC
-
-								// CAT A), CAT B), Conflict, Natural Disaster
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_a', 'category_c' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs ( Returnees )'
-							},{
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_a', 'category_c' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs ( Refugee Returnees )'
-							},{
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_a', 'category_c' ],
-								beneficiary_type_id: 'idp_conflict',
-								beneficiary_type_name: 'Conflict IDPs ( Deportee Returnees )'
-							},{
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_a', 'category_c' ],
-								beneficiary_type_id: 'natural_disaster_affected_earthquake',
-								beneficiary_type_name: 'Natural Disaster Affected (Earthquake)'
-							},{
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_a', 'category_c' ],
-								beneficiary_type_id: 'natural_disaster_affected_flood',
-								beneficiary_type_name: 'Natural Disaster Affected (Flood)'
-							},{
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_a', 'category_c' ],
-								beneficiary_type_id: 'natural_disaster_affected_drought',
-								beneficiary_type_name: 'Natural Disaster Affected (Drought)'
-							},{
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_a', 'category_c' ],
-								beneficiary_type_id: 'natural_disaster_affected_wls',
-								beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)'
-							},{
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_a', 'category_c' ],
-								beneficiary_type_id: 'natural_disaster_affected_locust',
-								beneficiary_type_name: 'Natural Disaster Affected (Locust)'
-							},{
-
-
-								// Refugees, IDPs
-
-								// CAT A), Cat B), Cat C), Protracted IDPs
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection' ],
-								category_type_id: [ 'category_a', 'category_b', 'category_c' ],
-								beneficiary_type_id: 'idp_protracted',
-								beneficiary_type_name: 'Protracted IDPs'
-							},{
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_a', 'category_b' ],
-								beneficiary_type_id: 'idp_protracted',
-								beneficiary_type_name: 'Conflict IDPs (Prolonged)'
-							},{
-								// CAT A)
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'returnee_documented',
-								beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'returnee_undocumented',
-								beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-							},{
-								// CAT B)
-								cluster_id: [ 'nutrition', 'wash' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'returnee_documented',
-								beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-							},{
-								cluster_id: [ 'nutrition', 'wash' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'returnee_undocumented',
-								beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-							},{
-								cluster_id: [ 'cvwg', 'health', 'nutrition', 'wash' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'refugee_pakistani',
-								beneficiary_type_name: 'Pakistani Refugees'
-							},{
-								// CAT C)
-								cluster_id: [ 'cvwg', 'esnfi', 'protection' ],
-								category_type_id: [ 'category_c' ],
-								beneficiary_type_id: 'returnee_documented',
-								beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'protection' ],
-								category_type_id: [ 'category_c' ],
-								beneficiary_type_id: 'returnee_undocumented',
-								beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'protection' ],
-								category_type_id: [ 'category_c' ],
-								beneficiary_type_id: 'refugee_pakistani',
-								beneficiary_type_name: 'Pakistani Refugees'
-							},{
-								// Cat D)
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'returnee_documented',
-								beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'returnee_undocumented',
-								beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'refugee_pakistani',
-								beneficiary_type_name: 'Pakistani Refugees'
-							},{
-
-
-								// EiEWG
-
-								// CAT A), Refugees & Returnees
-								cluster_id: [ 'eiewg' ],
-								category_type_id: [ 'category_a', 'category_d' ],
-								beneficiary_type_id: 'displaced_children',
-								beneficiary_type_name: 'Displaced Children'
-							},{
-								cluster_id: [ 'eiewg' ],
-								category_type_id: [ 'category_a', 'category_d' ],
-								beneficiary_type_id: 'displaced_refugee_children',
-								beneficiary_type_name: 'Displaced + Refugee Children'
-							},{
-								cluster_id: [ 'eiewg' ],
-								category_type_id: [ 'category_a', 'category_d' ],
-								beneficiary_type_id: 'displaced_returnee_children',
-								beneficiary_type_name: 'Displaced + Returnee Children'
-							},{
-								cluster_id: [ 'eiewg' ],
-								category_type_id: [ 'category_a', 'category_d' ],
-								beneficiary_type_id: 'host_community_children',
-								beneficiary_type_name: 'Host Community Children'
-							},{
-								cluster_id: [ 'eiewg' ],
-								category_type_id: [ 'category_a', 'category_d' ],
-								beneficiary_type_id: 'returnee_refugee_children',
-								beneficiary_type_name: 'Returnee Refugee Children'
-							},{
-								cluster_id: [ 'eiewg' ],
-								category_type_id: [ 'category_a', 'category_d' ],
-								beneficiary_type_id: 'refugee_children',
-								beneficiary_type_name: 'Refugee Children'
-							},{
-								cluster_id: [ 'eiewg' ],
-								category_type_id: [ 'category_a', 'category_d' ],
-								beneficiary_type_id: 'returnee_children',
-								beneficiary_type_name: 'Returnee Children'
-							},{
-
-
-								// WASH
-
-								// CAT A), host communities
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'host_communities_disaster_idps',
-								beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
-							},{
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'host_communities_conflict_idps',
-								beneficiary_type_name: 'Communities Hosting Conflict IDPs'
-							},{
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'host_communities_returnees',
-								beneficiary_type_name: 'Communities Hosting Returnees'
-							},{
-								cluster_id: [ 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'host_communities_refugees',
-								beneficiary_type_name: 'Communities Hosting Refugees'
-							},{
-
-								// Host Communities
-
-								// CAT A), host communities
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
-								category_type_id: [ 'category_a' ],
-								beneficiary_type_id: 'host_communities',
-								beneficiary_type_name: 'Host Communities'
-							},{
-								cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'host_communities',
-								beneficiary_type_name: 'Host Communities'
-							},{
-
-
-								// Access to services
-
-								// CAT B)
-
-								cluster_id: [ 'health' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'access_to_services',
-								beneficiary_type_name: 'White Area Population'
-							},{
-								cluster_id: [ 'wash', 'protection' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'access_to_services',
-								beneficiary_type_name: 'Underserved Community'
-							},{
-								cluster_id: [ 'cvwg', 'nutrition' ],
-								category_type_id: [ 'category_b' ],
-								beneficiary_type_id: 'access_to_services',
-								beneficiary_type_name: 'Access to Services'
-							},{
-
-
-								// FASC
-
-								// food insecture
-
-								cluster_id: [ 'fsac' ],
-								category_type_id: [ 'category_c' ],
-								beneficiary_type_id: 'severely_food_insecure',
-								beneficiary_type_name: 'Severely Food Insecure'
-							},{
-
-
-								// RnR Chapter
-
-								// CAT A), CAT B), CAT C),
-								cluster_id: [ 'rnr_chapter' ],
-								category_type_id: [ 'category_a', 'category_b', 'category_c' ],
-								beneficiary_type_id: 'returnee_documented',
-								beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-							},{
-								cluster_id: [ 'rnr_chapter' ],
-								category_type_id: [ 'category_a', 'category_b', 'category_c' ],
-								beneficiary_type_id: 'returnee_undocumented',
-								beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-							},{
-								cluster_id: [ 'rnr_chapter' ],
-								category_type_id: [ 'category_a', 'category_b', 'category_c' ],
-								beneficiary_type_id: 'refugee_pakistani',
-								beneficiary_type_name: 'Pakistani Refugees'
-							},{
-
-								// HEALTH
-
-								// CAT D) Others
-
-								cluster_id: [ 'health' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'health_workers',
-								beneficiary_type_name: 'Health Workers'
-							},{
-								cluster_id: [ 'health' ],
-								category_type_id: [ 'category_d' ],
-								beneficiary_type_id: 'other_beneficiaries',
-								beneficiary_type_name: 'Other Beneficiaries'
-							}];
-
-					} else if (year === 2018){
-
-						beneficiaries = [{
-
-							// WASH
-
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs (Recent)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected Community'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected Community People'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Conflict IDPs (Prolonged)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_disaster_idps',
-							beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_conflict_idps',
-							beneficiary_type_name: 'Communities Hosting Conflict IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_returnees',
-							beneficiary_type_name: 'Communities Hosting Returnees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_refugees',
-							beneficiary_type_name: 'Communities Hosting Refugees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Underserved Community'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'drought_affected_non_displaced',
-							beneficiary_type_name: 'Drought Affected Non Displaced'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'drought_affected_displaced',
-							beneficiary_type_name: 'Drought Affected Displaced'
-						},{
-
-							// FSAC
-
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_earthquake',
-							beneficiary_type_name: 'Natural Disaster Affected (Earthquake)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_flood',
-							beneficiary_type_name: 'Natural Disaster Affected (Flood)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_drought',
-							beneficiary_type_name: 'Natural Disaster Affected (Drought)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_wls',
-							beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_locust',
-							beneficiary_type_name: 'Natural Disaster Affected (Locust)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'conflict_affected_non_displaced',
-							beneficiary_type_name: 'Conflict Affected Non Displaced'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'drought_affected_non_displaced',
-							beneficiary_type_name: 'Drought Affected Non Displaced'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'drought_affected_displaced',
-							beneficiary_type_name: 'Drought Affected Displaced'
-						},{
-
-							// CASH
-
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'conflict_affected_non_displaced',
-							beneficiary_type_name: 'Conflict Affected Non Displaced'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'returnee_undocumented_border',
-							beneficiary_type_name: 'Undoc. returnee (border)'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'returnee_undocumented_settlement',
-							beneficiary_type_name: 'Undoc. returnee (settlement)'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'returnee_documented_encashment_center',
-							beneficiary_type_name: 'Refugee returnee (documented) - encashment center'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'returnee_documented_settlement',
-							beneficiary_type_name: 'Refugee returnee (documented) - settlement'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-
-							// HEALTH
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'White Area Population'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'health_workers',
-							beneficiary_type_name: 'Health Workers'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'other_beneficiaries',
-							beneficiary_type_name: 'Other Beneficiaries'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp',
-							beneficiary_type_name: 'IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'drought_affected_non_displaced',
-							beneficiary_type_name: 'Drought Affected Non Displaced'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'drought_affected_displaced',
-							beneficiary_type_name: 'Drought Affected Displaced'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'chronic_emergency',
-							beneficiary_type_name: 'Chronic Emergency'
-						},{
-
-							// NUTRITION
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Access to Services'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'drought_affected_non_displaced',
-							beneficiary_type_name: 'Drought Affected Non Displaced'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'drought_affected_displaced',
-							beneficiary_type_name: 'Drought Affected Displaced'
-						},{
-
-							// ESNFI
-
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'drought_affected_non_displaced',
-							beneficiary_type_name: 'Drought Affected Non Displaced'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'drought_affected_displaced',
-							beneficiary_type_name: 'Drought Affected Displaced'
-						},{
-
-							// Protection
-
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Underserved Community'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'drought_affected_non_displaced',
-							beneficiary_type_name: 'Drought Affected Non Displaced'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'drought_affected_displaced',
-							beneficiary_type_name: 'Drought Affected Displaced'
-						},{
-
-							// EIEWG
-
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_children',
-							beneficiary_type_name: 'Displaced Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_refugee_children',
-							beneficiary_type_name: 'Displaced + Refugee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_returnee_children',
-							beneficiary_type_name: 'Displaced + Returnee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'host_community_children',
-							beneficiary_type_name: 'Host Community Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'returnee_refugee_children',
-							beneficiary_type_name: 'Returnee Refugee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'refugee_children',
-							beneficiary_type_name: 'Refugee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'returnee_children',
-							beneficiary_type_name: 'Returnee Children'
-						}];
-					} else if (year === 2019){
-
-						beneficiaries = [{
-
-							// WASH
-
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs (Recent)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected Community'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected Community People'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Conflict IDPs (Prolonged)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_disaster_idps',
-							beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_conflict_idps',
-							beneficiary_type_name: 'Communities Hosting Conflict IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_returnees',
-							beneficiary_type_name: 'Communities Hosting Returnees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_refugees',
-							beneficiary_type_name: 'Communities Hosting Refugees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Underserved Community'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-
-							// FSAC
-
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict Affected IDPs'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_earthquake',
-							beneficiary_type_name: 'Natural Disaster Affected (Earthquake)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_flood',
-							beneficiary_type_name: 'Natural Disaster Affected (Flood)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_avalanche',
-							beneficiary_type_name: 'Natural Disaster Affected (Avalanche)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_wls',
-							beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_locust',
-							beneficiary_type_name: 'Natural Disaster Affected (Locust)'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_border_pakistan',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Border'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_border_iran',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Border'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_pakistan',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Settlement'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_iran',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Settlement'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_pakistan',
-							beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Border'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_iran',
-							beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Border'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_pakistan',
-							beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Settlement'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_iran',
-							beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Settlement'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-
-							// CASH
-
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'conflict_affected_non_displaced',
-							beneficiary_type_name: 'Conflict Affected Non Displaced'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'returnee_undocumented_border',
-							beneficiary_type_name: 'Undoc. returnee (border)'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'returnee_undocumented_settlement',
-							beneficiary_type_name: 'Undoc. returnee (settlement)'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'returnee_documented_encashment_center',
-							beneficiary_type_name: 'Refugee returnee (documented) - encashment center'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'returnee_documented_settlement',
-							beneficiary_type_name: 'Refugee returnee (documented) - settlement'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'drought_affected_non_displaced',
-							beneficiary_type_name: 'Drought Affected Non Displaced'
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'drought_affected_displaced',
-							beneficiary_type_name: 'Drought Affected Displaced'
-						},{
-
-							// HEALTH
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'White Area Population'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'health_workers',
-							beneficiary_type_name: 'Health Workers'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'other_beneficiaries',
-							beneficiary_type_name: 'Other Beneficiaries'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp',
-							beneficiary_type_name: 'IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'chronic_emergency',
-							beneficiary_type_name: 'Chronic Emergency'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-
-							// NUTRITION
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Access to Services'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-
-							// ESNFI
-
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-
-							// Protection
-
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Underserved Community'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-
-							// EIEWG
-
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_children',
-							beneficiary_type_name: 'Displaced Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_refugee_children',
-							beneficiary_type_name: 'Displaced + Refugee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_returnee_children',
-							beneficiary_type_name: 'Displaced + Returnee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'host_community_children',
-							beneficiary_type_name: 'Host Community Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'returnee_refugee_children',
-							beneficiary_type_name: 'Returnee Refugee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'refugee_children',
-							beneficiary_type_name: 'Refugee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'returnee_children',
-							beneficiary_type_name: 'Returnee Children'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},];
-					} else if (year === 2020) {
-
-						beneficiaries = [{
-
-							// WASH
-
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_conflict_2020',
-							beneficiary_type_name: 'Conflict IDPs (2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected Community'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_other_natural_disaster_2020',
-							beneficiary_type_name: 'Other Natural Disaster (Avalanche, Landslide, Earthquake, etc.) IDPs (2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected Community People'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Conflict IDPs (Prolonged)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_disaster_idps',
-							beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_conflict_idps',
-							beneficiary_type_name: 'Communities Hosting Conflict IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_returnees',
-							beneficiary_type_name: 'Communities Hosting Returnees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_refugees',
-							beneficiary_type_name: 'Communities Hosting Refugees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Underserved Community'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'drought_affected_displaced_2020',
-							beneficiary_type_name: 'Drought Affected Displaced (2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'flood_affected_displaced_2020',
-							beneficiary_type_name: 'Flood Affected Displaced (2020)',
-							year: 2020
-						},{
-
-							// FSAC
-
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'People Displaced Due to Conflict',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'People Displaced Due to Natural Disaster',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_earthquake',
-							beneficiary_type_name: 'Natural Disaster Affected (Earthquake)',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_flood',
-							beneficiary_type_name: 'Natural Disaster Affected (Flood)',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_avalanche',
-							beneficiary_type_name: 'Natural Disaster Affected (Avalanche)',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_wls',
-							beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'multiple_shocks_ipc_3_4_affected',
-							beneficiary_type_name: 'Multiple shocks (IPC phase 3 & 4) affected population',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_border_pakistan',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Border',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_border_iran',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Border',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_pakistan',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Settlement',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_iran',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Settlement',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_pakistan',
-							beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Border',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_iran',
-							beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Border',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_pakistan',
-							beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Settlement',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_iran',
-							beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Settlement',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'covid_19_affected_people',
-							beneficiary_type_name: 'COVID-19 Affected People',
-							year: 2020
-						},{
-
-							// CASH
-
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'new_idps_conflict_natural_disaster',
-							beneficiary_type_name: 'New IDPs (Conflict + Natural Disaster)',
-							year: 2020
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'newly_shock_affected_humanitarian_needs',
-							beneficiary_type_name: 'Newly Shock-Affected People with Humanitarian Needs',
-							year: 2020
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'new_cross_border_returnees_humanitarian_needs',
-							beneficiary_type_name: 'New Cross-Border Returnees with Humanitarian Needs',
-							year: 2020
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'refugees',
-							beneficiary_type_name: 'Refugees',
-							year: 2020
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'acutely_vulnerable_humanitarian needs',
-							beneficiary_type_name: 'Acutely Vulnerable People with Humanitarian Needs',
-							year: 2020
-						},{
-
-							// HEALTH
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'White Area Population'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'health_workers',
-							beneficiary_type_name: 'Health Workers'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'other_beneficiaries',
-							beneficiary_type_name: 'Other Beneficiaries'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp',
-							beneficiary_type_name: 'IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'chronic_emergency',
-							beneficiary_type_name: 'Chronic Emergency'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-
-							// NUTRITION
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Access to Services'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},
-						// {
-
-						// 	// ESNFI 2020 v1
-
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'idp',
-						// 	beneficiary_type_name: 'Internally Displaced Persons (IDPs)',
-						// 	description: 'People displaced in 2020'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'shock_affected',
-						// 	beneficiary_type_name: 'Shock Affected Persons ',
-						// 	description: 'People affected by shocks in 2020 (natural disasters and conflict)'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'acutely_vulnerable_persons',
-						// 	beneficiary_type_name: 'Acutely Vulnerable People with Humanitarian Needs',
-						// 	description: 'Acutely vulnerable people with humanitarian needs (protracted IDPs, host community, vulnerable populations at risk etc)'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'returnee_idps',
-						// 	beneficiary_type_name: 'Returnee IDPs',
-						// 	description: 'IDP Returnees in 2020'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'returnee_documented',
-						// 	beneficiary_type_name: 'Afghan Refugee Returnees (Documented)',
-						// 	description: 'Afghan Refugee Returnees (Documented)'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'returnee_undocumented',
-						// 	beneficiary_type_name: 'Afghan Returnees (Undocumented)',
-						// 	description: 'Afghan Returnees (Undocumented)'
-						// },
-
-						{
-
-							// ESNFI v2
-
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'conflict_idp_2020',
-							beneficiary_type_name: 'Conflict IDPs (displaced in 2020)',
-							description: 'Conflict IDPs (displaced in 2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'natural_disaster_idp_2020',
-							beneficiary_type_name: 'Natural Disaster IDPs (displaced in 2020)',
-							description: 'Natural Disaster IDPs (displaced in 2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'undocumented_returnees_settlement_place_of_return',
-							beneficiary_type_name: 'Undocumented Returnees (at settlement or place of return)',
-							description: 'Undocumented returnees (at settlement or place of return)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'undocumented_returnees_border_or_ec',
-							beneficiary_type_name: 'Undocumented Returnees (at border or EC)',
-							description: 'Undocumented returnees (at border or EC)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'refugee_returnees_settlement_place_of_return',
-							beneficiary_type_name: 'Refugee Returnees (at settlement or place of return)',
-							description: 'Refugee returnees (at settlement or place of return)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'refugee_returnees_border_or_ec',
-							beneficiary_type_name: 'Refugee Returnees (at border or EC)',
-							description: 'Refugee returnees (at border or EC)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'conflict_affected_non_displaced',
-							beneficiary_type_name: 'Conflict-Affected (non-displaced)',
-							description: 'Conflict-affected (non-displaced)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'natural_disaster_affected_non_displaced',
-							beneficiary_type_name: 'Natural Disaster-Affected (non-displaced)',
-							description: 'Natural disaster-affected (non-displaced)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'refugees_asylum_seekers',
-							beneficiary_type_name: 'Refugees & Asylum Seekers',
-							description: 'Refugees & asylum seekers',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'vulnerable_people_humanitarian_needs',
-							beneficiary_type_name: 'Vulnerable People with Humanitarian Needs (including host community, protracted IDPs etc.)',
-							description: 'Vulnerable people with humanitarian needs (including host community, protracted IDPs etc.)',
-							year: 2020
-						},{
-
-							// Protection
-
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'idp_conflict_natural_disaster',
-							beneficiary_type_name: 'Internally Displaced in 2020 (Conflict or Natural Disaster)',
-							year: 2020
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'shock_affected_non_displaced_conflict_natural_disaster',
-							beneficiary_type_name: 'Shock-Affected Non-Displaced in 2020 (Conflict or Natural Disaster)',
-							year: 2020
-						// not active
-						// },{
-						// 	cluster_id: [ 'protection' ],
-						// 	beneficiary_type_id: 'returnees_return_place',
-						// 	beneficiary_type_name: 'Returnees in 2020 - in their place of return',
-						// 	year: 2020
-						// },{
-						// 	cluster_id: [ 'protection' ],
-						// 	beneficiary_type_id: 'returnees_border_encashment',
-						// 	beneficiary_type_name: 'Returnees in 2020 - at border or in encashment centres',
-						// 	year: 2020
-						// },{
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'undocumented_returnees_border_encashment',
-							beneficiary_type_name: 'Undocumented Returnees in 2020 - at border or in encashment centres',
-							year: 2020
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'undocumented_returnees_return_place',
-							beneficiary_type_name: 'Undocumented Returnees in 2020 - in their place of return',
-							year: 2020
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'refugee_returnees_border_encashment',
-							beneficiary_type_name: 'Refugee Returnees in 2020 - at border or in encashment centres',
-							year: 2020
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'refugee_returnees_return_place',
-							beneficiary_type_name: 'Refugee Returnees in 2020 - in their place of return',
-							year: 2020
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'vulnerable_people',
-							beneficiary_type_name: 'Vulnerable People with Humanitarian Needs',
-							year: 2020
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'refugees',
-							beneficiary_type_name: 'Refugees',
-							year: 2020
-						},{
-
-							// EIEWG
-
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'idps',
-							beneficiary_type_name: 'IDPs'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_refugees',
-							beneficiary_type_name: 'Displaced & Refugees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_returnees',
-							beneficiary_type_name: 'Displaced & Returnees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'host_community',
-							beneficiary_type_name: 'Host Community'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'returnee_refugees',
-							beneficiary_type_name: 'Returnees & Refugees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'refugees',
-							beneficiary_type_name: 'Refugees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'returnees',
-							beneficiary_type_name: 'Returnees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'ipds_returenees_host_community',
-							beneficiary_type_name: 'IDPs + Returnees + Host Community'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						}];
-
-					} else if (year >= 2021) {
-
-						beneficiaries = [{
-
-							// WASH
-
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_conflict_2020',
-							beneficiary_type_name: 'Conflict IDPs (2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected Community'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_other_natural_disaster_2020',
-							beneficiary_type_name: 'Other Natural Disaster (Avalanche, Landslide, Earthquake, etc.) IDPs (2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected Community People'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Conflict IDPs (Prolonged)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_disaster_idps',
-							beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_conflict_idps',
-							beneficiary_type_name: 'Communities Hosting Conflict IDPs'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_returnees',
-							beneficiary_type_name: 'Communities Hosting Returnees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'host_communities_refugees',
-							beneficiary_type_name: 'Communities Hosting Refugees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Underserved Community'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'drought_affected_displaced_2020',
-							beneficiary_type_name: 'Drought Affected Displaced (2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'wash' ],
-							beneficiary_type_id: 'flood_affected_displaced_2020',
-							beneficiary_type_name: 'Flood Affected Displaced (2020)',
-							year: 2020
-						},{
-
-							// FSAC
-
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'People Displaced Due to Conflict',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'People Displaced Due to Natural Disaster',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_earthquake',
-							beneficiary_type_name: 'Natural Disaster Affected (Earthquake)',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_flood',
-							beneficiary_type_name: 'Natural Disaster Affected (Flood)',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_avalanche',
-							beneficiary_type_name: 'Natural Disaster Affected (Avalanche)',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'natural_disaster_affected_wls',
-							beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'multiple_shocks_ipc_3_4_affected',
-							beneficiary_type_name: 'Multiple shocks (IPC phase 3 & 4) affected population',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_border_pakistan',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Border',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_border_iran',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Border',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_pakistan',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Settlement',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_iran',
-							beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Settlement',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_pakistan',
-							beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Border',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_iran',
-							beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Border',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_pakistan',
-							beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Settlement',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_iran',
-							beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Settlement',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees',
-							year: 2020
-						},{
-							cluster_id: [ 'fsac' ],
-							beneficiary_type_id: 'covid_19_affected_people',
-							beneficiary_type_name: 'COVID-19 Affected People',
-							year: 2020
-						},{
-
-							// CASH
-
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'new_idps_conflict_natural_disaster',
-							beneficiary_type_name: 'New IDPs (Conflict + Natural Disaster)',
-							year: 2020
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'newly_shock_affected_humanitarian_needs',
-							beneficiary_type_name: 'Newly Shock-Affected People with Humanitarian Needs',
-							year: 2020
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'new_cross_border_returnees_humanitarian_needs',
-							beneficiary_type_name: 'New Cross-Border Returnees with Humanitarian Needs',
-							year: 2020
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'refugees',
-							beneficiary_type_name: 'Refugees',
-							year: 2020
-						},{
-							cluster_id: [ 'cvwg' ],
-							beneficiary_type_id: 'acutely_vulnerable_humanitarian needs',
-							beneficiary_type_name: 'Acutely Vulnerable People with Humanitarian Needs',
-							year: 2020
-						},{
-
-							// HEALTH
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'White Area Population'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'health_workers',
-							beneficiary_type_name: 'Health Workers'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'other_beneficiaries',
-							beneficiary_type_name: 'Other Beneficiaries'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp',
-							beneficiary_type_name: 'IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'chronic_emergency',
-							beneficiary_type_name: 'Chronic Emergency'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'health' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},{
-
-							// NUTRITION
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'returnee_documented',
-							beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'returnee_undocumented',
-							beneficiary_type_name: 'Afghan Returnees (Undocumented)'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'access_to_services',
-							beneficiary_type_name: 'Access to Services'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'refugee_pakistani',
-							beneficiary_type_name: 'Pakistani Refugees'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'conflict_affected',
-							beneficiary_type_name: 'Conflict Affected'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_conflict',
-							beneficiary_type_name: 'Conflict IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_natural_disaster',
-							beneficiary_type_name: 'Natural Disaster IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'idp_protracted',
-							beneficiary_type_name: 'Protracted IDPs'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'host_communities',
-							beneficiary_type_name: 'Host Communities'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'drought_affected_non_displaced_response',
-							beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'drought_affected_displaced_response',
-							beneficiary_type_name: 'Drought Affected Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'flood_affected_non_displaced_response',
-							beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
-						},{
-							cluster_id: [ 'nutrition' ],
-							beneficiary_type_id: 'flood_affected_displaced_response',
-							beneficiary_type_name: 'Flood Affected Displaced ( Response )'
-						},
-						// {
-
-						// 	// ESNFI 2020 v1
-
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'idp',
-						// 	beneficiary_type_name: 'Internally Displaced Persons (IDPs)',
-						// 	description: 'People displaced in 2020'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'shock_affected',
-						// 	beneficiary_type_name: 'Shock Affected Persons ',
-						// 	description: 'People affected by shocks in 2020 (natural disasters and conflict)'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'acutely_vulnerable_persons',
-						// 	beneficiary_type_name: 'Acutely Vulnerable People with Humanitarian Needs',
-						// 	description: 'Acutely vulnerable people with humanitarian needs (protracted IDPs, host community, vulnerable populations at risk etc)'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'returnee_idps',
-						// 	beneficiary_type_name: 'Returnee IDPs',
-						// 	description: 'IDP Returnees in 2020'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'returnee_documented',
-						// 	beneficiary_type_name: 'Afghan Refugee Returnees (Documented)',
-						// 	description: 'Afghan Refugee Returnees (Documented)'
-						// },{
-						// 	cluster_id: [ 'esnfi' ],
-						// 	beneficiary_type_id: 'returnee_undocumented',
-						// 	beneficiary_type_name: 'Afghan Returnees (Undocumented)',
-						// 	description: 'Afghan Returnees (Undocumented)'
-						// },
-
-						// {
-
-						// 	// ESNFI v2
+				// function excludeSectors(exSectors){
+				// 	var clone =  Object.assign([], ngmClusterLists.all_sectors);
+				// 	exSectors.forEach(function(exSector){
+				// 		var index = clone.indexOf(exSector);
+				// 		if (index > -1) {
+				// 			clone.splice(index, 1);
+				// 		}
+				// 	});
+				// 	return clone;
+				// }
+				// // default
+				// var beneficiaries = [{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idps',
+				// 		beneficiary_type_name: 'IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'drought_idps',
+				// 		beneficiary_type_name: 'Drought IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'flood_idps',
+				// 		beneficiary_type_name: 'Flood IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'natural_disaster_idps',
+				// 		beneficiary_type_name: 'Natural Disaster IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'conflict_idps',
+				// 		beneficiary_type_name: 'Conflict IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'refugees',
+				// 		beneficiary_type_name: 'Refugees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'returnees',
+				// 		beneficiary_type_name: 'Returnees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'host_communities',
+				// 		beneficiary_type_name: 'Host Communities'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'stakeholders',
+				// 		beneficiary_type_name: 'Stakeholders'
+				// 	}];
+
+				// // 2016
+				// if ( year === 2016 ) {
+				// 	beneficiaries = [{
+				// 		cluster_id: [ 'esnfi', 'health', 'wash', 'protection' ],
+				// 		beneficiary_type_id: 'conflict_displaced',
+				// 		beneficiary_type_name: 'Conflict IDPs'
+				// 	},{
+				// 		cluster_id: [ 'esnfi', 'health', 'wash' ],
+				// 		beneficiary_type_id: 'health_affected_conflict',
+				// 		beneficiary_type_name: 'Health Affected by Conflict'
+				// 	},{
+				// 		cluster_id: [ 'esnfi', 'health', 'wash', 'protection' ],
+				// 		beneficiary_type_id: 'natural_disaster_affected',
+				// 		beneficiary_type_name: 'Natural Disaster IDPs'
+				// 	},{
+				// 		cluster_id: [ 'esnfi', 'wash', 'protection' ],
+				// 		beneficiary_type_id: 'protracted_idps',
+				// 		beneficiary_type_name: 'Protracted IDPs'
+				// 	},{
+				// 		cluster_id: [ 'esnfi', 'health', 'wash', 'protection' ],
+				// 		beneficiary_type_id: 'refugees_returnees',
+				// 		beneficiary_type_name: 'Refugees & Returnees'
+				// 	},{
+				// 		cluster_id: [ 'esnfi', 'health', 'wash' ],
+				// 		beneficiary_type_id: 'white_area_population',
+				// 		beneficiary_type_name: 'White Area Population'
+				// 	}];
+
+				// 	// filter by cluster beneficiaries here
+				// 	beneficiaries = $filter( 'filter' )( beneficiaries, { cluster_id: cluster_id } );
+				// }
+
+				// if (  admin0pcode === 'CB' ) {
+				// 	// default
+				// 	beneficiaries = [{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'refugees',
+				// 		beneficiary_type_name: 'Refugees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'host_communities',
+				// 		beneficiary_type_name: 'Host Communities'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_wash_education,
+				// 		beneficiary_type_id: 'government_officials',
+				// 		beneficiary_type_name: 'Government Officials'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_wash_education,
+				// 		beneficiary_type_id: 'humanitarian_workers',
+				// 		beneficiary_type_name: 'Humanitarian Workers'
+				// 	},{
+				// 		cluster_id: [ 'fss' ],
+				// 		beneficiary_type_id: 'private_sector',
+				// 		beneficiary_type_name: 'Private Sector'
+				// 	},{
+				// 		cluster_id: [ 'fss' ],
+				// 		beneficiary_type_id: 'service_provider',
+				// 		beneficiary_type_name: 'Service Provider'
+				// 	}];
+				// }
+
+				// // admin COL
+
+				// if (  admin0pcode === 'COL' ) {
+				// 	// default
+				// 	var beneficiaries = [
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'afectados_por_deslizamientos',
+				// 		beneficiary_type_name: 'Afectados por deslizamientos'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'afectados_por_inundaciones',
+				// 		beneficiary_type_name: 'Afectados por inundaciones'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'afectados_por_otro_tipo_de_desastres_naturales',
+				// 		beneficiary_type_name: 'Afectados por otro tipo de desastres naturales'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'afectados_por_sequias',
+				// 		beneficiary_type_name: 'Afectados por sequias'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'afectados_por_vendavales',
+				// 		beneficiary_type_name: 'Afectados por vendavales'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'host_communities',
+				// 		beneficiary_type_name: 'Comunidades receptoras'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'lideres_lideresas_sociales_amenazados',
+				// 		beneficiary_type_name: 'Líderes / lideresas sociales amenazados'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'migrantes',
+				// 		beneficiary_type_name: 'Migrantes'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'mujeres_lactantes_gestantes',
+				// 		beneficiary_type_name: 'Mujeres lactantes / gestantes'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'personas_confinadas',
+				// 		beneficiary_type_name: 'Personas confinadas'
+				// 	}
+				// 	,
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'personas_desplazadas_internamente',
+				// 		beneficiary_type_name: 'Personas desplazadas internamente (individual)'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'personas_desplazadas_internamente',
+				// 		beneficiary_type_name: 'Personas desplazadas internamente (masivo)'
+				// 	},
+
+
+				// 	 {
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'poblacion_con_doble_afectacion_conflicto_y_desastres',
+				// 		beneficiary_type_name: 'Población con doble afectación (conflicto y desastres)'
+				// 	},
+
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'poblacion_con_multiples_afectaciones',
+				// 		beneficiary_type_name: 'Población con múltiples afectaciones'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'poblacion_en_situacion_de_discapacidad',
+				// 		beneficiary_type_name: 'Población en situación de discapacidad'
+
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'poblacion_lgbttti',
+				// 		beneficiary_type_name: 'Población LGBTTTI'
+
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'poblacion_vulnerable',
+				// 		beneficiary_type_name: 'Población vulnerable'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'refugees',
+				// 		beneficiary_type_name: 'Refugiados'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'returnees',
+				// 		beneficiary_type_name: 'Retornados'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'solicitantes_de_asilo',
+				// 		beneficiary_type_name: 'Solicitantes de asilo'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'victimas_de_aei',
+				// 		beneficiary_type_name: 'Víctimas de AEI'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'sex_crimes_victims',
+				// 		beneficiary_type_name: 'Víctimas de Delitos Sexuales'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'victimas_del_conflicto_armado_en_general',
+				// 		beneficiary_type_name: 'Víctimas del conflicto armado en general'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'victimas_de_map',
+				// 		beneficiary_type_name: 'Víctimas de MAP'
+				// 	},
+
+				// 	 {
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'victimas_de_map_muse_aei_en_general',
+				// 		beneficiary_type_name: 'Víctimas de MAP / MUSE / AEI en general'
+				// 	},
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'victimas_de_muse',
+				// 		beneficiary_type_name: 'Víctimas de MUSE'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'victimas_de_otras_violencias_basadas_en_genero',
+				// 		beneficiary_type_name: 'Víctimas de otras violencias basadas en género'
+				// 	},
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'victimas_de_reclutamiento_forzado',
+				// 		beneficiary_type_name: 'Víctimas de reclutamiento forzado'
+				// 	},
+
+
+				// 	{
+				// 		cluster_id: ngmClusterLists.all_sectors_col,
+				// 		beneficiary_type_id: 'otros',
+				// 		beneficiary_type_name: 'Otros'
+				// 	}
+
+
+				// 	];
+
+				// }
+
+				// // admin SS
+				// if ( admin0pcode === 'SS' ) {
+				// 	// beneficiaries
+				// 	beneficiaries = [{
+				// 			cluster_id: ngmClusterLists.all_sectors,
+				// 			beneficiary_type_id: 'idps',
+				// 			beneficiary_type_name: 'IDPs'
+				// 		},{
+				// 			cluster_id: ngmClusterLists.all_sectors,
+				// 			beneficiary_type_id: 'refugees',
+				// 			beneficiary_type_name: 'Refugees'
+				// 		},{
+				// 			cluster_id: ngmClusterLists.all_sectors,
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: ngmClusterLists.all_sectors,
+				// 			beneficiary_type_id: 'otherwise_affected',
+				// 			beneficiary_type_name: 'Otherwise Affected'
+				// 		}];
+				// }
+
+				// // admin SO
+				// if ( admin0pcode === 'SO' ) {
+
+				// 	// beneficiaries
+				// 	beneficiaries = [{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idps',
+				// 		beneficiary_type_name: 'IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'drought_idps',
+				// 		beneficiary_type_name: 'Drought IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'flood_idps',
+				// 		beneficiary_type_name: 'Flood IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'conflict_idps',
+				// 		beneficiary_type_name: 'Conflict IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'refugees',
+				// 		beneficiary_type_name: 'Refugees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'returnees',
+				// 		beneficiary_type_name: 'Returnees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'host_communities',
+				// 		beneficiary_type_name: 'Host Communities'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'health_care_workers',
+				// 		beneficiary_type_name: 'Health Care Workers'
+				// 	}];
+				// }
+
+				// //admin NG
+				// if( admin0pcode === 'NG' ){
+				// 	beneficiaries = [{
+				// 		cluster_id: excludeSectors(['child_protection']),
+				// 		beneficiary_type_id: 'idps',
+				// 		beneficiary_type_name: 'IDPs'
+				// 	},{
+				// 		cluster_id: excludeSectors(['education','child_protection', 'gbv']),
+				// 		beneficiary_type_id: 'drought_idps',
+				// 		beneficiary_type_name: 'Drought IDPs'
+				// 	},{
+				// 		cluster_id: excludeSectors(['education','child_protection', 'gbv']),
+				// 		beneficiary_type_id: 'flood_idps',
+				// 		beneficiary_type_name: 'Flood IDPs'
+				// 	},{
+				// 		cluster_id: excludeSectors(['education','child_protection', 'gbv']),
+				// 		beneficiary_type_id: 'natural_disaster_idps',
+				// 		beneficiary_type_name: 'Natural Disaster IDPs'
+				// 	},{
+				// 		cluster_id: excludeSectors(['education','child_protection', 'gbv']),
+				// 		beneficiary_type_id: 'conflict_idps',
+				// 		beneficiary_type_name: 'Conflict IDPs'
+				// 	},{
+				// 		cluster_id: excludeSectors(['education','child_protection', 'gbv']),
+				// 		beneficiary_type_id: 'refugees',
+				// 		beneficiary_type_name: 'Refugees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'returnees',
+				// 		beneficiary_type_name: 'Returnees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'host_communities',
+				// 		beneficiary_type_name: 'Host Communities'
+				// 	},{
+				// 		cluster_id: excludeSectors(['education','child_protection']),
+				// 		beneficiary_type_id: 'stakeholders',
+				// 		beneficiary_type_name: 'Stakeholders'
+				// 	},{
+				// 		cluster_id: excludeSectors(['education','wash','gbv']),
+				// 		beneficiary_type_id: 'idps_in_host_communities',
+				// 		beneficiary_type_name: 'IDPs in Host Communities'
+				// 	},{
+				// 		cluster_id: excludeSectors(['education','wash', 'gbv']),
+				// 		beneficiary_type_id: 'idps_in_camps',
+				// 		beneficiary_type_name: 'IDPs in Camps'
+				// 	}
+				// ]
+				// }
+
+				// // PHL
+				// if ( admin0pcode === 'PHL' ) {
+				// 	beneficiaries = [{
+				// 			cluster_id: ngmClusterLists.all_sectors,
+				// 			beneficiary_type_id: 'general_population',
+				// 			beneficiary_type_name: 'General Population'
+				// 		},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'host_communities',
+				// 		beneficiary_type_name: 'Host Communities'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'stakeholders',
+				// 		beneficiary_type_name: 'Stakeholders'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idps',
+				// 		beneficiary_type_name: 'IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idp_drought',
+				// 		beneficiary_type_name: 'Drought Affected IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idp_flood',
+				// 		beneficiary_type_name: 'Flood Affected IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idp_natural_disaster',
+				// 		beneficiary_type_name: 'Natural Disaster IDPs'
+				// 	}];
+				// }
+
+				// // admin ET
+				// if ( admin0pcode === 'ET' ) {
+
+				// 	// all_sectors_minus_esnfi
+
+				// 	// beneficiaries
+				// 	beneficiaries = [{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'idps',
+				// 		beneficiary_type_name: 'IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idp_conflict',
+				// 		beneficiary_type_name: 'Conflict IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idp_drought',
+				// 		beneficiary_type_name: 'Drought Affected IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'idp_flood',
+				// 		beneficiary_type_name: 'Flood Affected IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'idp_natural_disaster',
+				// 		beneficiary_type_name: 'Natural Disaster IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'idp_returnee',
+				// 		beneficiary_type_name: 'Returnee IDPs'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'returnees',
+				// 		beneficiary_type_name: 'Returnees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'returnees_not_home',
+				// 		beneficiary_type_name: 'Returnees (not home)'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors,
+				// 		beneficiary_type_id: 'returnees_home',
+				// 		beneficiary_type_name: 'Returnees (who went home)'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'refugees',
+				// 		beneficiary_type_name: 'Refugees'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'health_workers',
+				// 		beneficiary_type_name: 'Health Workers'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'social_workers',
+				// 		beneficiary_type_name: 'Social Workers'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'host_communities',
+				// 		beneficiary_type_name: 'Host Communities'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'conflict_affected',
+				// 		beneficiary_type_name: 'Conflict Affected'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'idp_natural_affected',
+				// 		beneficiary_type_name: 'Natural Disaster Affected'
+				// 	},{
+				// 		cluster_id: ngmClusterLists.all_sectors_minus_esnfi,
+				// 		beneficiary_type_id: 'vulnerable_groups',
+				// 		beneficiary_type_name: 'Vulnerable Groups'
+				// 	}];
+
+				// } else if ( admin0pcode === 'AF' ) {
+				// 	// #TODO put it on config
+
+				// 	// ocha beneficiaries list
+				// 	if (year === 2017){
+
+				// 			beneficiaries = [{
+
+				// 				// Conflict Affected / Conflict IDPs
+
+				// 				// CAT A) conflict affected / conflict idps
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'conflict_affected',
+				// 				beneficiary_type_name: 'Conflict Affected'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs'
+				// 			},{
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs (Recent)'
+				// 			},{
+				// 			//   cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
+				// 			//   category_type_id: [ 'category_a' ],
+				// 			//   beneficiary_type_id: 'idp_conflict_natural_disaster',
+				// 			//   beneficiary_type_name: 'Conflict IDPs + Natural Disaster IDPs'
+				// 			// },{
+				// 				// CAT B) conflict affected / conflict idps
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'conflict_affected',
+				// 				beneficiary_type_name: 'Conflict Affected'
+				// 			},{
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs (Recent)'
+				// 			},{
+				// 			//   cluster_id: [ 'wash' ],
+				// 			//   category_type_id: [ 'category_b' ],
+				// 			//   beneficiary_type_id: 'idp_conflict_natural_disaster',
+				// 			//   beneficiary_type_name: 'Conflict IDPs + Natural Disaster IDPs'
+				// 			// },{
+				// 				// CAT C) conflict affected / conflict idps
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'protection',  ],
+				// 				category_type_id: [ 'category_c' ],
+				// 				beneficiary_type_id: 'conflict_affected',
+				// 				beneficiary_type_name: 'Conflict Affected'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'protection',  ],
+				// 				category_type_id: [ 'category_c' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs'
+				// 			},{
+				// 			//   cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'protection',  ],
+				// 			//   category_type_id: [ 'category_c' ],
+				// 			//   beneficiary_type_id: 'idp_conflict_natural_disaster',
+				// 			//   beneficiary_type_name: 'Conflict IDPs + Natural Disaster IDPs'
+				// 			// },{
+				// 				// CAT D) conflict affected / conflict idps
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'conflict_affected',
+				// 				beneficiary_type_name: 'Conflict Affected'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs'
+				// 			},{
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs (Recent)'
+				// 			},{
+				// 			//   cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
+				// 			//   category_type_id: [ 'category_d' ],
+				// 			//   beneficiary_type_id: 'idp_conflict_natural_disaster',
+				// 			//   beneficiary_type_name: 'Conflict IDPs + Natural Disaster IDPs'
+				// 			// },{
+
+
+				// 				// Natural Disaster
+
+				// 				// CAT A) Natural Disaster
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'idp_natural_disaster',
+				// 				beneficiary_type_name: 'Natural Disaster IDPs'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected',
+				// 				beneficiary_type_name: 'Natural Disaster Affected'
+				// 			},{
+				// 				// CAT B) Natural Disaster
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'idp_natural_disaster',
+				// 				beneficiary_type_name: 'Natural Disaster IDPs'
+				// 			},{
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected',
+				// 				beneficiary_type_name: 'Natural Disaster Affected'
+				// 			},{
+				// 				// CAT C) Natural Disaster
+				// 				cluster_id: [ 'esnfi' ],
+				// 				category_type_id: [ 'category_c' ],
+				// 				beneficiary_type_id: 'idp_natural_disaster',
+				// 				beneficiary_type_name: 'Natural Disaster IDPs'
+				// 			},{
+				// 				cluster_id: [ 'esnfi' ],
+				// 				category_type_id: [ 'category_c' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected',
+				// 				beneficiary_type_name: 'Natural Disaster Affected'
+				// 			},{
+				// 				// CAT D) Natural Disaster
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'idp_natural_disaster',
+				// 				beneficiary_type_name: 'Natural Disaster IDPs'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected',
+				// 				beneficiary_type_name: 'Natural Disaster Affected'
+				// 			},{
+
+
+				// 				// FSAC
+
+				// 				// CAT A), CAT B), Conflict, Natural Disaster
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_a', 'category_c' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs ( Returnees )'
+				// 			},{
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_a', 'category_c' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs ( Refugee Returnees )'
+				// 			},{
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_a', 'category_c' ],
+				// 				beneficiary_type_id: 'idp_conflict',
+				// 				beneficiary_type_name: 'Conflict IDPs ( Deportee Returnees )'
+				// 			},{
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_a', 'category_c' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected_earthquake',
+				// 				beneficiary_type_name: 'Natural Disaster Affected (Earthquake)'
+				// 			},{
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_a', 'category_c' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected_flood',
+				// 				beneficiary_type_name: 'Natural Disaster Affected (Flood)'
+				// 			},{
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_a', 'category_c' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected_drought',
+				// 				beneficiary_type_name: 'Natural Disaster Affected (Drought)'
+				// 			},{
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_a', 'category_c' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected_wls',
+				// 				beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)'
+				// 			},{
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_a', 'category_c' ],
+				// 				beneficiary_type_id: 'natural_disaster_affected_locust',
+				// 				beneficiary_type_name: 'Natural Disaster Affected (Locust)'
+				// 			},{
+
+
+				// 				// Refugees, IDPs
+
+				// 				// CAT A), Cat B), Cat C), Protracted IDPs
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection' ],
+				// 				category_type_id: [ 'category_a', 'category_b', 'category_c' ],
+				// 				beneficiary_type_id: 'idp_protracted',
+				// 				beneficiary_type_name: 'Protracted IDPs'
+				// 			},{
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_a', 'category_b' ],
+				// 				beneficiary_type_id: 'idp_protracted',
+				// 				beneficiary_type_name: 'Conflict IDPs (Prolonged)'
+				// 			},{
+				// 				// CAT A)
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'returnee_documented',
+				// 				beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'returnee_undocumented',
+				// 				beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 			},{
+				// 				// CAT B)
+				// 				cluster_id: [ 'nutrition', 'wash' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'returnee_documented',
+				// 				beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 			},{
+				// 				cluster_id: [ 'nutrition', 'wash' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'returnee_undocumented',
+				// 				beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'health', 'nutrition', 'wash' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'refugee_pakistani',
+				// 				beneficiary_type_name: 'Pakistani Refugees'
+				// 			},{
+				// 				// CAT C)
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'protection' ],
+				// 				category_type_id: [ 'category_c' ],
+				// 				beneficiary_type_id: 'returnee_documented',
+				// 				beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'protection' ],
+				// 				category_type_id: [ 'category_c' ],
+				// 				beneficiary_type_id: 'returnee_undocumented',
+				// 				beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'protection' ],
+				// 				category_type_id: [ 'category_c' ],
+				// 				beneficiary_type_id: 'refugee_pakistani',
+				// 				beneficiary_type_name: 'Pakistani Refugees'
+				// 			},{
+				// 				// Cat D)
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'returnee_documented',
+				// 				beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'returnee_undocumented',
+				// 				beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'refugee_pakistani',
+				// 				beneficiary_type_name: 'Pakistani Refugees'
+				// 			},{
+
+
+				// 				// EiEWG
+
+				// 				// CAT A), Refugees & Returnees
+				// 				cluster_id: [ 'eiewg' ],
+				// 				category_type_id: [ 'category_a', 'category_d' ],
+				// 				beneficiary_type_id: 'displaced_children',
+				// 				beneficiary_type_name: 'Displaced Children'
+				// 			},{
+				// 				cluster_id: [ 'eiewg' ],
+				// 				category_type_id: [ 'category_a', 'category_d' ],
+				// 				beneficiary_type_id: 'displaced_refugee_children',
+				// 				beneficiary_type_name: 'Displaced + Refugee Children'
+				// 			},{
+				// 				cluster_id: [ 'eiewg' ],
+				// 				category_type_id: [ 'category_a', 'category_d' ],
+				// 				beneficiary_type_id: 'displaced_returnee_children',
+				// 				beneficiary_type_name: 'Displaced + Returnee Children'
+				// 			},{
+				// 				cluster_id: [ 'eiewg' ],
+				// 				category_type_id: [ 'category_a', 'category_d' ],
+				// 				beneficiary_type_id: 'host_community_children',
+				// 				beneficiary_type_name: 'Host Community Children'
+				// 			},{
+				// 				cluster_id: [ 'eiewg' ],
+				// 				category_type_id: [ 'category_a', 'category_d' ],
+				// 				beneficiary_type_id: 'returnee_refugee_children',
+				// 				beneficiary_type_name: 'Returnee Refugee Children'
+				// 			},{
+				// 				cluster_id: [ 'eiewg' ],
+				// 				category_type_id: [ 'category_a', 'category_d' ],
+				// 				beneficiary_type_id: 'refugee_children',
+				// 				beneficiary_type_name: 'Refugee Children'
+				// 			},{
+				// 				cluster_id: [ 'eiewg' ],
+				// 				category_type_id: [ 'category_a', 'category_d' ],
+				// 				beneficiary_type_id: 'returnee_children',
+				// 				beneficiary_type_name: 'Returnee Children'
+				// 			},{
+
+
+				// 				// WASH
+
+				// 				// CAT A), host communities
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'host_communities_disaster_idps',
+				// 				beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
+				// 			},{
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'host_communities_conflict_idps',
+				// 				beneficiary_type_name: 'Communities Hosting Conflict IDPs'
+				// 			},{
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'host_communities_returnees',
+				// 				beneficiary_type_name: 'Communities Hosting Returnees'
+				// 			},{
+				// 				cluster_id: [ 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'host_communities_refugees',
+				// 				beneficiary_type_name: 'Communities Hosting Refugees'
+				// 			},{
+
+				// 				// Host Communities
+
+				// 				// CAT A), host communities
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_a' ],
+				// 				beneficiary_type_id: 'host_communities',
+				// 				beneficiary_type_name: 'Host Communities'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'esnfi', 'fsac', 'health', 'nutrition', 'protection', 'wash' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'host_communities',
+				// 				beneficiary_type_name: 'Host Communities'
+				// 			},{
+
+
+				// 				// Access to services
+
+				// 				// CAT B)
+
+				// 				cluster_id: [ 'health' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'access_to_services',
+				// 				beneficiary_type_name: 'White Area Population'
+				// 			},{
+				// 				cluster_id: [ 'wash', 'protection' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'access_to_services',
+				// 				beneficiary_type_name: 'Underserved Community'
+				// 			},{
+				// 				cluster_id: [ 'cvwg', 'nutrition' ],
+				// 				category_type_id: [ 'category_b' ],
+				// 				beneficiary_type_id: 'access_to_services',
+				// 				beneficiary_type_name: 'Access to Services'
+				// 			},{
+
+
+				// 				// FASC
+
+				// 				// food insecture
+
+				// 				cluster_id: [ 'fsac' ],
+				// 				category_type_id: [ 'category_c' ],
+				// 				beneficiary_type_id: 'severely_food_insecure',
+				// 				beneficiary_type_name: 'Severely Food Insecure'
+				// 			},{
+
+
+				// 				// RnR Chapter
+
+				// 				// CAT A), CAT B), CAT C),
+				// 				cluster_id: [ 'rnr_chapter' ],
+				// 				category_type_id: [ 'category_a', 'category_b', 'category_c' ],
+				// 				beneficiary_type_id: 'returnee_documented',
+				// 				beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 			},{
+				// 				cluster_id: [ 'rnr_chapter' ],
+				// 				category_type_id: [ 'category_a', 'category_b', 'category_c' ],
+				// 				beneficiary_type_id: 'returnee_undocumented',
+				// 				beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 			},{
+				// 				cluster_id: [ 'rnr_chapter' ],
+				// 				category_type_id: [ 'category_a', 'category_b', 'category_c' ],
+				// 				beneficiary_type_id: 'refugee_pakistani',
+				// 				beneficiary_type_name: 'Pakistani Refugees'
+				// 			},{
+
+				// 				// HEALTH
+
+				// 				// CAT D) Others
+
+				// 				cluster_id: [ 'health' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'health_workers',
+				// 				beneficiary_type_name: 'Health Workers'
+				// 			},{
+				// 				cluster_id: [ 'health' ],
+				// 				category_type_id: [ 'category_d' ],
+				// 				beneficiary_type_id: 'other_beneficiaries',
+				// 				beneficiary_type_name: 'Other Beneficiaries'
+				// 			}];
+
+				// 	} else if (year === 2018){
+
+				// 		beneficiaries = [{
+
+				// 			// WASH
+
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs (Recent)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected Community'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected Community People'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Conflict IDPs (Prolonged)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_disaster_idps',
+				// 			beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_conflict_idps',
+				// 			beneficiary_type_name: 'Communities Hosting Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_returnees',
+				// 			beneficiary_type_name: 'Communities Hosting Returnees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_refugees',
+				// 			beneficiary_type_name: 'Communities Hosting Refugees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Underserved Community'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Displaced'
+				// 		},{
+
+				// 			// FSAC
+
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_earthquake',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Earthquake)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_flood',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Flood)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_drought',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Drought)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_wls',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_locust',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Locust)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'conflict_affected_non_displaced',
+				// 			beneficiary_type_name: 'Conflict Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Displaced'
+				// 		},{
+
+				// 			// CASH
+
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'conflict_affected_non_displaced',
+				// 			beneficiary_type_name: 'Conflict Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'returnee_undocumented_border',
+				// 			beneficiary_type_name: 'Undoc. returnee (border)'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'returnee_undocumented_settlement',
+				// 			beneficiary_type_name: 'Undoc. returnee (settlement)'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'returnee_documented_encashment_center',
+				// 			beneficiary_type_name: 'Refugee returnee (documented) - encashment center'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'returnee_documented_settlement',
+				// 			beneficiary_type_name: 'Refugee returnee (documented) - settlement'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+
+				// 			// HEALTH
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'White Area Population'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'health_workers',
+				// 			beneficiary_type_name: 'Health Workers'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'other_beneficiaries',
+				// 			beneficiary_type_name: 'Other Beneficiaries'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp',
+				// 			beneficiary_type_name: 'IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Displaced'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'chronic_emergency',
+				// 			beneficiary_type_name: 'Chronic Emergency'
+				// 		},{
+
+				// 			// NUTRITION
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Access to Services'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Displaced'
+				// 		},{
+
+				// 			// ESNFI
+
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Displaced'
+				// 		},{
+
+				// 			// Protection
+
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Underserved Community'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Displaced'
+				// 		},{
+
+				// 			// EIEWG
+
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_children',
+				// 			beneficiary_type_name: 'Displaced Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_refugee_children',
+				// 			beneficiary_type_name: 'Displaced + Refugee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_returnee_children',
+				// 			beneficiary_type_name: 'Displaced + Returnee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'host_community_children',
+				// 			beneficiary_type_name: 'Host Community Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'returnee_refugee_children',
+				// 			beneficiary_type_name: 'Returnee Refugee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'refugee_children',
+				// 			beneficiary_type_name: 'Refugee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'returnee_children',
+				// 			beneficiary_type_name: 'Returnee Children'
+				// 		}];
+				// 	} else if (year === 2019){
+
+				// 		beneficiaries = [{
+
+				// 			// WASH
+
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs (Recent)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected Community'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected Community People'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Conflict IDPs (Prolonged)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_disaster_idps',
+				// 			beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_conflict_idps',
+				// 			beneficiary_type_name: 'Communities Hosting Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_returnees',
+				// 			beneficiary_type_name: 'Communities Hosting Returnees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_refugees',
+				// 			beneficiary_type_name: 'Communities Hosting Refugees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Underserved Community'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+
+				// 			// FSAC
+
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict Affected IDPs'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_earthquake',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Earthquake)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_flood',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Flood)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_avalanche',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Avalanche)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_wls',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_locust',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Locust)'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_border_pakistan',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Border'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_border_iran',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Border'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_pakistan',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Settlement'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_iran',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Settlement'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_pakistan',
+				// 			beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Border'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_iran',
+				// 			beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Border'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_pakistan',
+				// 			beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Settlement'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_iran',
+				// 			beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Settlement'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+
+				// 			// CASH
+
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'conflict_affected_non_displaced',
+				// 			beneficiary_type_name: 'Conflict Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'returnee_undocumented_border',
+				// 			beneficiary_type_name: 'Undoc. returnee (border)'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'returnee_undocumented_settlement',
+				// 			beneficiary_type_name: 'Undoc. returnee (settlement)'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'returnee_documented_encashment_center',
+				// 			beneficiary_type_name: 'Refugee returnee (documented) - encashment center'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'returnee_documented_settlement',
+				// 			beneficiary_type_name: 'Refugee returnee (documented) - settlement'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced'
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced',
+				// 			beneficiary_type_name: 'Drought Affected Displaced'
+				// 		},{
+
+				// 			// HEALTH
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'White Area Population'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'health_workers',
+				// 			beneficiary_type_name: 'Health Workers'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'other_beneficiaries',
+				// 			beneficiary_type_name: 'Other Beneficiaries'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp',
+				// 			beneficiary_type_name: 'IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'chronic_emergency',
+				// 			beneficiary_type_name: 'Chronic Emergency'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+
+				// 			// NUTRITION
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Access to Services'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+
+				// 			// ESNFI
+
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+
+				// 			// Protection
+
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Underserved Community'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+
+				// 			// EIEWG
+
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_children',
+				// 			beneficiary_type_name: 'Displaced Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_refugee_children',
+				// 			beneficiary_type_name: 'Displaced + Refugee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_returnee_children',
+				// 			beneficiary_type_name: 'Displaced + Returnee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'host_community_children',
+				// 			beneficiary_type_name: 'Host Community Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'returnee_refugee_children',
+				// 			beneficiary_type_name: 'Returnee Refugee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'refugee_children',
+				// 			beneficiary_type_name: 'Refugee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'returnee_children',
+				// 			beneficiary_type_name: 'Returnee Children'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},];
+				// 	} else if (year === 2020) {
+
+				// 		beneficiaries = [{
+
+				// 			// WASH
+
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_conflict_2020',
+				// 			beneficiary_type_name: 'Conflict IDPs (2020)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected Community'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_other_natural_disaster_2020',
+				// 			beneficiary_type_name: 'Other Natural Disaster (Avalanche, Landslide, Earthquake, etc.) IDPs (2020)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected Community People'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Conflict IDPs (Prolonged)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_disaster_idps',
+				// 			beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_conflict_idps',
+				// 			beneficiary_type_name: 'Communities Hosting Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_returnees',
+				// 			beneficiary_type_name: 'Communities Hosting Returnees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_refugees',
+				// 			beneficiary_type_name: 'Communities Hosting Refugees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Underserved Community'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_2020',
+				// 			beneficiary_type_name: 'Drought Affected Displaced (2020)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_2020',
+				// 			beneficiary_type_name: 'Flood Affected Displaced (2020)',
+				// 			year: 2020
+				// 		},{
+
+				// 			// FSAC
+
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'People Displaced Due to Conflict',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'People Displaced Due to Natural Disaster',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_earthquake',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Earthquake)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_flood',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Flood)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_avalanche',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Avalanche)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_wls',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'multiple_shocks_ipc_3_4_affected',
+				// 			beneficiary_type_name: 'Multiple shocks (IPC phase 3 & 4) affected population',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_border_pakistan',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Border',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_border_iran',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Border',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_pakistan',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Settlement',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_iran',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Settlement',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_pakistan',
+				// 			beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Border',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_iran',
+				// 			beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Border',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_pakistan',
+				// 			beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Settlement',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_iran',
+				// 			beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Settlement',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'covid_19_affected_people',
+				// 			beneficiary_type_name: 'COVID-19 Affected People',
+				// 			year: 2020
+				// 		},{
+
+				// 			// CASH
+
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'new_idps_conflict_natural_disaster',
+				// 			beneficiary_type_name: 'New IDPs (Conflict + Natural Disaster)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'newly_shock_affected_humanitarian_needs',
+				// 			beneficiary_type_name: 'Newly Shock-Affected People with Humanitarian Needs',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'new_cross_border_returnees_humanitarian_needs',
+				// 			beneficiary_type_name: 'New Cross-Border Returnees with Humanitarian Needs',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'refugees',
+				// 			beneficiary_type_name: 'Refugees',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'acutely_vulnerable_humanitarian needs',
+				// 			beneficiary_type_name: 'Acutely Vulnerable People with Humanitarian Needs',
+				// 			year: 2020
+				// 		},{
+
+				// 			// HEALTH
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'White Area Population'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'health_workers',
+				// 			beneficiary_type_name: 'Health Workers'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'other_beneficiaries',
+				// 			beneficiary_type_name: 'Other Beneficiaries'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp',
+				// 			beneficiary_type_name: 'IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'chronic_emergency',
+				// 			beneficiary_type_name: 'Chronic Emergency'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+
+				// 			// NUTRITION
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Access to Services'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},
+				// 		// {
+
+				// 		// 	// ESNFI 2020 v1
+
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'idp',
+				// 		// 	beneficiary_type_name: 'Internally Displaced Persons (IDPs)',
+				// 		// 	description: 'People displaced in 2020'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'shock_affected',
+				// 		// 	beneficiary_type_name: 'Shock Affected Persons ',
+				// 		// 	description: 'People affected by shocks in 2020 (natural disasters and conflict)'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'acutely_vulnerable_persons',
+				// 		// 	beneficiary_type_name: 'Acutely Vulnerable People with Humanitarian Needs',
+				// 		// 	description: 'Acutely vulnerable people with humanitarian needs (protracted IDPs, host community, vulnerable populations at risk etc)'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'returnee_idps',
+				// 		// 	beneficiary_type_name: 'Returnee IDPs',
+				// 		// 	description: 'IDP Returnees in 2020'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'returnee_documented',
+				// 		// 	beneficiary_type_name: 'Afghan Refugee Returnees (Documented)',
+				// 		// 	description: 'Afghan Refugee Returnees (Documented)'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'returnee_undocumented',
+				// 		// 	beneficiary_type_name: 'Afghan Returnees (Undocumented)',
+				// 		// 	description: 'Afghan Returnees (Undocumented)'
+				// 		// },
+
+				// 		{
+
+				// 			// ESNFI v2
+
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'conflict_idp_2020',
+				// 			beneficiary_type_name: 'Conflict IDPs (displaced in 2020)',
+				// 			description: 'Conflict IDPs (displaced in 2020)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'natural_disaster_idp_2020',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs (displaced in 2020)',
+				// 			description: 'Natural Disaster IDPs (displaced in 2020)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'undocumented_returnees_settlement_place_of_return',
+				// 			beneficiary_type_name: 'Undocumented Returnees (at settlement or place of return)',
+				// 			description: 'Undocumented returnees (at settlement or place of return)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'undocumented_returnees_border_or_ec',
+				// 			beneficiary_type_name: 'Undocumented Returnees (at border or EC)',
+				// 			description: 'Undocumented returnees (at border or EC)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'refugee_returnees_settlement_place_of_return',
+				// 			beneficiary_type_name: 'Refugee Returnees (at settlement or place of return)',
+				// 			description: 'Refugee returnees (at settlement or place of return)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'refugee_returnees_border_or_ec',
+				// 			beneficiary_type_name: 'Refugee Returnees (at border or EC)',
+				// 			description: 'Refugee returnees (at border or EC)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'conflict_affected_non_displaced',
+				// 			beneficiary_type_name: 'Conflict-Affected (non-displaced)',
+				// 			description: 'Conflict-affected (non-displaced)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_non_displaced',
+				// 			beneficiary_type_name: 'Natural Disaster-Affected (non-displaced)',
+				// 			description: 'Natural disaster-affected (non-displaced)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'refugees_asylum_seekers',
+				// 			beneficiary_type_name: 'Refugees & Asylum Seekers',
+				// 			description: 'Refugees & asylum seekers',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'esnfi' ],
+				// 			beneficiary_type_id: 'vulnerable_people_humanitarian_needs',
+				// 			beneficiary_type_name: 'Vulnerable People with Humanitarian Needs (including host community, protracted IDPs etc.)',
+				// 			description: 'Vulnerable people with humanitarian needs (including host community, protracted IDPs etc.)',
+				// 			year: 2020
+				// 		},{
+
+				// 			// Protection
+
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'idp_conflict_natural_disaster',
+				// 			beneficiary_type_name: 'Internally Displaced in 2020 (Conflict or Natural Disaster)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'shock_affected_non_displaced_conflict_natural_disaster',
+				// 			beneficiary_type_name: 'Shock-Affected Non-Displaced in 2020 (Conflict or Natural Disaster)',
+				// 			year: 2020
+				// 		// not active
+				// 		// },{
+				// 		// 	cluster_id: [ 'protection' ],
+				// 		// 	beneficiary_type_id: 'returnees_return_place',
+				// 		// 	beneficiary_type_name: 'Returnees in 2020 - in their place of return',
+				// 		// 	year: 2020
+				// 		// },{
+				// 		// 	cluster_id: [ 'protection' ],
+				// 		// 	beneficiary_type_id: 'returnees_border_encashment',
+				// 		// 	beneficiary_type_name: 'Returnees in 2020 - at border or in encashment centres',
+				// 		// 	year: 2020
+				// 		// },{
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'undocumented_returnees_border_encashment',
+				// 			beneficiary_type_name: 'Undocumented Returnees in 2020 - at border or in encashment centres',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'undocumented_returnees_return_place',
+				// 			beneficiary_type_name: 'Undocumented Returnees in 2020 - in their place of return',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'refugee_returnees_border_encashment',
+				// 			beneficiary_type_name: 'Refugee Returnees in 2020 - at border or in encashment centres',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'refugee_returnees_return_place',
+				// 			beneficiary_type_name: 'Refugee Returnees in 2020 - in their place of return',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'vulnerable_people',
+				// 			beneficiary_type_name: 'Vulnerable People with Humanitarian Needs',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'refugees',
+				// 			beneficiary_type_name: 'Refugees',
+				// 			year: 2020
+				// 		},{
+
+				// 			// EIEWG
+
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'idps',
+				// 			beneficiary_type_name: 'IDPs'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_refugees',
+				// 			beneficiary_type_name: 'Displaced & Refugees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_returnees',
+				// 			beneficiary_type_name: 'Displaced & Returnees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'host_community',
+				// 			beneficiary_type_name: 'Host Community'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'returnee_refugees',
+				// 			beneficiary_type_name: 'Returnees & Refugees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'refugees',
+				// 			beneficiary_type_name: 'Refugees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'returnees',
+				// 			beneficiary_type_name: 'Returnees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'ipds_returenees_host_community',
+				// 			beneficiary_type_name: 'IDPs + Returnees + Host Community'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		}];
+
+				// 	} else if (year >= 2021) {
+
+				// 		beneficiaries = [{
+
+				// 			// WASH
+
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_conflict_2020',
+				// 			beneficiary_type_name: 'Conflict IDPs (2020)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected Community'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_other_natural_disaster_2020',
+				// 			beneficiary_type_name: 'Other Natural Disaster (Avalanche, Landslide, Earthquake, etc.) IDPs (2020)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected Community People'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Conflict IDPs (Prolonged)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_disaster_idps',
+				// 			beneficiary_type_name: 'Communities Hosting Natural Disasater IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_conflict_idps',
+				// 			beneficiary_type_name: 'Communities Hosting Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_returnees',
+				// 			beneficiary_type_name: 'Communities Hosting Returnees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'host_communities_refugees',
+				// 			beneficiary_type_name: 'Communities Hosting Refugees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Underserved Community'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_2020',
+				// 			beneficiary_type_name: 'Drought Affected Displaced (2020)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'wash' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_2020',
+				// 			beneficiary_type_name: 'Flood Affected Displaced (2020)',
+				// 			year: 2020
+				// 		},{
+
+				// 			// FSAC
+
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'People Displaced Due to Conflict',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'People Displaced Due to Natural Disaster',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_earthquake',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Earthquake)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_flood',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Flood)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_avalanche',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Avalanche)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected_wls',
+				// 			beneficiary_type_name: 'Natural Disaster Affected (Winter / Lean Season)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'multiple_shocks_ipc_3_4_affected',
+				// 			beneficiary_type_name: 'Multiple shocks (IPC phase 3 & 4) affected population',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_border_pakistan',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Border',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_border_iran',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Border',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_pakistan',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Pakistan (Documented) - Settlement',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_documented_settlement_iran',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees from Iran (Documented) - Settlement',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_pakistan',
+				// 			beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Border',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_border_iran',
+				// 			beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Border',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_pakistan',
+				// 			beneficiary_type_name: 'Afghan Returnees from Pakistan (Undocumented) - Settlement',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'afghan_refugee_returnees_undocumented_settlement_iran',
+				// 			beneficiary_type_name: 'Afghan Returnees from Iran (Undocumented) - Settlement',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'fsac' ],
+				// 			beneficiary_type_id: 'covid_19_affected_people',
+				// 			beneficiary_type_name: 'COVID-19 Affected People',
+				// 			year: 2020
+				// 		},{
+
+				// 			// CASH
+
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'new_idps_conflict_natural_disaster',
+				// 			beneficiary_type_name: 'New IDPs (Conflict + Natural Disaster)',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'newly_shock_affected_humanitarian_needs',
+				// 			beneficiary_type_name: 'Newly Shock-Affected People with Humanitarian Needs',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'new_cross_border_returnees_humanitarian_needs',
+				// 			beneficiary_type_name: 'New Cross-Border Returnees with Humanitarian Needs',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'refugees',
+				// 			beneficiary_type_name: 'Refugees',
+				// 			year: 2020
+				// 		},{
+				// 			cluster_id: [ 'cvwg' ],
+				// 			beneficiary_type_id: 'acutely_vulnerable_humanitarian needs',
+				// 			beneficiary_type_name: 'Acutely Vulnerable People with Humanitarian Needs',
+				// 			year: 2020
+				// 		},{
+
+				// 			// HEALTH
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'White Area Population'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'health_workers',
+				// 			beneficiary_type_name: 'Health Workers'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'other_beneficiaries',
+				// 			beneficiary_type_name: 'Other Beneficiaries'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp',
+				// 			beneficiary_type_name: 'IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'chronic_emergency',
+				// 			beneficiary_type_name: 'Chronic Emergency'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'health' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},{
+
+				// 			// NUTRITION
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'returnee_documented',
+				// 			beneficiary_type_name: 'Afghan Refugee Returnees (Documented)'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'returnee_undocumented',
+				// 			beneficiary_type_name: 'Afghan Returnees (Undocumented)'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'access_to_services',
+				// 			beneficiary_type_name: 'Access to Services'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'refugee_pakistani',
+				// 			beneficiary_type_name: 'Pakistani Refugees'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'conflict_affected',
+				// 			beneficiary_type_name: 'Conflict Affected'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_conflict',
+				// 			beneficiary_type_name: 'Conflict IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_natural_disaster',
+				// 			beneficiary_type_name: 'Natural Disaster IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'idp_protracted',
+				// 			beneficiary_type_name: 'Protracted IDPs'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'host_communities',
+				// 			beneficiary_type_name: 'Host Communities'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'drought_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'drought_affected_displaced_response',
+				// 			beneficiary_type_name: 'Drought Affected Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'flood_affected_non_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Non Displaced ( Response )'
+				// 		},{
+				// 			cluster_id: [ 'nutrition' ],
+				// 			beneficiary_type_id: 'flood_affected_displaced_response',
+				// 			beneficiary_type_name: 'Flood Affected Displaced ( Response )'
+				// 		},
+				// 		// {
+
+				// 		// 	// ESNFI 2020 v1
+
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'idp',
+				// 		// 	beneficiary_type_name: 'Internally Displaced Persons (IDPs)',
+				// 		// 	description: 'People displaced in 2020'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'shock_affected',
+				// 		// 	beneficiary_type_name: 'Shock Affected Persons ',
+				// 		// 	description: 'People affected by shocks in 2020 (natural disasters and conflict)'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'acutely_vulnerable_persons',
+				// 		// 	beneficiary_type_name: 'Acutely Vulnerable People with Humanitarian Needs',
+				// 		// 	description: 'Acutely vulnerable people with humanitarian needs (protracted IDPs, host community, vulnerable populations at risk etc)'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'returnee_idps',
+				// 		// 	beneficiary_type_name: 'Returnee IDPs',
+				// 		// 	description: 'IDP Returnees in 2020'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'returnee_documented',
+				// 		// 	beneficiary_type_name: 'Afghan Refugee Returnees (Documented)',
+				// 		// 	description: 'Afghan Refugee Returnees (Documented)'
+				// 		// },{
+				// 		// 	cluster_id: [ 'esnfi' ],
+				// 		// 	beneficiary_type_id: 'returnee_undocumented',
+				// 		// 	beneficiary_type_name: 'Afghan Returnees (Undocumented)',
+				// 		// 	description: 'Afghan Returnees (Undocumented)'
+				// 		// },
+
+				// 		{
+
+				// 			// ESNFI v2
 
 						// 	cluster_id: [ 'esnfi' ],
 						// 	beneficiary_type_id: 'conflict_idp_2020',
@@ -8486,172 +8507,213 @@ angular.module( 'ngmReportHub' )
 						// 	description: 'Conflict IDPs (displaced in 2020)',
 						// 	year: 2020
 						// },
-						{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'conflict_idp_2021',
-							beneficiary_type_name: 'Conflict IDPs (displaced in 2021)',
-							description: 'Conflict IDPs (displaced in 2021)',
-							year: 2021
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'natural_disaster_idp_2020',
-							beneficiary_type_name: 'Natural Disaster IDPs (displaced in 2020)',
-							description: 'Natural Disaster IDPs (displaced in 2020)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'undocumented_returnees_settlement_place_of_return',
-							beneficiary_type_name: 'Undocumented Returnees (at settlement or place of return)',
-							description: 'Undocumented returnees (at settlement or place of return)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'undocumented_returnees_border_or_ec',
-							beneficiary_type_name: 'Undocumented Returnees (at border or EC)',
-							description: 'Undocumented returnees (at border or EC)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'refugee_returnees_settlement_place_of_return',
-							beneficiary_type_name: 'Refugee Returnees (at settlement or place of return)',
-							description: 'Refugee returnees (at settlement or place of return)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'refugee_returnees_border_or_ec',
-							beneficiary_type_name: 'Refugee Returnees (at border or EC)',
-							description: 'Refugee returnees (at border or EC)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'conflict_affected_non_displaced',
-							beneficiary_type_name: 'Conflict-Affected (non-displaced)',
-							description: 'Conflict-affected (non-displaced)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'natural_disaster_affected_non_displaced',
-							beneficiary_type_name: 'Natural Disaster-Affected (non-displaced)',
-							description: 'Natural disaster-affected (non-displaced)',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'refugees_asylum_seekers',
-							beneficiary_type_name: 'Refugees & Asylum Seekers',
-							description: 'Refugees & asylum seekers',
-							year: 2020
-						},{
-							cluster_id: [ 'esnfi' ],
-							beneficiary_type_id: 'vulnerable_people_humanitarian_needs',
-							beneficiary_type_name: 'Vulnerable People with Humanitarian Needs (including host community, protracted IDPs etc.)',
-							description: 'Vulnerable people with humanitarian needs (including host community, protracted IDPs etc.)',
-							year: 2020
-						},{
-
-							// Protection
-
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'idp_conflict_natural_disaster',
-							beneficiary_type_name: 'Internally Displaced (Conflict or Natural Disaster)',
-							year: 2021
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'shock_affected_non_displaced_conflict_natural_disaster',
-							beneficiary_type_name: 'Shock-Affected Non-Displaced (Conflict or Natural Disaster)',
-							year: 2021
-						// not active
-						// },{
-						// 	cluster_id: [ 'protection' ],
-						// 	beneficiary_type_id: 'returnees_return_place',
-						// 	beneficiary_type_name: 'Returnees - in their place of return',
+						// {
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'conflict_idp_2021',
+						// 	beneficiary_type_name: 'Conflict IDPs (displaced in 2021)',
+						// 	description: 'Conflict IDPs (displaced in 2021)',
 						// 	year: 2021
 						// },{
-						// 	cluster_id: [ 'protection' ],
-						// 	beneficiary_type_id: 'returnees_border_encashment',
-						// 	beneficiary_type_name: 'Returnees - at border or in encashment centres',
-						// 	year: 2021
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'natural_disaster_idp_2020',
+						// 	beneficiary_type_name: 'Natural Disaster IDPs (displaced in 2020)',
+						// 	description: 'Natural Disaster IDPs (displaced in 2020)',
+						// 	year: 2020
 						// },{
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'undocumented_returnees_border_encashment',
-							beneficiary_type_name: 'Undocumented Returnees - at border or in encashment centres',
-							year: 2021
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'undocumented_returnees_return_place',
-							beneficiary_type_name: 'Undocumented Returnees - in their place of return',
-							year: 2021
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'refugee_returnees_border_encashment',
-							beneficiary_type_name: 'Refugee Returnees - at border or in encashment centres',
-							year: 2021
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'refugee_returnees_return_place',
-							beneficiary_type_name: 'Refugee Returnees - in their place of return',
-							year: 2021
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'vulnerable_people',
-							beneficiary_type_name: 'Vulnerable People with Humanitarian Needs',
-							year: 2021
-						},{
-							cluster_id: [ 'protection' ],
-							beneficiary_type_id: 'refugees',
-							beneficiary_type_name: 'Refugees',
-							year: 2021
-						},{
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'undocumented_returnees_settlement_place_of_return',
+						// 	beneficiary_type_name: 'Undocumented Returnees (at settlement or place of return)',
+						// 	description: 'Undocumented returnees (at settlement or place of return)',
+						// 	year: 2020
+						// },{
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'undocumented_returnees_border_or_ec',
+						// 	beneficiary_type_name: 'Undocumented Returnees (at border or EC)',
+						// 	description: 'Undocumented returnees (at border or EC)',
+						// 	year: 2020
+						// },{
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'refugee_returnees_settlement_place_of_return',
+						// 	beneficiary_type_name: 'Refugee Returnees (at settlement or place of return)',
+						// 	description: 'Refugee returnees (at settlement or place of return)',
+						// 	year: 2020
+						// },{
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'refugee_returnees_border_or_ec',
+						// 	beneficiary_type_name: 'Refugee Returnees (at border or EC)',
+						// 	description: 'Refugee returnees (at border or EC)',
+						// 	year: 2020
+						// },{
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'conflict_affected_non_displaced',
+						// 	beneficiary_type_name: 'Conflict-Affected (non-displaced)',
+						// 	description: 'Conflict-affected (non-displaced)',
+						// 	year: 2020
+						// },{
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'natural_disaster_affected_non_displaced',
+						// 	beneficiary_type_name: 'Natural Disaster-Affected (non-displaced)',
+						// 	description: 'Natural disaster-affected (non-displaced)',
+						// 	year: 2020
+						// },{
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'refugees_asylum_seekers',
+						// 	beneficiary_type_name: 'Refugees & Asylum Seekers',
+						// 	description: 'Refugees & asylum seekers',
+						// 	year: 2020
+						// },{
+						// 	cluster_id: [ 'esnfi' ],
+						// 	beneficiary_type_id: 'vulnerable_people_humanitarian_needs',
+						// 	beneficiary_type_name: 'Vulnerable People with Humanitarian Needs (including host community, protracted IDPs etc.)',
+						// 	description: 'Vulnerable people with humanitarian needs (including host community, protracted IDPs etc.)',
+						// 	year: 2020
+						// },{
 
-							// EIEWG
+				// 			// Protection
 
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'idps',
-							beneficiary_type_name: 'IDPs'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_refugees',
-							beneficiary_type_name: 'Displaced & Refugees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'displaced_returnees',
-							beneficiary_type_name: 'Displaced & Returnees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'host_community',
-							beneficiary_type_name: 'Host Community'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'returnee_refugees',
-							beneficiary_type_name: 'Returnees & Refugees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'refugees',
-							beneficiary_type_name: 'Refugees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'returnees',
-							beneficiary_type_name: 'Returnees'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'ipds_returenees_host_community',
-							beneficiary_type_name: 'IDPs + Returnees + Host Community'
-						},{
-							cluster_id: [ 'eiewg' ],
-							beneficiary_type_id: 'natural_disaster_affected',
-							beneficiary_type_name: 'Natural Disaster Affected'
-						}];
-					}
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'idp_conflict_natural_disaster',
+				// 			beneficiary_type_name: 'Internally Displaced (Conflict or Natural Disaster)',
+				// 			year: 2021
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'shock_affected_non_displaced_conflict_natural_disaster',
+				// 			beneficiary_type_name: 'Shock-Affected Non-Displaced (Conflict or Natural Disaster)',
+				// 			year: 2021
+				// 		// not active
+				// 		// },{
+				// 		// 	cluster_id: [ 'protection' ],
+				// 		// 	beneficiary_type_id: 'returnees_return_place',
+				// 		// 	beneficiary_type_name: 'Returnees - in their place of return',
+				// 		// 	year: 2021
+				// 		// },{
+				// 		// 	cluster_id: [ 'protection' ],
+				// 		// 	beneficiary_type_id: 'returnees_border_encashment',
+				// 		// 	beneficiary_type_name: 'Returnees - at border or in encashment centres',
+				// 		// 	year: 2021
+				// 		// },{
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'undocumented_returnees_border_encashment',
+				// 			beneficiary_type_name: 'Undocumented Returnees - at border or in encashment centres',
+				// 			year: 2021
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'undocumented_returnees_return_place',
+				// 			beneficiary_type_name: 'Undocumented Returnees - in their place of return',
+				// 			year: 2021
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'refugee_returnees_border_encashment',
+				// 			beneficiary_type_name: 'Refugee Returnees - at border or in encashment centres',
+				// 			year: 2021
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'refugee_returnees_return_place',
+				// 			beneficiary_type_name: 'Refugee Returnees - in their place of return',
+				// 			year: 2021
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'vulnerable_people',
+				// 			beneficiary_type_name: 'Vulnerable People with Humanitarian Needs',
+				// 			year: 2021
+				// 		},{
+				// 			cluster_id: [ 'protection' ],
+				// 			beneficiary_type_id: 'refugees',
+				// 			beneficiary_type_name: 'Refugees',
+				// 			year: 2021
+				// 		},{
 
+				// 			// EIEWG
+
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'idps',
+				// 			beneficiary_type_name: 'IDPs'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_refugees',
+				// 			beneficiary_type_name: 'Displaced & Refugees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'displaced_returnees',
+				// 			beneficiary_type_name: 'Displaced & Returnees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'host_community',
+				// 			beneficiary_type_name: 'Host Community'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'returnee_refugees',
+				// 			beneficiary_type_name: 'Returnees & Refugees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'refugees',
+				// 			beneficiary_type_name: 'Refugees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'returnees',
+				// 			beneficiary_type_name: 'Returnees'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'ipds_returenees_host_community',
+				// 			beneficiary_type_name: 'IDPs + Returnees + Host Community'
+				// 		},{
+				// 			cluster_id: [ 'eiewg' ],
+				// 			beneficiary_type_id: 'natural_disaster_affected',
+				// 			beneficiary_type_name: 'Natural Disaster Affected'
+				// 		}];
+				// 	}
+
+				// }
+
+
+				
+				// filter by cluster beneficiaries here
+				// return beneficiaries;
+				// if(!lists){
+				// 	return []
+				// }else{
+				// 		$http({
+				// 			method: 'GET',
+				// 			url: ngmAuth.LOCATION + '/api/cluster/list/beneficiarytypes?admin0pcode=' + admin0pcode
+				// 		}).then(function (result) {
+				// 			var beneficiaries2 = result.data.filter(b => (b.admin0pcode === admin0pcode));
+				// 			if (!beneficiaries2.length) {
+				// 				beneficiaries2 = result.data.filter(b => b.admin0pcode === 'ALL');
+				// 			}
+				// 			// console.log(beneficiaries2)
+				// 			var beneficiaries_date = ngmClusterLists.filterActiveDate(beneficiaries2, start, end);
+				// 			console.log(beneficiaries_date)
+				// 			lists.beneficiary_types = beneficiaries_date
+				// 	})
+				// }
+
+				var beneficiaries, beneficiaries_filterby_admin0pcode, beneficiaries_date = [];
+				beneficiaries = ngmLists.getObject('lists').beneficiaryTypeList;
+				
+				// filter by admin0pcode
+				beneficiaries_filterby_admin0pcode = beneficiaries.filter(b => (b.admin0pcode === admin0pcode));
+				if (!beneficiaries_filterby_admin0pcode.length) {
+					beneficiaries_filterby_admin0pcode = beneficiaries.filter(b => b.admin0pcode === 'ALL');
 				}
+				
+				// filter based on date
+				beneficiaries_date = ngmClusterLists.filterActiveDate(beneficiaries_filterby_admin0pcode, start, end);
 
+				
+				// filter duplications by tag
+				if (beneficiaries_date && beneficiaries_date.length) {
+					beneficiaries_date = ngmClusterLists.filterDuplicates(beneficiaries_date, ['beneficiary_type_id']);
+				}
 
 				// sort A-Z
-				if (beneficiaries && beneficiaries.length) {
-					beneficiaries = $filter('orderBy')(beneficiaries, 'beneficiary_type_name');
+				if (beneficiaries_date && beneficiaries_date.length) {
+					beneficiaries_date = $filter('orderBy')(beneficiaries_date, 'beneficiary_type_name');
 				}
-				// filter by cluster beneficiaries here
-				return beneficiaries;
+				// return beneficiaries
+				return beneficiaries_date
+
+				
 
 			},
 

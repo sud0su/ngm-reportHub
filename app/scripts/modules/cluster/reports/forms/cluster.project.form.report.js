@@ -207,6 +207,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 					// Set limited amount of locations
 					$scope.paginated_monthly_locations = $scope.project.report.locations.slice($scope.startMonthlyLocation, $scope.endMonthlyLocation);
+
 				},
 
 				// sets title for each location / activity
