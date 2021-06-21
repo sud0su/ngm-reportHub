@@ -8700,6 +8700,12 @@ angular.module( 'ngmReportHub' )
 				// filter based on date
 				beneficiaries_date = ngmClusterLists.filterActiveDate(beneficiaries_filterby_admin0pcode, start, end);
 
+				
+				// filter duplications by tag
+				if (beneficiaries_date && beneficiaries_date.length) {
+					beneficiaries_date = ngmClusterLists.filterDuplicates(beneficiaries_date, ['beneficiary_type_id']);
+				}
+
 				// sort A-Z
 				if (beneficiaries_date && beneficiaries_date.length) {
 					beneficiaries_date = $filter('orderBy')(beneficiaries_date, 'beneficiary_type_name');
