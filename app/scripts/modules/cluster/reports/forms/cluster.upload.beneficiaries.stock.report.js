@@ -1427,7 +1427,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                     var item = $scope.upload.list[index];
                     if($scope.type === 'beneficiaries'){
                         $scope.detailBeneficiaries[index] = !$scope.detailBeneficiaries[index];
-                        $scope.upload.lists.beneficiary_types = ngmClusterLists.getBeneficiaries(moment(end_date).year(), item.admin0pcode, item.cluster_id),
+                        $scope.upload.lists.beneficiary_types = ngmClusterLists.getBeneficiaries(moment(end_date).year(), item.admin0pcode, item.cluster_id,start_date,end_date),
                         $scope.upload.lists.beneficiary_categories = ngmClusterLists.getBeneficiariesCategories(item.admin0pcode),
                         $scope.upload.lists.hrp_beneficiary_types= ngmClusterLists.getHrpBeneficiaries(item.admin0pcode, moment(end_date).year())
                         $scope.upload['definition']={}
@@ -1435,6 +1435,7 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                         $scope.upload.definition['activity_type'] = item.activity_type;
 
                         $scope.beneficiariesList[index] = $scope.upload.lists;
+
                     }else{
                         $scope.detailStocks[index] = !$scope.detailStocks[index];
                         $scope.upload.lists.stocks = ngmClusterLists.getStockLists(item.admin0pcode)
