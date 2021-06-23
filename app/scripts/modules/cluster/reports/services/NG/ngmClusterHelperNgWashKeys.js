@@ -137,6 +137,14 @@ angular.module( 'ngmReportHub' )
 						quantity_measurement_name: 'm3/Per Month'
 					}
 				},
+				'water_chlorination': {
+					template: 'maintenance.html',
+					association: 'water',
+					measurement: {
+						quantity_measurement_id: 'm3_per_month',
+						quantity_measurement_name: 'm3/Per Month'
+					}
+				},
 				'washcoms_establishment_training': {
 					template: 'maintenance.html',
 					association: 'water',

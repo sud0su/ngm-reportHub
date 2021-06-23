@@ -24,15 +24,16 @@
 		<div class="row" ng-if="beneficiary.activity_detail_id === 'fuel_provision_water' || 
 									beneficiary.activity_detail_id === 'operation_maintenance_monitoring' ||
 									beneficiary.activity_detail_id === 'maintenance_repair_kits_provision_to_washcoms' || 
-									beneficiary.activity_detail_id === 'maintenance_repair_replacement_water_systems'">
+									beneficiary.activity_detail_id === 'maintenance_repair_replacement_water_systems' || 
+									beneficiary.activity_detail_id === 'water_chlorination'">
 
 			<!-- col s12 input -->
 			<div class="input-field col s12">
 
 
-				<!-- fuel_provision_water -->
+				<!-- fuel_provision_water, water_chlorination -->
 				<input id="ngm-quantity-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $maintenanceIndex }}"
-								ng-if="beneficiary.activity_detail_id === 'fuel_provision_water'"
+								ng-if="beneficiary.activity_detail_id === 'fuel_provision_water' || beneficiary.activity_detail_id === 'water_chlorination'"
 								name="quantity"
 								type="number" 
 								class="validate" 
@@ -44,14 +45,14 @@
 								required>
 
 				<!-- label based on activity_detail_id -->
-				<label ng-if="beneficiary.activity_detail_id === 'fuel_provision_water'"
+				<label ng-if="beneficiary.activity_detail_id === 'fuel_provision_water'|| beneficiary.activity_detail_id === 'water_chlorination'"
 								for="ngm-quantity-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $maintenanceIndex }}"
 								class="active">Quantity (m3/Per Month)</label>
 
 
 				<!-- monitoring, kits, repair -->
 				<input id="ngm-quantity-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $maintenanceIndex }}"
-								ng-if="beneficiary.activity_detail_id !== 'fuel_provision_water'"
+								ng-if="beneficiary.activity_detail_id !== 'fuel_provision_water' && beneficiary.activity_detail_id !== 'water_chlorination'"
 								name="quantity"
 								type="number" 
 								class="validate" 
