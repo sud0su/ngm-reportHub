@@ -721,7 +721,7 @@ angular.module('ngmReportHub')
 							});
 
 						}
-						if ($scope.dashboard.user.roles.indexOf('SUPERADMIN')>0){
+						if ( $scope.dashboard.user.email === 'rafinkanisaw@gmail.com' || $scope.dashboard.user.email === 'farifin@immap.org'){
 							var hrp_list = [{ hrp: true, hrp_title:'HRP'},{hrp:false, hrp_title:'TIMESTAMP'}]
 							hrpRows=[];
 							angular.forEach(hrp_list, function (h, i) {
