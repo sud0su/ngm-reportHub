@@ -736,7 +736,7 @@ angular.module('ngmReportHub')
 							})
 							$scope.model.menu.push({
 								'search': true,
-								'icon': 'location_on',
+								'icon': 'access_time',
 								'title': 'HRP/TIMESTAMP',
 								'class': 'teal lighten-1 white-text',
 								'rows': hrpRows
