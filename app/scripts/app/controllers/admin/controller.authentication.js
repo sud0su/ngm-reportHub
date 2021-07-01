@@ -258,6 +258,12 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 
 					});
 					}
+					// sort 
+					$scope.panel.organizations = $filter('orderBy')($scope.panel.organizations, 'organization');
+					// reset model when change country
+					delete $scope.panel.user.cluster_id ;
+					delete $scope.panel.user.organization;
+
 				},
 
 
