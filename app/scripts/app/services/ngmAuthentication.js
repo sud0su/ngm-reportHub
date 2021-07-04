@@ -23,7 +23,7 @@ angular.module('ngmReportHub')
 			// set user to storage
 			set: function( user ) {
 				// user last_logged_in & set
-				user.last_logged_in = moment();
+				user.last_logged_in = user.last_logged_in ? moment().format(user.last_logged_in) : moment().format();
 				user.dashboard_visits = 0;
 				localStorage.setObject( 'auth_token', user );
 				ngmLists.setObject('auth_token', user);
