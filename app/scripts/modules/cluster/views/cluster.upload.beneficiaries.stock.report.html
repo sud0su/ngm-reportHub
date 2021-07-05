@@ -1490,11 +1490,10 @@
                                             <i class="material-icons">delete</i>
                                         </button>
                                         <button id="toggle" class="btn-floating tooltip"
-                                            ng-class="{'rotate': detailStocks[$indexRecord]}"
                                             ng-click="upload.openCloseRecord($indexRecord)"
                                             title="{{ (detailStocks[$indexRecord]?'Minimize':'Click to Expand')|translate }}"
                                             ng-disabled="false">
-                                            <i class="material-icons">keyboard_arrow_down</i>
+                                            <i class="material-icons" ng-class="{'rotate-dropdown': detailStocks[$indexRecord]}">keyboard_arrow_down</i>
                                             <!-- <md-tooltip md-direction="top"
                                                 ng-if="detailStocks[$indexRecord]">
                                                 {{ 'Minimize'|translate }}
