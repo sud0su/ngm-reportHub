@@ -223,15 +223,15 @@
                                 ng-class="{'right-align':windowWidth > 600 }">
 
                                 <button class="btn-floating waves-effect waves-light" title="Save"
-                                    ng-if="!project.newProject && detailLocation[$index] && project.canEdit" ng-click="project.saveLocation()"
-                                    ng-disabled="( !project.submit ) || ( project.definition.project_status === 'complete' ) && !project.canEdit">
+                                    ng-if="!project.newProject && detailLocation[$index] && project.canEdit &&  project.definition.project_status !== 'complete'" ng-click="project.saveLocation()"
+                                    ng-disabled="( !project.submit ) || ( project.definition.project_status === 'complete' ) || !project.canEdit">
 
                                     <i class="material-icons">save</i>
                                 </button>
                                 <button class="btn-floating red lighten-2 waves-effect waves-light" title="Remove"
-                                    ng-if="!project.newProject && location.id && detailLocation[$index] && project.canEdit"
+                                    ng-if="!project.newProject && location.id && detailLocation[$index] && project.canEdit && project.definition.project_status !== 'complete'"
                                     ng-click="ngmClusterLocations.removeLocationModal( project, location.id )"
-                                    ng-disabled="( !project.submit ) || ( project.definition.project_status === 'complete' ) && !project.canEdit">
+                                    ng-disabled="( !project.submit ) || ( project.definition.project_status === 'complete' ) || !project.canEdit">
                                     <i class="material-icons">delete</i>
                                 </button>
                                 <button class="btn-floating blue lighten-1 waves-effect waves-light"
