@@ -1075,8 +1075,11 @@ angular.module( 'ngmReportHub' )
 			},
 			// cek if option need to separate by mpc_delivery_type_id inkind
 			checkSeparationUnitTypeInKind:function(array){
-				var value = array.find(y => y.mpc_delivery_type_id === 'in-kind');
-				return value ? true: false;
+				if(typeof array !== 'number'){
+					var value = array.find(y => y.mpc_delivery_type_id === 'in-kind');
+					return value ? true: false;
+				}
+				return false;
 			}
 
 		};
