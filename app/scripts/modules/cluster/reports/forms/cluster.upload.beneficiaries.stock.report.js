@@ -1422,20 +1422,38 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                 openCloseRecord:function(index){
 
 
-                    var start_date = moment($route.current.params.start).format('YYYY-MM-DD');
-                    var end_date = moment($route.current.params.end).format('YYYY-MM-DD');
+                    // var start_date = moment($route.current.params.start).format('YYYY-MM-DD');
+                    // var end_date = moment($route.current.params.end).format('YYYY-MM-DD');
                     var item = $scope.upload.list[index];
                     if($scope.type === 'beneficiaries'){
                         $scope.detailBeneficiaries[index] = !$scope.detailBeneficiaries[index];
-                        $scope.upload.lists.beneficiary_types = ngmClusterLists.getBeneficiaries(moment(end_date).year(), item.admin0pcode, item.cluster_id,start_date,end_date),
-                        $scope.upload.lists.beneficiary_categories = ngmClusterLists.getBeneficiariesCategories(item.admin0pcode),
-                        $scope.upload.lists.hrp_beneficiary_types= ngmClusterLists.getHrpBeneficiaries(item.admin0pcode, moment(end_date).year())
-                        $scope.upload['definition']={}
-                        $scope.upload['definition']['activity_type'] =[]
-                        $scope.upload.definition['activity_type'] = item.activity_type;
+                        // $scope.upload.lists.beneficiary_types = ngmClusterLists.getBeneficiaries(moment(end_date).year(), item.admin0pcode, item.cluster_id,start_date,end_date),
+                        // $scope.upload.lists.beneficiary_categories = ngmClusterLists.getBeneficiariesCategories(item.admin0pcode),
+                        // $scope.upload.lists.hrp_beneficiary_types= ngmClusterLists.getHrpBeneficiaries(item.admin0pcode, moment(end_date).year())
+                        // $scope.upload.lists.delivery_types = ngmClusterLists.getDeliveryTypes(item.admin0pcode, item.cluster_id)
+                        // $scope.upload['definition']={}
+                        // $scope.upload['definition']['activity_type'] =[]
+                        // $scope.upload.definition['activity_type'] = item.activity_type;
 
-                        $scope.beneficiariesList[index] = $scope.upload.lists;
-
+                        // $scope.beneficiariesList[index] = $scope.upload.lists;
+                        // $scope.beneficiariesList[index].activity_types = ngmClusterLists.getActivities(item, true, ['activity_type_id'], true, start_date, end_date),
+                        // $scope.beneficiariesList[index].activity_descriptions = ngmClusterLists.getActivities(item, true, ['activity_description_id', 'activity_type_id'], true, start_date, end_date),
+                        // $scope.beneficiariesList[index].activity_details = ngmClusterLists.getActivities(item, true, ['activity_detail_id', 'activity_description_id', 'activity_type_id'], true, start_date, end_date),
+                        // $scope.beneficiariesList[index].activity_indicators = ngmClusterLists.getActivities(item, true, ['indicator_id', 'activity_detail_id', 'activity_description_id', 'activity_type_id'], true, start_date, end_date),
+                        // $scope.beneficiariesList[index].transfers = ngmClusterLists.getTransfers(30)
+                        // $scope.beneficiariesList[index].beneficiary_types = ngmClusterLists.getBeneficiaries(moment(end_date).year(), item.admin0pcode, item.cluster_id,start_date,end_date),
+                        // $scope.beneficiariesList[index].beneficiary_categories = ngmClusterLists.getBeneficiariesCategories(item.admin0pcode),
+                        // $scope.beneficiariesList[index].hrp_beneficiary_types= ngmClusterLists.getHrpBeneficiaries(item.admin0pcode, moment(end_date).year())
+                        // $scope.beneficiariesList[index].delivery_types = ngmClusterLists.getDeliveryTypes(item.admin0pcode, item.cluster_id)
+                        
+                        if (!$scope.beneficiariesList[index] && $scope.detailBeneficiaries[index] === true){
+                            item.project_hrp_project = item.project_hrp_code ?(item.project_hrp_code.indexOf('HRP')>-1):false;
+                            item.inter_cluster_activities=[];
+                            item.inter_cluster_activities.push({ cluster_id: item.cluster_id, cluster: item.cluster })
+                            $scope.beneficiariesList[index] = ngmClusterLists.setLists(item, moment(item.reporting_period).startOf('month'), moment(item.reporting_period).endOf('month'), 10);
+                            ngmClusterBeneficiaries.setBeneficiariesInputs($scope.beneficiariesList[index], 0, index, item);
+                        }
+                        
                     }else{
                         $scope.detailStocks[index] = !$scope.detailStocks[index];
                         $scope.upload.lists.stocks = ngmClusterLists.getStockLists(item.admin0pcode)
@@ -1457,10 +1475,11 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                     var start_date = moment($route.current.params.start).format('YYYY-MM-DD');
                     var end_date = moment($route.current.params.end).format('YYYY-MM-DD');
                     $scope.upload.lists = {
-                        activity_types: ngmClusterLists.getActivities({}, true, ['activity_type_id'], true, start_date, end_date),
-                        activity_descriptions: ngmClusterLists.getActivities({}, true, ['activity_description_id', 'activity_type_id'], true, start_date, end_date),
-                        activity_details: ngmClusterLists.getActivities({}, true, ['activity_detail_id', 'activity_description_id', 'activity_type_id'], true, start_date, end_date),
-                        activity_indicators: ngmClusterLists.getActivities({}, true, ['indicator_id', 'activity_detail_id', 'activity_description_id', 'activity_type_id'], true, start_date, end_date),
+                    //     activity_types: ngmClusterLists.getActivities({}, true, ['activity_type_id'], true, start_date, end_date),
+                    //     activity_descriptions: ngmClusterLists.getActivities({}, true, ['activity_description_id', 'activity_type_id'], true, start_date, end_date),
+                    //     activity_details: ngmClusterLists.getActivities({}, true, ['activity_detail_id', 'activity_description_id', 'activity_type_id'], true, start_date, end_date),
+                    //     activity_indicators: ngmClusterLists.getActivities({}, true, ['indicator_id', 'activity_detail_id', 'activity_description_id', 'activity_type_id'], true, start_date, end_date),
+                    //     transfers: ngmClusterLists.getTransfers(30)
 
                     }
                     if ($scope.type === 'beneficiaries') {
@@ -1480,9 +1499,9 @@ angular.module('ngm.widget.upload.beneficiaries.stock.report', ['ngm.provider'])
                     }
 
                     // set form for beneficiaries form
-                    if ($scope.type === 'beneficiaries') {
-                        ngmClusterBeneficiaries.setBeneficiariesForm($scope.upload.lists, 0, $scope.upload.list);
-                    }
+                    // if ($scope.type === 'beneficiaries') {
+                    //     // ngmClusterBeneficiaries.setBeneficiariesForm($scope.upload.lists, 0, $scope.upload.list);
+                    // }
 
 
 
