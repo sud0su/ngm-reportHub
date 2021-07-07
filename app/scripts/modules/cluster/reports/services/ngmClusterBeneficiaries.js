@@ -294,13 +294,16 @@ angular.module( 'ngmReportHub' )
 			},
 
 			// set the name for a selection
-			updateName: function( list, key, name, beneficiary ){
+			updateName: function( list, key, name, beneficiary, filterByCluster ){
 
 				// this approach does NOT break gulp!
 				$timeout(function() {
 					var obj = {}
 					obj[key] = beneficiary[key];
 					var select = $filter('filter')( list, obj, true );
+					if(filterByCluster){
+						 select = $filter('filter')(select, {cluster_id:beneficiary.cluster_id}, true);
+					}
 
 					// set name
 					if ( select.length ) {

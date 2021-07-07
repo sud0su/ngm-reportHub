@@ -371,7 +371,7 @@
 															class="validate"
 															ng-model="beneficiary.beneficiary_type_id"
 															unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
-															ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+															ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary, true );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
 															ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in project.lists.beneficiary_types |
 																					filter: {
 																						cluster_id: beneficiary.cluster_id
@@ -410,7 +410,7 @@
 															class="validate"
 															ng-model="beneficiary.beneficiary_type_id"
 															unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
-															ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );
+															ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary, true );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );
 																					ngmClusterHelperCol.updateIndicatorObjective( project.definition.admin0pcode, beneficiary )"
 															ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in project.lists.beneficiary_types |
 																					filter: {
@@ -469,7 +469,7 @@
 										<select materialize-select watch watch-model id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
 											class="validate" ng-model="beneficiary.beneficiary_type_id"
 											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
-											ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+											ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary, true );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
 											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in project.lists.beneficiary_types |
 																													filter: {
 																														cluster_id: beneficiary.cluster_id
@@ -525,7 +525,7 @@
 										<select materialize-select watch watch-model  id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
 											class="validate" ng-model="beneficiary.beneficiary_type_id"
 											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
-											ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
+											ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary, true );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
 											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in project.lists.beneficiary_types |
 																																					filter: {
 																																						cluster_id: beneficiary.cluster_id
@@ -561,7 +561,7 @@
 									<!-- beneficiary_type -->
 									<div class="input-field col s12 m4" ng-if="!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'beneficiary_type_id' ]">
 										<select materialize-select watch watch-model id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
-											class="validate" ng-model="beneficiary.beneficiary_type_id" unknown-value="{{ ::beneficiary.beneficiary_type_name }}" ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );
+											class="validate" ng-model="beneficiary.beneficiary_type_id" unknown-value="{{ ::beneficiary.beneficiary_type_name }}" ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary, true );
 																													ngmClusterHelperCol.updateIndicatorObjective( project.definition.admin0pcode, beneficiary );
 																													ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );"
 											ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in project.lists.beneficiary_types |
@@ -633,7 +633,7 @@
 										<select materialize-select watch watch-model id="ngm-beneficiary_type_id-{{ $index }}" name="beneficiary_type_id-{{ $index }}"
 											class="validate" ng-model="beneficiary.beneficiary_type_id"
 											unknown-value="{{ ::beneficiary.beneficiary_type_name }}"
-											ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );
+											ng-change="ngmClusterBeneficiaries.updateName( project.lists.beneficiary_types, 'beneficiary_type_id', 'beneficiary_type_name', beneficiary, true );ngmClusterBeneficiaries.inputChange( 'ngm-beneficiary_type_id-{{ $index }}' );
 																																					ngmClusterHelperCol.updateIndicatorObjective( project.definition.admin0pcode, beneficiary )" ng-options="b.beneficiary_type_id as b.beneficiary_type_name for b in project.lists.beneficiary_types |
 																																					filter: {
 																																						cluster_id: beneficiary.cluster_id
