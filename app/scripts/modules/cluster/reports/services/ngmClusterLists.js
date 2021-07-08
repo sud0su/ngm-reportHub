@@ -8702,9 +8702,9 @@ angular.module( 'ngmReportHub' )
 
 				
 				// filter duplications by tag
-				// if (beneficiaries_date && beneficiaries_date.length) {
-				// 	beneficiaries_date = ngmClusterLists.filterDuplicates(beneficiaries_date, ['beneficiary_type_id']);
-				// }
+				if (beneficiaries_date && beneficiaries_date.length) {
+					beneficiaries_date = ngmClusterLists.filterDuplicates(beneficiaries_date, ['cluster_id','beneficiary_type_id']);
+				}
 
 				// sort A-Z
 				if (beneficiaries_date && beneficiaries_date.length) {
