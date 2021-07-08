@@ -1714,7 +1714,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 					// beneficiary_type_name
 					if (obj.beneficiary_type_name){
-						selected_beneficiary = $filter('filter')($scope.project.lists.beneficiary_types, { beneficiary_type_name: obj.beneficiary_type_name }, true);
+						selected_beneficiary = $filter('filter')($scope.project.lists.beneficiary_types, { beneficiary_type_name: obj.beneficiary_type_name, cluster_id: obj.cluster_id}, true);
 						if (selected_beneficiary.length) {
 							obj.beneficiary_type_id = selected_beneficiary[0].beneficiary_type_id;
 						}
