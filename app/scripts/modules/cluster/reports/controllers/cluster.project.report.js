@@ -129,7 +129,9 @@ angular.module('ngmReportHub')
 									data: {
 										report: $scope.report.report,
 										report_type: 'activity',
-										report_id: $scope.report.definition.id
+										report_id: $scope.report.definition.id,
+										project_cluster_id: $scope.report.project.cluster_id,
+										project_admin0pcode: $scope.report.project.admin0pcode
 									}
 								},
 								metrics: {
