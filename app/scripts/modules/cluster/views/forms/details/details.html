@@ -728,7 +728,7 @@
 									ng-options="item as item.organization for item in project.lists.organizations track by item.organization_tag" ng-disabled="project.definition.project_status === 'complete' || !project.canEdit">
 								</select>
 								<label ng-if="project.definition.admin0pcode !== 'ET' || project.definition.cluster_id !== 'esnfi'" for="ngm-project-implementing_partners">{{'list_programme_partners' | translate}}</label>
-								<label ng-if="project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi'">Program Coordinating Organization?</label>
+								<label ng-if="project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi'">List Program Coordinating Organization</label>
 							</div>
 						</div>
 
