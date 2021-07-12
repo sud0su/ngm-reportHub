@@ -692,7 +692,8 @@
 											ng-model="project.definition.programme_partners_checked"
 											ng-change="project.programmePartnersOrgStatus()"
 											ng-disabled="project.definition.project_status === 'complete' || !project.canEdit" />
-										<span style="left: .75rem;">{{'programme_partners' | translate}}?</span>
+										<span ng-if="project.definition.admin0pcode !== 'ET' || project.definition.cluster_id !== 'esnfi'" style="left: .75rem;">{{'programme_partners' | translate}}?</span>
+										<span ng-if="project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi'" style="left: .75rem;">Program Coordinating Organization?</span>
 									</label>
 								</p>
 							</div>
@@ -726,7 +727,8 @@
 								<select materialize-select searchable="Search Partner" placeholder="Not Set" ng-model="project.definition.programme_partners" multiple
 									ng-options="item as item.organization for item in project.lists.organizations track by item.organization_tag" ng-disabled="project.definition.project_status === 'complete' || !project.canEdit">
 								</select>
-								<label for="ngm-project-implementing_partners">{{'list_programme_partners' | translate}}</label>
+								<label ng-if="project.definition.admin0pcode !== 'ET' || project.definition.cluster_id !== 'esnfi'" for="ngm-project-implementing_partners">{{'list_programme_partners' | translate}}</label>
+								<label ng-if="project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi'">List Program Coordinating Organization</label>
 							</div>
 						</div>
 

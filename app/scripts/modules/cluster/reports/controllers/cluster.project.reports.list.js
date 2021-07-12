@@ -126,7 +126,9 @@ angular.module('ngmReportHub')
 									url: ngmAuth.LOCATION + '/api/cluster/project/getProjectCsv',
 									data: {
 										report: $filter('limitTo')($scope.report.project.project_title, 180) + '-extracted-' + moment().format('YYYY-MM-DDTHHmm'),
-										project_id: $scope.report.project.id
+										project_id: $scope.report.project.id,
+										project_cluster_id: $scope.report.project.cluster_id,
+										project_admin0pcode: $scope.report.project.admin0pcode
 									}
 								},
 								metrics: {

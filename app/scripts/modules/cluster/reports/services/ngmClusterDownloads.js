@@ -127,6 +127,28 @@ angular.module( 'ngmReportHub' )
 					{ header: 'Implementing Partners', key: 'implementing_partners', width: 50 },
 					{ header: 'URL', key: 'url', width: 50 },
 				];
+
+				if( project_copy.admin0pcode === 'ET' && project_copy.cluster_id === 'esnfi'){
+					worksheetProjectDetails.columns = [
+						{ header: 'Project ID', key: 'id', width: 10 },
+						{ header: 'Project Status', key: 'project_status', width: 20 },
+						{ header: 'Project Details', key: 'project_details', width: 20 },
+						{ header: 'Focal Point', key: 'name', width: 20 },
+						{ header: 'Email', key: 'email', width: 20 },
+						{ header: 'Phone', key: 'phone', width: 20 },
+						{ header: 'Project Title', key: 'project_title', width: 20 },
+						{ header: 'Project Description', key: 'project_description', width: 20 },
+						{ header: 'HRP Project Code', key: 'project_hrp_code', width: 20 },
+						{ header: 'Project Start Date', key: 'project_start_date', width: 20 },
+						{ header: 'Project End Date', key: 'project_end_date', width: 20 },
+						{ header: 'Project Budget', key: 'project_budget', width: 20 },
+						{ header: 'Project Budget Currency', key: 'project_budget_currency', width: 20 },
+						{ header: 'Project Donors', key: 'project_donor', width: 20 },
+						{ header: 'Implementing Partners', key: 'implementing_partners', width: 50 },
+						{ header: 'Program Coordinating Organization', key: 'programme_partners', width: 50 },
+						{ header: 'URL', key: 'url', width: 50 },
+					];
+				}
 				boldHeader(worksheetProjectDetails);
 
 				worksheetActivityTypes.columns = [
@@ -192,6 +214,10 @@ angular.module( 'ngmReportHub' )
 
 				Array.isArray(project_copy.target_locations) && project_copy.target_locations.forEach(function (tl) {
 					tl.implementing_partners = propToString(tl.implementing_partners, 'organization');
+				});
+
+				Array.isArray(project_copy.target_locations) && project_copy.target_locations.forEach(function (tl) {
+					tl.programme_partners = propToString(tl.programme_partners, 'organization');
 				});
 
 				project_copy.url = $location.absUrl();
