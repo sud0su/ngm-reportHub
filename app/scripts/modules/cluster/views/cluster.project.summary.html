@@ -10,6 +10,21 @@
 		pointer-events: none;
     cursor: default;
 	}
+	textarea.materialize-textarea,textarea.materialize-textarea:focus:not([readonly]) {
+		border-bottom: 1px solid #e57374;
+		-webkit-box-shadow: 0 1px 0 0 #e57374;
+		box-shadow: 0 1px 0 0 #e57374
+	}
+	textarea.materialize-textarea::-webkit-input-placeholder,
+	textarea.materialize-textarea:-moz-placeholder,
+	textarea.materialize-textarea:-ms-input-placeholder,
+	textarea.materialize-textarea::placeholder
+	 {
+	color: #a7a1a1;
+	}
+	.btn.delete-project[disabled] {
+		background-color: #dfb9b2 !important;
+	}
 </style>
 <!-- complete modal -->
 <div id="complete-modal" class="modal">
@@ -67,6 +82,47 @@
 	<div class="modal-footer">
 		<a ng-click="panel.markNotImplemented( panel.project )" class=" modal-action modal-close waves-effect waves-green btn">Yes, Move Project to Not Implemented!</a>
 		<a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
+	</div>
+</div>
+
+<!-- request delete modal -->
+<div id="send-request-delete-project-modal" class="modal">
+	<div class="modal-content dialog">
+		<h4 class="header-modal red lighten-2"><i class="material-icons left small">delete_forever</i>Request {{'delete_project' |
+			translate}}</h4>
+		
+		<div class="row" style="margin: 20px 50px 10px 50px;">
+			<br>
+			<div class="card" style="padding:20px;">
+			
+				<div class="row">
+			
+					<div class="input-field col s12 m12 l12 ">
+						<textarea id="ngm-req-reason-delete" 
+								  type="text" 
+								  class="validate materialize-textarea" 
+								  name="ngm-req-reason-delete"
+								  style="min-height: 5rem !important;"
+								  placeholder="Please describe the reason for us to delete the project with a minimum of 20 characters. Depending on the reason, the admin might not accept the request to delete the project."
+								  ng-model="panel.reason_to_delete_project" >
+						</textarea>
+						<label class="red-text lighten-2 active" for="ngm-req-reason-delete">Reason for deleting the project?</label>
+					</div>			
+				</div>
+			
+			</div>
+			<p style="font-weight:500;background-color: #cecdc6;border-radius: 5px;">Are you sure you want to REQUEST to  DELETE this PROJECT and all its associated data? <br>
+			<span style="font-style: italic;font-weight:500;display: block;padding-top: 5px;">Once the delete project request has been submitted, your delete request can't be canceled and you are agree to have the
+			admin remove all the project data including the submitted monthly report. Any of the lost data will not be accessible
+			anymore and this action can't be recovered by the ReportHub Team.</span></p>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button 
+			ng-click="panel.sendRequestToDeleteProject( panel.reason_to_delete_project )"
+			class=" modal-action modal-close waves-effect waves-red btn delete-project red lighten-2" 
+			ng-disabled="panel.checkTheReason(panel.reason_to_delete_project)"> <i class="material-icons left">send</i> Send Request</button>
+		<button class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="panel.sendRequestToDeleteProject('cancel_send_request')">No</button>
 	</div>
 </div>
 	<!-- panels -->
@@ -183,6 +239,10 @@
 						<button ng-if="(panel.project.admin0pcode === 'AF') && panel.canDelete" data-target="delete-modal"
 							class="waves-effect waves-light btn modal-trigger red lighten-2" ng-cloak>
 							<i class="material-icons left">delete_forever</i>{{'delete_activity_plan' | translate}}
+						</button>
+						<button ng-if="(panel.project.admin0pcode === 'AF') && !panel.canDelete" data-target="send-request-delete-project-modal"
+							class="waves-effect waves-light btn modal-trigger red lighten-2" ng-cloak>
+							<i class="material-icons left">delete_forever</i> Request Delete Project
 						</button>
 					</div>
 				</div>
