@@ -102,19 +102,22 @@
 								  type="text" 
 								  class="validate materialize-textarea" 
 								  name="ngm-req-reason-delete"
-								  style="min-height: 5rem !important;"
-								  placeholder="Please describe the reason for us to delete the project with a minimum of 20 characters. Depending on the reason, the admin might not accept the request to delete the project."
+								  style="min-height: 2rem !important;"
 								  ng-model="panel.reason_to_delete_project" >
 						</textarea>
 						<label class="red-text lighten-2 active" for="ngm-req-reason-delete">Reason for deleting the project?</label>
+						<span class="helper-text">Please describe the reason for us to delete the project with a minimum of 20 characters. Depending on the reason, the
+						admin might not accept the request to delete the project.</span>
 					</div>			
 				</div>
 			
 			</div>
-			<p style="font-weight:500;background-color: #cecdc6;border-radius: 5px;">Are you sure you want to REQUEST to  DELETE this PROJECT and all its associated data? <br>
-			<span style="font-style: italic;font-weight:500;display: block;padding-top: 5px;">Once the delete project request has been submitted, your delete request can't be canceled and you are agree to have the
-			admin remove all the project data including the submitted monthly report. Any of the lost data will not be accessible
-			anymore and this action can't be recovered by the ReportHub Team.</span></p>
+			<p style="font-weight:500;padding-left: 2px;">Are you sure you want to REQUEST to  DELETE this PROJECT and all its associated data?</p>
+			<p style="font-weight:400;background-color: #dcdcdc; border-radius: 5px; font-style: italic;  padding: 10px 15px; font-size: 14px;">
+				Once the delete project request has been submitted, your delete request can't be canceled and you are agree to have the
+				admin remove all the project data including the submitted monthly report. Any of the lost data will not be accessible
+				anymore and this action can't be recovered by the ReportHub Team.
+			</p>
 		</div>
 	</div>
 	<div class="modal-footer">
