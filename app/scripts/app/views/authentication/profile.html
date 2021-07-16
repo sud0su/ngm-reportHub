@@ -55,11 +55,11 @@ form {
 <div id="deactivate-modal" class="modal">
   <div class="modal-content dialog">
     <h4 class="header-modal grey"><i class="material-icons small left">assignment_late</i>{{'desactive_user' | translate}}</h4>
-    <p >{{'desactive' | translate
+    <p >Are you sure you would like to {{'desactive' | translate
     }} {{ panel.user.username }}?</p>
   </div>
   <div class="modal-footer">
-	<a ng-click="panel.updateStatus( 'deactivated' )" class="modal-action modal-close waves-effect waves-green btn">{{'yes_desactive_user' | translate}}!</a>
+	<a ng-click="panel.updateStatus( 'deactivated' )" class="modal-action modal-close waves-effect waves-red waves-effect waves-light btn modal-trigger red lighten-2 btn">{{'yes_desactive_user' | translate}}!</a>
   	<a class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
   </div>
 </div>
