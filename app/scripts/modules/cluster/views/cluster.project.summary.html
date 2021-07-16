@@ -41,11 +41,16 @@
 <!-- complete modal -->
 <div id="delete-modal" class="modal">
   <div class="modal-content dialog">
-    <h4 class="header-modal red lighten-2"><i class="material-icons left small">info_outline</i>{{'delete_project' | translate}}</h4>
-    <p>{{'are_you_sure_you_want_to_delete_this_project_and_all_its_associated_data' |translate}}?</p>
+    <h4 class="header-modal red lighten-2"><i class="material-icons left small">delete_forever</i>{{'delete_project' | translate}}</h4>
+    <p style="font-weight: 500;">{{'are_you_sure_you_want_to_delete_this_project_and_all_its_associated_data' |translate}}?</p>
+	<p style="font-weight:400;background-color: #dcdcdc; border-radius: 5px; font-style: italic;  font-size: 14px;margin: 20px 50px 10px 20px;">
+		Once you the delete project, Any of the lost data will not be
+		accessible
+		anymore and this action can't be recovered by the ReportHub Team.
+	</p>
   </div>
   <div class="modal-footer">
-	  <a ng-click="panel.deleteProject( panel.project )" class=" modal-action modal-close waves-effect waves-red btn">{{'yes_delete_project' | translate}}!</a>
+	  <a ng-click="panel.deleteProject( panel.project )" class=" modal-action modal-close waves-effect waves-red btn red lighten-2">{{'yes_delete_project' | translate}}!</a>
   	<a class=" modal-action modal-close waves-effect waves-green btn-flat">No</a>
   </div>
 </div>
