@@ -119,6 +119,7 @@ angular.module('ngmReportHub')
 									// permissions
 									canEdit: ngmAuth.canDo( 'EDIT', { adminRpcode: $scope.report.project.adminRpcode, admin0pcode:$scope.report.project.admin0pcode, cluster_id: $scope.report.project.cluster_id, organization_tag:$scope.report.project.organization_tag } ),
 									canDelete: ngmAuth.canDelete(),
+									reason_to_delete_project:'',
 									// mark project active
 									markActive: function( project ){
 
@@ -253,6 +254,59 @@ angular.module('ngmReportHub')
 										// Materialize.toast( $filter('translate')('project_delete_error_please_try_again'), 6000, 'error');
 										  M.toast({ html: $filter('translate')('project_delete_error_please_try_again'), displayLength: 6000, classes: 'error' });
 									  });
+									},
+									sendRequestToDeleteProject:function(text_reason){
+
+										if (text_reason === 'cancel_send_request'){
+											this.reason_to_delete_project ='';
+										}else{
+											$timeout(function () {
+												//   Materialize.toast( $filter('translate')('processing')+'...', 6000, 'note');
+												M.toast({ html: $filter('translate')('processing') + '...', displayLength: 3000, classes: 'note' });
+											}, 200);
+											let link_project = ngmAuth.LOCATION + '/desk/#' + $location.path();
+											var request_delete = $http({
+												method: 'POST',
+												url: ngmAuth.LOCATION + '/api/send-request-to-delete-project',
+												data: {
+													url: link_project,
+													username: $scope.report.user.username,
+													url_user: ngmAuth.LOCATION + '/desk/#/profile/'+$scope.report.user.username,
+													reasons: text_reason,
+													organization_tag: $scope.report.project.organization_tag,
+													project_title: $scope.report.project.project_title,
+													admin0pcode: $scope.report.project.admin0pcode
+												}
+											});
+
+											request_delete.then(function (result) {
+
+												// user toast msg
+												$timeout(function () {
+													// Materialize.toast($filter('translate')('email_sent_please_check_your_inbox'), 6000, 'success');
+													M.toast({ html: 'Email already send to Admin', displayLength: 3000, classes: 'success' });
+												}, 400);
+											}).catch(function (err) {
+
+												// update
+												$timeout(function () {
+													// Materialize.toast( err.msg, 6000, 'error' );
+													M.toast({ html: err.msg, displayLength: 6000, classes: 'error' });
+												}, 400);
+											});
+											this.reason_to_delete_project = '';
+										}
+										
+									},
+									checkTheReason:function(string){
+										var disabled = false;
+										if(string.length<20){
+											disabled = true;
+										}else{
+											str = string.replace(/\s+/g, '');
+											disabled = str.length >=20 ? false: true;
+										}
+										return disabled;
 									}
 
 								}
