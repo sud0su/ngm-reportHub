@@ -409,7 +409,7 @@ angular.module('ngmReportHub')
 									templateUrl: '/scripts/app/views/authentication/team.html',
 									tableOptions:{
 										count: 10,
-										sorting: { updatedAt: "desc" }
+										sorting: { last_logged_in: "desc" }
 									},
 									request: $scope.dashboard.getRequest( 'list', 'active' ),
 									onClick: function(user){
@@ -476,7 +476,7 @@ angular.module('ngmReportHub')
 									templateUrl: '/scripts/app/views/authentication/team.html',
 									tableOptions:{
 										count: 10,
-										sorting: { updatedAt: "desc" }
+										sorting: { last_logged_in: "desc" }
 									},
 									request: $scope.dashboard.getRequest( 'list', 'deactivated' ),
 									onClick: function(user){
