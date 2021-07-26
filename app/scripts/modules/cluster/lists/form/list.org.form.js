@@ -306,13 +306,19 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                     //     return false
                     // }
                     // return false
-
-                    if (item.organization_type !== 'International NGO' && item.organization_type !== 'United Nations'){
-                        if ($scope.master.admin0pcode ==='ALL'){
-                            return true;
+                    var can_move_lever = ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['EDIT_ORG_LIST_PARTIAL']
+                    var disabled_lever = false;
+                    if(can_move_lever){
+                        if (item.organization_type !== 'International NGO' && item.organization_type !== 'United Nations'){
+                            if ($scope.master.admin0pcode === 'ALL'){
+                                disabled_lever = true;
+                            }
                         }
+                    }else{
+                        disabled_lever = true
                     }
-                    return false
+                    
+                    return disabled_lever;
                 },
                 setEditedOrg:function(org){
                     $scope.master.editedOrg = angular.copy(org);
@@ -350,19 +356,31 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                     $scope.editedOrg={};
                 },
                 disabledEditButton:function(item){
-                    var role = ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['ROLE'];
+                    var permission = ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max });
+                    var role = permission['ROLE'];
+                    var modify = permission['EDIT_ORG_LIST_FULL']
+                    disabled_edit = true
                     // disable edit if role is COUNTRY;
-                    if(role === 'COUNTRY'){
-                        return true;
-                    }
-                    // if organization type is international
-                    if (item.organization_type === 'International NGO' || item.organization_type === 'United Nations' ){
-                        if(role === 'SUPERADMIN'){
-                            return false;
+                    // if(role === 'COUNTRY'){
+                    //     return true;
+                    // }
+                    // // if organization type is international
+                    // if (item.organization_type === 'International NGO' || item.organization_type === 'United Nations' ){
+                    //     if(role === 'SUPERADMIN'){
+                    //         return false;
+                    //     }
+                    //     return true;
+                    // }
+                    // return false;
+                    if(modify){
+                        if (item.organization_type === 'International NGO' || item.organization_type === 'United Nations' ){
+                            disabled_edit = (role === 'SUPERADMIN')? false : true;
+                        }else{
+                            disabled_edit= false;
                         }
-                        return true;
+
                     }
-                    return false;
+                    return disabled_edit
                 },
                 editCountryOrg:function(id) {
                     // old flow
@@ -620,6 +638,12 @@ angular.module('ngm.widget.form.organization.list', ['ngm.provider'])
                             }
                         }
                     }
+                },
+                canAddOrganization:function(){
+                    var permission = ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max });
+                    var modify = permission['EDIT_ORG_LIST_FULL']
+
+                    return modify;
                 },
                 init:function(){
                     $scope.master.list_country=[];

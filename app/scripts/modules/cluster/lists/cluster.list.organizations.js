@@ -25,8 +25,36 @@ angular.module('ngmReportHub')
             // user
             user: ngmUser.get(),
 
+            getPath: function (country) {
+                var path = '/cluster/admin/list/organization/';
+                path += country;
+                return path 
+            },
+            setUrl: function () {
+                var path = $scope.list.getPath($scope.list.admin0pcode);
+                if (path !== $location.$$path) {
+                    $location.path(path);
+                }
+            },
+            userRestrictedRouteParams: ngmAuth.getRouteParams('LIST_ADMIN'),
+            userAccessPage: ngmAuth.canDo('LIST_ADMIN', {
+                adminRpcode: ngmUser.get().adminRpcode,
+                admin0pcode: ngmUser.get().admin0pcode,
+                cluster_id: ngmUser.get().cluster_id,
+                organization_tag: ngmUser.get().organization_tag
+            }),
+
             // init
             init: function () {
+                $scope.list.admin0pcode = $route.current.params.admin0pcode
+                if($scope.list.userAccessPage){
+                    for (const key of $scope.list.userRestrictedRouteParams) {
+                        $scope.list[key] = $scope.list.user[key].toLowerCase()
+                    }
+                    $scope.list.setUrl()
+                }else{
+                    $location.path('/cluster/organization');
+                }
 
                 // report dashboard model
                 $scope.model = {
