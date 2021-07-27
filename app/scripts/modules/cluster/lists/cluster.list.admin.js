@@ -27,26 +27,37 @@ angular.module('ngmReportHub')
 
                 role: ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['ROLE'],
 
+                userRestrictedRouteParams: ngmAuth.getRouteParams('LIST_ADMIN'),
+                userAccessPage: ngmAuth.canDo('LIST_ADMIN', {
+                    adminRpcode: ngmUser.get().adminRpcode,
+                    admin0pcode: ngmUser.get().admin0pcode,
+                    cluster_id: ngmUser.get().cluster_id,
+                    organization_tag: ngmUser.get().organization_tag
+                }),
+
                 getPath: function (country, cluster) {
-                    var role = ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['ROLE'];
+                    // var role = ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['ROLE'];
+                    // console.log(ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max }));
+                    // restricted = ngmAuth.userPermissions().reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['LIST_ADMIN_RESTRICTED'];
                     var path = '/cluster/lists/admin'
-                    if (role === "SUPERADMIN") {
-                        return path += '/' + country + '/' + cluster;
-                    }
-                    if (role === "CLUSTER") {
-                        return path += '/' + ngmUser.get().admin0pcode.toLowerCase() + '/' + ngmUser.get().cluster_id;
-                    }
-                    if (role === "COUNTRY") {
-                        return path += '/' + ngmUser.get().admin0pcode.toLowerCase() + '/' + cluster;
-                    }
-                    if (role === "COUNTRY_ADMIN") {
-                        return path += '/' + ngmUser.get().admin0pcode.toLowerCase() + '/' + cluster;
-                    }
-                    // if dont have role above back to org
-                    return '/cluster/organization'
+                    // if (role === "SUPERADMIN") {
+                    //     return path += '/' + country + '/' + cluster;
+                    // }
+                    // if (role === "CLUSTER") {
+                    //     return path += '/' + ngmUser.get().admin0pcode.toLowerCase() + '/' + ngmUser.get().cluster_id;
+                    // }
+                    // if (role === "COUNTRY") {
+                    //     return path += '/' + ngmUser.get().admin0pcode.toLowerCase() + '/' + cluster;
+                    // }
+                    // if (role === "COUNTRY_ADMIN") {
+                    //     return path += '/' + ngmUser.get().admin0pcode.toLowerCase() + '/' + cluster;
+                    // }
+                    // // if dont have role above back to org
+                    // return '/cluster/organization'
+                    return path += '/' + country + '/' + cluster;
                 },
                 setUrl: function () {
-                    var path = $scope.master.getPath($route.current.params.admin0pcode, $route.current.params.cluster_id);
+                    var path = $scope.master.getPath($scope.master.admin0pcode, $scope.master.cluster_id);
                     if (path !== $location.$$path) {
                         $location.path(path);
                     }
@@ -54,8 +65,17 @@ angular.module('ngmReportHub')
 
                 // 
                 init: function () {
-
-                    $scope.master.setUrl()
+                    $scope.master.admin0pcode = $route.current.params.admin0pcode;
+                    $scope.master.cluster_id = $route.current.params.cluster_id;
+                    if ($scope.master.userAccessPage) {
+                        for (const key of $scope.master.userRestrictedRouteParams) {
+                            $scope.master[key] = $scope.master.user[key].toLowerCase()
+                        }
+                        $scope.master.setUrl()
+                    } else {
+                        $location.path('/cluster/organization');
+                    }
+                    // $scope.master.setUrl()
                     // report dashboard model
                     $scope.model = {
                         name: 'cluster_master_list',
