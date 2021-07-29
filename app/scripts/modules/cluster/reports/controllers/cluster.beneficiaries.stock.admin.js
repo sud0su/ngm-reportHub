@@ -215,7 +215,8 @@ angular.module('ngmReportHub')
                             start_date: $scope.report.startDate,
                             end_date: $scope.report.endDate,
                             indicator: $scope.report.type,
-                            json:true,
+                            json: true,
+                            hrp: 'true'
                         }
                     }
                     return request;
@@ -234,6 +235,8 @@ angular.module('ngmReportHub')
                             beneficiaries: ['all'],
                             start_date: $scope.report.startDate,
                             end_date: $scope.report.endDate,
+                            hrp: 'true'
+                            
                         }
                     }
                     request.data = angular.merge(request.data, obj);

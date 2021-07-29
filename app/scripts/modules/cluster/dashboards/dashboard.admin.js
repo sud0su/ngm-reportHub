@@ -199,7 +199,8 @@ angular.module('ngmReportHub')
 							organization_tag: $scope.dashboard.organization_tag,
 							beneficiaries: ['all'],
 							start_date: $scope.dashboard.startDateReport,
-							end_date: $scope.dashboard.endDateReport
+							end_date: $scope.dashboard.endDateReport,
+							hrp:'true'
 						}
 					}
 
