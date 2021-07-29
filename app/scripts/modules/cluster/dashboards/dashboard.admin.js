@@ -1107,7 +1107,7 @@ angular.module('ngmReportHub')
 									currentTime: $scope.dashboard.endDate,
 									onClose: function(){
 										// set date
-										var date = moment.utc(new Date(this.currentTime)).format('YYYY-MM-DD')
+										var date = moment(new Date(this.currentTime)).format('YYYY-MM-DD')
 										if ( date !== $scope.dashboard.endDate ) {
 											// set new date
 											$scope.dashboard.endDate = date;
