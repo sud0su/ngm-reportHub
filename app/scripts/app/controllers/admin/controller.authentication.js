@@ -835,6 +835,58 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 						},300)
 					}
 					return valid
+				},
+				whiteSpaceUsername:function(){
+					var disabled_register = false;
+					var regex = /(\s)/g;
+					if (regex.test($scope.panel.user.username)) {
+						document.getElementById("ngm-username").classList.remove("valid","ng-valid");
+						document.getElementById("ngm-username").classList.add("invalid", "ng-invalid");
+						$('label[for=' + 'ngm-username' + ']').addClass('error');
+						disabled_register = true
+					} else {
+						document.getElementById("ngm-username").classList.remove("invalid", "ng-invalid");
+						document.getElementById("ngm-username").classList.add("valid", "ng-valid");
+						$('label[for=' + 'ngm-username' + ']').removeClass('error');
+						disabled_register = false
+					}
+					return disabled_register
+				},
+				passwordCheck:function(){
+					$scope.panel.isPasswordSafe = false;
+					var password_minimum_requirement = /^(?=.*?[A-Z]).{8,}$/;
+					if (!password_minimum_requirement.test($scope.panel.user.password)) {
+						document.getElementById("ngm-password").classList.remove("valid", "ng-valid");
+						document.getElementById("ngm-password").classList.add("invalid", "ng-invalid");
+						$('label[for=' + 'ngm-password' + ']').addClass('error');
+						disabled_register = true;
+						$scope.panel.isPasswordSafe = false;
+
+					} else {
+						document.getElementById("ngm-password").classList.remove("invalid", "ng-invalid");
+						document.getElementById("ngm-password").classList.add("valid", "ng-valid");
+						$('label[for=' + 'ngm-password' + ']').removeClass('error');
+						disabled_register = false;
+						$scope.panel.isPasswordSafe = true;
+					}
+				},
+				confirmPassword: function () {
+					var disabled_register = false
+					if ($scope.panel.user.confirm_password !== $scope.panel.user.password) {
+						document.getElementById("ngm-confirm-password").classList.remove("valid", "ng-valid");
+						document.getElementById("ngm-confirm-password").classList.add("invalid", "ng-invalid");
+						$('label[for=' + 'ngm-confirm-password' + ']').addClass('error');
+						disabled_register = true;
+					} else {
+						document.getElementById("ngm-confirm-password").classList.remove("invalid", "ng-invalid");
+						document.getElementById("ngm-confirm-password").classList.add("valid", "ng-valid");
+						$('label[for=' + 'ngm-confirm-password' + ']').removeClass('error');
+						disabled_register = false
+					}
+					return disabled_register
+				},
+				registerValidate:function(){
+					$scope.panel.isRegistering = $scope.panel.confirmPassword() || $scope.panel.whiteSpaceUsername()
 				}
 
 			}
