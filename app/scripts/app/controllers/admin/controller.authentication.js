@@ -840,7 +840,7 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 					$scope.panel.usernameSafe = false
 					// var disabled_register = false;
 					var regex = /(\s)/g;
-					if (regex.test($scope.panel.user.username)) {
+					if ($scope.panel.user && regex.test($scope.panel.user.username)) {
 						document.getElementById("ngm-username").classList.remove("valid","ng-valid");
 						document.getElementById("ngm-username").classList.add("invalid", "ng-invalid");
 						$('label[for=' + 'ngm-username' + ']').addClass('error');

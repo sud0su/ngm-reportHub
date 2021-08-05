@@ -13,8 +13,8 @@
 	<ul id="dropdown" class="dropdown-content select-dropdown active"
 			style="width: {{ dropdownwidth }}px; position: relative; top: -18px; left: 45px; opacity: 1; display: block;">
 		<li ng-repeat="item in items | filter:model track by $index" ng-click="handleSelection(item[title])" style="cursor:pointer" 		ng-class="{ active:isCurrent($index)}" ng-mouseenter="setCurrent($index)">
-			<span>{{ item[title] }}</span>
-			<span>{{ item[subtitle] }}</span>
+			<span style="padding-bottom: 1px;">{{ item[title] }}</span>
+			<span style="padding-top: 1px;">{{ item[subtitle] }}</span>
 		</li>
 	</ul>
 </div>
