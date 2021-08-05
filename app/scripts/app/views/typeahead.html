@@ -2,7 +2,7 @@
 <div class="row">
   <div class="input-field col s12">
   	<i class="material-icons prefix organization_symbol">supervisor_account</i>
-			<input id="dropdowninputid" type="text" ng-model="model" ng-disabled="disabled" placeholder="{{ prompt }}" ng-keydown="selected=false"/><br/>
+			<input id="dropdowninputid" autocomplete="remove-autocomplete" type="text" ng-model="model" ng-disabled="disabled" placeholder="{{ prompt }}" ng-keydown="selected=false"/><br/>
     <label for="dropdowninputid">{{ label }}</label>
 	<span class="helper-text" style="font-weight: 600;
     color: #61b9af;" data-error="wrong" data-success="right">{{helpertext}}</span>

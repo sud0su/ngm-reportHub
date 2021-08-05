@@ -274,11 +274,11 @@ li {
 	      <div class="row">
 	        <div class="input-field col s12">
 	        	<i class="material-icons prefix">account_circle</i>
-	          <input id="ngm-username" type="text" class="validate"
+	          <input id="ngm-username" type="text" class="validate username-register"
 							autofocus=""
 							ng-model="panel.user.username"
-							placeholder="Name should not contain space"
-							ng-change="panel.whiteSpaceUsername();panel.registerValidate()"
+							placeholder="username should not contain space"
+							ng-change="panel.whiteSpaceUsername();"
 							ng-blur="panel.whiteSpaceUsername()"
 							ng-focus="panel.whiteSpaceUsername()"
 							required>
@@ -291,12 +291,13 @@ li {
 	        <div class="input-field col s12">
 	        	<i class="material-icons prefix">lock_outline</i>
 	          <input id="ngm-password" type="password" class="validate"
-			  placeholder="Password minimum 8 character, with At least one upper case"
+			  placeholder="Password must have at least 8 characters ,1 uppercase"
 			  ng-change="panel.passwordCheck()"
-							ng-model="panel.user.password"
-							required>
+			  ng-blur="panel.passwordCheck()" 
+			  ng-model="panel.user.password"
+			  required>
 	          <label for="ngm-password">{{'password' | translate}}</label>
-			<span class="helper-text" data-error="Password minimum 8 character, with At least one upper case">
+			<span class="helper-text" data-error="Password must have at least 8 characters ,1 uppercase and should not contain space">
 	        </div>
 	      </div>
 
@@ -305,7 +306,9 @@ li {
 				<i class="material-icons prefix">lock_outline</i>
 				<input id="ngm-confirm-password" type="password" class="validate" 
 				ng-model="panel.user.confirm_password"
-				ng-change="panel.confirmPassword();panel.registerValidate()" 
+				ng-change="panel.confirmPassword();"
+				ng-focus="panel.confirmPassword()"
+				ng-blur="panel.confirmPassword()" 
 				ng-disabled="!panel.isPasswordSafe"
 				required>
 				<label for="ngm-confirm-password">Confirm Password</label>
@@ -354,7 +357,7 @@ li {
 					<div
 						id="login-register"
 						class="btn btn-large waves-effect waves-teal"
-						ng-disabled="ngmRegisterForm.$invalid || panel.isRegistering"
+						ng-disabled="ngmRegisterForm.$invalid || panel.isRegistering || panel.registerValidate()"
 						ng-click="panel.register()">
 							<i class="material-icons right">keyboard_arrow_right</i>
 							{{'register' | translate}}!
