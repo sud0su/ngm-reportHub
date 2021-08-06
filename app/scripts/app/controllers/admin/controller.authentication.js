@@ -484,6 +484,7 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 						$scope.panel.user = angular.merge( {}, $scope.panel.user, dutyStation );
 					}
 
+					M.toast({ html: "Please wait....", displayLength: 3000, classes: 'note' });
 					// register
 					ngmAuth
 						.register({ user: $scope.panel.user }).then(function( result ) {
