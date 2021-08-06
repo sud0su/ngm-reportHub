@@ -277,13 +277,13 @@ li {
 	          <input id="ngm-username" type="text" class="validate username-register"
 							autofocus=""
 							ng-model="panel.user.username"
-							placeholder="username should not contain space"
+							placeholder=""
 							ng-change="panel.whiteSpaceUsername();"
 							ng-blur="panel.whiteSpaceUsername()"
 							ng-focus="panel.whiteSpaceUsername()"
 							required>
 	          <label for="ngm-username">{{'username' | translate}}</label>
-			 <span class="helper-text" data-error="Remove space from username">
+			 <span class="helper-text" data-error="Remove space from username">Username should not contain space</span>
 	        </div>
 	      </div>
 
@@ -291,13 +291,13 @@ li {
 	        <div class="input-field col s12">
 	        	<i class="material-icons prefix">lock_outline</i>
 	          <input id="ngm-password" type="password" class="validate"
-			  placeholder="Password must have at least 8 characters ,1 uppercase"
+			  placeholder=""
 			  ng-change="panel.passwordCheck()"
 			  ng-blur="panel.passwordCheck()" 
 			  ng-model="panel.user.password"
 			  required>
 	          <label for="ngm-password">{{'password' | translate}}</label>
-			<span class="helper-text" data-error="Password must have at least 8 characters ,1 uppercase and should not contain space">
+			<span class="helper-text" data-error="Password must have at least 8 characters ,1 uppercase and should not contain space">Password must have at least 8 characters ,1 uppercase and and should not contain space</span>
 	        </div>
 	      </div>
 
@@ -312,7 +312,7 @@ li {
 				ng-disabled="!panel.isPasswordSafe"
 				required>
 				<label for="ngm-confirm-password">Confirm Password</label>
-				<span class="helper-text" data-error="Not Match With Password"></span>
+				<span class="helper-text" data-error="Password do not Match">Re-enter password</span>
 			</div>
 		</div>
 
