@@ -1301,6 +1301,11 @@ angular.module('ngmReportHub')
 										tableOptions:{
 											count: 10
 										},
+										search_tool: true,
+										sendEmailforPendingReport: function (report) {
+											M.toast({ html: 'Sending Email ....', displayLength: 2000, classes: 'note' });
+											console.log(report);
+										},
 										request: {
 											method: 'POST',
 											url: ngmAuth.LOCATION + '/api/cluster/admin/indicator',
