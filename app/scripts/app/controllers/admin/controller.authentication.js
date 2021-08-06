@@ -881,15 +881,19 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 					$scope.panel.matchPassword = false;
 					// var disabled_register = false
 					if ($scope.panel.user && ($scope.panel.user.confirm_password !== $scope.panel.user.password)) {
-						document.getElementById("ngm-confirm-password").classList.remove("valid", "ng-valid");
-						document.getElementById("ngm-confirm-password").classList.add("invalid", "ng-invalid");
-						$('label[for=' + 'ngm-confirm-password' + ']').addClass('error');
+						if ($scope.panel.user && $scope.panel.user.confirm_password !== undefined && $scope.panel.user.confirm_password !== '' ){
+							document.getElementById("ngm-confirm-password").classList.remove("valid", "ng-valid");
+							document.getElementById("ngm-confirm-password").classList.add("invalid", "ng-invalid");
+							$('label[for=' + 'ngm-confirm-password' + ']').addClass('error');
+						}
 						// disabled_register = true;
 						$scope.panel.matchPassword = false;
 					} else {
-						document.getElementById("ngm-confirm-password").classList.remove("invalid", "ng-invalid");
-						document.getElementById("ngm-confirm-password").classList.add("valid", "ng-valid");
-						$('label[for=' + 'ngm-confirm-password' + ']').removeClass('error');
+						if ($scope.panel.user && $scope.panel.user.confirm_password !== undefined && $scope.panel.user.confirm_password !== '') {
+							document.getElementById("ngm-confirm-password").classList.remove("invalid", "ng-invalid");
+							document.getElementById("ngm-confirm-password").classList.add("valid", "ng-valid");
+							$('label[for=' + 'ngm-confirm-password' + ']').removeClass('error');
+						}
 						// disabled_register = false
 						$scope.panel.matchPassword = true;
 					}
@@ -898,6 +902,27 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 				registerValidate:function(){
 					// $scope.panel.isRegistering = $scope.panel.confirmPassword() || $scope.panel.whiteSpaceUsername()
 					return !($scope.panel.isPasswordSafe && $scope.panel.matchPassword && $scope.panel.usernameSafe);
+				},
+				checkPhoneNumber:function(){
+					$scope.panel.isPhoneNumberOk =false 
+					var regex_phone = /^\+?\d*$/;
+					if (regex_phone.test($scope.panel.user.phone)){
+						
+						if ($scope.panel.user && $scope.panel.user.phone !== undefined && $scope.panel.user.phone !== '') {
+							
+							document.getElementById("ngm-phone").classList.remove("invalid", "ng-invalid");
+							document.getElementById("ngm-phone").classList.add("valid", "ng-valid");
+							$('label[for=' + 'ngm-phone' + ']').removeClass('error');
+						}
+						$scope.panel.isPhoneNumberOk = true
+					} else {
+						if ($scope.panel.user && $scope.panel.user.phone !== undefined && $scope.panel.user.phone !== '') {
+							document.getElementById("ngm-phone").classList.remove("valid", "ng-valid");
+							document.getElementById("ngm-phone").classList.add("invalid", "ng-invalid");
+							$('label[for=' + 'ngm-phone' + ']').addClass('error');
+						}
+						$scope.panel.isPhoneNumberOk = false
+					}
 				}
 
 			}
