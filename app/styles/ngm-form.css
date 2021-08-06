@@ -232,6 +232,18 @@
 	.input-field input.invalid.username-register[type=text]:focus + label{
 		color:#e57373
 	}
+	.input-field input.invalid[type=tel],
+		textarea.materialize-textarea.invalid {
+		border-bottom: 1px solid #e57373;
+		box-shadow: 0 1px 0 0 #e57373;
+	}
+	.input-field input.invalid[type=tel]:focus{
+		border-bottom: 1px solid #e57373;
+		box-shadow: 0 1px 0 0 #e57373;
+	}
+	.input-field input.invalid[type=tel]:focus + label{
+		color:#e57373
+	}
 	/* border for disabled */
 	.input-field input:disabled, .select-wrapper input.select-dropdown:disabled,
 		textarea.materialize-textarea:disabled {
