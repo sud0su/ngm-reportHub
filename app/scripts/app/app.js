@@ -10,7 +10,7 @@ angular
 	.module('ngmReportHub', [
 		// vendor
 		'LocalForageModule',
-		'ngSentry',
+		// 'ngSentry',
 	    'pascalprecht.translate',
 		'ngAnimate',
 		'ngCookies',
