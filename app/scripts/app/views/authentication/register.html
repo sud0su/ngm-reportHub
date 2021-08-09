@@ -10,7 +10,7 @@ typeahead .dropdown-content {
 }
 
 .carousel {
-	min-height: 640px;
+	min-height: 700px;
 }
 
 .carousel .indicators .indicator-item {
@@ -223,8 +223,12 @@ li {
 	        	<i class="material-icons prefix">phone</i>
 	          <input id="ngm-phone" type="tel" class="validate"
 							ng-model="panel.user.phone"
+							ng-change="panel.checkPhoneNumber()"
+							ng-focus="panel.checkPhoneNumber()"
+							ng-blur="panel.checkPhoneNumber()"
 							required>
 	          <label for="ngm-phone">{{'phone' | translate}}</label>
+			  <span class="helper-text" data-error="Please put your phone number as +62123456789 (country code followed by number) or 123456789" data-success="Correct!"></span>
 	        </div>
 	      </div>
 
@@ -235,6 +239,8 @@ li {
 							ng-model="panel.user.email"
 							required>
 	          <label for="ngm-email">{{'email' | translate}}</label>
+			<span class="helper-text" data-error="Please put your email address correctly"
+				data-success="Your email is correct!"></span>
 	        </div>
 	      </div>
 
@@ -248,7 +254,7 @@ li {
 					<div
 						id="contact-next"
 						class="btn btn-large waves-effect waves-teal"
-						ng-disabled="ngmContactForm.$invalid">
+						ng-disabled="ngmContactForm.$invalid || !panel.isPhoneNumberOk">
 							<i class="material-icons right">keyboard_arrow_right</i>
 							{{'next' | translate}}
 					</div>
@@ -274,11 +280,16 @@ li {
 	      <div class="row">
 	        <div class="input-field col s12">
 	        	<i class="material-icons prefix">account_circle</i>
-	          <input id="ngm-username" type="text" class="validate"
+	          <input id="ngm-username" type="text" class="validate username-register"
 							autofocus=""
 							ng-model="panel.user.username"
+							placeholder=""
+							ng-change="panel.whiteSpaceUsername();"
+							ng-blur="panel.whiteSpaceUsername()"
+							ng-focus="panel.whiteSpaceUsername()"
 							required>
 	          <label for="ngm-username">{{'username' | translate}}</label>
+			 <span class="helper-text" data-error="Username cannot be empty and should not contain space" data-success="Username is perfect!">Username should not contain space</span>
 	        </div>
 	      </div>
 
@@ -286,11 +297,30 @@ li {
 	        <div class="input-field col s12">
 	        	<i class="material-icons prefix">lock_outline</i>
 	          <input id="ngm-password" type="password" class="validate"
-							ng-model="panel.user.password"
-							required>
+			  placeholder=""
+			  ng-change="panel.passwordCheck()"
+			  ng-blur="panel.passwordCheck()" 
+			  ng-model="panel.user.password"
+			  required>
 	          <label for="ngm-password">{{'password' | translate}}</label>
+			<span class="helper-text" data-error="Password must have at least 8 characters ,1 uppercase and should not contain space" data-success="Password is Perfect">Password must have at least 8 characters ,1 uppercase and and should not contain space</span>
 	        </div>
 	      </div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<i class="material-icons prefix">lock_outline</i>
+				<input id="ngm-confirm-password" type="password" class="validate" 
+				ng-model="panel.user.confirm_password"
+				ng-change="panel.confirmPassword();"
+				ng-focus="panel.confirmPassword()"
+				ng-blur="panel.confirmPassword()" 
+				ng-disabled="!panel.isPasswordSafe"
+				required>
+				<label for="ngm-confirm-password">Confirm Password</label>
+				<span class="helper-text" data-error="Password do not Match" data-success="Password Match">Re-enter password</span>
+			</div>
+		</div>
 
 				<div class="action center">
 					<div
@@ -333,7 +363,7 @@ li {
 					<div
 						id="login-register"
 						class="btn btn-large waves-effect waves-teal"
-						ng-disabled="ngmRegisterForm.$invalid || panel.isRegistering"
+						ng-disabled="ngmRegisterForm.$invalid || panel.isRegistering || panel.registerValidate()"
 						ng-click="panel.register()">
 							<i class="material-icons right">keyboard_arrow_right</i>
 							{{'register' | translate}}!
