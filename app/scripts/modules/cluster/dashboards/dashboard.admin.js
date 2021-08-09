@@ -1304,7 +1304,40 @@ angular.module('ngmReportHub')
 										search_tool: true,
 										sendEmailforPendingReport: function (report) {
 											M.toast({ html: 'Sending Email ....', displayLength: 2000, classes: 'note' });
-											console.log(report);
+											var link_to_report = ngmAuth.LOCATION + '/desk/#/'
+											if (report.project_title){
+												link_to_report += report.location_groups ? 'cluster/projects/group/'+report.project_id+'/'+ report.id:'cluster/projects/report/'+ report.project_id+'/'+ report.id;
+											}else{
+												link_to_report += 'cluster/stocks/report/'+row.organization_id+'/'+row.id;
+											}
+											var send_email_for_pending_report = $http({
+												method: 'POST',
+												url: ngmAuth.LOCATION + '/api/sendEmailForReportPending',
+												data: {
+													url: link_to_report,
+													project_title: report.project_title,
+													month: moment.utc(report.reporting_period).format('MMMM YYYY'),
+													email: report.email,
+													username: report.username,
+													name: report.name
+												}
+											});
+
+											send_email_for_pending_report.then(function (result) {
+
+												// user toast msg
+												$timeout(function () {
+													// Materialize.toast($filter('translate')('email_sent_please_check_your_inbox'), 6000, 'success');
+													M.toast({ html: 'Email already send', displayLength: 3000, classes: 'success' });
+												}, 400);
+											}).catch(function (err) {
+
+												// update
+												$timeout(function () {
+													// Materialize.toast( err.msg, 6000, 'error' );
+													M.toast({ html: err.msg, displayLength: 6000, classes: 'error' });
+												}, 400);
+											});
 										},
 										request: {
 											method: 'POST',
