@@ -906,7 +906,7 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 				checkPhoneNumber:function(){
 					$scope.panel.isPhoneNumberOk =false 
 					var regex_phone = /^\+?\d*$/;
-					if (regex_phone.test($scope.panel.user.phone)){
+					if ($scope.panel.user && regex_phone.test($scope.panel.user.phone)){
 						
 						if ($scope.panel.user && $scope.panel.user.phone !== undefined && $scope.panel.user.phone !== '') {
 							
