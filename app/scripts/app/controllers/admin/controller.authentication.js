@@ -848,11 +848,13 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 						// disabled_register = true
 						$scope.panel.usernameSafe = false
 					} else {
-						document.getElementById("ngm-username").classList.remove("invalid", "ng-invalid");
-						document.getElementById("ngm-username").classList.add("valid", "ng-valid");
-						$('label[for=' + 'ngm-username' + ']').removeClass('error');
-						// disabled_register = false
-						$scope.panel.usernameSafe = true
+						if ($scope.panel.user.username !== '' && $scope.panel.user.username !== undefined){
+							document.getElementById("ngm-username").classList.remove("invalid", "ng-invalid");
+							document.getElementById("ngm-username").classList.add("valid", "ng-valid");
+							$('label[for=' + 'ngm-username' + ']').removeClass('error');
+							// disabled_register = false
+							$scope.panel.usernameSafe = true
+						}
 					}
 					// return disabled_register
 				},
