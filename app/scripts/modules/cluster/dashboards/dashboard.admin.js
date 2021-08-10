@@ -1310,6 +1310,7 @@ angular.module('ngmReportHub')
 											}else{
 												link_to_report += 'cluster/stocks/report/'+row.organization_id+'/'+row.id;
 											}
+											console.log($scope.dashboard.user.name, $scope.dashboard.user.email);
 											var send_email_for_pending_report = $http({
 												method: 'POST',
 												url: ngmAuth.LOCATION + '/api/sendEmailForReportPending',
@@ -1319,7 +1320,9 @@ angular.module('ngmReportHub')
 													month: moment.utc(report.reporting_period).format('MMMM YYYY'),
 													email: report.email,
 													username: report.username,
-													name: report.name
+													name: report.name,
+													requester: $scope.dashboard.user.name,
+													requester_contact: $scope.dashboard.user.email
 												}
 											});
 
