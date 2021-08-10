@@ -1302,15 +1302,18 @@ angular.module('ngmReportHub')
 											count: 10
 										},
 										search_tool: true,
-										sendEmailforPendingReport: function (report) {
-											M.toast({ html: 'Sending Email ....', displayLength: 2000, classes: 'note' });
+										sendEmailButtonDisabled:false,
+										sendEmailforPendingReport: function (report,table) {
+											M.toast({ html: 'Sending Email ....', displayLength: 3000, classes: 'note' });
+											table.sendEmailButtonDisabled = true;
 											var link_to_report = ngmAuth.LOCATION + '/desk/#/'
 											if (report.project_title){
 												link_to_report += report.location_groups ? 'cluster/projects/group/'+report.project_id+'/'+ report.id:'cluster/projects/report/'+ report.project_id+'/'+ report.id;
 											}else{
 												link_to_report += 'cluster/stocks/report/'+row.organization_id+'/'+row.id;
 											}
-											console.log($scope.dashboard.user.name, $scope.dashboard.user.email);
+											
+
 											var send_email_for_pending_report = $http({
 												method: 'POST',
 												url: ngmAuth.LOCATION + '/api/sendEmailForReportPending',
@@ -1332,6 +1335,7 @@ angular.module('ngmReportHub')
 												$timeout(function () {
 													// Materialize.toast($filter('translate')('email_sent_please_check_your_inbox'), 6000, 'success');
 													M.toast({ html: 'Email already send', displayLength: 3000, classes: 'success' });
+													table.sendEmailButtonDisabled = false;
 												}, 400);
 											}).catch(function (err) {
 
@@ -1339,6 +1343,7 @@ angular.module('ngmReportHub')
 												$timeout(function () {
 													// Materialize.toast( err.msg, 6000, 'error' );
 													M.toast({ html: err.msg, displayLength: 6000, classes: 'error' });
+													table.sendEmailButtonDisabled = false;
 												}, 400);
 											});
 										},

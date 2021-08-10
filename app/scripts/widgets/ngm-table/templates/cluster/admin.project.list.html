@@ -203,7 +203,7 @@
                 </td>
                 <td  data-title="'Send Email'|translate" sortable="'status'" ng-if="table.headerTitle === 'Reports Pending' && table.showTitle">
                   <button class="btn waves-effect waves-teal" style="font-size: 12px;height: 30px; line-height: 30px"
-                    ng-click="table.sendEmailforPendingReport(row)">
+                    ng-click="table.sendEmailforPendingReport(row,table)" ng-disabled="table.sendEmailButtonDisabled">
                     Send Email
                   </button>
                 </td>
