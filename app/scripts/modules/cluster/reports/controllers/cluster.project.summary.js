@@ -276,7 +276,8 @@ angular.module('ngmReportHub')
 													reasons: text_reason,
 													organization_tag: $scope.report.project.organization_tag,
 													project_title: $scope.report.project.project_title,
-													admin0pcode: $scope.report.project.admin0pcode
+													admin0pcode: $scope.report.project.admin0pcode,
+													admin0name: $scope.report.project.admin0name
 												}
 											});
 
