@@ -271,6 +271,7 @@ angular.module('ngmReportHub')
 												data: {
 													url: link_project,
 													username: $scope.report.user.username,
+													name: $scope.report.user.name,
 													url_user: ngmAuth.LOCATION + '/desk/#/profile/'+$scope.report.user.username,
 													reasons: text_reason,
 													organization_tag: $scope.report.project.organization_tag,
