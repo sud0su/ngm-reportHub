@@ -397,12 +397,12 @@ body.md-default-theme, body, html.md-default-theme, html {
 }
 
 /* Floating button rotate tooltip */
-.btn-floating.tooltip:hover{
+.btn-floating.tooltip:hover,.btn.tooltip:hover{
     overflow:visible;
 	box-shadow:0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 	z-index: auto;
 }
-.btn-floating.tooltip:hover:after{
+.btn-floating.tooltip:hover:after,.btn.tooltip:hover:after{
     background: #333;
     background: rgba(0,0,0,.8);
     border-radius: 5px;
@@ -422,6 +422,13 @@ body.md-default-theme, body, html.md-default-theme, html {
     opacity: 0.9;
 	text-align: center;
 	font-weight: 400;
+}
+
+.btn.tooltip.send-email-btn-tooltip:hover:after{
+	line-height: 10px;
+	top: 120%;
+	left: -20%;
+	min-width: 150px;
 }
 /* .btn-floating.rotate.tooltip:hover:after{
     transform: rotate(180deg);

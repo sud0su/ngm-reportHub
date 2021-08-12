@@ -201,8 +201,8 @@
                   </a>
 
                 </td>
-                <td  data-title="'Send Email'|translate" sortable="'status'" ng-if="table.headerTitle === 'Reports Pending' && table.showTitle">
-                  <button class="btn waves-effect waves-teal" style="font-size: 12px;height: 30px; line-height: 30px"
+                <td  data-title="'Send Email'|translate" sortable="'status'" ng-if="(table.user.roles.indexOf('CLUSTER')>-1) && (table.headerTitle === 'Reports Pending') && table.showTitle">
+                  <button class="btn waves-effect waves-teal tooltip send-email-btn-tooltip" title="Send Email to Complete Pending Report" style="font-size: 12px;height: 30px; line-height: 30px"
                     ng-click="table.sendEmailforPendingReport(row,table)" ng-disabled="table.sendEmailButtonDisabled">
                     Send Email
                   </button>

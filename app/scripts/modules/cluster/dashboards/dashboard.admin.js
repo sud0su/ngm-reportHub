@@ -1304,7 +1304,7 @@ angular.module('ngmReportHub')
 										search_tool: true,
 										sendEmailButtonDisabled:false,
 										sendEmailforPendingReport: function (report,table) {
-											M.toast({ html: 'Sending Email ....', displayLength: 3000, classes: 'note' });
+											M.toast({ html: 'Sending Email....', displayLength: 3000, classes: 'note' });
 											table.sendEmailButtonDisabled = true;
 											var link_to_report = ngmAuth.LOCATION + '/desk/#/'
 											if (report.project_title){
@@ -1334,7 +1334,7 @@ angular.module('ngmReportHub')
 												// user toast msg
 												$timeout(function () {
 													// Materialize.toast($filter('translate')('email_sent_please_check_your_inbox'), 6000, 'success');
-													M.toast({ html: 'Email already send', displayLength: 3000, classes: 'success' });
+													M.toast({ html: 'Email sent successfully!', displayLength: 3000, classes: 'success' });
 													table.sendEmailButtonDisabled = false;
 												}, 400);
 											}).catch(function (err) {
