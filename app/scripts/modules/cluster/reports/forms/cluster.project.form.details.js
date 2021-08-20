@@ -2796,15 +2796,24 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					if (obj.implementing_partners) {
 						var impl_array = []
 						temp = obj.implementing_partners.split(',').map((x) => { return x.trim(); });
+						if ($scope.project.definition.implementing_partners && $scope.project.definition.implementing_partners.length){
+							angular.forEach(temp, function (e) {
 
-						angular.forEach(temp, function (e) {
+								selected_impl = $filter('filter')($scope.project.definition.implementing_partners, { organization: e });
 
-							selected_impl = $filter('filter')($scope.project.lists.organizations, { organization: e });
+								if (selected_impl.length) {
+									impl_array.push(selected_impl[0]);
+								}
+							})
+						}
+						// angular.forEach(temp, function (e) {
 
-							if (selected_impl.length) {
-								impl_array.push(selected_impl[0]);
-							}
-						})
+						// 	selected_impl = $filter('filter')($scope.project.lists.organizations, { organization: e });
+
+						// 	if (selected_impl.length) {
+						// 		impl_array.push(selected_impl[0]);
+						// 	}
+						// })
 						obj.implementing_partners = impl_array;
 					}
 
