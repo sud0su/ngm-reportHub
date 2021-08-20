@@ -63,6 +63,16 @@ input[type=text], input[type=text]:disabled, input[type=text]:focus, input[type=
   margin: 0 10px 10px 0;
   text-decoration: none;
   -webkit-transition: color 0.2s;
+  font-weight: 600;
+    font-size: 14px;
+}
+.tag.pending{
+	background: #fdd835;
+	color: #000000;
+	
+}
+.tag.pending:hover{
+border-radius: 4px;
 }
 
 .tag::before {
@@ -87,11 +97,48 @@ input[type=text], input[type=text]:disabled, input[type=text]:focus, input[type=
   right: 0;
   top: 0;
 }
+.tag.pending::after{
+	border-left: 10px solid #fdd835;
+}
+.tag.pending:hover::after{
+	display: none;
+}
 
 .cell-withtag{
 	word-wrap: break-word;
     width: 100px;
 }
+
+.tag.pending.tooltip:hover{
+    overflow:visible;
+	box-shadow:0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+	z-index: auto;
+}
+.tag.pending.tooltip:hover::before{
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    color: #fff;
+    /* content: 'TESSS' ; */
+    content: attr(title);
+    top:0%;
+    left: 105%;
+    padding: 8px 5px;
+    position: absolute;
+    z-index: 98;
+    width: 100%;
+	min-width: 450px;
+    font-size: 0.7rem;
+    line-height: 10px;
+    text-transform: capitalize;
+    opacity: 0.9;
+	text-align: center;
+	font-weight: 600;
+	height: 27px;
+}
+
+
+
 
 </style>
 <div id="manage-modal" class="modal" style="width:80%">
@@ -175,6 +222,7 @@ input[type=text], input[type=text]:disabled, input[type=text]:focus, input[type=
               <tr ng-repeat="row in $data" style="cursor: pointer; cursor: hand;">
                 <td data-title="'country_mayus'|translate" sortable="'admin0name'" ng-click="table.onClick(row)" class="cell-withtag">
 									<a class="tag" ng-if="table.showOrgAdminTag(row.roles)">ADMIN</a>
+									<a class="tag pending tooltip" title="Waiting for Activation. Go to Profile Page to Activate this New User" ng-if="(row.visits<1) && (row.status === 'deactivated')">PENDING </a>
 									{{ row.admin0name }}
                 </td>
                 <td data-title="'organization' | translate" sortable="'organization'" ng-click="table.onClick(row)">
