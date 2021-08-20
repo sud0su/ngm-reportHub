@@ -482,7 +482,8 @@ angular.module('ngmReportHub')
 									onClick: function(user){
 										// go to profile
 										$location.path( $scope.dashboard.profileHref + '/' + user.username );
-									}
+									},
+									search_tool: true
 								}
 							}]
 						}]
