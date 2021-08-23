@@ -423,7 +423,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							beneficiary.implementing_partners = temp;
 							if(missing_org.length>0){
 								var org = missing_org.join(',')
-								message_implementing_partners = { label: false, property: 'implementing_partners', reason: 'Organitazion Not in the List ( ' + org + ' )' };
+								message_implementing_partners = { label: false, property: 'implementing_partners', reason: '( ' + org + ' ) Organization Not in the Implementing Partners Lists for this location' };
 								beneficiary.implementing_partners = $scope.project.report.locations[$parent].implementing_partners;
 							}
 						}else{
