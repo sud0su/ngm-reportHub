@@ -224,7 +224,7 @@ angular.module('ngmReportHub')
 					organization_tag: $scope.report.project.organization_tag
 				});
 				// remove download button
-				if (!canDownload) {
+				if (!canDownload || ($route.current.params.project === 'new')) {
 					$scope.model.header.download.class += ' hide';
 				}
 
