@@ -1261,6 +1261,35 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 				addLocationFormFile: function (location,index) {
 					$scope.inserted = ngmClusterLocations.addLocation($scope.project.definition, []);
+
+					if (location.implementing_partners) {
+						var impl_array = [];
+						var org_missing =[];
+						temp = location.implementing_partners.split(',').map((x) => { return x.trim(); });
+						if ($scope.project.definition.implementing_partners && $scope.project.definition.implementing_partners.length) {
+							angular.forEach(temp, function (e) {
+
+								selected_impl = $filter('filter')($scope.project.definition.implementing_partners, { organization: e });
+
+								if (selected_impl.length) {
+									impl_array.push(selected_impl[0]);
+								}else{
+									org_missing.push(e)
+								}
+							})
+						}
+						location.implementing_partners = impl_array;
+						if (location.implementing_partners < 1) {
+							var org = org_missing.join(',')
+							var id_impl = "label[for='" + 'ngm-project-implementing_partners-' + index + "']";
+							var obj_impl = { label: id_impl, property: 'implementing_partners', reason: '( ' + org + ' ) Organization Not in the Implementing Partners Lists for this project' };
+						}
+
+					};
+					if(location.implementing_partners.length<1){
+						$scope.inserted.implementing_partners =[];
+					};
+
 					location = angular.merge({},$scope.inserted,location);
 					$scope.project.definition.target_locations.push(location);
 					// add location to paginated array
@@ -1324,6 +1353,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 							$scope.project.definition.target_locations[newLocationIndex].username = '';
 							$scope.messageFromfile.target_locations_message[index].push(obj);
 						}
+					}
+					// check if implementing partner
+					if(obj_impl){
+						$scope.messageFromfile.target_locations_message[index].push(obj_impl);
 					}
 				},
 
@@ -2793,29 +2826,36 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					return obj
 				},
 				addMissingTargetlocationsFormFile:function(obj){
-					if (obj.implementing_partners) {
-						var impl_array = []
-						temp = obj.implementing_partners.split(',').map((x) => { return x.trim(); });
-						if ($scope.project.definition.implementing_partners && $scope.project.definition.implementing_partners.length){
-							angular.forEach(temp, function (e) {
+					// if (obj.implementing_partners) {
+					// 	var impl_array = []
+					// 	temp = obj.implementing_partners.split(',').map((x) => { return x.trim(); });
+					// 	if ($scope.project.definition.implementing_partners && $scope.project.definition.implementing_partners.length){
+					// 		angular.forEach(temp, function (e) {
 
-								selected_impl = $filter('filter')($scope.project.definition.implementing_partners, { organization: e });
+					// 			selected_impl = $filter('filter')($scope.project.definition.implementing_partners, { organization: e });
 
-								if (selected_impl.length) {
-									impl_array.push(selected_impl[0]);
-								}
-							})
-						}
-						// angular.forEach(temp, function (e) {
+					// 			if (selected_impl.length) {
+					// 				impl_array.push(selected_impl[0]);
+					// 			}
+					// 		})
+					// 	}
+					// 	// angular.forEach(temp, function (e) {
 
-						// 	selected_impl = $filter('filter')($scope.project.lists.organizations, { organization: e });
+					// 	// 	selected_impl = $filter('filter')($scope.project.lists.organizations, { organization: e });
 
-						// 	if (selected_impl.length) {
-						// 		impl_array.push(selected_impl[0]);
-						// 	}
-						// })
-						obj.implementing_partners = impl_array;
-					}
+					// 	// 	if (selected_impl.length) {
+					// 	// 		impl_array.push(selected_impl[0]);
+					// 	// 	}
+					// 	// })
+					// 	obj.implementing_partners = impl_array;
+					// 	if (obj.implementing_partners <1){
+					// 		id = "label[for='" + 'ngm-project-implementing_partners' + index + "']";
+					// 		obj = { label: id, property: 'Implementing Partners', reason: 'Organization not found in implementing partner list' }
+							
+					// 		$scope.messageFromfile.target_locations_message[index].push(obj);
+					// 	}
+						
+					// }
 
 					if (obj.site_type_name){
 						selected_type = $filter('filter')($scope.project.lists.site_type, { site_type_name:obj.site_type_name});
