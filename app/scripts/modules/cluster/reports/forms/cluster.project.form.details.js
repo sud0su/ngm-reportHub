@@ -1277,13 +1277,18 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 									org_missing.push(e)
 								}
 							})
-						}
-						location.implementing_partners = impl_array;
-						if (location.implementing_partners < 1) {
-							var org = org_missing.join(',')
+
+							location.implementing_partners = impl_array;
+							if (location.implementing_partners < 1) {
+								var org = org_missing.join(',')
+								var id_impl = "label[for='" + 'ngm-project-implementing_partners-' + index + "']";
+								var obj_impl = { label: id_impl, property: 'implementing_partners', reason: '( ' + org + ' ) Organization Not in the Implementing Partners Lists for this project' };
+							}
+						}else{
 							var id_impl = "label[for='" + 'ngm-project-implementing_partners-' + index + "']";
-							var obj_impl = { label: id_impl, property: 'implementing_partners', reason: '( ' + org + ' ) Organization Not in the Implementing Partners Lists for this project' };
+							var obj_impl = { label: id_impl, property: 'implementing_partners', reason: 'This project do not have Implementing Partners' };
 						}
+						
 
 					};
 					if(location.implementing_partners.length<1){
