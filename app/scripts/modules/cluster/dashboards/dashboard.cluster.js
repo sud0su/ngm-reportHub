@@ -185,7 +185,8 @@ angular.module('ngmReportHub')
 							beneficiaries: $scope.dashboard.beneficiaries,
 							start_date: $scope.dashboard.startDate,
 							end_date: $scope.dashboard.endDate,
-							hrp: $scope.dashboard.hrp
+							hrp: $scope.dashboard.hrp,
+							hide_contact: $scope.dashboard.hide_contact_for_download
 						}
 					}
 
@@ -234,6 +235,7 @@ angular.module('ngmReportHub')
 					// 	metrics: $scope.dashboard.getMetrics( 'cluster_dashboard_pdf', 'pdf' )
 					// },
 					{
+						id:'cluster_contact_list',
 						type: 'csv',
 						color: 'blue lighten-2',
 						icon: 'call',
@@ -354,6 +356,10 @@ angular.module('ngmReportHub')
 							downloads.splice(i,1);
 						}
 					})
+					
+					if ($scope.dashboard.hide_contact_for_download){
+						downloads = downloads.filter(x => x.id !== 'cluster_contact_list')
+					}
 					return downloads;
 				},
 
@@ -873,6 +879,12 @@ angular.module('ngmReportHub')
 					$scope.dashboard.activity_type_id = $route.current.params.activity_type_id;
 					$scope.dashboard.activity_description_id = $route.current.params.activity_description_id;
 					$scope.dashboard.hrp = $route.current.params.hrp ? $route.current.params.hrp : true;
+
+
+
+					// hide contact on download file
+					$scope.dashboard.hide_contact_for_download = ngmAuth.hideContactOnDownload();
+
 
 
 					// plus dashboard_visits

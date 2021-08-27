@@ -781,6 +781,17 @@ angular.module('ngmReportHub')
 				var asAdmin = USER_PERMISSIONS.some(role => role.ADMIN);
 				return asAdmin
 
+			},
+			hideContactOnDownload: function () {
+				var user = ngmUser.get()
+				if (user.guest) return true;
+				if (user.admin0pcode !== 'AF') return false;
+				var USER_PERMISSIONS = ngmAuth.userPermissions();
+
+				// hide contact on download file
+				var hide_contact = USER_PERMISSIONS.reduce(function (max, v) { return v.LEVEL > max.LEVEL ? v : max })['LEVEL'] < 3 ? true : false;
+				// hide_contact = true;
+				return hide_contact;
 			}
 		};
 
