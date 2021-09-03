@@ -270,7 +270,7 @@
 									ng-if="((project.definition.admin0pcode === 'ET' && 
 													project.definition.cluster_id === 'esnfi') || project.definition.admin0pcode === 'AF')  &&
 													project.definition.project_status !== 'complete' &&
-													project.report.report_status !== 'complete' && !isLoadingMonthlyLocation">
+													project.report.report_status !== 'complete' && !isLoadingMonthlyLocation && project.canEdit">
 							<button id="report_add_new_location"
 								class="btn"
 								style="background-color: #2196F3;"
