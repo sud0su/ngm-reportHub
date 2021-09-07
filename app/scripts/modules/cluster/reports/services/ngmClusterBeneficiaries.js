@@ -656,7 +656,7 @@ angular.module( 'ngmReportHub' )
  					ngmClusterBeneficiaries.form[$parent][$index].display = ngmClusterBeneficiaries.showFormInputs( beneficiary, ngmClusterBeneficiaries.form[$parent][$index] );
 				}
 				// if beneficiary.response exist then check ngmClusterBeneficiaries.form[$parent][$index]['exist']
-				if (beneficiary.response && beneficiary.response.length>0){
+				if (beneficiary.response && (typeof beneficiary.response !== 'string') && beneficiary.response.length>0){
 
 					if (!ngmClusterBeneficiaries.form[$parent][$index]['response']){
 						temp_list = []

@@ -537,6 +537,34 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 					}
 
+					if (ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['response']) {
+						var list_response = angular.copy(ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['response'])
+						if (beneficiary.response && beneficiary.response.length) {
+							temp_response = [];
+							arr_temp_string = beneficiary.response.split(',').map((x) => { return x.trim(); });
+							arr_temp_string.forEach(function (r) {
+								response_filter = $filter('filter')(list_response, { response_name: r }, true);
+								if (response_filter.length) {
+									temp_response.push(response_filter[0]);
+								};
+							});
+							if(!temp_response.length){
+								
+								var id_response = "label[for='" + 'ngm-activity-response-' + $parent +'-'+($scope.project.report.locations[$parent].beneficiaries.length - 1) + "']";
+								var notif = { label: id_response, property: 'response', reason: 'Activity response you put not match for this activity' };
+								$scope.messageFromfile[$indexFile].push(notif)
+
+							}
+							if (temp_response.length && temp_response.length !== arr_temp_string.length) {
+								var id_response = "label[for='" + 'ngm-activity-response-' + $parent + '-' + ($scope.project.report.locations[$parent].beneficiaries.length - 1) + "']";
+								var notif = { label: id_response, property: 'response', reason: 'Some Activity response you put not match for this activity' };
+								$scope.messageFromfile[$indexFile].push(notif)
+							}
+							
+							beneficiary.response = temp_response;
+						};
+					}
+
 					ngmClusterBeneficiaries.updateBeneficiaires(beneficiary)
 				},
 

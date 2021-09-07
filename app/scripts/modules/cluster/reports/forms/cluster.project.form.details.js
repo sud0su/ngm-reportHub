@@ -840,6 +840,33 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 					}
 
+					if (ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['response']){
+						var list_response = angular.copy(ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['response'])
+						if (beneficiary.response && beneficiary.response.length){
+							temp_response = [];
+							arr_temp_string = beneficiary.response.split(',').map((x) => { return x.trim(); });
+							arr_temp_string.forEach(function(r){
+								response_filter = $filter('filter')(list_response, { response_name:r }, true);
+								if(response_filter.length){
+									temp_response.push(response_filter[0]);
+								};
+							});
+							if(!temp_response.length){
+								var id_response = "label[for='" + 'ngm-activity-response-' + ($scope.project.definition.target_beneficiaries.length - 1) + "']";
+								var notif = { label: id_response, property: 'response', reason: 'Activity response for not match with this activity' };
+								$scope.messageFromfile.target_beneficiaries_message[$indexFile].push(notif)
+								
+							}
+							if (temp_response.length && temp_response.length !== arr_temp_string.length){
+								var id_response = "label[for='" + 'ngm-activity-response-' + ($scope.project.definition.target_beneficiaries.length - 1) + "']";
+								var notif = { label: id_response, property: 'response', reason: 'Some Activity response for not match with this activity' };
+								$scope.messageFromfile.target_beneficiaries_message[$indexFile].push(notif)
+							}
+							
+							beneficiary.response = temp_response;
+						};
+					}
+
 					ngmClusterBeneficiaries.updateBeneficiaires(beneficiary)
 				},
 
@@ -1374,7 +1401,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						}
 					}
 					// check if implementing partner
-					if(obj_impl){
+					if(obj_impl && Object.keys(obj_impl).length){
 						$scope.messageFromfile.target_locations_message[index].push(obj_impl);
 					}
 				},

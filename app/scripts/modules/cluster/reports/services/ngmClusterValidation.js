@@ -1617,7 +1617,8 @@ angular.module( 'ngmReportHub' )
 					'transfer_category_id': 'Transfer Category',
 					'grant_type_name': 'Grant Type',
 					'grant_type_id': 'Grant Type',
-					'total_amount': 'Total Transferred'
+					'total_amount': 'Total Transferred',
+					'response': 'Activity Response'
 				}
 				return field
 			},
@@ -2364,7 +2365,8 @@ angular.module( 'ngmReportHub' )
 					'grant_type_name':'Grant Type' ,
 					'grant_type_id': 'Grant Type',
 					'total_amount': 'Total Transferred',
-					'location_incorrect': 'Location is Incorrect'
+					'location_incorrect': 'Location is Incorrect',
+					'response': 'Activity Response'
 				}
 				return field;
 			},
