@@ -512,13 +512,27 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					}
 
 					if (!ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['display_indicator']) {
-						if (ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_id']) {
-							beneficiary.indicator_name = ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_name'];
-							beneficiary.indicator_id = ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_id'];
-							if (temp_indicator_name && (temp_indicator_name !== ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_name'])){
+						// if (ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_id']) {
+						// 	beneficiary.indicator_name = ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_name'];
+						// 	beneficiary.indicator_id = ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_id'];
+						// 	if (temp_indicator_name && (temp_indicator_name !== ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_name'])){
+						// 		var notif = { label: false, property: 'indicator_id', reason: 'incorect indicator' };
+						// 		$scope.messageFromfile[$indexFile].push(notif)
+						// 	}
+						// }
+						if(beneficiary.indicator_name){
+							_temp =$filter('filter')($scope.project.lists.activity_indicators, {
+							   cluster_id: beneficiary.cluster_id,
+							   activity_type_id: beneficiary.activity_type_id,
+							   activity_description_id: beneficiary.activity_description_id,
+							   activity_detail_name: beneficiary.activity_detail_name,
+							   indicator_name: beneficiary.indicator_name
+						   }, true);
+							if ( !_temp.length||(temp_indicator_name && (temp_indicator_name !== _temp[0].indicator_name))) {
 								var notif = { label: false, property: 'indicator_id', reason: 'incorect indicator' };
 								$scope.messageFromfile[$indexFile].push(notif)
 							}
+						   
 						}
 
 					}
@@ -944,6 +958,14 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 										delete b.updatedAt;
 										delete b.report_submitted;
 
+										if(!$scope.project.checkActiveBeneficiaryType(b)){
+											delete b.beneficiary_type_id;
+										}
+
+										if(!$scope.project.checkActiveHRP(b)){
+											delete b.hrp_beneficiary_type_id;
+										}
+
 								});
 
 							});
@@ -952,6 +974,8 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							$timeout(function() {
 								ngmClusterBeneficiaries.setLocationsForm( $scope.project.lists, $scope.project.report.locations );
 							}, 10 );
+
+							$scope.paginated_monthly_locations = $scope.project.report.locations;
 
 							// final message
 							// Materialize.toast( info, 8000, 'note' );
@@ -1020,13 +1044,54 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					}
 					return active
 				},
+				checkActiveBeneficiaryType:function(b){
+					var active = true;
+					if(!b.id && b.beneficiary_type_name){
+						var isBeneficiaryTypeStillExist = [];
+						var forFilter = {};
+						forFilter.beneficiary_type_name = b.beneficiary_type_name;
+						forFilter.cluster_id = b.cluster_id;
+						isBeneficiaryTypeStillExist = $filter('filter')($scope.project.lists.beneficiary_types, forFilter, true)
+						
+						if(!isBeneficiaryTypeStillExist.length){
+							active = false;
+						}
+					};
+
+					return active
+				},
+				checkActiveHRP:function(b,$locationIndex,$beneficiaryIndex){
+					var active = true;
+					if (!b.id && b.hrp_beneficiary_type_name && ($scope.project.definition.admin0pcode === 'AF') && $scope.project.definition.project_hrp_project && (!ngmClusterBeneficiaries.form[$locationIndex] [$beneficiaryIndex]['hrp_beneficiary_type_id'] )) {
+						var isHRPBeneficiaryTypeStillExist = [];
+						var forFilter = {};
+						forFilter.hrp_beneficiary_type_name = b.hrp_beneficiary_type_name;
+						isHRPBeneficiaryTypeStillExist = $filter('filter')($scope.project.lists.hrp_beneficiary_types, forFilter, true)
+
+						if (!isHRPBeneficiaryTypeStillExist.length) {
+							active = false;
+						}
+					};
+
+					return active
+				},
 				checkActiveAllActivities:function(){
 					var active = true;
 					var count =0;
+					var count_beneficiary_type =0;
+					var count_hrp_beneficiary_type=0;
 					var scrollDiv;
 					angular.forEach($scope.project.report.locations, function (l, i) {
 						angular.forEach(l.beneficiaries, function (b, j) {
 							if(l.beneficiaries.length){
+								if (!$scope.project.checkActiveHRP(b, i, j)){
+									count_hrp_beneficiary_type = count_hrp_beneficiary_type+1;
+									scrollDiv = $('#need_tochange-hrp_beneficiary-type-' + i + '-' + j);
+								}
+								if (!$scope.project.checkActiveBeneficiaryType(b)) {
+									count_beneficiary_type = count_beneficiary_type + 1;
+									scrollDiv = $('#need_tochange-beneficiary-type-' + i + '-' + j);
+								}
 								if(!$scope.project.checkActiveActivities(b)){
 									count = count +1;
 									scrollDiv = $('#need_tochange-'+i+'-'+j);
@@ -1034,10 +1099,18 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							}
 						})
 					})
-					if(count>0){
+					if(count>0 || count_beneficiary_type >0){
 						active = false;
 						scrollDiv.scrollHere();
-						M.toast({ html: "There's some activities need to be changed!", displayLength: 10000, classes: 'error' });
+						if(count>0){
+							M.toast({ html: "There's some activities need to be changed!", displayLength: 6000, classes: 'error' });
+						}
+						if (count_beneficiary_type > 0){
+							M.toast({ html: "There's some beneficiary type need to be changed!", displayLength: 6000, classes: 'error' });
+						}
+						if (count_hrp_beneficiary_type > 0) {
+							M.toast({ html: "There's some HRP beneficiary type need to be changed!", displayLength: 6000, classes: 'error' });
+						}
 					}
 
 					return active

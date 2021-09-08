@@ -814,14 +814,28 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					}
 
 					if (!ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['display_indicator'] ){
-						if (ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_id']){
+						// if (ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_id']){
 
-							beneficiary.indicator_name = ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_name'];
-							beneficiary.indicator_id = ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_id'];
-							if (temp_indicator_name && (temp_indicator_name !== ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_name'])){
+						// 	beneficiary.indicator_name = ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_name'];
+						// 	beneficiary.indicator_id = ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_id'];
+						// 	if (temp_indicator_name && (temp_indicator_name !== ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_name'])){
+						// 		var notif = { label: false, property: 'indicator_id', reason: 'incorect indicator' };
+						// 		$scope.messageFromfile.target_beneficiaries_message[$indexFile].push(notif)
+						// 	}
+						// }
+						if (beneficiary.indicator_name) {
+							_temp = $filter('filter')($scope.project.lists.activity_indicators, {
+								cluster_id: beneficiary.cluster_id,
+								activity_type_id: beneficiary.activity_type_id,
+								activity_description_id: beneficiary.activity_description_id,
+								activity_detail_name: beneficiary.activity_detail_name,
+								indicator_name: beneficiary.indicator_name
+							}, true);
+							if (!_temp.length || (temp_indicator_name && (temp_indicator_name !== _temp[0].indicator_name))) {
 								var notif = { label: false, property: 'indicator_id', reason: 'incorect indicator' };
 								$scope.messageFromfile.target_beneficiaries_message[$indexFile].push(notif)
 							}
+
 						}
 
 					}
