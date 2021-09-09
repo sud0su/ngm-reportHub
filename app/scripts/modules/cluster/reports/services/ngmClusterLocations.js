@@ -682,67 +682,96 @@ angular.module( 'ngmReportHub' )
         // form filters
         if (!ngmClusterLocations.admin1Select) {
           ngmClusterLocations.admin1Select = []
+          project.lists.admin1Select[ $index ] = [];
         }
         if (!ngmClusterLocations.admin2Select) {
           ngmClusterLocations.admin2Select = []
+          project.lists.admin2Select[ $index ] = [];
         }
         if (!ngmClusterLocations.admin3Select) {
           ngmClusterLocations.admin3Select = []
+          project.lists.admin3Select[ $index ] = [];
         }
         if (!ngmClusterLocations.admin4Select) {
           ngmClusterLocations.admin4Select = []
+          project.lists.admin4Select[ $index ] = [];
         }
         if (!ngmClusterLocations.admin5Select) {
           ngmClusterLocations.admin5Select = []
+          project.lists.admin5Select[ $index ] = [];
         }
         if (!ngmClusterLocations.adminSitesSelect) {
           ngmClusterLocations.adminSitesSelect = []
+          project.lists.adminSitesSelect[ $index ] = [];
         }
         // set list admin1Select,admin2Select,etc and adminSitesSelect for each location
         ngmClusterLocations.admin1Select[$index] = project.lists.admin1;
+        project.lists.admin1Select[$index] = project.lists.admin1;
         ngmClusterLocations.admin2Select[$index] = project.lists.admin2;
+        project.lists.admin2Select[$index] = project.lists.admin2;
         ngmClusterLocations.adminSitesSelect[$index] = angular.copy(project.lists.adminSites);
+
+        project.lists.adminSitesSelect[$index] = angular.copy(project.lists.adminSites);
+        var lastAdminpcode ='';
         if (project.lists.admin3) {
           ngmClusterLocations.admin3Select[$index] = project.lists.admin3;
+          project.lists.admin3Select[$index] = project.lists.admin3;
         }
 
         if (project.lists.admin4) {
           ngmClusterLocations.admin4Select[$index] = project.lists.admin4;
+          project.lists.admin4Select[$index] = project.lists.admin4;
         }
 
         if (project.lists.admin5) {
           ngmClusterLocations.admin5Select[$index] = project.lists.admin5;
+          project.lists.admin5Select[$index] = project.lists.admin5;
         }
         // filter set list admin1Select,admin2Select,etc and adminSitesSelect or each location
         if (project.lists.admin2 && location.admin1pcode) {
           ngmClusterLocations.admin2Select[$index] = $filter('filter')(project.lists.admin2, { admin1pcode: location.admin1pcode }, true)
+          project.lists.admin2Select[$index] = ngmClusterLocations.admin2Select[$index]
           ngmClusterLocations.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index].filter(function (i) {
             return i.admin1pcode === location.admin1pcode;
           });
+          project.lists.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index]
+          lastAdminpcode = 'admin1pcode';
         }
         if (project.lists.admin3 && location.admin2pcode) {
           ngmClusterLocations.admin3Select[$index] = $filter('filter')(project.lists.admin3, { admin2pcode: location.admin2pcode }, true)
+          project.lists.admin3Select[$index] = ngmClusterLocations.admin3Select[$index]
           ngmClusterLocations.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index].filter(function (i) {
             return i.admin2pcode === location.admin2pcode;
           });
+          project.lists.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index]
+          lastAdminpcode = 'admin2pcode';
         }
         if (project.lists.admin4 && location.admin3pcode) {
           ngmClusterLocations.admin4Select[$index] = $filter('filter')(project.lists.admin4, { admin3pcode: location.admin3pcode }, true)
+          project.lists.admin4Select[$index] = ngmClusterLocations.admin4Select[$index]
           ngmClusterLocations.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index].filter(function (i) {
             return i.admin3pcode === location.admin3pcode;
           });
+          project.lists.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index]
+          lastAdminpcode = 'admin3pcode';
         }
         if (project.lists.admin5 && location.admin4pcode) {
           ngmClusterLocations.admin5Select[$index] = $filter('filter')(project.lists.admin5, { admin4pcode: location.admin4pcode }, true)
+          project.lists.admin5Select[$index] = ngmClusterLocations.admin5Select[$index]
           ngmClusterLocations.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index].filter(function (i) {
             return i.admin4pcode === location.admin4pcode;
           });
+          project.lists.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index]
+          lastAdminpcode = 'admin4pcode';
         }
         if (location.admin5pcode) {
           ngmClusterLocations.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index].filter(function (i) {
             return i.admin5pcode === location.admin5pcode;
           });
+          project.lists.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index]
+          lastAdminpcode = 'admin5pcode';
         }
+        ngmClusterLocations.getAdminSites(project.lists, project.definition.admin0pcode, lastAdminpcode, $index, location[lastAdminpcode], location);
       },
       // reset location property
       resetLocations: function (project, type, location) {
