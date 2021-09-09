@@ -817,7 +817,7 @@ angular.module( 'ngmReportHub' )
 			// VALIDATION
 
 			// validate wash activities
-			validateActivities: function( locations ) {
+			validateActivities: function( locations, $detailBeneficiaries ) {
 
 				// collect error divs
 				var elements = [];
@@ -844,7 +844,8 @@ angular.module( 'ngmReportHub' )
 
 				// keys to validate correct form
 				var keys = ngmClusterHelperNgWashKeys.keys;
-
+				var form_card_index =[];
+				var elements =[];
 				// each location
 				angular.forEach( locations, function( l, i ){
 					angular.forEach( l.beneficiaries, function( d, j ){
@@ -855,19 +856,28 @@ angular.module( 'ngmReportHub' )
 								if ( keys[ d.activity_detail_id ].template === 'reticulation.html' ) {
 									waterLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateReticulation( water, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									waterRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'service.html' ) {
 									waterLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateService( d, water, i, j, k );
-									angular.merge( elements, result.divs );
+
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									waterRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'maintenance.html' ) {
 									waterLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateMaintenance( d, water, i, j, k );
-									angular.merge( elements, result.divs );
+
+
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									waterRowComplete +=  result.count;
 								}
 							});
@@ -878,7 +888,9 @@ angular.module( 'ngmReportHub' )
 							waterLength += d.boreholes.length;
 							angular.forEach( d.boreholes, function( borehole, k ){
 								var result = ngmClusterHelperNgWashValidation.validateBorehole( borehole, i, j, k );
-								angular.merge( elements, result.divs );
+								form_card_index.push({l:i,b:j})
+								// angular.merge( elements, result.divs );
+								elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 								waterRowComplete += result.count;
 							});
 						}
@@ -889,25 +901,33 @@ angular.module( 'ngmReportHub' )
 								if ( keys[ d.activity_detail_id ].template === 'latrines.html' ) {
 									sanitationLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateLatrines( d, sanitation, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									sanitationRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'showers.html' ) {
 									sanitationLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateShowers( d, sanitation, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									sanitationRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'waste.html' ) {
 									sanitationLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateWaste( d, sanitation, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									sanitationRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'committee.html' ) {
 									sanitationLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateCommittee( d, sanitation, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									sanitationRowComplete +=  result.count;
 								}
 							});
@@ -920,7 +940,9 @@ angular.module( 'ngmReportHub' )
 											keys[ d.activity_detail_id ].template === 'kits.html' ) {
 									hygieneLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateHygiene( d, hygiene, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									hygieneRowComplete +=  result.count;
 								}
 							});
@@ -932,7 +954,9 @@ angular.module( 'ngmReportHub' )
 								if ( keys[ d.activity_detail_id ].template === 'cash.html' ) {
 									hygieneLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateCash( d, cash, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									hygieneRowComplete +=  result.count;
 								}
 							});
@@ -944,13 +968,17 @@ angular.module( 'ngmReportHub' )
 								if ( keys[ d.activity_detail_id ].template === 'complaints.html' ) {
 									accountabilityLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateComplaints( d, accountability, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									accountabilityRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'participation.html' ) {
 									accountabilityLength ++;
 									var result = ngmClusterHelperNgWashValidation.validateParticipation( d, accountability, i, j, k );
-									angular.merge( elements, result.divs );
+									form_card_index.push({l:i,b:j})
+									// angular.merge( elements, result.divs );
+									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
 									accountabilityRowComplete +=  result.count;
 								}
 							});
@@ -966,8 +994,22 @@ angular.module( 'ngmReportHub' )
 							cashLength !== cashRowComplete  ||
 							accountabilityLength !== accountabilityRowComplete ) {
 					M.toast({ html: 'Form contains errors!', displayLength: 6000, classes: 'error' });
-					// $( elements[0] ).animatescroll();
-					$(elements[0]).scrollHere();
+
+					// open card that close
+					for(index in form_card_index ){
+						if (!$detailBeneficiaries[form_card_index[index].l][form_card_index[index].b]){
+							$detailBeneficiaries[form_card_index[index].l][form_card_index[index].b] = true;
+						}
+					}
+					$timeout(function(){
+						// put red mark on label
+						elements = elements.reverse()
+						for(e in elements){
+							$(elements[e]).addClass('error');
+						};
+
+						$(elements[0]).scrollHere();
+					},300)
 					return false;
 				} else {
 					return true;
