@@ -796,7 +796,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 				// validate form ( ng wash )
 				validateWashNgBeneficiariesForm: function( complete, display_modal ){
-					if ( ngmClusterHelperNgWashValidation.validateActivities( $scope.project.report.locations ) ){
+					if (ngmClusterHelperNgWashValidation.validateActivities($scope.project.report.locations, $scope.detailBeneficiaries ) ){
 						if ( complete ) {
 							// $( '#complete-modal' ).openModal( { dismissible: false } );
 							$('#complete-modal').modal({ dismissible: false });
@@ -1208,7 +1208,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 																									 (j.site_name === values[x].site_name) &&
 																									 (j.admin1name === values[x].admin1name) &&
 																									 (j.admin2name === values[x].admin2name) &&
-																									 (j.admin3name? (j.admin3name === result[x].admin3name): true));
+																									 (j.admin3name? (j.admin3name === values[x].admin3name): true));
 													if (index < 0 || (!values[x].activity_type_id) || (!values[x].activity_description_id) || (!values[x].cluster_id)) {
 														if (!$scope.messageFromfile[x]) {
 															$scope.messageFromfile[x] = []
