@@ -537,49 +537,51 @@ angular.module( 'ngmReportHub' )
 				// sanitation_committee_kits_distribution
 				if ( beneficiary.activity_detail_id === 'sanitation_committee_kits_distribution' ) {
 					validation = ngmClusterHelperNgWashValidation.validateWaste( beneficiary, d, i, j, k );
+				}else{
+					// male / female
+					if (d.male === undefined || d.male < 0) {
+						id = "label[for='" + 'ngm-male-' + i + '-' + j + '-' + k + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
+					if (d.female === undefined || d.female < 0) {
+						id = "label[for='" + 'ngm-female-' + i + '-' + j + '-' + k + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
+
+					// rotation
+					if (!d.committee_rotation_id && !d.committee_rotation_name) {
+						id = "label[for='" + 'ngm-committee_rotation-' + i + '-' + j + '-' + k + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
+					if (d.committee_rotation_per_month === undefined || d.committee_rotation_per_month < 0) {
+						id = "label[for='" + 'ngm-committee_rotation_per_month-' + i + '-' + j + '-' + k + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
+
+					// stipend
+					if (!d.stipend_id && !d.stipend_name) {
+						id = "label[for='" + 'ngm-stipend-' + i + '-' + j + '-' + k + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
+					if (d.stipend_amount === null || d.stipend_amount === undefined || d.stipend_amount < 0) {
+						id = "label[for='" + 'ngm-stipend_amount-' + i + '-' + j + '-' + k + "']";
+						$(id).addClass('error');
+						validation.divs.push(id);
+						complete = false;
+					}
 				}
 
-				// male / female
-				if ( d.male === undefined || d.male < 0 ){
-					id = "label[for='" + 'ngm-male-'+i+'-'+j+'-'+k + "']";
-					$(id).addClass('error');
-					validation.divs.push( id );
-					complete = false;
-				}
-				if ( d.female === undefined || d.female < 0 ){
-					id = "label[for='" + 'ngm-female-'+i+'-'+j+'-'+k + "']";
-					$(id).addClass('error');
-					validation.divs.push( id );
-					complete = false;
-				}
-
-				// rotation
-				if ( !d.committee_rotation_id && !d.committee_rotation_name ){
-					id = "label[for='" + 'ngm-committee_rotation-'+i+'-'+j+'-'+k + "']";
-					$(id).addClass('error');
-					validation.divs.push( id );
-					complete = false;
-				}
-				if ( d.committee_rotation_per_month === undefined || d.committee_rotation_per_month < 0 ){
-					id = "label[for='" + 'ngm-committee_rotation_per_month-'+i+'-'+j+'-'+k + "']";
-					$(id).addClass('error');
-					validation.divs.push( id );
-					complete = false;
-				}
-
-				// stipend
-				if ( !d.stipend_id && !d.stipend_name ){
-					id = "label[for='" + 'ngm-stipend-'+i+'-'+j+'-'+k + "']";
-					$(id).addClass('error');
-					validation.divs.push( id );
-					complete = false;
-				}
-				if ( d.stipend_amount === null || d.stipend_amount === undefined || d.stipend_amount < 0 ){
-					id = "label[for='" + 'ngm-stipend_amount-'+i+'-'+j+'-'+k + "']";
-					$(id).addClass('error');
-					validation.divs.push( id );
-					complete = false;
-				}
+				
 
 				// for each details
 				angular.forEach( d.details, function( d, l ){
@@ -1007,7 +1009,7 @@ angular.module( 'ngmReportHub' )
 						for(e in elements){
 							$(elements[e]).addClass('error');
 						};
-
+						
 						$(elements[0]).scrollHere();
 					},300)
 					return false;
