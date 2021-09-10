@@ -1001,7 +1001,8 @@ angular.module( 'ngmReportHub' )
 					angular.forEach(l.beneficiaries, function (b, j) {
 						beneficiaryRow ++;
 						result = ngmClusterValidation.validateBeneficiary(b, i, j, detail, admin0pcode, hrp_project_status);
-						angular.merge(elements, result.divs);
+						elements = result.divs.length ? elements.concat(result.divs) : elements;
+						// angular.merge(elements, result.divs);
 
 						if (!result.open && result.count === 0){
 							notDetailOpen.push(result.index)

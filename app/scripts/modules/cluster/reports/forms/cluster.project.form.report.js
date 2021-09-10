@@ -388,6 +388,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					$scope.detailBeneficiaries[$parent][$scope.project.report.locations[$parent].beneficiaries.length-1] = true;
 					// set form display for new rows
 					ngmClusterBeneficiaries.setBeneficiariesInputs( $scope.project.lists, $parent, $scope.project.report.locations[ $parent ].beneficiaries.length-1, beneficiary );
+					$scope.project.activePrevReportButton()
 				},
 
 				setBeneficiaryFromFile: function ($parent, beneficiary,$indexFile){
@@ -977,20 +978,21 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 								// }
 								location.beneficiaries = previous_location.beneficiaries;
 								$scope.detailBeneficiaries[locationIndex][0] = true;
+								
 
 								// forEach beneficiaries
-								angular.forEach( location.beneficiaries, function( b ){
+								angular.forEach( location.beneficiaries, function( b , beneficiariesIndex){
 										angular.merge( b, current_report );
 										delete b.id;
 										delete b.createdAt;
 										delete b.updatedAt;
 										delete b.report_submitted;
 
-										if(!$scope.project.checkActiveBeneficiaryType(b)){
+										if(!$scope.project.checkActiveBeneficiaryType(b,locationIndex,beneficiariesIndex)){
 											delete b.beneficiary_type_id;
 										}
 
-										if(!$scope.project.checkActiveHRP(b)){
+										if(!$scope.project.checkActiveHRP(b, locationIndex,beneficiariesIndex)){
 											delete b.hrp_beneficiary_type_id;
 										}
 
@@ -1072,7 +1074,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					}
 					return active
 				},
-				checkActiveBeneficiaryType:function(b){
+				checkActiveBeneficiaryType: function (b,$locationIndex, $beneficiaryIndex){
 					var active = true;
 					if(!b.id && b.beneficiary_type_name){
 						var isBeneficiaryTypeStillExist = [];
@@ -1083,6 +1085,12 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						
 						if(!isBeneficiaryTypeStillExist.length){
 							active = false;
+							
+							if (!$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex]) {
+								$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex] = true;
+							};
+							id = "label[for='" + 'ngm-beneficiary_type_id-' + $locationIndex + '-' + $beneficiaryIndex + "']";
+							$(id).addClass('error');
 						}
 					};
 
@@ -1090,7 +1098,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 				},
 				checkActiveHRP:function(b,$locationIndex,$beneficiaryIndex){
 					var active = true;
-					if (!b.id && b.hrp_beneficiary_type_name && ($scope.project.definition.admin0pcode === 'AF') && $scope.project.definition.project_hrp_project && (!ngmClusterBeneficiaries.form[$locationIndex] [$beneficiaryIndex]['hrp_beneficiary_type_id'] )) {
+					if (!b.id && b.hrp_beneficiary_type_name && ($scope.project.definition.admin0pcode === 'AF') && $scope.project.definition.project_hrp_project) {
 						var isHRPBeneficiaryTypeStillExist = [];
 						var forFilter = {};
 						forFilter.hrp_beneficiary_type_name = b.hrp_beneficiary_type_name;
@@ -1098,6 +1106,11 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 						if (!isHRPBeneficiaryTypeStillExist.length) {
 							active = false;
+							if (!$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex]) {
+								$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex] = true;
+							}
+							id = "label[for='" + 'ngm-hrp_beneficiary_type_id-' + $locationIndex + '-' + $beneficiaryIndex + "']";
+							$(id).addClass('error');
 						}
 					};
 
@@ -1116,7 +1129,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									count_hrp_beneficiary_type = count_hrp_beneficiary_type+1;
 									scrollDiv = $('#need_tochange-hrp_beneficiary-type-' + i + '-' + j);
 								}
-								if (!$scope.project.checkActiveBeneficiaryType(b)) {
+								if (!$scope.project.checkActiveBeneficiaryType(b, i, j)) {
 									count_beneficiary_type = count_beneficiary_type + 1;
 									scrollDiv = $('#need_tochange-beneficiary-type-' + i + '-' + j);
 								}
@@ -1304,12 +1317,16 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 												document.querySelector(".percent-upload").style.display = 'block';
 												var count_error = 0;
 												for (var x = 0; x < values.length; x++) {
-													index = $scope.project.report.locations.findIndex(j => ((j.site_implementation_name ? j.site_implementation_name : "") === values[x].site_implementation_name) &&
+													var index = $scope.project.report.locations.findIndex(j => ((j.site_implementation_name ? j.site_implementation_name : "") === values[x].site_implementation_name) &&
 																									((j.site_type_name ? j.site_type_name : "") === values[x].site_type_name) &&
 																									 (j.site_name === values[x].site_name) &&
 																									 (j.admin1name === values[x].admin1name) &&
 																									 (j.admin2name === values[x].admin2name) &&
 																									 (j.admin3name? (j.admin3name === values[x].admin3name): true));
+													if (values[x].target_location_reference_id) {
+														var index_by_target_location_reference_id = $scope.project.report.locations.findIndex(l => l.target_location_reference_id === values[x].target_location_reference_id);
+														index = (index >= index_by_target_location_reference_id) ? index : index_by_target_location_reference_id;
+													}
 													if (index < 0 || (!values[x].activity_type_id) || (!values[x].activity_description_id) || (!values[x].cluster_id)) {
 														if (!$scope.messageFromfile[x]) {
 															$scope.messageFromfile[x] = []
@@ -1460,12 +1477,16 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 											if (result.length > 0) {
 												var count_error = 0
 												for (var x = 0; x < result.length; x++) {
-													index = $scope.project.report.locations.findIndex(j => ((j.site_implementation_name ? j.site_implementation_name : "") === result[x].site_implementation_name) &&
+													var index = $scope.project.report.locations.findIndex(j => ((j.site_implementation_name ? j.site_implementation_name : "") === result[x].site_implementation_name) &&
 																									((j.site_type_name ? j.site_type_name : "") === result[x].site_type_name) &&
 																									 (j.site_name === result[x].site_name) &&
 																									 (j.admin1name === result[x].admin1name) &&
 																									 (j.admin2name === result[x].admin2name) &&
-																									 (j.admin3name? (j.admin3name === result[x].admin3name): true))
+																									 (j.admin3name? (j.admin3name === result[x].admin3name): true));
+													if (result[x].target_location_reference_id) {
+														var index_by_target_location_reference_id = $scope.project.report.locations.findIndex(l => l.target_location_reference_id === result[x].target_location_reference_id);
+														index = (index >= index_by_target_location_reference_id) ? index : index_by_target_location_reference_id;
+													}
 
 													if (index < 0 || (!result[x].activity_type_id) || (!result[x].activity_description_id) || (!result[x].cluster_id)) {
 														if(!$scope.messageFromfile[x]){
@@ -1656,12 +1677,16 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 								var count_error = 0;
 								for (var x = 0; x < values.length; x++) {
-									index = $scope.project.report.locations.findIndex(j => ((j.site_implementation_name ? j.site_implementation_name : "") === values[x].site_implementation_name) &&
+									var index = $scope.project.report.locations.findIndex(j => ((j.site_implementation_name ? j.site_implementation_name : "") === values[x].site_implementation_name) &&
 									 ((j.site_type_name ? j.site_type_name : "") === values[x].site_type_name) &&
 										(j.site_name === values[x].site_name) &&
 										(j.admin1name === values[x].admin1name) &&
 										(j.admin2name === values[x].admin2name) &&
 										(j.admin3name ? (j.admin3name === values[x].admin3name) : true));
+									if (values[x].target_location_reference_id) {
+										var index_by_target_location_reference_id = $scope.project.report.locations.findIndex(l => l.target_location_reference_id === values[x].target_location_reference_id);										
+										index = (index >= index_by_target_location_reference_id)? index : index_by_target_location_reference_id;
+									}
 									if (index < 0 || (!values[x].activity_type_id) || (!values[x].activity_description_id) || (!values[x].cluster_id)) {
 										if (!$scope.messageFromfile[x]) {
 											$scope.messageFromfile[x] = []
