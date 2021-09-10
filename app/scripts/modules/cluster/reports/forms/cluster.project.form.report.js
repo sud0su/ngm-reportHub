@@ -394,6 +394,37 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 				setBeneficiaryFromFile: function ($parent, beneficiary,$indexFile){
 					// set implementing if location has set implementing partner;
 					var beneficiary_default = ngmClusterBeneficiaries.addBeneficiary($scope.project, $scope.project.report.locations[$parent].beneficiaries);
+					delete beneficiary_default.cluster_id;
+					delete beneficiary_default.cluster;
+					delete beneficiary_default.activity_type_id;
+					delete beneficiary_default.activity_type_name;
+					delete beneficiary_default.activity_description_id;
+					delete beneficiary_default.activity_description_name;
+					delete beneficiary_default.activity_detail_id;
+					delete beneficiary_default.activity_detail_name;
+					delete beneficiary_default.indicator_id;
+					delete beneficiary_default.indicator_name;
+					delete beneficiary_default.beneficiary_type_id;
+					delete beneficiary_default.beneficiary_type_name;
+					delete beneficiary_default.beneficiary_category_id;
+					delete beneficiary_default.beneficiary_category_name;
+					delete beneficiary_default.delivery_type_id;
+					delete beneficiary_default.delivery_type_name;
+					delete beneficiary_default.hrp_beneficiary_type_id;
+					delete beneficiary_default.hrp_beneficiary_type_name;
+					delete beneficiary_default.site_type_id
+					delete beneficiary_default.site_type_name
+					delete beneficiary_default.site_implementation_id;
+					delete beneficiary_default.site_implementation_name;
+					delete beneficiary_default.transfer_type_id;
+					delete beneficiary_default.transfer_type_value;
+					delete beneficiary_default.package_type_id;
+					delete beneficiary_default.package_type_name;
+					delete beneficiary_default.unit_type_name;
+					delete beneficiary_default.mpc_delivery_type_name;
+					delete beneficiary_default.mpc_delivery_type_id;
+					delete beneficiary_default.mpc_mechanism_type_id;
+					
 					if (beneficiary.transfer_category_name && beneficiary.grant_type_name) {
 						delete beneficiary_default.transfer_category_id;
 						delete beneficiary_default.transfer_category_name;
@@ -1841,9 +1872,11 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					// beneficiary_type_name
 					if (obj.beneficiary_type_name){
 						selected_beneficiary = $filter('filter')($scope.project.lists.beneficiary_types, { beneficiary_type_name: obj.beneficiary_type_name, cluster_id: obj.cluster_id}, true);
+						// console.log("name = ",obj.beneficiary_type_name)
 						if (selected_beneficiary.length) {
 							obj.beneficiary_type_id = selected_beneficiary[0].beneficiary_type_id;
 						}
+						console.log("name = ", obj.beneficiary_type_name," id =", obj.beneficiary_type_id)
 					}
 
 					// beneficiary_category_id

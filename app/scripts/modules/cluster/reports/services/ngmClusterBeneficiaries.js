@@ -422,6 +422,20 @@ angular.module( 'ngmReportHub' )
 			},
 
 
+			addBeneficiaryFromFile: function (project, beneficiaries){
+				// inserted
+				var inserted = {}
+				var context_defaults = {}
+				var length = beneficiaries.length;
+				var defaults = ngmClusterBeneficiaries.defaults;
+
+				// merge
+				angular.merge(inserted, defaults.inputs, context_defaults);
+
+				return inserted
+			},
+
+
 
 			/* BENEFICIARIES FORM */
 
