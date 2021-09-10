@@ -860,7 +860,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateReticulation( water, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									waterRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'service.html' ) {
@@ -869,7 +869,7 @@ angular.module( 'ngmReportHub' )
 
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									waterRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'maintenance.html' ) {
@@ -879,7 +879,7 @@ angular.module( 'ngmReportHub' )
 
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									waterRowComplete +=  result.count;
 								}
 							});
@@ -892,7 +892,7 @@ angular.module( 'ngmReportHub' )
 								var result = ngmClusterHelperNgWashValidation.validateBorehole( borehole, i, j, k );
 								form_card_index.push({l:i,b:j})
 								// angular.merge( elements, result.divs );
-								elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+								elements = result.divs.length?elements.concat(result.divs): elements;
 								waterRowComplete += result.count;
 							});
 						}
@@ -905,7 +905,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateLatrines( d, sanitation, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									sanitationRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'showers.html' ) {
@@ -913,7 +913,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateShowers( d, sanitation, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									sanitationRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'waste.html' ) {
@@ -921,7 +921,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateWaste( d, sanitation, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									sanitationRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'committee.html' ) {
@@ -929,7 +929,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateCommittee( d, sanitation, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									sanitationRowComplete +=  result.count;
 								}
 							});
@@ -944,7 +944,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateHygiene( d, hygiene, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									hygieneRowComplete +=  result.count;
 								}
 							});
@@ -958,7 +958,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateCash( d, cash, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									hygieneRowComplete +=  result.count;
 								}
 							});
@@ -972,7 +972,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateComplaints( d, accountability, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									accountabilityRowComplete +=  result.count;
 								}
 								if ( keys[ d.activity_detail_id ].template === 'participation.html' ) {
@@ -980,7 +980,7 @@ angular.module( 'ngmReportHub' )
 									var result = ngmClusterHelperNgWashValidation.validateParticipation( d, accountability, i, j, k );
 									form_card_index.push({l:i,b:j})
 									// angular.merge( elements, result.divs );
-									elements = result.divs.lenght?elemnts:elements.concat(result.divs);
+									elements = result.divs.length?elements.concat(result.divs): elements;
 									accountabilityRowComplete +=  result.count;
 								}
 							});
@@ -1005,7 +1005,7 @@ angular.module( 'ngmReportHub' )
 					}
 					$timeout(function(){
 						// put red mark on label
-						elements = elements.reverse()
+						
 						for(e in elements){
 							$(elements[e]).addClass('error');
 						};
