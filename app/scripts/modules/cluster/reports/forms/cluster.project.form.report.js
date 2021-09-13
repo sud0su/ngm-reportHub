@@ -424,7 +424,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					delete beneficiary_default.mpc_delivery_type_name;
 					delete beneficiary_default.mpc_delivery_type_id;
 					delete beneficiary_default.mpc_mechanism_type_id;
-					
+
 					if (beneficiary.transfer_category_name && beneficiary.grant_type_name) {
 						delete beneficiary_default.transfer_category_id;
 						delete beneficiary_default.transfer_category_name;
@@ -566,6 +566,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							}
 						   
 						}
+
 
 					}
 
@@ -1859,6 +1860,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						},true);
 						if (selected_activity_detail.length){
 							obj.activity_detail_id = selected_activity_detail[0].activity_detail_id
+							obj.display_activity_detail =true;
 						}
 					}
 					// indicator
@@ -1866,17 +1868,16 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						selected_indicator = $filter('filter')($scope.project.lists.activity_indicators, { indicator_name: obj.indicator_name }, true);
 						if (selected_indicator.length){
 							obj.indicator_id = selected_indicator[0].indicator_id;
+							obj.display_indicator = true;
 						}
 					}
 
 					// beneficiary_type_name
 					if (obj.beneficiary_type_name){
 						selected_beneficiary = $filter('filter')($scope.project.lists.beneficiary_types, { beneficiary_type_name: obj.beneficiary_type_name, cluster_id: obj.cluster_id}, true);
-						// console.log("name = ",obj.beneficiary_type_name)
 						if (selected_beneficiary.length) {
 							obj.beneficiary_type_id = selected_beneficiary[0].beneficiary_type_id;
 						}
-						console.log("name = ", obj.beneficiary_type_name," id =", obj.beneficiary_type_id)
 					}
 
 					// beneficiary_category_id

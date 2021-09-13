@@ -2957,6 +2957,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						}, true);
 						if (selected_activity_detail.length) {
 							obj.activity_detail_id = selected_activity_detail[0].activity_detail_id
+							obj.display_activity_detail =true;
 						}
 					}
 					// indicator
@@ -2964,6 +2965,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						selected_indicator = $filter('filter')($scope.project.lists.activity_indicators, { indicator_name: obj.indicator_name }, true);
 						if (selected_indicator.length) {
 							obj.indicator_id = selected_indicator[0].indicator_id;
+							obj.display_indicator = true;
 						}
 					}
 
