@@ -814,16 +814,57 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					}
 
 					if (!ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['display_indicator'] ){
-						if (ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_id']){
+						// if (ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_id']){
 
-							beneficiary.indicator_name = ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_name'];
-							beneficiary.indicator_id = ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_id'];
-							if (temp_indicator_name && (temp_indicator_name !== ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_name'])){
+						// 	beneficiary.indicator_name = ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_name'];
+						// 	beneficiary.indicator_id = ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_id'];
+						// 	if (temp_indicator_name && (temp_indicator_name !== ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['indicator_name'])){
+						// 		var notif = { label: false, property: 'indicator_id', reason: 'incorect indicator' };
+						// 		$scope.messageFromfile.target_beneficiaries_message[$indexFile].push(notif)
+						// 	}
+						// }
+						if (beneficiary.indicator_name) {
+							_temp = $filter('filter')($scope.project.lists.activity_indicators, {
+								cluster_id: beneficiary.cluster_id,
+								activity_type_id: beneficiary.activity_type_id,
+								activity_description_id: beneficiary.activity_description_id,
+								activity_detail_name: beneficiary.activity_detail_name,
+								indicator_name: beneficiary.indicator_name
+							}, true);
+							if (!_temp.length || (temp_indicator_name && (temp_indicator_name !== _temp[0].indicator_name))) {
 								var notif = { label: false, property: 'indicator_id', reason: 'incorect indicator' };
 								$scope.messageFromfile.target_beneficiaries_message[$indexFile].push(notif)
 							}
+
 						}
 
+					}
+
+					if (ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['response']){
+						var list_response = angular.copy(ngmClusterBeneficiaries.form[0][$scope.project.definition.target_beneficiaries.length - 1]['response'])
+						if (beneficiary.response && beneficiary.response.length){
+							temp_response = [];
+							arr_temp_string = beneficiary.response.split(',').map((x) => { return x.trim(); });
+							arr_temp_string.forEach(function(r){
+								response_filter = $filter('filter')(list_response, { response_name:r }, true);
+								if(response_filter.length){
+									temp_response.push(response_filter[0]);
+								};
+							});
+							if(!temp_response.length){
+								var id_response = "label[for='" + 'ngm-activity-response-' + ($scope.project.definition.target_beneficiaries.length - 1) + "']";
+								var notif = { label: id_response, property: 'response', reason: 'Activity response for not match with this activity' };
+								$scope.messageFromfile.target_beneficiaries_message[$indexFile].push(notif)
+								
+							}
+							if (temp_response.length && temp_response.length !== arr_temp_string.length){
+								var id_response = "label[for='" + 'ngm-activity-response-' + ($scope.project.definition.target_beneficiaries.length - 1) + "']";
+								var notif = { label: id_response, property: 'response', reason: 'Some Activity response for not match with this activity' };
+								$scope.messageFromfile.target_beneficiaries_message[$indexFile].push(notif)
+							}
+							
+							beneficiary.response = temp_response;
+						};
 					}
 
 					ngmClusterBeneficiaries.updateBeneficiaires(beneficiary)
@@ -1360,7 +1401,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						}
 					}
 					// check if implementing partner
-					if(obj_impl){
+					if(obj_impl && Object.keys(obj_impl).length){
 						$scope.messageFromfile.target_locations_message[index].push(obj_impl);
 					}
 				},
@@ -2916,6 +2957,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						}, true);
 						if (selected_activity_detail.length) {
 							obj.activity_detail_id = selected_activity_detail[0].activity_detail_id
+							obj.display_activity_detail =true;
 						}
 					}
 					// indicator
@@ -2923,6 +2965,7 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						selected_indicator = $filter('filter')($scope.project.lists.activity_indicators, { indicator_name: obj.indicator_name }, true);
 						if (selected_indicator.length) {
 							obj.indicator_id = selected_indicator[0].indicator_id;
+							obj.display_indicator = true;
 						}
 					}
 

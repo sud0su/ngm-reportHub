@@ -1001,7 +1001,8 @@ angular.module( 'ngmReportHub' )
 					angular.forEach(l.beneficiaries, function (b, j) {
 						beneficiaryRow ++;
 						result = ngmClusterValidation.validateBeneficiary(b, i, j, detail, admin0pcode, hrp_project_status);
-						angular.merge(elements, result.divs);
+						elements = result.divs.length ? elements.concat(result.divs) : elements;
+						// angular.merge(elements, result.divs);
 
 						if (!result.open && result.count === 0){
 							notDetailOpen.push(result.index)
@@ -1617,7 +1618,8 @@ angular.module( 'ngmReportHub' )
 					'transfer_category_id': 'Transfer Category',
 					'grant_type_name': 'Grant Type',
 					'grant_type_id': 'Grant Type',
-					'total_amount': 'Total Transferred'
+					'total_amount': 'Total Transferred',
+					'response': 'Activity Response'
 				}
 				return field
 			},
@@ -2364,7 +2366,8 @@ angular.module( 'ngmReportHub' )
 					'grant_type_name':'Grant Type' ,
 					'grant_type_id': 'Grant Type',
 					'total_amount': 'Total Transferred',
-					'location_incorrect': 'Location is Incorrect'
+					'location_incorrect': 'Location is Incorrect',
+					'response': 'Activity Response'
 				}
 				return field;
 			},
