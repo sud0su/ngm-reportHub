@@ -3376,6 +3376,13 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					}, 100 );
 				}
 			});
+			$scope.project.impl_explanation = false;
+			$scope.project.partner_explanation = false;
+			$scope.project_partner_label = false;
+
+			$scope.project.toggle_for_explain = function (prop, value) {
+				$scope.project[prop] = !$scope.project[prop];
+			}
 	}
 
 ]);

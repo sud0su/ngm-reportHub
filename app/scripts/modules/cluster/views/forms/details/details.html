@@ -97,6 +97,49 @@
 		color:#000000;
 		background: rgba(255,255,255, 0.2) !important;
 	}
+	.icon-with-message{
+		display: block;position: absolute;top: 45%;left: 37%; cursor: pointer;
+	}
+
+	.icon-with-message-right{
+		display: block;position: absolute;top: 45%;right: 15%; cursor: pointer;
+	}
+	
+	.message-wrapper{
+		cursor: auto;position: absolute;left: -133px;top:-75px;border: 1px solid #eaf0f6;background: #fff;box-shadow: 0 5px 20px rgb(0 0 0 / 10%);border-radius: 4px;width: 300px;padding: 10px 10px; display: block;text-align: center;overflow-wrap: break-word;z-index: 1;color:#26a69a;
+	}
+	.message-wrapper.right{
+		cursor: auto;position: absolute;left: 0px;top:-75px;border: 1px solid #eaf0f6;background: #fff;box-shadow: 0 5px 20px rgb(0 0 0 / 10%);border-radius: 4px;width: 300px;padding: 10px 10px; display: block;text-align: center;overflow-wrap: break-word;z-index: 1;color:#26a69a;
+	}
+	.message-exit{
+		display: block;position: absolute;right: 10px;top: 3px;font-weight: 600; cursor: pointer;
+	}
+	.triangle-down {
+	border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #fff;
+    position: absolute;
+    left: 47%;
+    bottom: -9px;
+	box-shadow: 0 5px 20px rgb(0 0 0 / 10%);
+}
+
+.resp-icon-explanation{
+		left: 5px; top: 0px;
+	}
+
+@media only screen and (max-width: 1024px) {
+	.resp-icon-explanation{
+		left: -115px; top: 0px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.resp-icon-explanation{
+		left: -130px; top: 0px;
+	}
+}
+
 
 </style>
 
@@ -636,7 +679,18 @@
 						<!-- Other Partner -->
 						<div class="row">
 							<div class="input-field col s12 m6" style="padding-bottom:35px;" ng-style="($root.rtl) && {'padding-right':'25px'}">
-								<label>{{'project_partners' | translate}}</label>
+								<label>{{'project_partners' | translate}}
+									<div class="icon-with-message" style="top:10%;left:95%">
+										<i class="material-icons" ng-click="project.toggle_for_explain('project_partner_label')"
+											style="font-size: 18px;padding-left: 10px; color: #26a69a;">help</i>
+									
+										<div class="message-wrapper" ng-if="project.project_partner_label" style="top:-161px">
+											If this Activity Plan collaborates with other partners, tick one of the partner type (Implementing/Programme) and
+											specify the organization from the dropdown list. Leave it blank if you're working on your own
+											<div class="triangle-down"></div>
+										</div>
+									</div>
+								</label>
 								<br />
 								<p style="padding-top:25px;">
 									<label class="checkbox-label" for="ngm-project-other_partbers2">
@@ -644,8 +698,19 @@
 											ng-model="project.definition.implementing_partners_checked"
 											ng-change="project.implementingPartnerStatus()"
 											ng-disabled="project.definition.project_status === 'complete' || !project.canEdit" />
-										<span style="left: .75rem;">{{'implementing_partners' | translate}}?</span>
+										<span style="left: .75rem;line-height: 1.2rem;">{{'implementing_partners' | translate}}</span>
 									</label>
+									<span style="position: relative;cursor: pointer;" ng-click="project.toggle_for_explain('impl_explanation')"><i class="material-icons" 
+										style="font-size: 18px;padding-left: 10px; color: #26a69a; position: absolute; left: 5px; top: 0px;">help</i></span>
+									<div class="icon-with-message" >
+										<!-- <i class="material-icons"  ng-click="project.toggle_for_explain('impl_explanation')" style="font-size: 18px;padding-left: 10px; color: #26a69a;">help</i> -->
+										
+										<div class="message-wrapper" ng-if="project.impl_explanation">
+											<!-- <span class="message-exit" ng-click="project.toggle_for_explain('impl_explanation',false)"> X </span> -->
+											Partner who take the project and implement in the field
+											<div class="triangle-down"></div>
+										</div>
+									</div>
 								</p>
 							</div>
 							<!-- <div ng-show="project.definition.implementing_partners_checked">
@@ -692,9 +757,22 @@
 											ng-model="project.definition.programme_partners_checked"
 											ng-change="project.programmePartnersOrgStatus()"
 											ng-disabled="project.definition.project_status === 'complete' || !project.canEdit" />
-										<span ng-if="project.definition.admin0pcode !== 'ET' || project.definition.cluster_id !== 'esnfi'" style="left: .75rem;">{{'programme_partners' | translate}}?</span>
-										<span ng-if="project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi'" style="left: .75rem;">Program Coordinating Organization?</span>
+										<span ng-if="project.definition.admin0pcode !== 'ET' || project.definition.cluster_id !== 'esnfi'" style="left: .75rem;line-height: 1.2rem;">{{'programme_partners' | translate}}</span>
+										<span ng-if="project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi'" style="left: .75rem;line-height: 1.2rem;">Program Coordinating Organization</span>
 									</label>
+									<span style="position: relative; cursor: pointer;" ng-click="project.toggle_for_explain('partner_explanation')"><i class="material-icons resp-icon-explanation" 
+										style="font-size: 18px;padding-left: 10px; color: #26a69a; position: absolute;">help</i>
+									</span>
+									<div class="icon-with-message" style="top:30%;left:55%">
+										<!-- <i class="material-icons" ng-click="project.toggle_for_explain('partner_explanation')"
+											style="font-size: 18px;padding-left: 5px; color: #26a69a;">help</i> -->
+									
+										<div class="message-wrapper" ng-if="project.partner_explanation">
+											<!-- <span class="message-exit" ng-click="project.toggle_for_explain('partner_explanation',false)"> X </span> -->
+											Partner who leading and administering the project.
+											<div class="triangle-down" style="left:45%"></div>
+										</div>
+									</div>
 								</p>
 							</div>
 							<!-- <div ng-show="project.definition.programme_partners_checked">
