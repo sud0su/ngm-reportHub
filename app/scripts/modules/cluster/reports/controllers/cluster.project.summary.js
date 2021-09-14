@@ -277,7 +277,10 @@ angular.module('ngmReportHub')
 													organization_tag: $scope.report.project.organization_tag,
 													project_title: $scope.report.project.project_title,
 													admin0pcode: $scope.report.project.admin0pcode,
-													admin0name: $scope.report.project.admin0name
+													admin0name: $scope.report.project.admin0name,
+													focal_point: $scope.report.project.name,
+													focal_point_username: $scope.report.project.username,
+													focal_point_email: $scope.report.project.email
 												}
 											});
 
