@@ -3382,6 +3382,19 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 
 			$scope.project.toggle_for_explain = function (prop, value) {
 				$scope.project[prop] = !$scope.project[prop];
+				// if (prop === 'project_partner_label' && $scope.project[prop]){
+				// 	$scope.project.impl_explanation = false;
+				// 	$scope.project.partner_explanation = false;
+				// }
+
+				// if (prop === 'partner_explanation' && $scope.project[prop]) {
+				// 	$scope.project.impl_explanation = false;
+				// 	$scope.project_partner_label  = false;
+				// }
+				// if (prop === 'impl_explanation' && $scope.project[prop]) {
+				// 	$scope.project.partner_explanation = false;
+				// 	$scope.project_partner_label = false;
+				// }
 			}
 	}
 

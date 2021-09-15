@@ -106,7 +106,18 @@
 	}
 	
 	.message-wrapper{
-		cursor: auto;position: absolute;left: -133px;top:-75px;border: 1px solid #eaf0f6;background: #fff;box-shadow: 0 5px 20px rgb(0 0 0 / 10%);border-radius: 4px;width: 300px;padding: 10px 10px; display: block;text-align: center;overflow-wrap: break-word;z-index: 1;color:#26a69a;
+		cursor: auto;
+		position: absolute;
+		left: 36px;
+    	top: -35px;
+		border: 1px solid #eaf0f6;
+		background: #fff;box-shadow: 0 5px 20px rgb(0 0 0 / 10%);
+		border-radius: 4px;width: 300px;
+		padding: 15px 10px 15px 20px ;
+		display: block;
+		text-align: left;
+		overflow-wrap: break-word;
+		z-index: 1;color:#26a69a;
 	}
 	.message-wrapper.right{
 		cursor: auto;position: absolute;left: 0px;top:-75px;border: 1px solid #eaf0f6;background: #fff;box-shadow: 0 5px 20px rgb(0 0 0 / 10%);border-radius: 4px;width: 300px;padding: 10px 10px; display: block;text-align: center;overflow-wrap: break-word;z-index: 1;color:#26a69a;
@@ -115,12 +126,17 @@
 		display: block;position: absolute;right: 10px;top: 3px;font-weight: 600; cursor: pointer;
 	}
 	.triangle-down {
-	border-left: 10px solid transparent;
+	/* border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 10px solid #fff;
+    border-top: 10px solid #fff; */
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	border-right:10px solid #fff;
+
+
     position: absolute;
-    left: 47%;
-    bottom: -9px;
+    left: -3%;
+    bottom: 30%;
 	box-shadow: 0 5px 20px rgb(0 0 0 / 10%);
 }
 
@@ -679,15 +695,15 @@
 						<!-- Other Partner -->
 						<div class="row">
 							<div class="input-field col s12 m6" style="padding-bottom:35px;" ng-style="($root.rtl) && {'padding-right':'25px'}">
-								<label>{{'project_partners' | translate}}
+								<label style="z-index: 2;">{{'project_partners' | translate}}
 									<div class="icon-with-message" style="top:10%;left:95%">
 										<i class="material-icons" ng-click="project.toggle_for_explain('project_partner_label')"
 											style="font-size: 18px;padding-left: 10px; color: #26a69a;">help</i>
 									
-										<div class="message-wrapper" ng-if="project.project_partner_label" style="top:-161px">
+										<div class="message-wrapper" ng-if="project.project_partner_label" style="top:-80px">
 											If this Activity Plan collaborates with other partners, tick one of the partner type (Implementing/Programme) and
 											specify the organization from the dropdown list. Leave it blank if you're working on your own
-											<div class="triangle-down"></div>
+											<div class="triangle-down" style="bottom:40%"></div>
 										</div>
 									</div>
 								</label>
@@ -763,14 +779,14 @@
 									<span style="position: relative; cursor: pointer;" ng-click="project.toggle_for_explain('partner_explanation')"><i class="material-icons resp-icon-explanation" 
 										style="font-size: 18px;padding-left: 10px; color: #26a69a; position: absolute;">help</i>
 									</span>
-									<div class="icon-with-message" style="top:30%;left:55%">
+									<div class="icon-with-message" style="top:30%;left:52%">
 										<!-- <i class="material-icons" ng-click="project.toggle_for_explain('partner_explanation')"
 											style="font-size: 18px;padding-left: 5px; color: #26a69a;">help</i> -->
 									
 										<div class="message-wrapper" ng-if="project.partner_explanation">
 											<!-- <span class="message-exit" ng-click="project.toggle_for_explain('partner_explanation',false)"> X </span> -->
 											Partner who leading and administering the project.
-											<div class="triangle-down" style="left:45%"></div>
+											<div class="triangle-down"></div>
 										</div>
 									</div>
 								</p>
