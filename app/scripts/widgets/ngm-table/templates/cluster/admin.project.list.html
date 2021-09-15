@@ -83,7 +83,7 @@
           </div>
 
           <!-- if data -->
-          <div ng-if="data.length">
+          <div ng-if="data.length" window-size   ng-style="windowWidth <=1330 && {'overflow-x':'auto'}">
             <table class="centered striped responsive-table" ng-table="table.tableParams">
               <tr ng-repeat="row in $data" style="cursor: pointer; cursor: hand;">
                 <td data-title="'sector_mayus'|translate" sortable="'cluster'" >
@@ -131,14 +131,14 @@
                   </div>
 
                 </td>
-                <td width="3%" data-title="'user_mayus1'|translate" sortable="'username'">
+                <td data-title="'user_mayus1'|translate" sortable="'username'">
                   {{ row.username }}
                 </td>
-                <td width="3%" data-title="'contact'|translate" sortable="'email'">
+                <td data-title="'contact'|translate" sortable="'email'">
                   {{ row.email }}
                 </td>
                 
-                <td width="15%" data-title="'title'|translate" sortable="'project_title'" ng-if="table.showTitle">
+                <td data-title="'title'|translate" sortable="'project_title'" ng-if="table.showTitle">
                   <a href="#/cluster/projects/summary/{{ row.project_id }}" 
                     title="{{'goto_project_summary'|translate}}"
                     target="_blank">
