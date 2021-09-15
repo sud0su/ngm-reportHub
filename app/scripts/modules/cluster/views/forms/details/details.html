@@ -697,12 +697,12 @@
 							<div class="input-field col s12 m6" style="padding-bottom:35px;" ng-style="($root.rtl) && {'padding-right':'25px'}">
 								<label style="z-index: 2;">{{'project_partners' | translate}}
 									<div class="icon-with-message" style="top:10%;left:95%">
-										<i class="material-icons" ng-click="project.toggle_for_explain('project_partner_label')"
+										<i class="material-icons"
+										ng-mouseover="project.toggle_for_explain('project_partner_label')" ng-mouseleave="project.toggle_for_explain('project_partner_label')"
 											style="font-size: 18px;padding-left: 10px; color: #26a69a;">help</i>
 									
 										<div class="message-wrapper" ng-if="project.project_partner_label" style="top:-80px">
-											If this Activity Plan collaborates with other partners, tick one of the partner type (Implementing/Programme) and
-											specify the organization from the dropdown list. Leave it blank if you're working on your own
+											{{project.project_partner_label_text}}
 											<div class="triangle-down" style="bottom:40%"></div>
 										</div>
 									</div>
@@ -716,14 +716,14 @@
 											ng-disabled="project.definition.project_status === 'complete' || !project.canEdit" />
 										<span style="left: .75rem;line-height: 1.2rem;">{{'implementing_partners' | translate}}</span>
 									</label>
-									<span style="position: relative;cursor: pointer;" ng-click="project.toggle_for_explain('impl_explanation')"><i class="material-icons" 
+									<span style="position: relative;cursor: pointer;" ng-click="" ng-mouseover="project.toggle_for_explain('implementing_partner_explanation')" ng-mouseleave="project.toggle_for_explain('implementing_partner_explanation')"><i class="material-icons" 
 										style="font-size: 18px;padding-left: 10px; color: #26a69a; position: absolute; left: 5px; top: 0px;">help</i></span>
 									<div class="icon-with-message" >
 										<!-- <i class="material-icons"  ng-click="project.toggle_for_explain('impl_explanation')" style="font-size: 18px;padding-left: 10px; color: #26a69a;">help</i> -->
 										
-										<div class="message-wrapper" ng-if="project.impl_explanation">
+										<div class="message-wrapper" ng-if="project.implementing_partner_explanation">
 											<!-- <span class="message-exit" ng-click="project.toggle_for_explain('impl_explanation',false)"> X </span> -->
-											Partner who take the project and implement in the field
+											{{project.implementing_partner_explanation_text}}
 											<div class="triangle-down"></div>
 										</div>
 									</div>
@@ -776,16 +776,16 @@
 										<span ng-if="project.definition.admin0pcode !== 'ET' || project.definition.cluster_id !== 'esnfi'" style="left: .75rem;line-height: 1.2rem;">{{'programme_partners' | translate}}</span>
 										<span ng-if="project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi'" style="left: .75rem;line-height: 1.2rem;">Program Coordinating Organization</span>
 									</label>
-									<span style="position: relative; cursor: pointer;" ng-click="project.toggle_for_explain('partner_explanation')"><i class="material-icons resp-icon-explanation" 
+									<span style="position: relative; cursor: pointer;" ng-click="" ng-mouseover="project.toggle_for_explain('programme_partner_explanation')" ng-mouseleave="project.toggle_for_explain('programme_partner_explanation')"><i class="material-icons resp-icon-explanation" 
 										style="font-size: 18px;padding-left: 10px; color: #26a69a; position: absolute;">help</i>
 									</span>
 									<div class="icon-with-message">
 										<!-- <i class="material-icons" ng-click="project.toggle_for_explain('partner_explanation')"
 											style="font-size: 18px;padding-left: 5px; color: #26a69a;">help</i> -->
 									
-										<div class="message-wrapper" ng-if="project.partner_explanation" ng-style="(project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi') && { 'top': '-49px','left': '120px' } || { 'top': '-48px','left': '20px' }">
+										<div class="message-wrapper" ng-if="project.programme_partner_explanation" ng-style="(project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi') && { 'top': '-49px','left': '120px' } || { 'top': '-48px','left': '20px' }">
 											<!-- <span class="message-exit" ng-click="project.toggle_for_explain('partner_explanation',false)"> X </span> -->
-											Partner who leading and administering the project.
+											{{project.programme_partner_explanation_text}}
 											<div class="triangle-down"></div>
 										</div>
 									</div>
