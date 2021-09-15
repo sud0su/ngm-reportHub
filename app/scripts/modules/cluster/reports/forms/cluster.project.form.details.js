@@ -3419,9 +3419,21 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					}, 100 );
 				}
 			});
-			$scope.project.impl_explanation = false;
-			$scope.project.partner_explanation = false;
-			$scope.project_partner_label = false;
+			$scope.project.implementing_partner_explanation = false;
+			$scope.project.programme_partner_explanation = false;
+			$scope.project.project_partner_label = false;
+
+			$scope.project.implementing_partner_explanation_text = "Partner who take the project and implement in the field";
+			$scope.project.programme_partner_explanation_text = "Partner who leading and administering the project";
+			$scope.project.project_partner_label_text = "If this Activity Plan collaborates with other partners, tick one of the partner type (Implementing/Programme) and specify the organization from the dropdown list. Leave it blank if you're working on your own";
+
+			if($scope.project.definition.admin0pcode === 'ET' && $scope.project.definition.cluster_id === 'esnfi'){
+				$scope.project.programme_partner_explanation_text = "Organization who leading and administering the project";
+				$scope.project.project_partner_label_text = "If this Activity Plan collaborates with other partners, tick one of the partner type (Implementing/Program Coordinating) and specify the organization from the dropdown list. Leave it blank if you're working on your own";
+			}
+			if ($scope.project.definition.admin0pcode === 'SO'){
+				$scope.project.project_partner_label_text = "If this Activity Plan collaborates with other partners, tick the partner type (Implementing) and specify the organization from the dropdown list. Leave it blank if you're working on your own";
+			}
 
 			$scope.project.toggle_for_explain = function (prop, value) {
 				$scope.project[prop] = !$scope.project[prop];
