@@ -779,11 +779,11 @@
 									<span style="position: relative; cursor: pointer;" ng-click="project.toggle_for_explain('partner_explanation')"><i class="material-icons resp-icon-explanation" 
 										style="font-size: 18px;padding-left: 10px; color: #26a69a; position: absolute;">help</i>
 									</span>
-									<div class="icon-with-message" style="top:30%;left:52%">
+									<div class="icon-with-message">
 										<!-- <i class="material-icons" ng-click="project.toggle_for_explain('partner_explanation')"
 											style="font-size: 18px;padding-left: 5px; color: #26a69a;">help</i> -->
 									
-										<div class="message-wrapper" ng-if="project.partner_explanation">
+										<div class="message-wrapper" ng-if="project.partner_explanation" ng-style="(project.definition.admin0pcode === 'ET' && project.definition.cluster_id === 'esnfi') && { 'top': '-49px','left': '120px' } || { 'top': '-48px','left': '20px' }">
 											<!-- <span class="message-exit" ng-click="project.toggle_for_explain('partner_explanation',false)"> X </span> -->
 											Partner who leading and administering the project.
 											<div class="triangle-down"></div>
