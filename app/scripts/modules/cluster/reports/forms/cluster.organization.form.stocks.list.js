@@ -762,6 +762,8 @@ angular.module( 'ngm.widget.organization.stocks.list', [ 'ngm.provider' ])
 
             var new_admin1 = $filter('filter')($scope.report.options.list.admin1,{admin1pcode:warehouse.admin1pcode}, true);
             delete new_admin1[0].id
+            warehouse.site_lat = new_admin1[0].admin1lat;
+            warehouse.site_lng = new_admin1[0].admin1lng;
             warehouse = angular.merge(warehouse,new_admin1[0])
           }
           if(key === 'admin2pcode'){
@@ -772,11 +774,15 @@ angular.module( 'ngm.widget.organization.stocks.list', [ 'ngm.provider' ])
             delete warehouse.admin3lat;
             var new_admin2 = $filter('filter')($scope.report.options.list.admin2, {admin2pcode: warehouse.admin2pcode }, true);
             delete new_admin2[0].id
+            warehouse.site_lat = new_admin2[0].admin2lat;
+            warehouse.site_lng = new_admin2[0].admin2lng;
             warehouse = angular.merge(warehouse,new_admin2[0])
           }
           if(key === 'admin3pcode'){
             var new_admin3 = $filter('filter')($scope.report.options.list.admin3, {  admin3pcode: warehouse.admin3pcode}, true);
             delete new_admin3[0].id
+            warehouse.site_lat = new_admin3[0].admin3lat;
+            warehouse.site_lng = new_admin3[0].admin3lng;
             warehouse = angular.merge(warehouse,new_admin3[0]);
           }
           
