@@ -254,7 +254,7 @@
 													<select materialize-select watch id="ngm-warehouse-admin1pcode-{{ $index }}"
 														name="ngm-warehouse-admin1pcode-{{ $index }}" class="validate" ng-model="warehouse.admin1pcode"
 														ng-options="item.admin1pcode as item.admin1name for item in report.options.list.admin1 | filter : { inactive: '!true' }"
-														ng-change="report.updateLocationWarehouse(warehouse,'admin1pcode');ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin1pcode-{{ $index }}" ng-disabled="!report.canEdit">
+														ng-change="report.updateLocationWarehouse(warehouse,'admin1pcode',$index);ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin1pcode-{{ $index }}' )" ng-disabled="!report.canEdit">
 														<option value="" disabled>{{ 'select' | translate }}</option>
 													</select>
 													<label for="ngm-warehouse-admin1pcode-{{ $index }}" class="active"
@@ -266,7 +266,7 @@
 													<select materialize-select watch id="ngm-warehouse-admin2pcode-{{ $index }}"
 														name="ngm-warehouse-admin2pcode-{{ $index }}" class="validate" ng-model="warehouse.admin2pcode"
 														ng-options="item.admin2pcode as item.admin2name for item in report.options.list.admin2 | filter: { admin1pcode: warehouse.admin1pcode }"
-														ng-change="report.updateLocationWarehouse(warehouse,'admin2pcode');ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin2pcode-{{ $index }}" ng-disabled=" !report.canEdit || !warehouse.admin1pcode">
+														ng-change="report.updateLocationWarehouse(warehouse,'admin2pcode',$index);ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin2pcode-{{ $index }}' )" ng-disabled=" !report.canEdit || !warehouse.admin1pcode">
 														<option value="" disabled>{{ 'select' | translate }}</option>
 													</select>
 													<label for="ngm-warehouse-admin2pcode-{{ $index }}" class="active" style="transform:translateY(-10%)">
@@ -287,7 +287,7 @@
 													<select materialize-select watch id="ngm-warehouse-admin1pcode-{{ $index }}"
 														name="ngm-warehouse-admin1pcode-{{ $index }}" class="validate" ng-model="warehouse.admin1pcode"
 														ng-options="item.admin1pcode as item.admin1name for item in report.options.list.admin1 | filter : { inactive: '!true' }"
-														ng-change="report.updateLocationWarehouse(warehouse,'admin1pcode')ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin1pcode-{{ $index }}" ng-disabled="!report.canEdit">
+														ng-change="report.updateLocationWarehouse(warehouse,'admin1pcode',$index)ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin1pcode-{{ $index }}' )" ng-disabled="!report.canEdit">
 														<option value="" disabled>{{ 'select' | translate }}</option>
 													</select>
 													<label for="ngm-warehouse-admin1pcode-{{ $index }}" class="active"
@@ -299,7 +299,7 @@
 													<select materialize-select watch id="ngm-warehouse-admin2pcode-{{ $index }}"
 														name="ngm-warehouse-admin2pcode-{{ $index }}" class="validate" ng-model="warehouse.admin2pcode"
 														ng-options="item.admin2pcode as item.admin2name for item in report.options.list.admin2 | filter: { admin1pcode: warehouse.admin1pcode }"
-														ng-change="report.updateLocationWarehouse(warehouse,'admin2pcode');ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin2pcode-{{ $index }}" ng-disabled=" !report.canEdit || !warehouse.admin1pcode">
+														ng-change="report.updateLocationWarehouse(warehouse,'admin2pcode',$index);ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin2pcode-{{ $index }}' )" ng-disabled=" !report.canEdit || !warehouse.admin1pcode">
 														<option value="" disabled>{{ 'select' | translate }}</option>
 													</select>
 													<label for="ngm-warehouse-admin2pcode-{{ $index }}" class="active" style="transform:translateY(-10%)">
@@ -310,7 +310,7 @@
 													<select materialize-select watch id="ngm-warehouse-admin3pcode-{{ $index }}"
 														name="ngm-warehouse-admin3pcode-{{ $index }}" class="validate" ng-model="warehouse.admin3pcode"
 														ng-options="item.admin3pcode as item.admin3name for item in report.options.list.admin3 | filter: { admin1pcode: warehouse.admin1pcode }"
-														ng-change="report.updateLocationWarehouse(warehouse,'admin3pcode');ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin3pcode-{{ $index }}' )" ng-disabled=" !report.canEdit || !warehouse.admin2pcode">
+														ng-change="report.updateLocationWarehouse(warehouse,'admin3pcode',$index);ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin3pcode-{{ $index }}' )" ng-disabled=" !report.canEdit || !warehouse.admin2pcode">
 														<option value="" disabled>{{ 'select' | translate }}</option>
 													</select>
 													<label for="ngm-warehouse-admin2pcode-{{ $index }}" class="active" style="transform:translateY(-10%)">
