@@ -354,7 +354,6 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 					}
 					$scope.changeSearchInputState = function (boolean) {
 						$scope.search_input = boolean;
-						console.log($scope.search_input)
 					}
 
 					if ( $scope.project.definition.plan_component ) {
