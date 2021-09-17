@@ -216,7 +216,7 @@
 											<button class="waves-effect waves-light btn-floating lighten-2"
 												ng-if="detailWarehouse[$index]"
 												ng-click="report.saveUpdatedLocation($index)"
-												ng-disabled="disableButton || !report.canEdit"
+												ng-disabled="disableButton || !report.canEdit || report.validateWarehouse(warehouse)"
 												title="Save {{ warehouse.admin1name }} Warehouse {{ warehouse.site_name }}"
 											><i class="material-icons">save</i>
 											</button>

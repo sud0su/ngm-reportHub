@@ -157,33 +157,59 @@ angular.module( 'ngm.widget.organization.stocks.list', [ 'ngm.provider' ])
           var warehouse =
               ngmClusterHelper.getCleanWarehouseLocation( ngmUser.get(), $scope.report.organization, $scope.report.options.warehouse );
 
-          // extend targets with project, ngmData details & push
-          $scope.report.organization.warehouses.push( warehouse );
+          if($scope.report.checkWarehouseExistence(warehouse)){
+              // extend targets with project, ngmData details & push
+              $scope.report.organization.warehouses.push( warehouse );
 
-          // reset
-          $scope.report.options.warehouse = {};
+              // reset
+              $scope.report.options.warehouse = {};
 
-          // update material select
-          ngmClusterValidation.updateSelect();
+              // update material select
+              ngmClusterValidation.updateSelect();
 
-          // Update Org with warehouse association
-          ngmData.get($scope.report.setOrganization()).then( function( organization ){
+              // Update Org with warehouse association
+              ngmData.get($scope.report.setOrganization()).then( function( organization ){
 
-            // set org
-						$scope.report.organization = organization[0];
+                // set org
+                $scope.report.organization = organization[0];
 
-            // on success
-            // Materialize.toast( 'Warehouse Location Added!', 6000, 'success');
-            M.toast({ html: 'Warehouse Location Added!', displayLength: 6000, classes: 'success' });
+                // on success
+                // Materialize.toast( 'Warehouse Location Added!', 6000, 'success');
+                M.toast({ html: 'Warehouse Location Added!', displayLength: 6000, classes: 'success' });
 
-						// refresh to update empty reportlist
-						// $scope.reload()
-						$scope.report.refreshWidgets();
+                // refresh to update empty reportlist
+                // $scope.reload()
+                $scope.report.refreshWidgets();
 
-          });
+              });
+          }else{
+            M.toast({ html: 'Warehouse already on the lists!', displayLength: 6000, classes: 'error' });
+          }
 
         },
 
+        checkWarehouseExistence:function(location){
+          var filterForWarhouse = {
+            admin1pcode: location.admin1pcode,
+            admin2pcode: location.admin2pcode,
+            site_name: location.site_name
+          }
+          if(location.admin3pcode){
+            filterForWarhouse.admin3pcode = location.admin3pcode;
+          }
+          warehouseExist = $filter('filter')($scope.report.organization.warehouses, filterForWarhouse, true);
+          return warehouseExist.length ? false:true;
+        },
+        validateWarehouse:function(warehouse){
+          var disable = false;
+          if ((!warehouse.admin1pcode) || (!warehouse.admin1name) || (!warehouse.admin1pcode) || (!warehouse.admin2name) || (!warehouse.site_name)) {
+            disable = true;
+          }
+          if ($scope.report.options.list.admin3 && $scope.report.options.list.admin3.length && !warehouse.admin3pcode) {
+            disable = true;
+          }
+          return disable
+        },
         // remove location from location list
         removeLocationModal: function( $index ) {
           // set location index
