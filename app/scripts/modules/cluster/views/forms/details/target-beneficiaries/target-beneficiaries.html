@@ -47,8 +47,8 @@
 									<div class="input-field">
 										<input id="search_" type="search"
 										ng-model="project.filter"
-										ng-focus="search_input=true"
-										ng-blur="search_input=false">
+										ng-focus="changeSearchInputState(true)"
+										ng-blur="changeSearchInputState(false)">
 										<!-- <label for="search_">
 											<i class="material-icons" style="color: teal; padding-left:5px;">search</i>
 										</label> -->
