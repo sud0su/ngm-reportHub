@@ -14,6 +14,30 @@
     background-color: #009688;
 }
 
+.nav-list-search {
+	margin-top: 6px;
+	background-color: white;
+	width:72px;
+	-webkit-transition: width 1s ease;
+	-moz-transition: width 1s ease;
+	-o-transition: width 1s ease;
+	-ms-transition: width 1s ease;
+	transition: width 1s ease;		
+}
+.nav-list-search.focused {
+	margin-top: 6px;
+	width: 100%;
+	-webkit-transition: width 1s ease;
+	-moz-transition: width 1s ease;
+	-o-transition: width 1s ease;
+	-ms-transition: width 1s ease;
+	transition: width 1s ease;
+}
+.input-field input[type=search] {
+	font-weight: 300;
+	padding-top: 0px;
+}
+
 </style>
 
 <!-- ngTable -->
@@ -22,7 +46,32 @@
     <div class="card">
       <ul class="collection with-header">
         
-        <li class="{{ table.headerClass }}"><h5 class="report-work-title {{ table.headerText }}"><i class="material-icons left">{{ table.headerIcon }}</i>{{ table.headerTitle }}</h5></li>
+        <li class="{{ table.headerClass }}" style="{{ table.headerStyle }};height:80px;">
+          <!-- <h5 class="report-work-title {{ table.headerText }}"><i class="material-icons left">{{ table.headerIcon }}</i>{{ table.headerTitle }}
+          </h5> -->
+          <div class="col s9 m7 l8">
+            <h5 class="report-work-title {{ table.headerText }}">
+              <i class="material-icons left">{{ table.headerIcon }}</i>
+              {{ table.headerTitle }}
+            </h5>
+          </div>
+          <div class="col s3 m5 l4 right" ng-if="showSearch">
+            <nav class="nav-list-search right" ng-class="{'focused':table.search.focused===true || table.search.filter }">
+              <div class="nav-wrapper" ng-click="table.toggleSearch()">
+                <form style="padding: 0px">
+                  <div class="input-field">
+                    <input id="search_{{table.id}}" type="search" ng-model="table.search.filter"
+                      ng-focus="table.search.focused=true" ng-blur="table.search.focused=false"
+                      ng-change="table.searchLoadTable()">
+                    <label for="search_{{table.id}}" style="top:-10px" class="search">
+                      <i class="material-icons" style="color: teal; padding-left:25px;">search</i>
+                    </label>
+                  </div>
+                </form>
+              </div>
+            </nav>
+          </div>
+        </li>
         <li class="collection-item avatar" style="padding:10px;">
           
           <!-- if no data -->
@@ -34,7 +83,7 @@
           </div>
 
           <!-- if data -->
-          <div ng-if="data.length">
+          <div ng-if="data.length" window-size   ng-style="windowWidth <=1330 && {'overflow-x':'auto'}">
             <table class="centered striped responsive-table" ng-table="table.tableParams">
               <tr ng-repeat="row in $data" style="cursor: pointer; cursor: hand;">
                 <td data-title="'sector_mayus'|translate" sortable="'cluster'" >
@@ -151,6 +200,12 @@
                     <i class="material-icons" style="color: {{ row.status }}">{{ row.icon }}</i>
                   </a>
 
+                </td>
+                <td  data-title="'Email Reminder'" ng-if="(table.user.roles.indexOf('CLUSTER')>-1) && (table.headerTitle === 'Reports Pending') && table.showTitle">
+                  <button class="btn waves-effect waves-teal tooltip send-email-btn-tooltip" title="Send Email Request to Submit Pending Report" style="font-size: 12px;height: 30px; line-height: 30px"
+                    ng-click="table.sendEmailforPendingReport(row,table)" ng-disabled="table.sendEmailButtonDisabled || table.checkDisableSendEmailButton(row,table)">
+                    Send Email
+                  </button>
                 </td>
               </tr>
             </table>

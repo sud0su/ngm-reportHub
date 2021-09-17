@@ -63,7 +63,7 @@
 					</div>
 
 					<!-- if data -->
-					<div ng-if="data.length" window-size>
+					<div ng-if="data.length" window-size   ng-style="windowWidth <=1330 && {'overflow-x':'auto'}">
 						<table class="centered striped responsive-table" ng-table="table.tableParams">
 							<tr ng-repeat="row in $data" style="cursor: pointer; cursor: hand;">
 								<td data-title="'cluster'|translate" sortable="'cluster'">
@@ -95,10 +95,10 @@
 									{{ row.progress_percentage}}
 								</td>
 								<td data-title="'progress'|translate" sortable="'progress_percentage'"
-									ng-if="row.progress_percentage !=='N/A' && windowWidth <=992">
+									ng-if="row.progress_percentage !=='N/A' && windowWidth <=1330">
 									{{ row.progress_percentage| number : 1 }}%
 								</td>
-								<td width="15%" data-title="'progress'|translate" sortable="'progress_percentage'" ng-if="row.progress_percentage !=='N/A' && windowWidth >992">
+								<td width="15%" data-title="'progress'|translate" sortable="'progress_percentage'" ng-if="row.progress_percentage !=='N/A' && windowWidth >1330">
 									<div class="percentage-wrapper">
 										<span>{{ row.progress_percentage| number : 1 }}%</span>
 										<div class="project-progress-bar-wrapper ">
@@ -116,11 +116,11 @@
 									{{ row.new_benefeciaries_progress_percentage}}
 								</td>
 								<td data-title="'new_progress'|translate" sortable="'new_benefeciaries_progress_percentage'"
-									ng-if="row.new_benefeciaries_progress_percentage !=='N/A' && windowWidth <=992">
+									ng-if="row.new_benefeciaries_progress_percentage !=='N/A' && windowWidth <=1330">
 									{{ row.new_benefeciaries_progress_percentage| number : 1 }}%
 								</td>
 								<td width="15%" data-title="'new_progress'|translate" sortable="'new_benefeciaries_progress_percentage'"
-									ng-if="row.new_benefeciaries_progress_percentage !=='N/A' && windowWidth >992">
+									ng-if="row.new_benefeciaries_progress_percentage !=='N/A' && windowWidth >1330">
 									<div class="percentage-wrapper">
 										<span>{{ row.new_benefeciaries_progress_percentage| number : 1 }}%</span>
 
