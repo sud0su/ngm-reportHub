@@ -352,6 +352,10 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 						$('#search_').focus();
 						$scope.search_input = $scope.search_input ? false : true;;
 					}
+					$scope.changeSearchInputState = function (boolean) {
+						$scope.search_input = boolean;
+						console.log($scope.search_input)
+					}
 
 					if ( $scope.project.definition.plan_component ) {
 						$scope.project.definition.hrp_plan = $scope.project.definition.plan_component.includes('hrp_plan');
