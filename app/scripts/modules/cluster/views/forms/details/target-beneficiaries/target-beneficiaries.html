@@ -681,7 +681,7 @@
 								<div ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ]['response'] && ngmClusterBeneficiaries.form[ 0 ][ $index ]['response'].length">
 									<div class="row" ng-init="list_response = ngmClusterBeneficiaries.form[ 0 ][ $index ]['response']">
 										<div class="input-field col s12 m6 l6">
-											<label class="active">Activity Response</label>
+											<label for="ngm-activity-response-{{ $index }}" class="active">Activity Response</label>
 										</div>
 									</div>
 									<div ng-init ="$targetBeneficiaryIndex=$index" class="row" style="margin-bottom: 20px; margin-left:0px;margin-right:0px;

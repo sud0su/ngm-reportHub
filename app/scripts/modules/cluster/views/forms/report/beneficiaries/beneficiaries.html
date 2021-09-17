@@ -214,6 +214,25 @@
 				</p>
 			</div>
 
+			<div id="need_tochange-beneficiary-type-{{ $locationIndex }}-{{ $beneficiaryIndex }}" ng-if="!project.checkActiveBeneficiaryType(beneficiary,$locationIndex, $beneficiaryIndex)"
+				class="row" ng-style="($root.rtl) && { 'padding':'10px 21px 5px 0px' } || { 'padding':'10px 0px 5px 21px' }">
+				<p><i class="material-icons left" style="color: #e57373">info</i></p>
+				<p style="color: #e57373;font-weight:500;font-size: 16px;">
+					The Beneficiary type is not available in the current month. Please consider to change to the new one. Contact your cluster coordinator for more
+					information.
+				</p>
+			</div>
+
+			<div id="need_tochange-hrp_beneficiary-type-{{ $locationIndex }}-{{ $beneficiaryIndex }}" ng-if="!project.checkActiveHRP(beneficiary,$locationIndex, $beneficiaryIndex)"
+				class="row" ng-style="($root.rtl) && { 'padding':'10px 21px 5px 0px' } || { 'padding':'10px 0px 5px 21px' }">
+				<p><i class="material-icons left" style="color: #e57373">info</i></p>
+				<p style="color: #e57373;font-weight:500;font-size: 16px;">
+					The HRP Beneficiary type is not available in the current month. Please consider to change to the new one. Contact your cluster coordinator for more
+					information.
+				</p>
+			</div>
+			
+
 
 			<!-- CARD PANEL -->
 			<div dir="ltr" class="card-panel"
@@ -1003,7 +1022,7 @@
 					<div ng-if="ngmClusterBeneficiaries.form[ $locationIndex ][ $beneficiaryIndex ]['response'] && ngmClusterBeneficiaries.form[ $locationIndex ][ $beneficiaryIndex ]['response'].length">
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<label class="active">Activity Response</label>
+								<label for="ngm-activity-response-{{ $locationIndex }}-{{ $beneficiaryIndex }}" class="active">Activity Response</label>
 							</div>
 						</div>
 						<div class="row" style="margin-bottom: 20px; margin-left:0px;margin-right:0px;
