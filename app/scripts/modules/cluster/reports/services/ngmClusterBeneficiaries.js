@@ -422,6 +422,20 @@ angular.module( 'ngmReportHub' )
 			},
 
 
+			addBeneficiaryFromFile: function (project, beneficiaries){
+				// inserted
+				var inserted = {}
+				var context_defaults = {}
+				var length = beneficiaries.length;
+				var defaults = ngmClusterBeneficiaries.defaults;
+
+				// merge
+				angular.merge(inserted, defaults.inputs, context_defaults);
+
+				return inserted
+			},
+
+
 
 			/* BENEFICIARIES FORM */
 
@@ -656,7 +670,7 @@ angular.module( 'ngmReportHub' )
  					ngmClusterBeneficiaries.form[$parent][$index].display = ngmClusterBeneficiaries.showFormInputs( beneficiary, ngmClusterBeneficiaries.form[$parent][$index] );
 				}
 				// if beneficiary.response exist then check ngmClusterBeneficiaries.form[$parent][$index]['exist']
-				if (beneficiary.response && beneficiary.response.length>0){
+				if (beneficiary.response && (typeof beneficiary.response !== 'string') && beneficiary.response.length>0){
 
 					if (!ngmClusterBeneficiaries.form[$parent][$index]['response']){
 						temp_list = []

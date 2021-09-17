@@ -166,6 +166,7 @@ angular.module( 'ngmReportHub' )
 					{ header: 'Beneficiary Type', key: 'beneficiary_type_name', width: 50 },
 					{ header: 'HRP Beneficiary Type', key: 'hrp_beneficiary_type_name', width: 50 },
 					{ header: 'Beneficiary Category', key: 'beneficiary_category_name', width: 50 },
+					{ header: 'Activity Response', key: 'response', width: 50 },
 					{ header: 'Amount', key: 'units', width: 20 },
 					{ header: 'Unit Types', key: 'unit_type_name', width: 20 },
 					{ header: 'Cash Transfers', key: 'transfer_type_value', width: 20 },
@@ -220,6 +221,10 @@ angular.module( 'ngmReportHub' )
 					tl.programme_partners = propToString(tl.programme_partners, 'organization');
 				});
 
+				Array.isArray(project_copy.target_beneficiaries) && project_copy.target_beneficiaries.forEach(function (tb) {
+					tb.response = propToString(tb.response, 'response_name');
+				});
+				
 				project_copy.url = $location.absUrl();
 
 				worksheetProjectDetails.addRow(project_copy);
