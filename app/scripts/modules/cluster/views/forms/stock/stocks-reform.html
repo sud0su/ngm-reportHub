@@ -1,4 +1,4 @@
-<div ng-repeat="stock in report.report.stocklocations[$locationIndex].stocks track by $index" ng-init="$stockIndex = $index" window-size>
+<div ng-repeat="stock in report.report.stocklocations[$locationIndex].stocks track by $index" ng-init="$stockIndex = $index" window-size ng-style="($root.rtl) && { 'padding-right':'40px' } || {'padding-left':'40px' }">
     <div class="row">
     
         <div class="col s12 m12 left-align" dir="ltr">
