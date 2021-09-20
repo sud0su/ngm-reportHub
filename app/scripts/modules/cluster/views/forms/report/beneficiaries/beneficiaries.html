@@ -1533,6 +1533,11 @@
 
 
 
+					<div class=" row" ng-if="(beneficiary.cluster_id === 'esnfi') && (project.definition.admin0pcode === 'AF') && (beneficiary.households > 0) && (beneficiary.total_beneficiaries<1)">
+						<div class="input-field col s12 m6 l6">
+							<label class="active" for="ngm-esnfi-mandatory-sadd-{{ $locationIndex }}-{{ $beneficiaryIndex }}"> Please put number of beneficiaries </label>
+						</div>
+					</div>
 					<!-- tag diabilties for now only for AF Cluster Protection-->
 					<div class="row"
 						ng-if="(beneficiary.cluster_id === 'protection') && (project.definition.admin0pcode === 'AF') && beneficiary.beneficiary_category_id && beneficiary.beneficiary_category_id === 'persons_with_disabilities'"
