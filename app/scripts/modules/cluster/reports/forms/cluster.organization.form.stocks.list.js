@@ -148,6 +148,9 @@ angular.module( 'ngm.widget.organization.stocks.list', [ 'ngm.provider' ])
           // set detail location
           $scope.detailWarehouse = $scope.report.organization.warehouses.length ?
             new Array($scope.report.organization.warehouses.length).fill(false) : new Array(0).fill(false);
+          if($scope.report.organization.warehouses.length){
+            $scope.report.organization.warehouses = $filter('orderBy')($scope.report.organization.warehouses, 'createdAt',true);
+          }
         },
 
         // add location
