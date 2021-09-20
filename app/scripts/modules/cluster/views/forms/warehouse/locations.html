@@ -195,7 +195,7 @@
 									<h5 class="report-selected-locations">{{ report.organization.warehouses.length }} {{'selected_warehouses'|translate}}</h5>
 								</div>
 
-								<div class="row" ng-repeat="warehouse in report.organization.warehouses track by $index">
+								<div class="row" ng-repeat="warehouse in report.organization.warehouses | orderBy:'createdAt':true track by $index">
 
 									<div class="row" id="ngm-health-warehouse-{{ $index }}">
 										<div class="col s9 m10 l10 left">
