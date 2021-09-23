@@ -197,22 +197,26 @@
 
 								<div class="row" ng-repeat="warehouse in report.organization.warehouses track by $index">
 
+									
+
 									<div class="row" id="ngm-health-warehouse-{{ $index }}">
-										<div class="col s9 m10 l10 left">
-
-								    	<!-- admin2 -->
-								    	<h5 class="report-location-title" ng-class="{'truncate':windowWidth < 450 }" ng-if="!report.options.list.admin3.length">
-														<i class="material-icons left" style="color: teal;">location_on</i>
-														{{ warehouse.admin1name }}, {{ warehouse.admin2name }}, {{ warehouse.site_name }} {{ warehouse.cluster }}
+									
+										<div class="col s12 m12 left-align" dir="ltr">
+											<!-- admin2 -->
+											<h5 class="report-location-title" ng-class="{'truncate':windowWidth < 450 }" ng-if="!report.options.list.admin3.length">
+												<i class="material-icons left" style="color: teal;">location_on</i>
+												{{ warehouse.admin1name }}, {{ warehouse.admin2name }}, {{ warehouse.site_name }} {{ warehouse.cluster }}
 											</h5>
-
-								    	<!-- admin3 -->
-								    	<h5 class="report-location-title" ng-class="{'truncate':windowWidth < 450 }" ng-if="report.options.list.admin3.length">
-														<i class="material-icons left" style="color: teal;">location_on</i>
-														{{ warehouse.admin1name }}, {{ warehouse.admin2name }}, {{ warehouse.admin3name }}, {{ warehouse.site_name }} {{ warehouse.cluster }}
+											
+											<!-- admin3 -->
+											<h5 class="report-location-title" ng-class="{'truncate':windowWidth < 450 }" ng-if="report.options.list.admin3.length">
+												<i class="material-icons left" style="color: teal;">location_on</i>
+												{{ warehouse.admin1name }}, {{ warehouse.admin2name }}, {{ warehouse.admin3name }}, {{ warehouse.site_name }} {{
+												warehouse.cluster }}
 											</h5>
 										</div>
-										<div class="col s3 m2 l2" style="padding-top:15px;" ng-style="($root.rtl) && { 'padding-left':'44px' } || { 'padding-right':'48px' }">
+										<div class="col s12 m12 " ng-class="{'right-align': windowWidth > 600}"
+											ng-style="(windowWidth < 600) && { 'margin-top': '10px','padding-right':'50px' } || { 'margin-top': '-50px','padding-right':'50px' }">
 											<button class="waves-effect waves-light btn-floating lighten-2"
 												ng-if="detailWarehouse[$index]"
 												ng-click="report.saveUpdatedLocation($index)"
@@ -232,17 +236,11 @@
 												title="Remove {{ warehouse.admin1name }} Warehouse {{ warehouse.site_name }}"
 												ng-click="report.removeLocationModal( $index )"><i class="material-icons">clear</i>
 											</button>
-											<button class="waves-effect waves-light btn-floating tooltip lighten-2 right"
+											<button class="waves-effect waves-light btn-floating tooltip lighten-2"
 												title="{{ (detailWarehouse[$index]?'Minimize':'Click to Expand')|translate }}"
 												ng-disabled="disableButton"
 												ng-click="report.openDetailWareHouse($index)"
 												><i class="material-icons" ng-class="{'rotate-dropdown': detailWarehouse[$index]}">keyboard_arrow_down</i>
-												<!-- <md-tooltip md-direction="right">
-													{{ 'Minimize'|translate }}
-												</md-tooltip>
-												<md-tooltip md-direction="right">
-													{{ 'Click to Expand'|translate }}
-												</md-tooltip> -->
 											</button>
 										</div>
 									</div>

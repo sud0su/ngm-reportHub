@@ -1472,6 +1472,13 @@ angular.module( 'ngmReportHub' )
 				// console.log( 'complete32' );
 				// console.log( complete );
 
+				if((admin0pcode === 'AF') &&(b.cluster_id === 'esnfi') && b.households >0 && b.total_beneficiaries<1){
+					id = "label[for='" + 'ngm-esnfi-mandatory-sadd-' + i + '-' + j + "']";
+					$(id).addClass('error');
+					validation.divs.push(id);
+					complete = false;
+				}
+
 				// return 1 for complete, default 0 for error
 				if (d[i][j]) {
 					validation.open = true;
