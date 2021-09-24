@@ -1,4 +1,4 @@
-<div ng-repeat="stock in report.report.stocklocations[$locationIndex].stocks track by $index" ng-init="$stockIndex = $index" window-size>
+<div ng-repeat="stock in report.report.stocklocations[$locationIndex].stocks track by $index" ng-init="$stockIndex = $index" window-size ng-style="($root.rtl) && { 'padding-right':'40px' } || {'padding-left':'40px' }">
     <div class="row">
     
         <div class="col s12 m12 left-align" dir="ltr">
@@ -43,6 +43,13 @@
         </div>
     </div>
     <div id="tb-detail-{{$locationIndex}}-{{$stockIndex}}" class="card-panel" ng-if="detailStocks[$locationIndex][$stockIndex]" dir="ltr">
+        <div ng-if="report.checkStockTypeList(stock) && stock.cluster_id" class="row"
+            ng-style="($root.rtl) && { 'padding':'5px 5px 25px 0px' } || { 'padding':'5px 0px 25px 5px' }">
+            <p><i class="material-icons left" style="color: #e57373">info</i></p>
+            <p style="color: #e57373;font-weight:500">
+                This cluster hasn't defined Stock Type yet! Please contact the cluster coordinator to put it into the system.
+            </p>
+        </div>
         <div class="row">
             <!-- Cluster -->
             <div class="input-field col s12 m6 l4">
@@ -257,6 +264,6 @@
     
 </div>
 
-<button class="btn" ng-show="report.report.report_status !== 'complete'" ng-click="report.addStock( $locationIndex )">
+<button style="margin-left: 18px;" class="btn" ng-show="report.report.report_status !== 'complete'" ng-click="report.addStock( $locationIndex )">
     <i class="material-icons left">add</i>add stock
 </button>

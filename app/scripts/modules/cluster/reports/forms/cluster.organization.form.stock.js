@@ -1588,6 +1588,11 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
         inputChange: function (label) {
           $("label[for='" + label + "']").removeClass('error').addClass('active');
         },
+        checkStockTypeList:function (stock) {
+          if(!stock.cluster_id) return true;
+          var stock_item_type_list = $filter('filter')($scope.report.lists.stocks,{cluster_id:stock.cluster_id},true)
+          return stock_item_type_list.length ? false:true;
+        },
         // save
         save: function( complete, display_modal ) {
 

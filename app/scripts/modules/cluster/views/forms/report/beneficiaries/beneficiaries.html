@@ -83,7 +83,7 @@
 
 	</style>
 		<!-- beneficiaries -->
-		<div id="{{ $beneficiaryIndex=$index; id = 'ngm-' + $locationIndex + '-' + $index }}" ng-repeat="beneficiary in project.report.locations[ $locationIndex ].beneficiaries | filterBeneficiary:project.beneficiary_search track by $index" ng-class="{'add-padding': !detailBeneficiaries[$locationIndex][$beneficiaryIndex]}" window-size>
+		<div id="{{ $beneficiaryIndex=$index; id = 'ngm-' + $locationIndex + '-' + $index }}" ng-repeat="beneficiary in project.report.locations[ $locationIndex ].beneficiaries | filterBeneficiary:project.beneficiary_search track by $index" ng-class="{'add-padding': !detailBeneficiaries[$locationIndex][$beneficiaryIndex]}" window-size ng-style="($root.rtl) && { 'padding-right':'35px' } || {'padding-left':'35px' }">
 
 			<!-- title -->
 			<!-- <div style="position: absolute;">
@@ -1533,6 +1533,11 @@
 
 
 
+					<div class=" row" ng-if="(beneficiary.cluster_id === 'esnfi') && (project.definition.admin0pcode === 'AF') && (beneficiary.households > 0) && (beneficiary.total_beneficiaries<1)">
+						<div class="input-field col s12 m6 l6">
+							<label class="active" for="ngm-esnfi-mandatory-sadd-{{ $locationIndex }}-{{ $beneficiaryIndex }}"> Please put number of beneficiaries </label>
+						</div>
+					</div>
 					<!-- tag diabilties for now only for AF Cluster Protection-->
 					<div class="row"
 						ng-if="(beneficiary.cluster_id === 'protection') && (project.definition.admin0pcode === 'AF') && beneficiary.beneficiary_category_id && beneficiary.beneficiary_category_id === 'persons_with_disabilities'"
@@ -2465,7 +2470,7 @@
 				<button class="btn"
 								ng-if="( project.canEdit && project.definition.project_status !== 'complete' && project.report.report_status !== 'complete' )"
 								ng-click="project.addNgWashBeneficiary( $locationIndex );"
-								style="margin:20px 10px;">
+								style="margin:20px 30px;">
 					<i class="material-icons left">add</i>{{'add_activities'|translate}}
 				</button>
 			</div>
@@ -2475,7 +2480,7 @@
 				<button class="btn"
 								ng-if="( project.canEdit && project.definition.project_status !== 'complete' && project.report.report_status !== 'complete' )"
 								ng-click="project.addBeneficiary( $locationIndex );"
-								style="margin:20px 10px;">
+								style="margin:20px 30px;">
 					<i class="material-icons left">add</i>{{'add_activities'|translate}}
 				</button>
 			</div>
@@ -2485,7 +2490,7 @@
 				<button class="btn"
 								ng-if="( project.canEdit && project.definition.project_status !== 'complete' && project.report.report_status !== 'complete' )"
 								ng-click="project.addBeneficiary( $locationIndex );"
-								style="margin:20px 10px;">
+								style="margin:20px 30px;">
 					<i class="material-icons left">add</i>{{'add_activities'|translate}}
 				</button>
 			</div>
