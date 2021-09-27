@@ -282,6 +282,8 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 				// upload
 				uploadUrl:'project-upload.html',
 
+				setReportDurationUrl:'duration-report.html',
+
 				// for import from file
 				text_input: '',
 				messageWarning: '',
@@ -3227,6 +3229,35 @@ angular.module( 'ngm.widget.project.details', [ 'ngm.provider' ])
 				// },
 
 				// <++++++++++++++++++++++++++++++++++++++++++++++++++++++++> 
+
+				// set Reporting to bi weeekly
+				checkedReportbyPeriode:function(periode){
+					// for now periode issue to report it just bi-weekly
+					return $scope.project.definition.report_type_id === periode? true:false;
+				},
+				setReportbyPeriode: function (periode,id){
+					if (document.getElementById(id).checked) {
+						$("#change-reporting-period-duration-to-biweekly-modal").modal({ dismissible: false });
+						$("#change-reporting-period-duration-to-biweekly-modal").modal('open');
+						
+						$scope.project.definition.report_type_id = periode;
+					}else{
+						$scope.project.definition.report_type_id = 'monthly';
+					}
+					
+				},
+				resetReportbyPeriode:function(){
+					$scope.project.definition.report_type_id = 'monthly';
+				},
+				showBiweeklyCheckbox:function(){
+					var inter_cluster_activities = $scope.project.definition.inter_cluster_activities && $scope.project.definition.inter_cluster_activities.length ? $scope.project.definition.inter_cluster_activities.map(c=>c.cluster_id) : [];
+
+					if ($scope.project.definition.cluster_id === 'esnfi' || (inter_cluster_activities.length && (inter_cluster_activities.indexOf('esnfi')>-1))){
+						console.log($scope.project.definition.cluster_id,$scope.project.definition.inter_cluster_activities)
+						return true;
+					}
+					return false;
+				},
 
 
 

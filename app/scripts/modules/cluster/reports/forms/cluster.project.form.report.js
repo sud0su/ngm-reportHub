@@ -208,6 +208,12 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					// Set limited amount of locations
 					$scope.paginated_monthly_locations = $scope.project.report.locations.slice($scope.startMonthlyLocation, $scope.endMonthlyLocation);
 
+					if ($scope.project.report.report_type_id === 'bi-weekly'){
+						var period_biweekly = (moment.utc($scope.project.report.reporting_period).format('D') <= 14) ? 'Biweekly Period 1' :'Biweekly Period 2';
+						$scope.project.monthlyTitleFormat += " "+ period_biweekly;
+					}
+					
+					
 				},
 
 				// sets title for each location / activity
@@ -932,6 +938,16 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							report_year: $scope.project.report.report_year
 						}
 					}
+
+					if ($scope.project.report.report_type_id && $scope.project.report.report_type_id === 'bi-weekly'){
+						var number_date_of_reporting_period = moment.utc($scope.project.report.reporting_period).format('D')
+						params.report_month = (number_date_of_reporting_period <= 14 )? $scope.project.report.report_month - 1 : $scope.project.report.report_month;
+						var _period = (number_date_of_reporting_period <= 14) ? moment($scope.project.report.reporting_period).subtract(1, 'M').set('date', 15).format() : moment($scope.project.report.reporting_period).set('date', 1).format();
+						params.reporting_period = _period;
+						params.report_type_id = $scope.project.report.report_type_id
+					}
+
+
 
 					// setReportRequest
 					var get_prev_report = {
