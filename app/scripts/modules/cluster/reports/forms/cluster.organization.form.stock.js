@@ -630,7 +630,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
 									cluster: s.cluster,
 									stock_item_type: s.stock_item_type,
 									stock_item_name: s.stock_item_name,
-									stock_item_purpose_id: s.stock_item_name,
+									stock_item_purpose_id: s.stock_item_purpose_id,
 									stock_item_purpose_name: s.stock_item_purpose_name,
 									stock_status_id: s.stock_status_id,
 									stock_status_name: s.stock_status_name,
