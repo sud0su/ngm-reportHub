@@ -178,6 +178,8 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					// for minimize-maximize beneficiary form
 
 					$scope.detailBeneficiaries = {};
+					// to store activity beneficairy not correct
+					$scope.beneficiaryIncorrectActivityChecking=[]
 					$scope.project.beneficiary_search;
 					$scope.beneficiary_search_input = false;
 
@@ -891,20 +893,22 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 				// validate form ( ng wash )
 				validateBeneficiariesDetailsForm: function( complete, display_modal ){
-					if (ngmClusterValidation.validateBeneficiaries($scope.project.report.locations, $scope.detailBeneficiaries, $scope.project.definition.admin0pcode, $scope.project.definition.project_hrp_project) && $scope.project.checkActiveAllActivities()){
-						if ( complete ) {
-							// $( '#complete-modal' ).openModal( { dismissible: false } );
-							$('#complete-modal').modal({ dismissible: false });
-							$('#complete-modal').modal('open');
-						} else if ( display_modal ) {
-							// $( '#save-modal' ).openModal( { dismissible: false } );
-							$('#save-modal').modal({ dismissible: false });
-							$('#save-modal').modal('open');
-						} else {
-							// arg1: set report status from 'todo' to 'complete' & re-direct
-							// arg2: save & re-direct
-							// arg3: alert admin via email of user edit of 'complete' report
-							$scope.project.save( false, false, false );
+					if ($scope.project.checkActiveAllActivities()){
+						if(ngmClusterValidation.validateBeneficiaries($scope.project.report.locations, $scope.detailBeneficiaries, $scope.project.definition.admin0pcode, $scope.project.definition.project_hrp_project)){
+							if ( complete ) {
+								// $( '#complete-modal' ).openModal( { dismissible: false } );
+								$('#complete-modal').modal({ dismissible: false });
+								$('#complete-modal').modal('open');
+							} else if ( display_modal ) {
+								// $( '#save-modal' ).openModal( { dismissible: false } );
+								$('#save-modal').modal({ dismissible: false });
+								$('#save-modal').modal('open');
+							} else {
+								// arg1: set report status from 'todo' to 'complete' & re-direct
+								// arg2: save & re-direct
+								// arg3: alert admin via email of user edit of 'complete' report
+								$scope.project.save( false, false, false );
+							}
 						}
 					}
 				},
@@ -1020,13 +1024,32 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 										delete b.updatedAt;
 										delete b.report_submitted;
 
-										if(!$scope.project.checkActiveBeneficiaryType(b,locationIndex,beneficiariesIndex)){
-											delete b.beneficiary_type_id;
-										}
+									var forFilter = {};
+									var mark = { activity: false, hrp_beneficiary_type_id: false, beneficiary_type_id: false }
+									forFilter.beneficiary_type_name = b.beneficiary_type_name;
+									forFilter.cluster_id = b.cluster_id;
+									isBeneficiaryTypeStillExist = $filter('filter')($scope.project.lists.beneficiary_types, forFilter, true)
 
-										if(!$scope.project.checkActiveHRP(b, locationIndex,beneficiariesIndex)){
-											delete b.hrp_beneficiary_type_id;
-										}
+									if (!isBeneficiaryTypeStillExist.length) { delete b.beneficiary_type_id; mark.beneficiary_type_id = true;}
+										// if(!$scope.project.checkActiveBeneficiaryType(b,locationIndex,beneficiariesIndex)){
+										// 	delete b.beneficiary_type_id;
+										// }
+
+									var isHRPBeneficiaryTypeStillExist = [];
+									var forFilterHRP = {};
+									forFilterHRP.hrp_beneficiary_type_name = b.hrp_beneficiary_type_name;
+									isHRPBeneficiaryTypeStillExist = $filter('filter')($scope.project.lists.hrp_beneficiary_types, forFilterHRP, true)
+									if (!isHRPBeneficiaryTypeStillExist.length) { delete b.hrp_beneficiary_type_id; mark.hrp_beneficiary_type_id = true;};
+									if(!$scope.project.checkActiveActivities(b)) {mark.activity =true};
+									if (Object.keys(mark).length) {
+										if (!$scope.beneficiaryIncorrectActivityChecking[locationIndex]) $scope.beneficiaryIncorrectActivityChecking[locationIndex] = [];
+
+										$scope.beneficiaryIncorrectActivityChecking[locationIndex].push(mark);
+									}
+									// 	if(!$scope.project.checkActiveHRP(b, locationIndex,beneficiariesIndex)){
+									// 		delete b.hrp_beneficiary_type_id;
+									// 	}
+
 
 								});
 
@@ -1118,11 +1141,11 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						if(!isBeneficiaryTypeStillExist.length){
 							active = false;
 							
-							if (!$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex]) {
-								$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex] = true;
-							};
-							id = "label[for='" + 'ngm-beneficiary_type_id-' + $locationIndex + '-' + $beneficiaryIndex + "']";
-							$(id).addClass('error');
+							// if (!$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex]) {
+							// 	$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex] = true;
+							// };
+							// id = "label[for='" + 'ngm-beneficiary_type_id-' + $locationIndex + '-' + $beneficiaryIndex + "']";
+							// $(id).addClass('error');
 						}
 					};
 
@@ -1138,11 +1161,11 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 						if (!isHRPBeneficiaryTypeStillExist.length) {
 							active = false;
-							if (!$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex]) {
-								$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex] = true;
-							}
-							id = "label[for='" + 'ngm-hrp_beneficiary_type_id-' + $locationIndex + '-' + $beneficiaryIndex + "']";
-							$(id).addClass('error');
+							// if (!$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex]) {
+							// 	$scope.detailBeneficiaries[$locationIndex][$beneficiaryIndex] = true;
+							// }
+							// id = "label[for='" + 'ngm-hrp_beneficiary_type_id-' + $locationIndex + '-' + $beneficiaryIndex + "']";
+							// $(id).addClass('error');
 						}
 					};
 
@@ -1154,35 +1177,76 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					var count_beneficiary_type =0;
 					var count_hrp_beneficiary_type=0;
 					var scrollDiv;
+					var elementcheckactivities = []
 					angular.forEach($scope.project.report.locations, function (l, i) {
 						angular.forEach(l.beneficiaries, function (b, j) {
 							if(l.beneficiaries.length){
+								var mark = { activity: false, hrp_beneficiary_type_id: false, beneficiary_type_id:false}
 								if (!$scope.project.checkActiveHRP(b, i, j)){
 									count_hrp_beneficiary_type = count_hrp_beneficiary_type+1;
 									scrollDiv = $('#need_tochange-hrp_beneficiary-type-' + i + '-' + j);
+									elementcheckactivities.push({id:'#need_tochange-hrp_beneficiary-type-' + i + '-' + j,location:i,beneficiaries:j})
+									mark.hrp_beneficiary_type_id = true;
+									// if (!$scope.detailBeneficiaries[i][j]) {
+									// 	$scope.detailBeneficiaries[i][j] = true;
+									// };
 								}
 								if (!$scope.project.checkActiveBeneficiaryType(b, i, j)) {
 									count_beneficiary_type = count_beneficiary_type + 1;
 									scrollDiv = $('#need_tochange-beneficiary-type-' + i + '-' + j);
+									elementcheckactivities.push({id:'#need_tochange-beneficiary-type-' + i + '-' + j,location:i,beneficiaries:j})
+									mark.beneficiary_type_id = true;
+									// if (!$scope.detailBeneficiaries[i][j]) {
+									// 	$scope.detailBeneficiaries[i][j] = true;
+									// };
 								}
 								if(!$scope.project.checkActiveActivities(b)){
 									count = count +1;
 									scrollDiv = $('#need_tochange-'+i+'-'+j);
+									elementcheckactivities.push({id:'#need_tochange-' + i + '-' + j,location:i,beneficiaries:j})
+									mark.activity = true;
+									// if (!$scope.detailBeneficiaries[i][j]) {
+									// 	$scope.detailBeneficiaries[i][j] = true;
+									// };
 								};
+								
+								if (!$scope.beneficiaryIncorrectActivityChecking[i]) $scope.beneficiaryIncorrectActivityChecking[i]=[];
+								if (Object.keys(mark).length){
+
+									$scope.beneficiaryIncorrectActivityChecking[i][j] = mark;
+
+								}
+								
 							}
 						})
 					})
-					if(count>0 || count_beneficiary_type >0){
+					if (count > 0 || count_beneficiary_type > 0 || count_hrp_beneficiary_type > 0){
 						active = false;
-						scrollDiv.scrollHere();
+
+						// $timeout(function(){
+							// scrollDiv.scrollHere();
+						$(elementcheckactivities[0].id).scrollHere()
+						if (!$scope.detailBeneficiaries[elementcheckactivities[0].location][elementcheckactivities[0].beneficiaries]) {
+							$scope.detailBeneficiaries[elementcheckactivities[0].location][elementcheckactivities[0].beneficiaries] = true;
+						};
+						// },1000)
+						
 						if(count>0){
 							M.toast({ html: "There's some activities need to be changed!", displayLength: 6000, classes: 'error' });
 						}
 						if (count_beneficiary_type > 0){
 							M.toast({ html: "There's some beneficiary type need to be changed!", displayLength: 6000, classes: 'error' });
+							id = "label[for='" + 'ngm-beneficiary_type_id-' + elementcheckactivities[0].location + '-' + elementcheckactivities[0].beneficiaries + "']";
+							$timeout(function(){
+								$(id).addClass('error');
+							},0)
 						}
 						if (count_hrp_beneficiary_type > 0) {
 							M.toast({ html: "There's some HRP beneficiary type need to be changed!", displayLength: 6000, classes: 'error' });
+							id = "label[for='" + 'ngm-hrp_beneficiary_type_id-' + elementcheckactivities[0].location + '-' + elementcheckactivities[0].beneficiaries + "']";
+							$timeout(function () {
+								$(id).addClass('error');
+							}, 0)
 						}
 					}
 
