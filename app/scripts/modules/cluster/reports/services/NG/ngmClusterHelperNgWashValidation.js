@@ -1023,11 +1023,11 @@ angular.module( 'ngmReportHub' )
 
 					// open card that close
 					if(form_card_index.length){
-						for(index in form_card_index ){
+						// for(index in form_card_index ){
 							if (!$detailBeneficiaries[form_card_index[0].l][form_card_index[0].b]){
 								$detailBeneficiaries[form_card_index[0].l][form_card_index[0].b] = true;
 							}
-						}
+						// }
 					}
 					$timeout(function(){
 						// put red mark on label
