@@ -545,6 +545,12 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						}
 					}
 
+					if (!ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['display_activity_detail']) {
+						if (beneficiary.activity_detail_name && !beneficiary.activity_detail_id) {
+							delete beneficiary.activity_detail_name;
+						}
+					}
+
 					if (!ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['display_indicator']) {
 						// if (ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_id']) {
 						// 	beneficiary.indicator_name = ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['indicator_name'];
@@ -600,11 +606,6 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						};
 					}
 
-					if (!ngmClusterBeneficiaries.form[$parent][$scope.project.report.locations[$parent].beneficiaries.length - 1]['display_details']){
-						if(beneficiary.activity_detail_name && !beneficiary.activity_detail_id){
-							delete beneficiary.activity_detail_name;
-						}
-					}
 
 					ngmClusterBeneficiaries.updateBeneficiaires(beneficiary)
 				},
@@ -990,14 +991,14 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 							// init message
 							// Materialize.toast( $filter( 'translate' )( 'copying' ), 6000, 'note' );
 							M.toast({ html: $filter('translate')('copying'), displayLength: 6000, classes: 'note' });
-							if ( brows > 0 ){
-								var msg = "Copied Beneficiaries " + brows + ' rows';
-										typ = 'success';
-							}
+							// if ( brows > 0 ){
+							// 	var msg = "Copied Beneficiaries " + brows + ' rows';
+							// 			typ = 'success';
+							// }
 
-							// send message
-							// Materialize.toast( msg, 4000, typ );
-							M.toast({ html: msg, displayLength: 4000, classes: typ });
+							// // send message
+							// // Materialize.toast( msg, 4000, typ );
+							// M.toast({ html: msg, displayLength: 4000, classes: typ });
 
 
 							var current_report = angular.copy( $scope.project.report );
@@ -1006,6 +1007,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 								delete current_report.cluster_id;
 								delete current_report.cluster;
 							}
+							var copy_counter =0;
 							// set last month
 							angular.forEach($scope.project.report.locations, function (location, locationIndex ){
 
@@ -1032,6 +1034,15 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 										delete b.createdAt;
 										delete b.updatedAt;
 										delete b.report_submitted;
+									
+									ngmClusterBeneficiaries.setBeneficiariesInputs($scope.project.lists, locationIndex, beneficiariesIndex, b);
+
+									if (!ngmClusterBeneficiaries.form[locationIndex][beneficiariesIndex]['display_activity_detail']) {
+										if(b.activity_detail_name || b.activity_detail_id){
+											b.activity_detail_name = '';
+											b.activity_detail_id = '';
+										}
+									}
 
 									var forFilter = {};
 									var mark = { activity: false, hrp_beneficiary_type_id: false, beneficiary_type_id: false }
@@ -1044,11 +1055,14 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 										// 	delete b.beneficiary_type_id;
 										// }
 
-									var isHRPBeneficiaryTypeStillExist = [];
-									var forFilterHRP = {};
-									forFilterHRP.hrp_beneficiary_type_name = b.hrp_beneficiary_type_name;
-									isHRPBeneficiaryTypeStillExist = $filter('filter')($scope.project.lists.hrp_beneficiary_types, forFilterHRP, true)
-									if (!isHRPBeneficiaryTypeStillExist.length) { delete b.hrp_beneficiary_type_id; mark.hrp_beneficiary_type_id = true;};
+									if (b.hrp_beneficiary_type_id || b.hrp_beneficiary_type_name){										
+										var isHRPBeneficiaryTypeStillExist = [];
+										var forFilterHRP = {};
+										forFilterHRP.hrp_beneficiary_type_name = b.hrp_beneficiary_type_name;
+										isHRPBeneficiaryTypeStillExist = $filter('filter')($scope.project.lists.hrp_beneficiary_types, forFilterHRP, true)
+										if (!isHRPBeneficiaryTypeStillExist.length) { delete b.hrp_beneficiary_type_id; mark.hrp_beneficiary_type_id = true;};
+									}
+									
 									if(!$scope.project.checkActiveActivities(b)) {mark.activity =true};
 									if (Object.keys(mark).length) {
 										if (!$scope.beneficiaryIncorrectActivityChecking[locationIndex]) $scope.beneficiaryIncorrectActivityChecking[locationIndex] = [];
@@ -1059,22 +1073,37 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 									// 		delete b.hrp_beneficiary_type_id;
 									// 	}
 
-
+									
+									
+									// add +1 after done with the copy of beneficiary;
+									copy_counter +=1;
+									
 								});
 
 							});
 
 							// reset form UI layout
 							$timeout(function() {
-								ngmClusterBeneficiaries.setLocationsForm( $scope.project.lists, $scope.project.report.locations );
+								// ngmClusterBeneficiaries.setLocationsForm( $scope.project.lists, $scope.project.report.locations );
+								if (brows > 0 && (copy_counter >0 && copy_counter <= brows)) {
+									copied = copy_counter
+									var msg = "Copied Beneficiaries " + copied + ' rows';
+									typ = 'success';
+								}
+
+								// send message
+								// Materialize.toast( msg, 4000, typ );
+								M.toast({ html: msg, displayLength: 4000, classes: typ });
+								M.toast({ html: info, displayLength: 8000, classes: 'note' });
+								$scope.addBeneficiaryDisable = false;
 							}, 10 );
 
 							$scope.paginated_monthly_locations = $scope.project.report.locations;
 
 							// final message
 							// Materialize.toast( info, 8000, 'note' );
-							M.toast({ html: info, displayLength: 8000, classes: 'note' });
-							$scope.addBeneficiaryDisable = false;
+							// M.toast({ html: info, displayLength: 8000, classes: 'note' });
+							// $scope.addBeneficiaryDisable = false;
 
 						}
 
@@ -1135,9 +1164,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						if (!isActivityStillExist.length){
 							active = false;
 						}
-						if(!active){
-							console.log(isActivityStillExist,active)
-						}
+						
 					}
 					return active
 				},
