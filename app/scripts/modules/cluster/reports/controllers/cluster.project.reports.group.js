@@ -168,6 +168,8 @@ angular.module('ngmReportHub')
 											M.toast({ html: 'Processing...', displayLength: 6000, classes: 'note' });
 										}, 400 );
 
+										//set report_submitted
+										obj.report_submitted = moment().format()
 										// Run page get project
 										ngmData.get({
 											method: 'POST',
