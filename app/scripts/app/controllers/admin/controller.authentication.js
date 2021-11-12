@@ -551,14 +551,22 @@ angular.module('ngm.widget.form.authentication', ['ngm.provider'])
 							}).then( function( result ) {
 
 								// go to password reset page
-								$( '.carousel' ).carousel( 'prev' );
+								if(!result.data.err){
+									$( '.carousel' ).carousel( 'prev' );
+									// user toast msg
+									$timeout(function(){
+										// Materialize.toast($filter('translate')('email_sent_please_check_your_inbox'), 6000, 'success');
+										M.toast({ html: $filter('translate')('email_sent_please_check_your_inbox'), displayLength: 6000, classes: 'success' });
+									}, 400);
+								}else{
+									$scope.panel.err = result.data.err;
 
-								// user toast msg
-								$timeout(function(){
-
-									// Materialize.toast($filter('translate')('email_sent_please_check_your_inbox'), 6000, 'success');
-									M.toast({ html: $filter('translate')('email_sent_please_check_your_inbox'), displayLength: 6000, classes: 'success' });
-								}, 400);
+									// update
+									$timeout(function () {
+										// Materialize.toast( err.msg, 6000, 'error' );
+										M.toast({ html: result.data.msg, displayLength: 6000, classes: 'error' });
+									}, 400);
+								}
 
 							}).catch(function( err ) {
 
