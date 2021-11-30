@@ -59,8 +59,7 @@
     <a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
   </div>  -->
 <div class="modal-footer" style=" padding-top: 1px; padding-right: 1px; height: 0px;">
-  <a class=" modal-action waves-effect waves-green right close-button" style="margin-top:0px"
-    ng-click="upload.closeModal('upload-file-report')">
+  <a class=" modal-action waves-effect waves-green right close-button" style="margin-top:0px">
     <i class="material-icons modal-action modal-close close-uplod-btn">clear</i></a>
 </div>
   <div class="modal-content">
@@ -157,6 +156,17 @@
             <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close"
               href="/report/guide/ReportHub_COVID19_Guide.pdf">
               Download COVID-19 Guide
+            </a>
+          
+          </div>
+
+          <div ng-if="ngm.var4wplusrh === 'REPORTHUB'" style="margin-top:15px;margin-bottom: 35px; text-align: left;">
+            <a class="btn-floating modal-action modal-close" href="/report/guide/ReportHub Winterization Biweekly Guidance.pdf">
+              <i class="material-icons blue"> get_app </i>
+            </a>
+            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close"
+              href="/report/guide/ReportHub_Winterization_Biweekly_Guidance.pdf">
+              Download Winterization &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Biweekly Guide
             </a>
           
           </div>
