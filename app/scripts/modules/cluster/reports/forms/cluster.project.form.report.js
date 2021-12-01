@@ -216,6 +216,35 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					}
 					
 					
+					// for assessed_households field to activate
+					
+					if ($scope.project.definition.project_details && $scope.project.definition.project_details.length && $scope.project.definition.admin0pcode === 'AF'){
+						var winter_index = $scope.project.definition.project_details.findIndex(x => x.project_detail_id === "winterization");
+						$scope.project.isNeedAssessedHouseholds = winter_index > -1 && $scope.project.definition.cluster_id === 'esnfi'? true:false;
+
+						if ($scope.project.isNeedAssessedHouseholds) {
+							var params = {
+								project_id: $route.current.params.project,
+								reporting_period: $scope.project.report.reporting_period
+							}
+							if ($scope.project.report.report_type_id && $scope.project.report.report_type_id === 'bi-weekly') {
+								params.report_type_id = $scope.project.report.report_type_id
+							}
+
+							var reqAssessedHouseholds = {
+								method: 'POST',
+								url: ngmAuth.LOCATION + '/api/cluster/report/getAssessedHouseholds',
+								data: params
+							}
+							ngmData.get(reqAssessedHouseholds).then(function (assessed) {
+								ngmClusterValidation.beneficiariesPreviouseReport = assessed;
+							}).catch(function (err) {
+								
+							})
+						}
+					}else{
+						$scope.project.isNeedAssessedHouseholds = false;
+					}
 				},
 
 				// sets title for each location / activity
@@ -906,7 +935,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 
 				// validate form ( ng wash )
 				validateWashNgBeneficiariesForm: function( complete, display_modal ){
-					if (ngmClusterValidation.validateBeneficiaries($scope.project.report.locations, $scope.detailBeneficiaries, $scope.project.definition.admin0pcode, $scope.project.definition.project_hrp_project)){
+					if (ngmClusterValidation.validateBeneficiaries($scope.project.report.locations, $scope.detailBeneficiaries, $scope.project.definition.admin0pcode, $scope.project.definition.project_hrp_project, false)){
 						if (ngmClusterHelperNgWashValidation.validateActivities($scope.project.report.locations, $scope.detailBeneficiaries)) {
 							if (complete) {
 								// $( '#complete-modal' ).openModal( { dismissible: false } );
@@ -930,7 +959,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 				// validate form ( ng wash )
 				validateBeneficiariesDetailsForm: function( complete, display_modal ){
 					if ($scope.project.checkActiveAllActivities()){
-						if(ngmClusterValidation.validateBeneficiaries($scope.project.report.locations, $scope.detailBeneficiaries, $scope.project.definition.admin0pcode, $scope.project.definition.project_hrp_project)){
+						if (ngmClusterValidation.validateBeneficiaries($scope.project.report.locations, $scope.detailBeneficiaries, $scope.project.definition.admin0pcode, $scope.project.definition.project_hrp_project, $scope.project.isNeedAssessedHouseholds)){
 							if ( complete ) {
 								// $( '#complete-modal' ).openModal( { dismissible: false } );
 								$('#complete-modal').modal({ dismissible: false });
