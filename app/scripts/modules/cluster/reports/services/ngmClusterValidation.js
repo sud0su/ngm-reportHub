@@ -877,13 +877,13 @@ angular.module( 'ngmReportHub' )
 				var c = ngmClusterValidation.project_donor_valid( project );
 				var desc = ngmClusterValidation.projectDescription(project);
 				var d = ngmClusterValidation.targetBeneficiariesValidate(project,detailBeneficiaries);
-				var e = (project.admin0pcode !== 'AF' && project.admin0pcode !== 'ET')  ? ngmClusterValidation.target_locations_valid(project) : ngmClusterValidation.targetLocationsValidate(project,detailLocations);
+				var e = (project.admin0pcode !== 'AF' && project.admin0pcode !== 'ET' && project.admin0pcode !== 'NG')  ? ngmClusterValidation.target_locations_valid(project) : ngmClusterValidation.targetLocationsValidate(project,detailLocations);
 				var f = project.admin0pcode === 'AF' ? ngmClusterValidation.validateLocationGroupingCustom(project): true;
 				// locations invalid!
 				if ( !e ) {
 					$('#ngm-target_locations').addClass('error');
 					scrollDiv = $('#ngm-target_locations');
-					if (project.admin0pcode === 'AF'){
+					if (project.admin0pcode === 'AF' || project.admin0pcode === 'NG'){
 						scrollDiv = $(ngmClusterValidation.targetLocationsValidatelabel[0]);
 					}
 					$('#ngm-target_locations').css({'color':'red'});
@@ -3022,7 +3022,7 @@ angular.module( 'ngmReportHub' )
 			},
 
 			validationTargetLocationFromFile: function (l, i, detail) {
-
+				console.log("masuk pake eko")
 				var validation =[];
 
 				if (!l.admin1pcode) {
