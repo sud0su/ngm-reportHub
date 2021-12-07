@@ -54,7 +54,7 @@ angular.module('ngmReportHub')
 												+'<a class="btn-flat waves-effect waves-teal" href="#/cluster/projects/report/' + $scope.report.project.id +'">'
 													+'<i class="material-icons left">keyboard_return</i>'+$filter('translate')('back_to_project_reports')
 												+'</a>'
-												+'<span class="right" style="padding-top:8px;">'+$filter('translate')('last_updated')+': ' + moment( $scope.report.project.updatedAt ).format( 'DD MMMM, YYYY @ h:mm:ss a' ) +'</span>'
+					+ '<span class="right" style="padding-top:8px;">' + $filter('translate')('last_updated') + ': ' + moment($scope.report.definition.updatedAt ).format( 'DD MMMM, YYYY @ h:mm:ss a' ) +'</span>'
 											+'</div>'
 										+'</div>'
 									+'</div>';
@@ -171,7 +171,7 @@ angular.module('ngmReportHub')
 										}, 400 );
 
 										//set report_submitted
-										obj.report_submitted = moment().format()
+										obj.report_submitted = moment().toISOString()//moment().format()
 										// Run page get project
 										ngmData.get({
 											method: 'POST',

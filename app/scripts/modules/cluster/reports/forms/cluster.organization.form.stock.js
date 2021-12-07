@@ -1636,7 +1636,7 @@ angular.module( 'ngm.widget.organization.stock', [ 'ngm.provider' ])
           $scope.report.report.report_status = complete ? 'complete' : 'todo';
 
           // time submitted
-          $scope.report.report.report_submitted = moment().format();
+          $scope.report.report.report_submitted = moment().toISOString();//moment().format();
 
           // msg
           // Materialize.toast( $filter('translate')('processing_stock_report') , 6000, 'note');

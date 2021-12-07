@@ -245,7 +245,7 @@ border-radius: 4px;
                     {{ row.updatedAt | date:'medium' }}
 				</td> -->
 				<td data-title="'Last Login'" sortable="'last_logged_in'" ng-click="table.onClick(row)">
-					{{ row.last_logged_in | date:'medium' }}
+					{{ table.formatDate(row.last_logged_in) | date:'medium' }}
 				</td>
 				<td data-title="'goto'|translate">
 					<a ng-href="#/profile/{{row.username}}" target="_blank" ng-style="($root.rtl) && { 'margin-right':'-70px' } || { 'margin-left':'-70px' }">

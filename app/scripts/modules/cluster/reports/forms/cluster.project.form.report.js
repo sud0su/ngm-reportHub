@@ -2290,7 +2290,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					// report
 					// $scope.project.report.submit = true;
 					$scope.project.report.report_status = complete ? 'complete' : 'todo';
-					$scope.project.report.report_submitted = moment().format();
+					$scope.project.report.report_submitted = moment().toISOString();//moment().format();
 					// set validation to null after click button edit report
 					if(!complete){
 						if ($scope.project.report.report_validation){
