@@ -171,7 +171,7 @@ angular.module('ngmReportHub')
 										}, 400 );
 
 										//set report_submitted
-										obj.report_submitted = moment().format()
+										obj.report_submitted = moment().toISOString()//moment().format()
 										// Run page get project
 										ngmData.get({
 											method: 'POST',
