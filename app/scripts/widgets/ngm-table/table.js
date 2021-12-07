@@ -80,6 +80,9 @@ angular.module('ngm.widget.table', ['ngm.provider'])
           }
           return moment.utc(row.reporting_period).format('MMMM');
         },
+        formatDate:function(date){
+          return moment(date).format();
+        },
 
         // on row click
         rowClick: function( newTab, href ){
