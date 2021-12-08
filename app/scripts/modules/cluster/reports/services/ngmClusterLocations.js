@@ -260,6 +260,12 @@ angular.module( 'ngmReportHub' )
               var selected_sites = $filter('filter')( lists.adminSites, { admin1pcode: target_location.admin1pcode }, true );
               if ( !selected_sites.length ){
                 lists.adminSites = lists.adminSites.concat( result.data );
+                if(init){
+                  var obj_siteadmin = { admin1pcode: target_location.admin1pcode};
+                  obj_siteadmin[pcode] = target_location[pcode];
+                  ngmClusterLocations.adminSitesSelect[$index] = $filter('filter')(lists.adminSites, obj_siteadmin,true);
+                  lists.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index];
+                }
                 ngmClusterLocations.adminOnChange( lists, pcode, $index, $data, target_location, init );
               }
             });
