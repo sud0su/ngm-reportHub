@@ -328,6 +328,17 @@ angular.module( 'ngmReportHub' )
 
 				// calculate location totals
 				ngmClusterHelperNgWash.setActivityBeneficiaries( ngmClusterHelperNgWash.project.report.locations );
+				if (ngmClusterHelperNgWash.beneficiary[ngmClusterHelperNgWash.association] && !ngmClusterHelperNgWash.beneficiary[ngmClusterHelperNgWash.association].length){
+					ngmClusterHelperNgWash.beneficiary.households = 0
+					ngmClusterHelperNgWash.beneficiary.boys = 0
+					ngmClusterHelperNgWash.beneficiary.girls = 0
+					ngmClusterHelperNgWash.beneficiary.men = 0
+					ngmClusterHelperNgWash.beneficiary.women = 0
+					ngmClusterHelperNgWash.beneficiary.elderly_men = 0
+					ngmClusterHelperNgWash.beneficiary.elderly_women = 0
+					ngmClusterHelperNgWash.beneficiary.total_beneficiaries = 0
+				}
+				
 
 				// update db if id exists (stored in db)
 				if ( id ) {
