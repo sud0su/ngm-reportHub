@@ -671,6 +671,9 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						if (!$scope.project.report.locations[$parent].beneficiaries[$index].id) {
 							$scope.project.report.locations[$parent].beneficiaries.splice($index, 1);
 							$scope.project.activePrevReportButton();
+							if (ngmClusterHelperNgWashLists.details && ngmClusterHelperNgWashLists.details[$parent] && ngmClusterHelperNgWashLists.details[$parent][$index]) {
+								ngmClusterHelperNgWashLists.details[$parent].splice($index, 1);
+							}
 						} else{
 							if ( ngmClusterBeneficiaries.beneficiaryFormComplete( $scope.project.definition, $scope.project.report.locations ) ){
 									$scope.project.locationIndex = $parent;
@@ -690,6 +693,9 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					// ngmClusterBeneficiaries.updateSelectById('ngm-' + $scope.project.locationIndex);
 					$scope.project.activePrevReportButton();
 					ngmClusterBeneficiaries.removeBeneficiary( $scope.project, id );
+					if (ngmClusterHelperNgWashLists.details && ngmClusterHelperNgWashLists.details[$scope.project.locationIndex] && ngmClusterHelperNgWashLists.details[$scope.project.locationIndex][$scope.project.beneficiaryIndex]) {
+						ngmClusterHelperNgWashLists.details[$scope.project.locationIndex].splice($scope.project.beneficiaryIndex, 1);
+					}
 				},
 
 
@@ -929,6 +935,10 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 					if ( !$scope.project.report.locations[ $parent ].beneficiaries[ $index ].id ) {
 					 $scope.project.report.locations[ $parent ].beneficiaries.splice( $index, 1 );
 					 ngmClusterBeneficiaries.form[ $parent ].splice( $index, 1 );
+					//  remove details list if exists
+						if (ngmClusterHelperNgWashLists.details[$parent] && ngmClusterHelperNgWashLists.details[$parent][$index]){
+							ngmClusterHelperNgWashLists.details[$parent].splice($index, 1);
+						}
 					//  ngmClusterBeneficiaries.updateSelectById('ngm-' + $parent);
 					}
 				},
