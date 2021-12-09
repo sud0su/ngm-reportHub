@@ -87,6 +87,7 @@ angular.module( 'ngmReportHub' )
             l.site_lat = null;
             l.site_lng = null;
           }
+          inserted.site_list_select_disabled = false;
           inserted = angular.merge( inserted, l );
 				}
 				if (project.implementing_partners.length > 0 && length < 1) {
