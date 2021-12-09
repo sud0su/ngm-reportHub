@@ -199,7 +199,7 @@
 				<!-- add maintenance_repair_kits_provision_to_washcoms details -->
 				<div ng-if="beneficiary.activity_detail_id === 'maintenance_repair_replacement_water_systems'">
 					<button class="btn blue lighten-2"
-									ng-if="maintenance.details.length !== ngmClusterHelperNgWashLists.lists.ops_maintenance_details.length"
+									ng-if="maintenance.details.length !== ngmClusterHelperNgWashLists.lists.ops_maintenance_details.length || project.report.report_status === 'complete'"
 									ng-show="project.report.report_status !== 'complete'"
 									ng-click=" 
 												ngmClusterHelperNgWash.init_material_select();
@@ -217,7 +217,7 @@
 	<!-- add new maintenance -->
 	<button class="btn blue" 
 					ng-show="project.report.report_status !== 'complete'"
-					ng-hide="beneficiary.water.length === 1" 
+					ng-hide="beneficiary.water.length === 1 || project.report.report_status === 'complete'" 
 					ng-click="ngmClusterHelperNgWash.init_material_select();
 											ngmClusterHelperNgWash.addActivity( project.report.locations, location, beneficiary, 'water' )">
 		<i class="material-icons left">add</i>Add Ops & Maintenance

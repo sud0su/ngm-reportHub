@@ -428,7 +428,7 @@
 						ng-if="beneficiary.activity_detail_id === 'latrine_monitoring'">
 				<!-- add details -->
 				<button class="btn blue lighten-2"
-								ng-if="latrine.details.length !== ngmClusterHelperNgWashLists.lists.latrine_monitoring_details.length"
+								ng-if="latrine.details.length !== ngmClusterHelperNgWashLists.lists.latrine_monitoring_details.length || project.report.report_status === 'complete'"
 								ng-show="project.report.report_status !== 'complete'"
 								ng-click=" 
 											ngmClusterHelperNgWash.init_material_select();
@@ -444,7 +444,7 @@
 	<!-- add new latrine -->
 	<button class="btn blue" 
 					ng-show="project.report.report_status !== 'complete'"
-					ng-hide="beneficiary.sanitation.length === 1" 
+					ng-hide="beneficiary.sanitation.length === 1 || project.report.report_status === 'complete'" 
 					ng-click="ngmClusterHelperNgWash.init_material_select();
 											ngmClusterHelperNgWash.addActivity( project.report.locations, location, beneficiary, 'sanitation' )">
 		<i class="material-icons left">add</i>Add Latrine Details

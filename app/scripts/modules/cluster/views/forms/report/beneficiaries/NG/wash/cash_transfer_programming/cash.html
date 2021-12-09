@@ -122,7 +122,7 @@
 	<!-- add new CTP  -->
 	<button class="btn blue" 
 					ng-show="project.report.report_status !== 'complete'"
-					ng-hide="beneficiary.cash.length === 1" 
+					ng-hide="beneficiary.cash.length === 1 || project.report.report_status === 'complete'" 
 					ng-click="ngmClusterHelperNgWash.init_material_select();
 											ngmClusterHelperNgWash.addActivity( project.report.locations, location, beneficiary, 'cash' )">
 		<i class="material-icons left">add</i>Add CTP Details
