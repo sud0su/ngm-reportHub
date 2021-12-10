@@ -86,6 +86,14 @@ angular.module('ngmReportHub')
 
 				// add project code to subtitle?
 				var text = $filter('translate')('actual_monthly_beneficiaries_report_for')+' ' + $scope.report.project.project_title
+				var donwload_hover_title_report = $filter('translate')('download_monthly_reports_as_csv')
+				if ($scope.report.project.report_type_id === 'bi-weekly') {
+					var number_date_of_reporting_period = moment.utc($scope.report.definition.reporting_period).format('D')
+					var biweeekly_period = (number_date_of_reporting_period <= 15 ? 'Biweekly Period 1' : 'Biweekly Period 2');
+					text = 'Actual Bi-weekly Report for' + ' ' + moment.utc($scope.report.definition.reporting_period).format('MMMM, YYYY') + ' ' + biweeekly_period;
+					donwload_hover_title_report = 'Download ' + moment.utc($scope.report.definition.reporting_period).format('MMMM, YYYY') + ' ' + biweeekly_period + ' Activity Report as CSV';
+					$scope.report.report = (moment.utc($scope.report.definition.reporting_period).format('MMMM YYYY') + '_' + biweeekly_period).replace(/\ /g, '_').toLowerCase() + '_' + $filter('limitTo')($scope.report.project.project_title.replace(/\ /g, '_'), 180) + '_extracted-' + moment().format('YYYY-MM-DDTHHmm');
+				};
 				var subtitle = $scope.report.project.project_code ?  $scope.report.project.project_code + ' - ' + text : text;
 				var nonProjectDates = moment.utc($scope.report.project.project_start_date).startOf('month') > moment.utc($scope.report.definition.reporting_period).startOf('month')
 													 		|| moment.utc($scope.report.project.project_end_date).endOf('month')	< moment.utc($scope.report.definition.reporting_period).startOf('month');
@@ -115,14 +123,22 @@ angular.module('ngmReportHub')
 								type: 'csv',
 								color: 'blue lighten-2',
 								icon: 'assignment',
-								hover: $filter('translate')('download_monthly_reports_as_csv'),
+								hover: donwload_hover_title_report,//$filter('translate')('download_monthly_reports_as_csv'),
 								request: {
 									method: 'POST',
-									url: ngmAuth.LOCATION + '/api/health/indicator',
+									// url: ngmAuth.LOCATION + '/api/health/indicator',
+									// data: {
+									// 	report: 'projects_' + $scope.report.report,
+									// 	details: 'projects',
+									// 	project_id: $scope.report.project.id
+									// }
+									url: ngmAuth.LOCATION + '/api/cluster/report/getReportCsv',
 									data: {
-										report: 'projects_' + $scope.report.report,
-										details: 'projects',
-										project_id: $scope.report.project.id
+										report: $scope.report.report,
+										report_type: 'activity',
+										report_id: $scope.report.definition.id,
+										project_cluster_id: $scope.report.project.cluster_id,
+										project_admin0pcode: $scope.report.project.admin0pcode
 									}
 								},
 								metrics: {
