@@ -87,6 +87,7 @@ angular.module( 'ngmReportHub' )
             l.site_lat = null;
             l.site_lng = null;
           }
+          inserted.site_list_select_disabled = false;
           inserted = angular.merge( inserted, l );
 				}
 				if (project.implementing_partners.length > 0 && length < 1) {
@@ -260,7 +261,20 @@ angular.module( 'ngmReportHub' )
               var selected_sites = $filter('filter')( lists.adminSites, { admin1pcode: target_location.admin1pcode }, true );
               if ( !selected_sites.length ){
                 lists.adminSites = lists.adminSites.concat( result.data );
+                if(init){
+                  var obj_siteadmin = { admin1pcode: target_location.admin1pcode};
+                  obj_siteadmin[pcode] = target_location[pcode];
+                  ngmClusterLocations.adminSitesSelect[$index] = $filter('filter')(lists.adminSites, obj_siteadmin,true);
+                  lists.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index];
+                }
                 ngmClusterLocations.adminOnChange( lists, pcode, $index, $data, target_location, init );
+              }else{ 
+                  if(init){
+                    var obj_siteadmin = { admin1pcode: target_location.admin1pcode };
+                    obj_siteadmin[pcode] = target_location[pcode];
+                    ngmClusterLocations.adminSitesSelect[$index] = $filter('filter')(lists.adminSites, obj_siteadmin, true);
+                    lists.adminSitesSelect[$index] = ngmClusterLocations.adminSitesSelect[$index];
+                }
               }
             });
           }
@@ -562,9 +576,36 @@ angular.module( 'ngmReportHub' )
           // sites
           var selected = [];
 
+          // site
+          delete location.site_id;
+          delete location.site_name;
+          delete location.site_lng;
+          delete location.site_lat;
+
           // disabled false
           if (location.site_list_select_id && location.site_list_select_id === 'yes') {
             location.site_list_select_disabled = false;
+          }
+
+          if (location.site_list_select_id && location.site_list_select_id === 'no'){
+            delete location.site_class
+            delete location.site_population
+            delete location.site_households
+            delete location.households
+            delete location.boys
+            delete location.girls
+            delete location.men
+            delete location.women
+            delete location.elderly_men
+            delete location.elderly_women
+            delete location.total_beneficiaries
+            delete location.site_boys
+            delete location.site_girls
+            delete location.site_men
+            delete location.site_women
+            delete location.site_elderly_men
+            delete location.site_elderly_women
+            delete location.site_status
           }
 
           if (location.site_list_select_id) {

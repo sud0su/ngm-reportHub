@@ -191,7 +191,7 @@
 	<!-- add new accountability  -->
 	<button class="btn blue" 
 					ng-show="project.report.report_status !== 'complete'"
-					ng-hide="beneficiary.accountability.length === 1" 
+					ng-hide="beneficiary.accountability.length === 1 || project.report.report_status === 'complete'" 
 					ng-click="ngmClusterHelperNgWash.init_material_select();
 											ngmClusterHelperNgWash.addActivity( project.report.locations, location, beneficiary, 'accountability' )">
 		<i class="material-icons left">add</i>Add Accountability Details

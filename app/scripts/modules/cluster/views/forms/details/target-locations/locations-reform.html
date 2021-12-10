@@ -442,7 +442,7 @@
 
                             <!-- admin1, admin2 -->
                             <div class="row"
-                                ng-if="!project.lists.admin3.length && !project.lists.admin4.length && !project.lists.admin5.length">
+                                ng-if="(!project.lists.admin3.length && !project.lists.admin4.length && !project.lists.admin5.length) || (project.lists.admin3Select[$index] && !project.lists.admin3Select[$index].length)">
 
                                 <!-- admin1type_name -->
                                 <div class="input-field col s12 m6">
@@ -479,7 +479,7 @@
 
                             <!-- admin1,admin2, admin3 -->
                             <div class="row"
-                                ng-if="project.lists.admin3.length && !project.lists.admin4.length && !project.lists.admin5.length">
+                                ng-if="project.lists.admin3.length && ngmClusterLocations.admin3Select[ $index ] && ngmClusterLocations.admin3Select[ $index ].length && !project.lists.admin4.length && !project.lists.admin5.length">
 
                                 <!-- admin1type_name -->
                                 <div class="input-field col s12 m4">
@@ -531,7 +531,7 @@
 
                             <!-- admin1,admin2,admin3, admin4 -->
                             <div class="row"
-                                ng-if="project.lists.admin3.length && project.lists.admin4.length && !project.lists.admin5.length">
+                                ng-if="project.lists.admin3.length && ngmClusterLocations.admin3Select[ $index ] && ngmClusterLocations.admin3Select[ $index ].length && project.lists.admin4.length && ngmClusterLocations.admin4Select[ $index ] && ngmClusterLocations.admin4Select[ $index ].length&& !project.lists.admin5.length">
 
                                 <!-- admin1type_name -->
                                 <div class="input-field col s12 m3">
@@ -598,7 +598,7 @@
 
                             <!-- admin1, admin2, admin3, admin4, admin5 -->
                             <div class="row"
-                                ng-if="project.lists.admin3.length && project.lists.admin4.length && project.lists.admin5.length">
+                                ng-if="project.lists.admin3.length && ngmClusterLocations.admin3Select[ $index ] && ngmClusterLocations.admin3Select[ $index ].length && project.lists.admin4.length && ngmClusterLocations.admin4Select[ $index ] && ngmClusterLocations.admin4Select[ $index ].length && project.lists.admin5.length && ngmClusterLocations.admin5Select[ $index ] && ngmClusterLocations.admin5Select[ $index ].length">
 
                                 <!-- admin1type_name -->
                                 <div class="input-field col s12 m2">
@@ -713,7 +713,7 @@
 
                                 <!-- site name -->
                                 <div class="input-field col s12 m10" ng-if="location.site_list_select_id === 'yes'">
-                                    <select materialize-select watch id="ngm-site_name-{{ $index }}"
+                                    <select materialize-select watch watch-model id="ngm-site_name-{{ $index }}"
                                         name="ngm-site_name-{{ $index }}" class="validate"
                                         ng-model="location.site_id"
 

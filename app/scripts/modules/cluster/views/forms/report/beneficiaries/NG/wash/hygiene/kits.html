@@ -161,7 +161,7 @@
 	<button class="btn blue"
 					ng-if="beneficiary.activity_detail_id !== 'post_distribution_monitoring'"
 					ng-show="project.report.report_status !== 'complete'"
-					ng-hide="beneficiary.hygiene.length === 1"
+					ng-hide="beneficiary.hygiene.length === 1 || project.report.report_status === 'complete'"
 					ng-click=" 
 											ngmClusterHelperNgWash.init_material_select();
 											ngmClusterHelperNgWash.addActivity( project.report.locations, location, beneficiary, 'hygiene' )">
@@ -172,7 +172,7 @@
 	<button class="btn blue"
 					ng-if="beneficiary.activity_detail_id === 'post_distribution_monitoring'"
 					ng-show="project.report.report_status !== 'complete'"
-					ng-hide="beneficiary.hygiene.length === 1"
+					ng-hide="beneficiary.hygiene.length === 1 || project.report.report_status === 'complete'"
 					ng-click="ngmClusterHelperNgWash.init_material_select();
 											ngmClusterHelperNgWash.addActivity( project.report.locations, location, beneficiary, 'hygiene' )">
 		<i class="material-icons left">add</i>Add Hygiene Monitoring Details

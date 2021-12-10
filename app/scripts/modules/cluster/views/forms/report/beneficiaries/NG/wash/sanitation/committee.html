@@ -234,7 +234,7 @@
 			<!-- add details -->
 			<button class="btn blue lighten-2"
 							ng-show="project.report.report_status !== 'complete'"
-							ng-hide="committee.details.length === ngmClusterHelperNgWashLists.lists.sanitation_committee_duties.length"
+							ng-hide="committee.details.length === ngmClusterHelperNgWashLists.lists.sanitation_committee_duties.length || project.report.report_status === 'complete'"
 							ng-click=" 
 										ngmClusterHelperNgWash.init_material_select();
 										ngmClusterHelperNgWash.addDetails( committee, {} );">
@@ -247,7 +247,7 @@
 	<!-- add new committee -->
 	<button class="btn blue" 
 					ng-show="project.report.report_status !== 'complete'"
-					ng-hide="beneficiary.sanitation.length === 1" 
+					ng-hide="beneficiary.sanitation.length === 1 || project.report.report_status === 'complete'" 
 					ng-click="ngmClusterHelperNgWash.init_material_select();
 											ngmClusterHelperNgWash.addActivity( project.report.locations, location, beneficiary, 'sanitation' )">
 		<i class="material-icons left">add</i>Add Committee Details
