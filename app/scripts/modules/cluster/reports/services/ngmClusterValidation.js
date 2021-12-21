@@ -584,7 +584,7 @@ angular.module( 'ngmReportHub' )
 						complete = false;
 					}
 				}
-				
+
 				if (ngmClusterBeneficiaries.form[0][i] && ngmClusterBeneficiaries.form[0][i]['households'] && project.isNeedAssessedHouseholds && (b.assessed_households === null || b.assessed_households === undefined || b.assessed_households === NaN || b.assessed_households < assessed_households_minimum || b.assessed_households === '')) {
 					id = "label[for='" + 'ngm-assessed_households-' + i + "']";
 					$(id).addClass('error');
@@ -1087,10 +1087,10 @@ angular.module( 'ngmReportHub' )
 					var _targetLocationReference = ngmClusterValidation.targetReferencelocationlist[_indexTargetLocationReference].target_location_reference_id;
 					//var _indexbeneficiaries = ngmClusterValidation.beneficiariesPreviouseReport.findIndex(x => x.target_location_reference_id === _targetLocationReference);
 					// prev_beneficiary = $filter('filter')(ngmClusterValidation.beneficiariesPreviouseReport[_indexbeneficiaries].beneficiaries, { target_location_reference_id: _targetLocationReference, activity_type_id: b.activity_type_id, activity_description_id: b.activity_description_id, activity_detail_id: b.activity_detail_id, indicator_id: b.indicator_id, beneficiary_type_id: b.beneficiary_type_id, beneficiary_category_id: b.beneficiary_category_id }, true)
-					
+
 					// var prev_beneficiary = $filter('filter')(ngmClusterValidation.beneficiariesPreviouseReport, { target_location_reference_id: _targetLocationReference, activity_type_id: b.activity_type_id, activity_description_id: b.activity_description_id, activity_detail_id: b.activity_detail_id, indicator_id: b.indicator_id, beneficiary_type_id: b.beneficiary_type_id, beneficiary_category_id: b.beneficiary_category_id }, true)
 					// var _findBeneficiary = { target_location_reference_id: _targetLocationReference, activity_type_id: b.activity_type_id, activity_description_id: b.activity_description_id, activity_detail_id: b.activity_detail_id, indicator_id: b.indicator_id, beneficiary_type_id: b.beneficiary_type_id, beneficiary_category_id: b.beneficiary_category_id };
-					
+
 					// without location involved and only activity is checked
 					var _findBeneficiary = { activity_type_id: b.activity_type_id, activity_description_id: b.activity_description_id, activity_detail_id: b.activity_detail_id, indicator_id: b.indicator_id};
 					// check if hrp beneficiary type is active
@@ -1105,10 +1105,11 @@ angular.module( 'ngmReportHub' )
 							prev_beneficiary = $filter('orderBy')(prev_beneficiary, ['report_year', 'report_month','reporting_period','assessed_households'],true)
 						}
 					}
-					
-					assessed_households_minimum = prev_beneficiary.length ? (prev_beneficiary[0].assessed_households ? prev_beneficiary[0].assessed_households:0 ) : 0;
+
+					// assessed_households_minimum = prev_beneficiary.length ? (prev_beneficiary[0].assessed_households ? prev_beneficiary[0].assessed_households:0 ) : 0;
+					assessed_households_minimum = 0;
 				}
-				
+
 
 				// DEFAULT
 				if (!b.activity_type_id) {
@@ -1295,9 +1296,9 @@ angular.module( 'ngmReportHub' )
 						complete = false;
 					}
 				}
-				
+
 				if (ngmClusterBeneficiaries.form[i] && (ngmClusterBeneficiaries.form[i][j] && ngmClusterBeneficiaries.form[i][j]['households'] && assessed_households && (b.assessed_households === null || b.assessed_households === undefined || b.assessed_households === NaN || b.assessed_households < assessed_households_minimum || b.assessed_households === ''))) {
-					id = "label[for='" + 'ngm-assessed_households-' + i + '-' + j + "']";					
+					id = "label[for='" + 'ngm-assessed_households-' + i + '-' + j + "']";
 					$(id).addClass('error');
 					$(id).text("Assessed Households (Assessed households >= "+assessed_households_minimum+")")
 					validation.divs.push(id);
