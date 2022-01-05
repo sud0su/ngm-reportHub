@@ -77,7 +77,7 @@ angular.module('ngmReportHub')
 				$scope.report.definition = data[1].data;
 
 				// set report for downloads
-				$scope.report.report = moment($scope.report.reporting_period).format('MMMM YYYY').replace(/\ /g, '_').toLowerCase() + '_' + $filter('limitTo')($scope.report.project.project_title.replace(/\ /g, '_'), 180) + '_extracted-' + moment().format( 'YYYY-MM-DDTHHmm' );
+				$scope.report.report = moment($scope.report.definition.reporting_period).format('MMMM YYYY').replace(/\ /g, '_').toLowerCase() + '_' + $filter('limitTo')($scope.report.project.project_title.replace(/\ /g, '_'), 180) + '_extracted-' + moment().format( 'YYYY-MM-DDTHHmm' );
 				var donwload_hover_title_report = $filter('translate')('download_monthly_activity_report_as_csv')
 
 				// project title
@@ -104,6 +104,8 @@ angular.module('ngmReportHub')
 					$scope.report.report = (moment.utc($scope.report.definition.reporting_period).format('MMMM YYYY') + '_' + biweeekly_period).replace(/\ /g, '_').toLowerCase()+'_'+ $filter('limitTo')($scope.report.project.project_title.replace(/\ /g, '_'), 180) + '_extracted-' + moment().format('YYYY-MM-DDTHHmm');
 				};
 				var subtitle = $scope.report.project.project_code ?  $scope.report.project.project_code + ' - ' + text : text;
+
+				
 
 				// report dashboard model
 				$scope.model = {

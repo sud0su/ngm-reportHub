@@ -488,6 +488,23 @@ angular.module( 'ngmReportHub' )
                 beneficiary.hrp_beneficiary_type_name ='';
               }
             }
+            // re-calculate total beneficiaries and total amount and total female, total male
+            if (beneficiary.boys_0_5 >0 ||
+              beneficiary.boys_0_12 >0 ||
+              beneficiary.boys_6_11 >0 ||
+              beneficiary.boys_6_12 >0 ||
+              beneficiary.boys_12_17 >0 ||
+              beneficiary.boys_13_17>0 ||
+              beneficiary.girls_0_5 > 0||
+              beneficiary.girls_0_12 > 0||
+              beneficiary.girls_6_11 > 0||
+              beneficiary.girls_6_12 > 0||
+              beneficiary.girls_12_17 > 0||
+              beneficiary.girls_13_17> 0){
+                beneficiary = ngmClusterHelper.updateBeneficiairesBreakdown(beneficiary);
+              }else{
+              beneficiary = ngmClusterHelper.updateBeneficiaires(beneficiary);
+              }
           });
 
         });
@@ -790,7 +807,68 @@ angular.module( 'ngmReportHub' )
 
        template = angular.merge({},template,project);
        return template;
-      }
+      },
+      // sum for totals (age groups)
+      updateBeneficiairesBreakdown: function (beneficiary) {
+        // set
+        
+          beneficiary.boys = 0;
+          beneficiary.girls = 0;
+
+          // calc
+          beneficiary.boys += beneficiary.boys_0_5 +
+            beneficiary.boys_0_12 +
+            beneficiary.boys_6_11 +
+            beneficiary.boys_6_12 +
+            beneficiary.boys_12_17 +
+            beneficiary.boys_13_17;
+          beneficiary.girls += beneficiary.girls_0_5 +
+            beneficiary.girls_0_12 +
+            beneficiary.girls_6_11 +
+            beneficiary.girls_6_12 +
+            beneficiary.girls_12_17 +
+            beneficiary.girls_13_17;
+          // calc totals
+          beneficiary = ngmClusterHelper.updateBeneficiaires(beneficiary);
+          return beneficiary;
+      },
+
+      // sum for totals
+      updateBeneficiaires: function (beneficiary) {
+        // set
+          beneficiary.total_male = 0;
+          beneficiary.total_female = 0;
+          beneficiary.total_beneficiaries = 0;
+
+          beneficiary.total_male += ((beneficiary.boys === null || beneficiary.boys === undefined || beneficiary.boys === NaN || beneficiary.boys < 0 || beneficiary.boys === '') ? 0 : beneficiary.boys) +
+            ((beneficiary.men === null || beneficiary.men === undefined || beneficiary.men === NaN || beneficiary.men < 0 || beneficiary.men === '') ? 0 : beneficiary.men) +
+            ((beneficiary.elderly_men === null || beneficiary.elderly_men === undefined || beneficiary.elderly_men === NaN || beneficiary.elderly_men < 0 || beneficiary.elderly_men === '') ? 0 : beneficiary.elderly_men);
+
+          beneficiary.total_female += ((beneficiary.girls === null || beneficiary.girls === undefined || beneficiary.girls === NaN || beneficiary.girls < 0 || beneficiary.girls === '') ? 0 : beneficiary.girls) +
+            ((beneficiary.women === null || beneficiary.women === undefined || beneficiary.women === NaN || beneficiary.women < 0 || beneficiary.women === '') ? 0 : beneficiary.women) +
+            ((beneficiary.elderly_women === null || beneficiary.elderly_women === undefined || beneficiary.elderly_women === NaN || beneficiary.elderly_women < 0 || beneficiary.elderly_women === '') ? 0 : beneficiary.elderly_women);
+
+          beneficiary.total_beneficiaries += beneficiary.total_male + beneficiary.total_female;
+          beneficiary = ngmClusterHelper.updateTotalTransferedAmount(beneficiary);
+          return beneficiary
+
+      },
+      updateTotalTransferedAmount: function (beneficiary) {
+       
+          beneficiary.total_amount = 0;
+          var units = (beneficiary.units === null || beneficiary.units === undefined || beneficiary.units === NaN || beneficiary.units < 0 || beneficiary.units === '') ? 0 : beneficiary.units;
+          var transfers_value = (beneficiary.transfer_type_value === null || beneficiary.transfer_type_value === undefined || beneficiary.transfer_type_value === NaN || beneficiary.transfer_type_value < 0 || beneficiary.transfer_type_value === '') ? 0 : beneficiary.transfer_type_value;
+          var hh = (beneficiary.households === null || beneficiary.households === undefined || beneficiary.households === NaN || beneficiary.households < 0 || beneficiary.households === '') ? 0 : beneficiary.households;
+          var total_beneficiaries = (beneficiary.total_beneficiaries === null || beneficiary.total_beneficiaries === undefined || beneficiary.total_beneficiaries === NaN || beneficiary.total_beneficiaries < 0 || beneficiary.total_beneficiaries === '') ? 0 : beneficiary.total_beneficiaries;
+          if (beneficiary.transfer_category_id === 'individual') {
+            beneficiary.total_amount = units * transfers_value * total_beneficiaries;
+          } else {
+            beneficiary.total_amount = units * transfers_value * hh;
+          }
+
+          return beneficiary
+
+      },
 
 		};
 
