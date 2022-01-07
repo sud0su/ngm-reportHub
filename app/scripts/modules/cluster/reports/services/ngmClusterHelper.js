@@ -488,23 +488,25 @@ angular.module( 'ngmReportHub' )
                 beneficiary.hrp_beneficiary_type_name ='';
               }
             }
-            // re-calculate total beneficiaries and total amount and total female, total male
-            if (beneficiary.boys_0_5 >0 ||
-              beneficiary.boys_0_12 >0 ||
-              beneficiary.boys_6_11 >0 ||
-              beneficiary.boys_6_12 >0 ||
-              beneficiary.boys_12_17 >0 ||
-              beneficiary.boys_13_17>0 ||
-              beneficiary.girls_0_5 > 0||
-              beneficiary.girls_0_12 > 0||
-              beneficiary.girls_6_11 > 0||
-              beneficiary.girls_6_12 > 0||
-              beneficiary.girls_12_17 > 0||
-              beneficiary.girls_13_17> 0){
+            // re-calculate total beneficiaries and total amount and total female, total male except NG or CB
+            if(project.admin0pcode !== 'NG' && project.admin0pcode !== 'CB'){
+              if (beneficiary.boys_0_5 > 0 ||
+                beneficiary.boys_0_12 > 0 ||
+                beneficiary.boys_6_11 > 0 ||
+                beneficiary.boys_6_12 > 0 ||
+                beneficiary.boys_12_17 > 0 ||
+                beneficiary.boys_13_17 > 0 ||
+                beneficiary.girls_0_5 > 0 ||
+                beneficiary.girls_0_12 > 0 ||
+                beneficiary.girls_6_11 > 0 ||
+                beneficiary.girls_6_12 > 0 ||
+                beneficiary.girls_12_17 > 0 ||
+                beneficiary.girls_13_17 > 0) {
                 beneficiary = ngmClusterHelper.updateBeneficiairesBreakdown(beneficiary);
-              }else{
-              beneficiary = ngmClusterHelper.updateBeneficiaires(beneficiary);
+              } else {
+                beneficiary = ngmClusterHelper.updateBeneficiaires(beneficiary);
               }
+            }
           });
 
         });
