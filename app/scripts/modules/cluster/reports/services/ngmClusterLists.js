@@ -8841,9 +8841,11 @@ angular.module( 'ngmReportHub' )
 				// eiewg
 				if ( cluster_id === 'eiewg' ) {
 					site_implementation = [{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_implementation_name: 'Formal'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'informal',
 						site_implementation_name: 'Informal'
 					}];
@@ -8920,15 +8922,19 @@ angular.module( 'ngmReportHub' )
 				// COL
 				else if( admin0pcode === 'COL' ){
 					site_implementation = [{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_implementation_id: 'apoyo_comunitario',
 						site_implementation_name: 'Apoyo Comunitario'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_implementation_id: 'apoyo_institucional',
 						site_implementation_name: 'Apoyo Institucional'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_implementation_id: 'apoyo_individual_familiar',
 						site_implementation_name: 'Apoyo Individual/Familiar'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_implementation_id: 'otro',
 						site_implementation_name: 'Otro'
 					}];
@@ -8947,22 +8953,27 @@ angular.module( 'ngmReportHub' )
 				else if (admin0pcode === 'NG' && cluster_id === 'gbv' ){
 					site_implementation = [
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'women_and_girl_friendly_space/empowerment_centre/integrated_centre',
 							site_implementation_name: 'Women and Girl Friendly Space/Empowerment Centre/Integrated Centre'
 						},
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'one_stop_centre/SARC_(Sexual_Assualt_Referral_Centre)',
 							site_implementation_name: 'One Stop Centre/SARC (Sexual Assualt Referral Centre)'
 						},
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'child_friendly_space',
 							site_implementation_name: 'Child Friendly Space'
 						},
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'school/education_or_learning_facility',
 							site_implementation_name: 'School/Education or Learning Facility'
 						},
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'non_facility_based',
 							site_implementation_name: 'Non-Facility Based'
 						}
@@ -9369,30 +9380,37 @@ angular.module( 'ngmReportHub' )
 				// eiewg
 				if ( cluster_id === 'eiewg' ) {
 					site_types = [{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'higher',
 						site_type_name: 'Higher'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'secondary',
 						site_type_name: 'Secondary'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'primary',
 						site_type_name: 'Primary'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'ECD',
 						site_type_name: 'ECD'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'TC',
 						site_type_name: 'TC'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'informal',
 						site_type_id: 'ALC',
 						site_type_name: 'ALC'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'informal',
 						site_type_id: 'CBS',
 						site_type_name: 'CBS'
@@ -9509,21 +9527,27 @@ angular.module( 'ngmReportHub' )
 				// ng
 				if ( admin0pcode === 'PHL' ) {
 					site_types = [{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'national',
 						site_type_name: 'National'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'regional',
 						site_type_name: 'Regional'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'multiple_sites',
 						site_type_name: 'Multiple Sites'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'host_community',
 						site_type_name: 'Host Community'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'settlement',
 						site_type_name: 'Settlement'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'health_facility',
 						site_type_name: 'Health Facility'
 					}];
@@ -9568,10 +9592,12 @@ angular.module( 'ngmReportHub' )
 					// after 2021
 					site_types = [
 						{
+							cluster_id: ngmClusterLists.all_sectors,
 							"site_type_id": "settlement",
 							"site_type_name": "Settlement"
 						},
 						{
+							cluster_id: ngmClusterLists.all_sectors,
 							"site_type_id": "idp_settlement",
 							"site_type_name": "IDP Settlement"
 						}
@@ -9583,41 +9609,52 @@ angular.module( 'ngmReportHub' )
 
 					site_types = [
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'multiple_sites',
 						site_type_name: 'Múltiples Sitios'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'puestos_centros_instituciones_de_salud',
 						site_type_name: 'Puestos/centros/instituciones de salud'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'espacios_instituciones_educativas',
 						site_type_name: 'Espacios/instituciones educativas'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'asentamientos_alojamientos',
 						site_type_name: 'Asentamientos/alojamientos'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'espacios_protectores',
 						site_type_name: 'Espacios protectores'
 					},
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'centros_logisticos',
 						site_type_name: 'Centros logísticos'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'comedores_comunitarios',
 						site_type_name: 'Comedores comunitarios'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'centros_de_desarrollo_infantil',
 						site_type_name: 'Centros de desarrollo infantil'
 					},
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'instituciones_locales_departamentales_territoriales_nacionales',
 						site_type_name: 'Instituciones locales/departamentales/territoriales/nacionales'
 					},
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'puntos_de_atencion_al_migrante',
 						site_type_name: 'Puntos de atención al migrante'
 					}
 					,
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id:'settlement',
 						site_type_name:'Asentamientos'
 					},
