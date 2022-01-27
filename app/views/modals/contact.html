@@ -74,7 +74,7 @@
     </div>
     <div class="row">
      
-      <div class="col l3 m3 s12 ">
+      <div class="col l5 offset-l1 m12 s12 ">
         <p style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">{{'contact'|translate}} 
           <!-- {{ngm.var4wplusrh}} -->
         </p>
@@ -82,7 +82,7 @@
           <a class="btn-floating">
             <i class="material-icons blue"> email </i>
           </a>
-          <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;">
+          <a style="color: #6d6e71;font-weight: 500; padding-left: 5px; word-wrap: break-word;">
             ngmReportHub@gmail.com
           </a>
       
@@ -102,8 +102,37 @@
             &lrm;+571 6221100 ext. 1304
           </a>
         </div> -->
+        <p ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'" style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">Country {{'contact'|translate}}
+        </p>
+        <div ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'" style=" margin-top:15px; margin-bottom: 35px; text-align: left;">
+          <a class="btn-floating">
+            <i class="material-icons blue"> contacts </i>
+          </a>
+          <a ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'"
+            style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;word-wrap: break-word;">
+            Afghanistan
+          </a>
+          <a ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'"
+            style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;word-wrap: break-word;" href="tel:+93799869533">&lrm;+93-799-869-533</a>
+        </div>
+
+        <p style="color: #2196F3;font-weight: 500;font-size: 18px;" align="left">
+          Support Services
+        </p>
+        <!-- GUIDE -->
+        <div style="margin-top:15px;margin-bottom: 35px; text-align: left;">
+          <a class="btn-floating modal-action modal-close" href="https://reporthub.atlassian.net/servicedesk/customer/portal/1 "
+            target="_blank">
+            <i class="material-icons blue"> room_service </i>
+          </a>
+          <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;word-wrap: break-word;" class="modal-action modal-close"
+            href="https://reporthub.atlassian.net/servicedesk/customer/portal/1" target="_blank">
+            Reporthub Service Desk
+          </a>
+        
+        </div>
       </div>
-      <div class="col l3 m3 s12 " ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'">
+      <!-- <div class="col l3 m3 s12 " ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'">
         <p style="color: #2196F3;font-weight: 500; font-size: 18px;" align="left">Country {{'contact'|translate}}
         </p>
         <div style=" margin-top:15px; margin-bottom: 35px; text-align: left;">
@@ -116,25 +145,25 @@
           <a ng-if="ngm.getUser().admin0pcode === 'AF' || ngm.getUserName() === 'welcome'" style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;"
             href="tel:+93799869533">&lrm;+93-799-869-533</a>
         </div>
-      </div>
-      <div class="col l3 m3 s12 ">
+      </div> -->
+      <!-- <div class="col l6 m6 s12 ">
         <p style="color: #2196F3;font-weight: 500;font-size: 18px;" align="left">
           Support Services
-        </p>
+        </p> -->
         <!-- GUIDE -->
-        <div style="margin-top:15px;margin-bottom: 35px; text-align: left;">
+        <!-- <div style="margin-top:15px;margin-bottom: 35px; text-align: left;">
           <a class="btn-floating modal-action modal-close"
             href="https://reporthub.atlassian.net/servicedesk/customer/portal/1 " target="_blank">
             <i class="material-icons blue"> room_service </i>
           </a>
-          <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close"
+          <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;word-wrap: break-word;" class="modal-action modal-close"
             href="https://reporthub.atlassian.net/servicedesk/customer/portal/1" target="_blank">
             Reporthub Service Desk
           </a>
       
         </div>
-      </div>
-      <div class="col l3 m3 s12 ">
+      </div> -->
+      <div class="col l6 m12 s12 ">
           <p style="color: #2196F3;font-weight: 500;font-size: 18px;" align="left">{{'user_guide'|translate}}
             <!-- {{ngm.var4wplusrh}} -->
           </p>
@@ -143,7 +172,7 @@
             <a class="btn-floating modal-action modal-close" href="/report/guide/ReportHub_User_Guide.pdf">
               <i class="material-icons blue"> get_app </i>
             </a>
-            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close" href="/report/guide/ReportHub_User_Guide.pdf"> 
+            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;word-wrap: break-word;" class="modal-action modal-close" href="/report/guide/ReportHub_User_Guide.pdf"> 
               Download User Guide
             </a>
         
@@ -153,7 +182,7 @@
             <a class="btn-floating modal-action modal-close" href="/report/guide/ReportHub_COVID19_Guide.pdf">
               <i class="material-icons blue"> get_app </i>
             </a>
-            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close"
+            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;word-wrap: break-word;" class="modal-action modal-close"
               href="/report/guide/ReportHub_COVID19_Guide.pdf">
               Download COVID-19 Guide
             </a>
@@ -164,9 +193,20 @@
             <a class="btn-floating modal-action modal-close" href="/report/guide/ReportHub_Winterization_Biweekly_Guidance.pdf">
               <i class="material-icons blue"> get_app </i>
             </a>
-            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close"
+            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;word-wrap: break-word;" class="modal-action modal-close"
               href="/report/guide/ReportHub_Winterization_Biweekly_Guidance.pdf">
-              Download Winterization &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Biweekly Guide
+              Download Winterization Biweekly Guide
+            </a>
+          
+          </div>
+
+          <div ng-if="ngm.var4wplusrh === 'REPORTHUB'" style="margin-top:15px;margin-bottom: 35px; text-align: left;">
+            <a class="btn-floating modal-action modal-close" href="/report/guide/ReportHub_Assessed_Household_Guidance.pdf">
+              <i class="material-icons blue"> get_app </i>
+            </a>
+            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;word-wrap: break-word;" class="modal-action modal-close"
+              href="/report/guide/ReportHub_Assessed_Household_Guidance.pdf">
+              Download ESNFI Winterization Assessment Guide
             </a>
           
           </div>
@@ -175,7 +215,7 @@
             <a class="btn-floating" href="/report/guide/4wPlus_User_Guide.pdf">
               <i class="material-icons blue modal-action modal-close"> get_app </i>
             </a>
-            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;" class="modal-action modal-close" href="/report/guide/4wPlus_User_Guide.pdf">
+            <a style="color: #6d6e71;font-weight: 500; padding-left: 5px;word-wrap: break-word;" class="modal-action modal-close" href="/report/guide/4wPlus_User_Guide.pdf">
               Download User Guide
             </a>
           
@@ -185,7 +225,7 @@
             <a class="btn-floating modal-action modal-close" href="#/cluster/guides" >
               <i class="material-icons blue"> import_contacts </i>
             </a>
-            <a href="#/cluster/guides" style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;" class="modal-action modal-close">
+            <a href="#/cluster/guides" style="color: #6d6e71 ;font-weight: 500; padding-left: 5px;word-wrap: break-word;" class="modal-action modal-close">
               Online {{'user_guide'|translate}}
             </a>
         
@@ -209,7 +249,7 @@
             <a class="btn-floating modal-action modal-close"  href="https://www.youtube.com/watch?v=IV5b2wpc7jc&list=PLcn74baRdIFyk0p8JQGEhfbtnkXZyl-Rk" target="_blank">
               <i class="material-icons blue"> video_library </i>
             </a>
-            <a style="color: #6d6e71; font-weight: 500; padding-left: 5px;"
+            <a style="color: #6d6e71; font-weight: 500; padding-left: 5px;word-wrap: break-word;"
               href="https://www.youtube.com/watch?v=IV5b2wpc7jc&list=PLcn74baRdIFyk0p8JQGEhfbtnkXZyl-Rk" class="modal-action modal-close" target="_blank">
               Video User Guide
             </a>

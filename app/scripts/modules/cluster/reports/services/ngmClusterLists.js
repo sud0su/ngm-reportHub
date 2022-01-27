@@ -59,7 +59,8 @@ angular.module( 'ngmReportHub' )
 					category_types: ngmClusterLists.getCategoryTypes(),
 					beneficiary_types: ngmClusterLists.getBeneficiaries(moment(project.project_end_date).year(), project.admin0pcode, project.cluster_id, start_date, end_date),
 					beneficiary_categories: ngmClusterLists.getBeneficiariesCategories(project.admin0pcode, project.cluster_id),
-					hrp_beneficiary_types: ngmClusterLists.getHrpBeneficiaries(project.admin0pcode, moment(project.project_end_date).year()),
+					// hrp_beneficiary_types: ngmClusterLists.getHrpBeneficiaries(project.admin0pcode, moment(project.project_end_date).year()),
+					hrp_beneficiary_types: ngmClusterLists.getHrpBeneficiaries(project.admin0pcode, start_date, end_date),
 					// location_groups: ngmClusterLists.getLocationGroups(),
 					currencies: ngmClusterLists.getCurrencies( project.admin0pcode ),
 					donors: ngmClusterLists.getDonors(project.admin0pcode, project.cluster_id, start_date, end_date ),
@@ -8841,9 +8842,11 @@ angular.module( 'ngmReportHub' )
 				// eiewg
 				if ( cluster_id === 'eiewg' ) {
 					site_implementation = [{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_implementation_name: 'Formal'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'informal',
 						site_implementation_name: 'Informal'
 					}];
@@ -8920,15 +8923,19 @@ angular.module( 'ngmReportHub' )
 				// COL
 				else if( admin0pcode === 'COL' ){
 					site_implementation = [{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_implementation_id: 'apoyo_comunitario',
 						site_implementation_name: 'Apoyo Comunitario'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_implementation_id: 'apoyo_institucional',
 						site_implementation_name: 'Apoyo Institucional'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_implementation_id: 'apoyo_individual_familiar',
 						site_implementation_name: 'Apoyo Individual/Familiar'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_implementation_id: 'otro',
 						site_implementation_name: 'Otro'
 					}];
@@ -8947,22 +8954,27 @@ angular.module( 'ngmReportHub' )
 				else if (admin0pcode === 'NG' && cluster_id === 'gbv' ){
 					site_implementation = [
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'women_and_girl_friendly_space/empowerment_centre/integrated_centre',
 							site_implementation_name: 'Women and Girl Friendly Space/Empowerment Centre/Integrated Centre'
 						},
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'one_stop_centre/SARC_(Sexual_Assualt_Referral_Centre)',
 							site_implementation_name: 'One Stop Centre/SARC (Sexual Assualt Referral Centre)'
 						},
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'child_friendly_space',
 							site_implementation_name: 'Child Friendly Space'
 						},
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'school/education_or_learning_facility',
 							site_implementation_name: 'School/Education or Learning Facility'
 						},
 						{
+							cluster_id: ['gbv'],
 							site_implementation_id: 'non_facility_based',
 							site_implementation_name: 'Non-Facility Based'
 						}
@@ -9369,30 +9381,37 @@ angular.module( 'ngmReportHub' )
 				// eiewg
 				if ( cluster_id === 'eiewg' ) {
 					site_types = [{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'higher',
 						site_type_name: 'Higher'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'secondary',
 						site_type_name: 'Secondary'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'primary',
 						site_type_name: 'Primary'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'ECD',
 						site_type_name: 'ECD'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'formal',
 						site_type_id: 'TC',
 						site_type_name: 'TC'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'informal',
 						site_type_id: 'ALC',
 						site_type_name: 'ALC'
 					},{
+						cluster_id: ['eiewg'],
 						site_implementation_id: 'informal',
 						site_type_id: 'CBS',
 						site_type_name: 'CBS'
@@ -9464,33 +9483,43 @@ angular.module( 'ngmReportHub' )
 				// ng
 				if ( admin0pcode === 'NG' ) {
 					site_types = [{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'multiple_sites',
 						site_type_name: 'Multiple Sites'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'host_community',
 						site_type_name: 'Host Community'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'settlement',
 						site_type_name: 'Settlement'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'collective_settlement',
 						site_type_name: 'Collective Settlement/Centre'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'transitional_centre',
 						site_type_name: 'Transitional Centre'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'idp_site',
 						site_type_name: 'IDP Site'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'hospital',
 						site_type_name: 'Hospital'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'health_center',
 						site_type_name: 'Health Center'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'nutrition_center',
 						site_type_name: 'Nutrition Center'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'school',
 						site_type_name: 'School'
 					}];
@@ -9499,21 +9528,27 @@ angular.module( 'ngmReportHub' )
 				// ng
 				if ( admin0pcode === 'PHL' ) {
 					site_types = [{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'national',
 						site_type_name: 'National'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'regional',
 						site_type_name: 'Regional'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'multiple_sites',
 						site_type_name: 'Multiple Sites'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'host_community',
 						site_type_name: 'Host Community'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'settlement',
 						site_type_name: 'Settlement'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'health_facility',
 						site_type_name: 'Health Facility'
 					}];
@@ -9558,10 +9593,12 @@ angular.module( 'ngmReportHub' )
 					// after 2021
 					site_types = [
 						{
+							cluster_id: ngmClusterLists.all_sectors,
 							"site_type_id": "settlement",
 							"site_type_name": "Settlement"
 						},
 						{
+							cluster_id: ngmClusterLists.all_sectors,
 							"site_type_id": "idp_settlement",
 							"site_type_name": "IDP Settlement"
 						}
@@ -9573,41 +9610,52 @@ angular.module( 'ngmReportHub' )
 
 					site_types = [
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'multiple_sites',
 						site_type_name: 'Múltiples Sitios'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'puestos_centros_instituciones_de_salud',
 						site_type_name: 'Puestos/centros/instituciones de salud'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'espacios_instituciones_educativas',
 						site_type_name: 'Espacios/instituciones educativas'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'asentamientos_alojamientos',
 						site_type_name: 'Asentamientos/alojamientos'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'espacios_protectores',
 						site_type_name: 'Espacios protectores'
 					},
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'centros_logisticos',
 						site_type_name: 'Centros logísticos'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'comedores_comunitarios',
 						site_type_name: 'Comedores comunitarios'
 					},{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'centros_de_desarrollo_infantil',
 						site_type_name: 'Centros de desarrollo infantil'
 					},
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'instituciones_locales_departamentales_territoriales_nacionales',
 						site_type_name: 'Instituciones locales/departamentales/territoriales/nacionales'
 					},
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id: 'puntos_de_atencion_al_migrante',
 						site_type_name: 'Puntos de atención al migrante'
 					}
 					,
 					{
+						cluster_id: ngmClusterLists.all_sectors,
 						site_type_id:'settlement',
 						site_type_name:'Asentamientos'
 					},
@@ -9704,7 +9752,15 @@ angular.module( 'ngmReportHub' )
 			},
 
 			// HRP benefeciaries
-			getHrpBeneficiaries: function(admin0pcode, year){
+			getHrpBeneficiaries: function(admin0pcode,start_date,end_date){
+				// check suitable year
+				var start_year = moment(start_date).year();
+					end_year = moment(end_date).year();
+				if(start_year === end_year){
+					var year = start_year;
+				}else{
+					 year = 'all';
+				}
 				// default
 				if (admin0pcode === 'AF') {
 					var beneficiaries = {
@@ -9745,7 +9801,88 @@ angular.module( 'ngmReportHub' )
 							cluster_id: ['fsac'],
 							hrp_beneficiary_type_id: 'carryover_hrp_2020',
 							hrp_beneficiary_type_name: 'HRP 2020 Carryover'
-						}],
+						},
+
+						//2020
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_idp_2020',
+								hrp_beneficiary_type_name: 'New IDPs in 2020'
+							}, {
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_returnees_2020_border_or_ec',
+								hrp_beneficiary_type_name: 'New returnees in 2020 (at border or EC)'
+							}, {
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_returnees_2020_place_of_return',
+								hrp_beneficiary_type_name: 'New returnees in 2020 (at place of return)'
+							}, {
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'natural_disaster_affected_2020',
+								hrp_beneficiary_type_name: 'Natural disaster-affected in 2020 (non-displaced)'
+							}, {
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'confict_affected_2020',
+								hrp_beneficiary_type_name: 'Conflict-affected in 2020 (non-displaced)'
+							}, {
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'refugees',
+								hrp_beneficiary_type_name: 'Refugees'
+							}, {
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'vulnerable_people_humanitarian_needs',
+								hrp_beneficiary_type_name: 'Vulnerable people with humanitarian needs'
+							}, {
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'non_hrp',
+								hrp_beneficiary_type_name: 'Response activity outside of the HRP'
+							}, {
+								cluster_id: ['fsac'],
+								hrp_beneficiary_type_id: 'carryover_hrp_2019',
+								hrp_beneficiary_type_name: 'HRP 2019 Carryover'
+							},
+
+						// 2022
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_idp_2022',
+								hrp_beneficiary_type_name: 'New IDPs in 2022'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_cross-border_returnees_border_or_ec_2022',
+								hrp_beneficiary_type_name: 'New cross-border returnees in 2022 (at border or EC)'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_cross-border_returnees_province_2022',
+								hrp_beneficiary_type_name: 'New cross-border returnees in 2022 (at province of return)'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'natural_disaster_affected_2022',
+								hrp_beneficiary_type_name: 'Natural disaster-affected 2022 (sudden-onset, non-displaced)'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'refugees_asylum_seekers',
+								hrp_beneficiary_type_name: 'Refugees and Asylum Seekers'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'vulnerable_people_humanitarian_needs',
+								hrp_beneficiary_type_name: 'Vulnerable people with humanitarian needs'
+							},{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'non_hrp',
+								hrp_beneficiary_type_name: 'Response activity outside of the HRP'
+							},
+							{
+								cluster_id: ['fsac'],
+								hrp_beneficiary_type_id: 'carryover_hrp_2021',
+								hrp_beneficiary_type_name: 'HRP 2021 Carryover'
+							}
+					],
 						2020: [{
 							cluster_id: ngmClusterLists.all_sectors,
 							hrp_beneficiary_type_id: 'new_idp_2020',
@@ -9821,6 +9958,49 @@ angular.module( 'ngmReportHub' )
 							hrp_beneficiary_type_id: 'carryover_hrp_2020',
 							hrp_beneficiary_type_name: 'HRP 2020 Carryover'
 						}
+						],
+						2022:[
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_idp_2022',
+								hrp_beneficiary_type_name: 'New IDPs in 2022'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_returnees_2022_border_or_ec',
+								hrp_beneficiary_type_name: 'New cross-border returnees in 2022 (at border or EC)'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'new_returnees_2022_place_of_return',
+								hrp_beneficiary_type_name: 'New cross-border returnees in 2022 (at province of return)'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'natural_disaster_affected_2022',
+								hrp_beneficiary_type_name: 'Natural disaster-affected 2022 (sudden-onset, non-displaced)'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'refugees_asylum_seekers',
+								hrp_beneficiary_type_name: 'Refugees and Asylum Seekers'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'vulnerable_people_humanitarian_needs',
+								hrp_beneficiary_type_name: 'Vulnerable people with humanitarian needs'
+							},
+							{
+								cluster_id: ngmClusterLists.all_sectors,
+								hrp_beneficiary_type_id: 'non_hrp',
+								hrp_beneficiary_type_name: 'Response activity outside of the HRP'
+							},
+							{
+								cluster_id: ['fsac'],
+								hrp_beneficiary_type_id: 'carryover_hrp_2021',
+								hrp_beneficiary_type_name: 'HRP 2021 Carryover'
+							}
+							
 						]
 					};
 				} else {
@@ -9830,6 +10010,7 @@ angular.module( 'ngmReportHub' )
 				var hrp_beneficiaries = beneficiaries[year] ? beneficiaries[year] : beneficiaries['all'];
 
 				if (hrp_beneficiaries && hrp_beneficiaries.length) {
+					hrp_beneficiaries = ngmClusterLists.filterDuplicates(hrp_beneficiaries, ['hrp_beneficiary_type_id'])
 					hrp_beneficiaries = $filter('orderBy')(hrp_beneficiaries, 'hrp_beneficiary_type_name');
 				}
 
