@@ -100,7 +100,7 @@
 							    	ng-model-options="{ trackBy: '$value.id'}"
 							    	ng-change="report.updateLocationSelect( false, false )"
 							    	ng-disabled="!report.options.warehouse.admin1"
-			      				ng-options="item as item.admin2name for item in report.options.list.admin2 | filter: { admin1pcode: report.options.warehouse.admin1.admin1pcode }">
+			      				ng-options="item as item.admin2name for item in report.options.list.admin2 | filter: { admin1pcode: report.options.warehouse.admin1.admin1pcode, inactive: '!true' }">
 			      				<option value="" disabled selected>{{'choose'|translate}} {{ report.options.list.admin2[0].admin2type_name }}</option>
 			      			</select>
 			      			<label>{{ report.options.list.admin2[0].admin2type_name }} *</label>
@@ -161,7 +161,7 @@
 							    	ng-model-options="{ trackBy: '$value.id'}"
 							    	ng-change="report.updateLocationSelect( false, false )"
 							    	ng-disabled="!report.options.warehouse.admin2"
-			      				ng-options="item as item.admin3name for item in report.options.list.admin3 | filter: { admin2pcode: report.options.warehouse.admin2.admin2pcode }">
+			      				ng-options="item as item.admin3name for item in report.options.list.admin3 | filter: { admin2pcode: report.options.warehouse.admin2.admin2pcode, inactive: '!true' }">
 			      				<option value="" disabled selected>{{'choose'|translate}} {{ report.options.list.admin3[0].admin3type_name }}</option>
 			      			</select>
 			      			<label>{{ report.options.list.admin3[0].admin3type_name }} *</label>
@@ -263,7 +263,7 @@
 												<div class="input-field col s12 m4">
 													<select materialize-select watch id="ngm-warehouse-admin2pcode-{{ $index }}"
 														name="ngm-warehouse-admin2pcode-{{ $index }}" class="validate" ng-model="warehouse.admin2pcode"
-														ng-options="item.admin2pcode as item.admin2name for item in report.options.list.admin2 | filter: { admin1pcode: warehouse.admin1pcode }"
+														ng-options="item.admin2pcode as item.admin2name for item in report.options.list.admin2 | filter: { admin1pcode: warehouse.admin1pcode , inactive: '!true'}"
 														ng-change="report.updateLocationWarehouse(warehouse,'admin2pcode',$index);ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin2pcode-{{ $index }}' )" ng-disabled=" !report.canEdit || !warehouse.admin1pcode">
 														<option value="" disabled>{{ 'select' | translate }}</option>
 													</select>
@@ -296,7 +296,7 @@
 												<div class="input-field col s12 m3">
 													<select materialize-select watch id="ngm-warehouse-admin2pcode-{{ $index }}"
 														name="ngm-warehouse-admin2pcode-{{ $index }}" class="validate" ng-model="warehouse.admin2pcode"
-														ng-options="item.admin2pcode as item.admin2name for item in report.options.list.admin2 | filter: { admin1pcode: warehouse.admin1pcode }"
+														ng-options="item.admin2pcode as item.admin2name for item in report.options.list.admin2 | filter: { admin1pcode: warehouse.admin1pcode, inactive: '!true' }"
 														ng-change="report.updateLocationWarehouse(warehouse,'admin2pcode',$index);ngmClusterBeneficiaries.inputChange( 'ngm-warehouse-admin2pcode-{{ $index }}' )" ng-disabled=" !report.canEdit || !warehouse.admin1pcode">
 														<option value="" disabled>{{ 'select' | translate }}</option>
 													</select>

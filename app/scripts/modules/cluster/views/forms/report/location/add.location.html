@@ -65,7 +65,7 @@
 							        				editable-select="ngmClusterLocations.new_location.admin2pcode"
 							        				e-name="admin2pcode"
 							        				e-form="locationform"
-							        				e-ng-options="item.admin2pcode as item.admin2name for item in project.lists.admin2Select[ $index ]"
+							        				e-ng-options="item.admin2pcode as item.admin2name for item in project.lists.admin2Select[ $index ]  | filter : { inactive: '!true' }"
 							        				e-ng-change="project.getAdminSites( 'admin2pcode', $index, $data, ngmClusterLocations.new_location ); project.adminOnChange( 'admin2pcode', $index, $data, ngmClusterLocations.new_location )"
 							        				e-ng-disabled="!ngmClusterLocations.new_location.admin1pcode"
 							        				e-required>

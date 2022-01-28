@@ -306,7 +306,7 @@
                                     <select materialize-select watch id="ngm-new_location-admin2pcode"
                                         name="ngm-new_location-admin2pcode" class="validate"
                                         ng-model="ngmClusterLocations.new_location.admin2pcode"
-                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[0]"
+                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[0] | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, 0, project.lists.admin2, 'admin2pcode', ngmClusterLocations.new_location); project.getAdminSites( 'admin2pcode', 0, $data, ngmClusterLocations.new_location ); project.adminOnChange( 'admin2pcode', 0, $data, ngmClusterLocations.new_location );ngmClusterBeneficiaries.inputChange( 'ngm-new_location-admin2pcode' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !ngmClusterLocations.new_location.admin1pcode || project.definition.location_grouping_by === 'admin2pcode'" >
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -341,7 +341,7 @@
                                     <select materialize-select watch id="ngm-new_location-admin2pcode"
                                         name="ngm-new_location-admin2pcode" class="validate"
                                         ng-model="ngmClusterLocations.new_location.admin2pcode"
-                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[0]"
+                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[0]  | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, 0, project.lists.admin2, 'admin2pcode', ngmClusterLocations.new_location); project.getAdminSites( 'admin2pcode', 0, $data, ngmClusterLocations.new_location ); project.adminOnChange( 'admin2pcode', 0, $data, ngmClusterLocations.new_location );ngmClusterBeneficiaries.inputChange( 'ngm-new_location-admin2pcode' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !ngmClusterLocations.new_location.admin1pcode || project.definition.location_grouping_by === 'admin2pcode'">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -390,7 +390,7 @@
                                     <select materialize-select watch id="ngm-new_location-admin2pcode"
                                         name="ngm-new_location-admin2pcode" class="validate"
                                         ng-model="ngmClusterLocations.new_location.admin2pcode"
-                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[0]"
+                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[0]  | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, 0, project.lists.admin2, 'admin2pcode', ngmClusterLocations.new_location); project.getAdminSites( 'admin2pcode', 0, $data, ngmClusterLocations.new_location ); project.adminOnChange( 'admin2pcode', 0, $data, ngmClusterLocations.new_location );ngmClusterBeneficiaries.inputChange( 'ngm-new_location-admin2pcode' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !ngmClusterLocations.new_location.admin1pcode || project.definition.location_grouping_by === 'admin2pcode'">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -453,7 +453,7 @@
                                     <select materialize-select watch id="ngm-new_location-admin2pcode"
                                         name="ngm-new_location-admin2pcode" class="validate"
                                         ng-model="ngmClusterLocations.new_location.admin2pcode"
-                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[0]"
+                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[0]  | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, 0, project.lists.admin2, 'admin2pcode', ngmClusterLocations.new_location); project.getAdminSites( 'admin2pcode', 0, $data, ngmClusterLocations.new_location ); project.adminOnChange( 'admin2pcode', 0, $data, ngmClusterLocations.new_location );ngmClusterBeneficiaries.inputChange( 'ngm-new_location-admin2pcode' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !ngmClusterLocations.new_location.admin1pcode || project.definition.location_grouping_by === 'admin2pcode'">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
