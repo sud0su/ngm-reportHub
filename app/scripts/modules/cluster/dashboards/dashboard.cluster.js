@@ -791,7 +791,7 @@ angular.module('ngmReportHub')
 								// var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.activity_type_id, $scope.dashboard.activity_description_id, $scope.dashboard.organization_tag, $scope.dashboard.admin1pcode, d.admin2pcode, $scope.dashboard.hrp, $scope.dashboard.report_type_id );
 								var path = $scope.dashboard.getPath($scope.dashboard.cluster_id, $scope.dashboard.activity_type_id, $scope.dashboard.activity_description_id, $scope.dashboard.organization_tag, $scope.dashboard.admin1pcode, d.admin2pcode, $scope.dashboard.hrp, 'all', 'all', $scope.dashboard.report_type_id);
 								districtRows.push({
-									'title': d.admin2name,
+									'title': d.inactive ? d.admin2name + ' (Old)' : d.admin2name,
 									'param': 'admin2pcode',
 									'active': d.admin2pcode,
 									'class': 'grey-text text-darken-2 waves-effect waves-teal waves-teal-lighten-4',
