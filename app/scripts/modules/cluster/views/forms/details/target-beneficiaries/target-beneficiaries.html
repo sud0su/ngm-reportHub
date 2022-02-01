@@ -1656,6 +1656,74 @@
 
 
 
+								<!-- SADD (girls, women, elderly women ) -->
+								<div class="row" ng-if="(
+																																ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'girls' ] &&
+																																ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'women' ] &&
+																																ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'elderly_women' ] ) &&
+																															( !ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'boys_0_5' ]  &&
+																																!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'boys_6_11' ] &&
+																																!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'boys_12_17' ] &&
+																																!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'girls_0_5' ]  &&
+																																!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'girls_6_11' ] &&
+																																!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'girls_12_17' ] &&
+																																!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'boys' ] &&
+																																!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'men' ] &&
+																																!ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'elderly_men' ])">
+								
+									
+									<!-- girls -->
+									<div class="input-field col s12 m4 l4">
+										<input id="ngm-girls-{{ $index }}" name="ngm-girls-{{ $index }}" type="number" class="validate" min="0"
+											ng-model="beneficiary.girls"
+											ng-change="ngmClusterBeneficiaries.updateBeneficiaires( beneficiary );ngmClusterBeneficiaries.inputChange( 'ngm-girls-{{ $index }}' )"
+											ng-disabled="project.definition.project_status === 'complete' || !ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'girls' ]"
+											required />
+										<label
+											ng-if="(project.definition.admin0pcode !== 'ET' && project.definition.admin0pcode !== 'AF') || (project.definition.admin0pcode === 'AF' && beneficiary.cluster_id !== 'health')"
+											for="ngm-girls-{{ $index }}" class="active"> {{ 'girls' | translate }} </label>
+										<label ng-if="project.definition.admin0pcode === 'AF' && beneficiary.cluster_id === 'health'"
+											for="ngm-girls-{{ $index }}" class="active"> {{ 'girls_af_health' |
+											translate }} </label>
+										<label ng-if="project.definition.admin0pcode === 'ET'" for="ngm-girls-{{ $index }}" class="active">{{
+											'girls_et_esnfi' | translate }}</label>
+									</div>
+									<!-- women -->
+									<div class="input-field col s12 m4 l4">
+										<input id="ngm-women-{{ $index }}" name="ngm-women-{{ $index }}" type="number" class="validate" min="0"
+											ng-model="beneficiary.women"
+											ng-change="ngmClusterBeneficiaries.updateBeneficiaires( beneficiary );ngmClusterBeneficiaries.inputChange( 'ngm-women-{{ $index }}' )"
+											ng-disabled="project.definition.project_status === 'complete' || !ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'women' ]"
+											required />
+										<label
+											ng-if="(project.definition.admin0pcode !== 'ET' && project.definition.admin0pcode !== 'AF') || (project.definition.admin0pcode === 'AF' && beneficiary.cluster_id !== 'health')"
+											for="ngm-women-{{ $index }}" class="active"> {{ 'women' | translate }} </label>
+										<label ng-if="project.definition.admin0pcode === 'AF' && beneficiary.cluster_id === 'health'"
+											for="ngm-women-{{ $index }}" class="active"> {{ 'women_af_health' |
+											translate }} </label>
+										<label ng-if="project.definition.admin0pcode === 'ET'" for="ngm-women-{{ $index }}" class="active">{{
+											'women_et_esnfi' | translate }}</label>
+									</div>
+									<!-- elderly_women -->
+									<div class="input-field col s12 m4 l4">
+										<input id="ngm-elderly_women-{{ $index }}" name="ngm-elderly_women-{{ $index }}" type="number" class="validate"
+											min="0" ng-model="beneficiary.elderly_women"
+											ng-change="ngmClusterBeneficiaries.updateBeneficiaires( beneficiary );ngmClusterBeneficiaries.inputChange( 'ngm-elderly_women-{{ $index }}' )"
+											ng-disabled="project.definition.project_status === 'complete' || !ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'elderly_women' ]"
+											required />
+										<label
+											ng-if="(project.definition.admin0pcode !== 'ET' && project.definition.admin0pcode !== 'AF') || (project.definition.admin0pcode === 'AF' && beneficiary.cluster_id !== 'health')"
+											for="ngm-elderly_women-{{ $index }}" class="active"> {{ 'eld_women' | translate }} </label>
+										<label ng-if="project.definition.admin0pcode === 'AF' && beneficiary.cluster_id === 'health'"
+											for="ngm-elderly_women-{{ $index }}" class="active"> {{
+											'eld_women_af_health' | translate }} </label>
+										<label ng-if="project.definition.admin0pcode === 'ET'" for="ngm-elderly_women-{{ $index }}" class="active">{{
+											'eld_women_et_esnfi' | translate }}</label>
+									</div>
+								</div>
+
+
+
 								<!-- TOTAL -->
 								<div class="row" ng-if="ngmClusterBeneficiaries.form[ 0 ][ $index ][ 'total_beneficiaries' ]">
 
