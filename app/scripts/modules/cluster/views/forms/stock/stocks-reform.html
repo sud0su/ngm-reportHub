@@ -135,7 +135,7 @@
 
             <!-- Implementing Partner -->
             <div ng-if="report.organization.admin0pcode === 'ET'" ng-init="!stock.implementing_partners ? stock.implementing_partners=[] : false" class="input-field col s12 m6 l4">
-                <select materialize-select watch id="ngm-implementing_partner-{{$locationIndex}}-{{$stockIndex}}"
+                <select materialize-select watch watch-model id="ngm-implementing_partner-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-implementing_partner-{{$locationIndex}}-{{$stockIndex}}" class="validate"
 										ng-options="item.organization_tag as item.organization for item in report.lists.organizations"
 										searchable="Search Partner"
@@ -151,7 +151,7 @@
             <!-- Donor -->
 
             <div ng-if="report.organization.admin0pcode === 'ET'" ng-init="!stock.donors ? stock.donors=[] : false" class="input-field col s12 m6 l4">
-                <select materialize-select watch id="ngm-donor-{{$locationIndex}}-{{$stockIndex}}"
+                <select materialize-select watch watch-model watch-options="report.lists.stockDonors[$locationIndex][$stockIndex]" id="ngm-donor-{{$locationIndex}}-{{$stockIndex}}"
                     name="ngm-donor-{{$locationIndex}}-{{$stockIndex}}" class="validate"
 										ng-options="item.project_donor_id as item.project_donor_name for item in report.lists.stockDonors[$locationIndex][$stockIndex]"
 										searchable="Search Donor"
