@@ -14,9 +14,9 @@
 							format="dd mmm, yyyy"
 							ng-model="beneficiary.activity_start_date"
 			 				default-date="beneficiary.activity_start_date"
-			 				min-date="project.definition.project_start_date"
-			 				max-date="project.definition.project_end_date"
-							on-close-start="ngmClusterBeneficiaries.datepicker.activityStartOnClose( 
+			 				min="{{project.definition.project_start_date}}"
+			 				max="{{ project.definition.project_end_date }}"
+							on-close="ngmClusterBeneficiaries.datepicker.activityStartOnClose( 
 														project.report.locations[ $locationIndex ], $beneficiaryIndex, $index, beneficiary.activity_start_date )"
 							ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
 		</div>
@@ -31,9 +31,9 @@
 							format="dd mmm, yyyy"
 							ng-model="beneficiary.activity_end_date"
 							default-date="beneficiary.activity_end_date"
-			 				min-date="beneficiary.activity_start_date"
-			 				max-date="project.definition.project_end_date"
-							on-close-start="ngmClusterBeneficiaries.datepicker.activityEndOnClose( 
+			 				min="{{beneficiary.activity_start_date}}"
+							max="{{ project.definition.project_end_date }}"
+							on-close="ngmClusterBeneficiaries.datepicker.activityEndOnClose( 
 													project.report.locations[ $locationIndex ], $beneficiaryIndex, $index, beneficiary.activity_end_date )"
 							ng-disabled="project.definition.project_status === 'complete' || project.report.report_status === 'complete'" />
 		</div>
