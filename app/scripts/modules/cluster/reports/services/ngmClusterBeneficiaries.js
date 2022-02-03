@@ -211,11 +211,19 @@ angular.module( 'ngmReportHub' )
 					} else {
 						location.beneficiaries[ $beneficiaryIndex ].activity_status = 'planned';
 					}
+					// check if the activity end date is defined or not
+					if (location.beneficiaries[$beneficiaryIndex].activity_end_date){
+						ngmClusterBeneficiaries.datepicker.activityEndOnClose(location, $beneficiaryIndex, $index, location.beneficiaries[$beneficiaryIndex].activity_end_date)
+					}
+
 				},
 				activityEndOnClose: function( location, $beneficiaryIndex, $index, value ) {
 					if ( value ) {
 						location.beneficiaries[ $beneficiaryIndex ].activity_end_date = moment( new Date ( value ) ).format( 'YYYY-MM-DD' );
 						location.beneficiaries[ $beneficiaryIndex ].activity_status = 'complete';
+					}else{
+						// if value not defined then run the activityStartOnClose function to determine activity_status;
+						ngmClusterBeneficiaries.datepicker.activityStartOnClose(location, $beneficiaryIndex, $index, location.beneficiaries[$beneficiaryIndex].activity_start_date)
 					}
 				}
 			},
