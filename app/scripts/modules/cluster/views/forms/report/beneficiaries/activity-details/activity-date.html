@@ -14,6 +14,8 @@
 							format="dd mmm, yyyy"
 							ng-model="beneficiary.activity_start_date"
 			 				default-date="beneficiary.activity_start_date"
+							ng-change="ngmClusterBeneficiaries.datepicker.activityStartOnClose( 
+														project.report.locations[ $locationIndex ], $beneficiaryIndex, $index, beneficiary.activity_start_date )"
 			 				min="{{project.definition.project_start_date}}"
 			 				max="{{ project.definition.project_end_date }}"
 							on-close="ngmClusterBeneficiaries.datepicker.activityStartOnClose( 
@@ -31,6 +33,8 @@
 							format="dd mmm, yyyy"
 							ng-model="beneficiary.activity_end_date"
 							default-date="beneficiary.activity_end_date"
+							ng-change="ngmClusterBeneficiaries.datepicker.activityEndOnClose( 
+													project.report.locations[ $locationIndex ], $beneficiaryIndex, $index, beneficiary.activity_end_date )"
 			 				min="{{beneficiary.activity_start_date}}"
 							max="{{ project.definition.project_end_date }}"
 							on-close="ngmClusterBeneficiaries.datepicker.activityEndOnClose( 
