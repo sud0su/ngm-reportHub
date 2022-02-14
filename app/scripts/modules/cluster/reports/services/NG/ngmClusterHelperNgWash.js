@@ -93,6 +93,20 @@ angular.module( 'ngmReportHub' )
 						beneficiaries: 1,
 					}
 				},
+				mhm_promotions: {
+					keys: ['quantity'],
+					beneficiaries: 2,
+					ratios: {
+						hhs: 0.5,
+						boys: 0,
+						girls: 0,
+						men: 0,
+						women: 1,
+						elderly_men: 0,
+						elderly_women: 0,
+						beneficiaries: 1,
+					}
+				},
 				monitoring:{
 					keys: [ 'quantity' ],
 					beneficiaries: 1
