@@ -781,6 +781,14 @@ angular.module( 'ngmReportHub' )
 						details: [{ quantity: 0 }]
 					}
 				},
+				'mhm_hygiene_promotion': {
+					template: 'promotion.html',
+					association: 'hygiene',
+					measurement: {
+						quantity_measurement_id: 'house_visits',
+						quantity_measurement_name: 'House Visits'
+					}
+				},
 				// CASH
 				'direct_cash_payment': {
 					template: 'cash.html',

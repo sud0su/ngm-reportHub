@@ -42,9 +42,24 @@
 								for="ngm-quantity-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $promotionIndex }}"
 								class="active">Quantity (House Visits)</label>
 
+				<input ng-if="beneficiary.activity_detail_id === 'mhm_hygiene_promotion'"
+								id="ngm-quantity-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $promotionIndex }}"
+								name="quantity"
+								type="number" 
+								class="validate" 
+								min="0"
+								ng-model="promotion.quantity"
+								ng-change="ngmClusterHelperNgWash.indicatorOutput( project.report.locations, promotion, 'mhm_promotions' );
+														ngmClusterHelperNgWash.inputChange( 'ngm-quantity-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $promotionIndex }}' )"
+								ng-disabled="project.report.report_status === 'complete' "
+								required>
+				<label ng-if="beneficiary.activity_detail_id === 'mhm_hygiene_promotion'"
+								for="ngm-quantity-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $promotionIndex }}"
+								class="active">Quantity (House Visits)</label>
+
 				
 				<!-- label based on activity_detail_id -->
-				<input ng-if="beneficiary.activity_detail_id !== 'house_to_house_visit'"
+				<input ng-if="beneficiary.activity_detail_id !== 'house_to_house_visit' && beneficiary.activity_detail_id !== 'mhm_hygiene_promotion'"
 								id="ngm-quantity-{{ $locationIndex }}-{{ $beneficiaryIndex }}-{{ $promotionIndex }}"
 								name="quantity"
 								type="number" 
