@@ -719,7 +719,7 @@
 
                                             ng-options="item.site_id as item.site_name
                                                 for item in ngmClusterLocations.adminSitesSelect[ $index ] |
-                                                filter:{ site_type_id: location.site_type_id }"
+                                                filter:{ site_type_id: location.site_type_id ,inactive: '!true'}"
 
                                             ng-change="ngmClusterLocations.updateAdminSite( location, $index );
                                                         ngmClusterLocations.updateLocation(project, $index, project.lists.admin5, 'admin5pcode', location);
