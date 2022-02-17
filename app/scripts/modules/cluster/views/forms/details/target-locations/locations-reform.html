@@ -465,7 +465,7 @@
                                         name="ngm-admin2pcode-{{ $index }}" class="validate"
 																				ng-model="location.admin2pcode"
 																				unknown-value="{{ ::location.admin2name }}"
-                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index]"
+                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index] | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin2, 'admin2pcode', location); project.getAdminSites( 'admin2pcode', $index, $data, location ); project.adminOnChange( 'admin2pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin2pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin1pcode">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -502,7 +502,7 @@
                                         name="ngm-admin2pcode-{{ $index }}" class="validate"
 																				ng-model="location.admin2pcode"
 																				unknown-value="{{ ::location.admin2name }}"
-                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index]"
+                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index] | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin2, 'admin2pcode', location); project.getAdminSites( 'admin2pcode', $index, $data, location ); project.adminOnChange( 'admin2pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin2pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin1pcode">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -554,7 +554,7 @@
                                         name="ngm-admin2pcode-{{ $index }}" class="validate"
 																				ng-model="location.admin2pcode"
 																				unknown-value="{{ ::location.admin2name }}"
-                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index]"
+                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index] | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin2, 'admin2pcode', location); project.getAdminSites( 'admin2pcode', $index, $data, location ); project.adminOnChange( 'admin2pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin2pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin1pcode">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -621,7 +621,7 @@
                                         name="ngm-admin2pcode-{{ $index }}" class="validate"
 																				ng-model="location.admin2pcode"
 																				unknown-value="{{ ::location.admin2name }}"
-                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index]"
+                                        ng-options="item.admin2pcode as item.admin2name for item in ngmClusterLocations.admin2Select[$index] | filter : { inactive: '!true' }"
                                         ng-change="ngmClusterLocations.updateLocation(project, $index, project.lists.admin2, 'admin2pcode', location); project.getAdminSites( 'admin2pcode', $index, $data, location ); project.adminOnChange( 'admin2pcode', $index, $data, location );ngmClusterBeneficiaries.inputChange( 'ngm-admin2pcode-{{ $index }}' )"
                                         ng-disabled="project.definition.project_status === 'complete' || !location.admin1pcode">
                                         <option value="" disabled>{{ 'select' | translate }}</option>
@@ -719,7 +719,7 @@
 
                                             ng-options="item.site_id as item.site_name
                                                 for item in ngmClusterLocations.adminSitesSelect[ $index ] |
-                                                filter:{ site_type_id: location.site_type_id }"
+                                                filter:{ site_type_id: location.site_type_id ,inactive: '!true'}"
 
                                             ng-change="ngmClusterLocations.updateAdminSite( location, $index );
                                                         ngmClusterLocations.updateLocation(project, $index, project.lists.admin5, 'admin5pcode', location);

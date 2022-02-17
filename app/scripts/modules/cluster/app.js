@@ -35,7 +35,7 @@ angular
 			start_date: function() {
 				var date;
 				if ( moment.utc().date() <= 20 ) {
-					date = moment.utc().startOf( 'M' ).subtract( 1, 'M').format( 'YYYY-MM-DD' )
+					date = moment.utc().subtract(1, 'M').startOf( 'M' ).format( 'YYYY-MM-DD' )
 				} else {
 					date = moment.utc().startOf( 'M' ).format( 'YYYY-MM-DD' );
 				}
@@ -44,7 +44,7 @@ angular
 			end_date: function() {
 				var date;
 				if ( moment.utc().date() <= 20 ) {
-					date = moment.utc().endOf( 'M' ).subtract( 1, 'M').format( 'YYYY-MM-DD' )
+					date = moment.utc().subtract(1, 'M').endOf( 'M' ).format( 'YYYY-MM-DD' )
 				} else {
 					date = moment.utc().endOf( 'M' ).format( 'YYYY-MM-DD' );
 				}

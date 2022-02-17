@@ -1018,6 +1018,7 @@ angular.module( 'ngm.widget.project.report', [ 'ngm.provider' ])
 						var _period = (number_date_of_reporting_period <= 15) ? moment($scope.project.report.reporting_period).subtract(1, 'M').set('date', 16).format() : moment($scope.project.report.reporting_period).set('date', 1).format();
 						params.reporting_period = _period;
 						params.report_type_id = $scope.project.report.report_type_id
+						params.report_year = (number_date_of_reporting_period <= 15) ? ($scope.project.report.report_month < 1 ? $scope.project.report.report_year - 1 : $scope.project.report.report_year) : $scope.project.report.report_year;
 					}
 
 
